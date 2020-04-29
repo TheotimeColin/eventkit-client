@@ -60,15 +60,5 @@ export default {
     */
     extend (config, ctx) {
     }
-  },
-  generate: {
-      routes () {
-          return axios.get(`http://localhost:8081/articles`).then(res => {
-            return res.data.articles.map(article => ({
-                route: '/blog/' + article.slug,
-                payload: article
-            }))
-          })
-      }
   }
 }

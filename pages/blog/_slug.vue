@@ -13,8 +13,6 @@
                     <div class="TextBody mt-60" v-html="article.content"></div>
                 </div>
             </div>
-
-            
         </div>
     </div>
 </template>
