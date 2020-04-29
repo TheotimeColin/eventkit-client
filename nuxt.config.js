@@ -19,7 +19,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#00CCFF' },
   /*
   ** Global CSS
   */
@@ -46,14 +46,14 @@ export default {
     '@nuxtjs/dotenv',
   ],
   env: {
-    API_URL: process.env.API_URL
+    API_URL: process.env.NUXT_ENV_API_URL
   },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-      baseURL: process.env.API_URL
+      baseURL: process.env.NUXT_ENV_API_URL
   },
   /*
   ** Build configuration
