@@ -1,4 +1,4 @@
-const axios = require('axios')
+require('dotenv').config()
 
 export default {
   mode: 'universal',
@@ -45,14 +45,15 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
   ],
+  env: {
+    API_URL: process.env.API_URL
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-  },
-  env: {
-    NUXT_ENV_SERVER_URL: process.env.NUXT_ENV_SERVER_URL
+      baseURL: process.env.API_URL
   },
   /*
   ** Build configuration

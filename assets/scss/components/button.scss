@@ -1,0 +1,23 @@
+.Button {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 4px;
+    background-color: var(--color-blue-strong);
+    color: var(--color-ft-light);
+    box-shadow: 0 3px 6px 0 rgba(17, 91, 239, 0.4);
+    transform: translateY(0);
+    transition: all 200ms ease-in;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-blue);
+        transform: translateY(1px);
+        box-shadow: 0 2px 2px 0 rgba(108, 126, 164, 0.3);
+    }
+
+    &:active {
+        background-color: var(--color-blue);
+        transform: translateY(4px);
+        box-shadow: 0 0 0 0 rgba(17, 91, 239, 0);
+    }
+}
