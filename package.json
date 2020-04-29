@@ -16,6 +16,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "nuxt": "^2.0.0",
+    "shortid": "^2.2.15",
     "slugify": "^1.4.0",
     "tiptap": "^1.27.1",
     "tiptap-extensions": "^1.29.1"

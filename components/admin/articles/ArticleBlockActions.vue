@@ -1,7 +1,7 @@
 <template>
     <div class="ArticleBlock ArticleBlock--actions">
         <div class="ArticleBlock_image">
-            <img :src="cover" :alt="title" v-if="cover">
+            <img :src="thumbnail" :alt="title" v-if="thumbnail">
 
             <p class="Tag ArticleBlock_read">
                 {{ readTime }} min.
@@ -30,7 +30,7 @@ export default {
         excerpt: { type: String },
         slug: { type: String },
         readTime: { type: Number },
-        cover: { type: String },
+        thumbnail: { type: String },
         excerptLength: { type: Number, default: 85 }
     },
     computed: {

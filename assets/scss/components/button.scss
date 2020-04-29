@@ -4,20 +4,30 @@
     border-radius: 4px;
     background-color: var(--color-blue-strong);
     color: var(--color-ft-light);
-    box-shadow: 0 3px 6px 0 rgba(17, 91, 239, 0.4);
+    @include box-shadow-s;
     transform: translateY(0);
     transition: all 200ms ease-in;
+
     cursor: pointer;
 
     &:hover {
         background-color: var(--color-blue);
-        transform: translateY(1px);
-        box-shadow: 0 2px 2px 0 rgba(108, 126, 164, 0.3);
+        transform: translateY(-1px);
+        @include box-shadow;
     }
 
     &:active {
         background-color: var(--color-blue);
-        transform: translateY(4px);
-        box-shadow: 0 0 0 0 rgba(17, 91, 239, 0);
+        transform: translateY(1px);
+        @include box-shadow-s;
     }
+}
+
+.Button:disabled,
+.Button.is-disable {
+    pointer-events: none;
+    cursor: default;
+    color: var(--color-ft-weak);
+    background-color: var(--color-disabled);
+    box-shadow: none;
 }

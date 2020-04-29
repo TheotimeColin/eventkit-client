@@ -12,7 +12,7 @@
                         :slug="article.slug"
                         :read-time="article.readTime"
                         :excerpt="article.excerpt"
-                        :cover="article.cover"
+                        :thumbnail="article.thumbnail"
                         @delete="onDelete(article.id)"
                     />
                 </div>

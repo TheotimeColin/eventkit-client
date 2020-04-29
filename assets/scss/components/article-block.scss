@@ -3,7 +3,7 @@
     display: block;
     background-color: var(--color-bg-light);
     border-radius: 12px;
-    box-shadow: 0 3px 10px 0 rgba(17, 91, 239, 0.2);
+    @include box-shadow-l;
     transform: translateY(0);
     transition: all 250ms ease-in;
 }
@@ -51,5 +51,5 @@
 
 .ArticleBlock:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 12px 0 rgba(17, 91, 239, 0.25);
+    @include box-shadow-xl;
 }

@@ -9,14 +9,20 @@ export default {
         }
     },
     actions: {
-        async getFiles ({ commit }, value) {
-            // let response = await FilesService.fetchFiles(value)
-            // commit('updateLibrary', response.files)
-        },
-        async postFiles ({ commit }, value) {
-            // let response = await FilesService.uploadFiles(value)
+        async fetch ({ commit }, params) {
+            let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+            const response = await this.$axios.$get(`/files?${query}`)
             
-            // return response
+            return response.files
+        },
+        async post ({ commit }, params) {
+            let formData = new FormData()
+
+            if (params.folder) formData.append('folder', params.folder)
+            params.files.forEach(file => formData.append('files', file.data))
+
+            const response = await this.$axios.$post(`/files`, formData)
+            return response.files
         }
     }
 }

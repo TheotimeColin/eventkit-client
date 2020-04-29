@@ -30,6 +30,7 @@ $gutters: (
 
 $colors: (
     "ft": #3F537C,
+    "ft-weak": #a0acc5,
     "ft-strong": #191919,
     "ft-light": #ffffff,
 
@@ -37,10 +38,13 @@ $colors: (
     "bg-weak": #EDEFFD,
     "bg-xweak": #F0FDFF,
 
-    "border": #d8e5ff,
+    "border": #dce7f3,
+    "border-strong": #bdbdbd,
 
     "blue": #00CCFF,
-    "blue-strong": #38b5d6
+    "blue-strong": #38b5d6,
+
+    "disabled": #d3d4dc
 );
 
 $fonts: (

@@ -1,0 +1,30 @@
+.Tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.Tabs_item {
+    font: var(--ft-xl);
+    color: var(--color-ft);
+    
+    margin-right: 30px;
+    opacity: 0.5;
+    transition: all 150ms ease;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+
+    &:last-child {
+        margin-right: 0;
+    }
+
+    &:hover,
+    &.is-active {
+        opacity: 1;
+        border-color: var(--color-border);
+    }
+
+    &.is-active {
+        pointer-events: none;
+    }
+}

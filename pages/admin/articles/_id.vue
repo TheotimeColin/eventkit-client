@@ -1,9 +1,26 @@
 <template>
     <div class="Admin" v-if="!state.loading">
-        <file-loader ref="fileLoader" v-model="article.cover" />
+        <file-loader
+            :is-active="state.selectCover"
+            @done="state.selectCover = false"
+            v-model="article.cover"
+        />
+
+        <file-loader
+            :is-active="state.selectThumbnail"
+            @done="state.selectThumbnail = false"
+            v-model="article.thumbnail"
+        />
 
         <div class="cover mb-40" :style="{ 'backgroundImage': `url(${article.cover})` }">
-            <button class="Button" type="button" @click="onCoverSelect">Sélectionner image de couverture</button>
+            <div class="text-right">
+                <button class="Button" type="button" @click="state.selectCover = true">
+                    Sélectionner image de couverture
+                </button><br>
+                <button class="Button mt-5" type="button" @click="state.selectThumbnail = true">
+                    Sélectionner miniature
+                </button>
+            </div>
         </div>
 
         <div class="Wrapper">
@@ -41,7 +58,7 @@
                             :slug="article.slug"
                             :read-time="article.readTime"
                             :excerpt="article.excerpt"
-                            :cover="article.cover"
+                            :thumbnail="article.thumbnail"
                         />
 
                         <div class="mt-20 text-center">
@@ -80,7 +97,9 @@ export default {
     },
     data: () => ({
         state: {
-            loading: true
+            loading: true,
+            selectCover: false,
+            selectThumbnail: false
         },
         stats: {
             words: 0,
@@ -92,6 +111,7 @@ export default {
             content: '',
             excerpt: '',
             cover: null,
+            thumbnail: null,
             readTime: 0
         }
     }),
@@ -138,7 +158,7 @@ export default {
             this.$data.article.readTime = Math.ceil(words / 200)
         },
         onCoverSelect () {
-            this.$refs.fileLoader.open()
+            this.$data.state.selectCover = true
         }
     }
 }
@@ -155,7 +175,7 @@ export default {
     }
 
     .cover {
-        height: 120px;
+        height: 150px;
         display: flex;
         align-items: center;
         justify-content: flex-end;

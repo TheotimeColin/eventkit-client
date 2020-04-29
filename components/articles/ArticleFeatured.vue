@@ -1,31 +1,28 @@
 <template>
-    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-slug', params: { slug: slug } }">
-        <div class="ArticleBlock_image">
+    <nuxt-link :to="{ name: 'blog-slug', params: { slug: slug } }" class="ArticleFeatured">
+        <div class="ArticleFeatured_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
-
-            <p class="Tag ArticleBlock_read">
-                {{ readTime }} min.
-            </p>
         </div>
-        <div class="ArticleBlock_content">
+
+        <div class="ArticleFeatured_content">
             <div>
-                <div class="ArticleBlock_title">{{ title }}</div>
-                <div class="ArticleBlock_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
+                <div class="ArticleFeatured_title">{{ title }}</div>
+                <div class="ArticleFeatured_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
             </div>
         </div>
     </nuxt-link>
 </template>
-
+ 
 <script>
 export default {
-    name: 'ArticleBlock',
+    name: 'ArticleFeatured',
     props: {
         title: { type: String },
         excerpt: { type: String },
         slug: { type: String },
         readTime: { type: Number },
         thumbnail: { type: String },
-        excerptLength: { type: Number, default: 85 }
+        excerptLength: { type: Number, default: 150 }
     },
     computed: {
         shortExcerpt () {
@@ -35,3 +32,6 @@ export default {
     }
 }
 </script>
+
+<style>
+</style>

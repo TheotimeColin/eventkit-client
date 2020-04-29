@@ -4,14 +4,14 @@
             <div class="Wrapper">
                 <div class="row">
                     <div class="col-7">
-                        <!-- <article-featured
+                        <article-featured
                             :title="featured.title"
                             :slug="featured.slug"
                             :read-time="featured.readTime"
                             :excerpt="featured.excerpt"
-                            :cover="featured.cover"
+                            :thumbnail="featured.cover"
                             v-if="featured"
-                        /> -->
+                        />
                     </div>
                 </div>
             </div>
@@ -25,9 +25,8 @@
                             :slug="article.slug"
                             :read-time="article.readTime"
                             :excerpt="article.excerpt"
-                            :cover="article.cover"
+                            :thumbnail="article.thumbnail"
                             class="article-block"
-                            
                         />
                     </div>
                 </div>
@@ -38,18 +37,18 @@
 
 <script>
 import ArticleBlock from '@/components/articles/ArticleBlock'
-// import ArticleFeatured from '@/components/ArticleFeatured'
+import ArticleFeatured from '@/components/articles/ArticleFeatured'
 
 export default {
     name: 'HomePage',
-    components: { ArticleBlock },
+    components: { ArticleBlock, ArticleFeatured },
     async fetch () {
         await this.$store.dispatch('modules/articles/fetch')
     },
-    data: () => ({
-        featured: null
-    }),
     computed: {
+        featured () {
+            return this.$store.state.modules.articles.items[0]
+        },
         articles () {
             return this.$store.state.modules.articles.items
         }

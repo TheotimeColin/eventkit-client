@@ -1,0 +1,90 @@
+.FileGallery {
+
+}
+
+.FileGallery_item {
+    position: relative;
+    height: 200px;
+    border: 1px solid var(--color-border);
+    transition: all 150ms ease;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img {
+        @include img-contain;
+        transform: scale(0.85);
+        transition: all 250ms ease;
+    }
+    
+    &:hover {
+        border: 1px solid var(--color-border-strong);
+
+        img {
+            opacity: 0.5;
+        }
+    }
+
+    &.is-select {
+        border: 1px solid var(--color-blue);
+
+        img {
+            transform: scale(0.92);
+            opacity: 0.5;
+        }
+    }
+
+    &:hover,
+    &.is-select {
+
+        .FileGallery_name {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+
+            @for $i from 0 through 5 {
+                &:nth-child(#{$i}) {
+                    transition-delay: #{$i * 50}ms;
+                }
+            }
+        }
+    }
+}
+
+.FileGallery_name {
+    position: relative;
+    z-index: 1;
+    padding: 8px 10px;
+    margin: 2px 0;
+    width: 75%;
+    text-align: center;
+    background-color: var(--color-bg-weak);
+    opacity: 0;
+    cursor: pointer;
+    transform: translateY(8px) scale(0.98);
+    transition: all 250ms ease;
+
+    &.is-select,
+    &:hover {
+        color: var(--color-ft-light);
+        background-color: var(--color-blue-strong);
+    }
+}
+
+/* STATES */
+
+.FileGallery.is-max {
+
+    .FileGallery_item:not(.is-select) {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    
+    .FileGallery_name:not(.is-select) {
+        color: var(--color-ft-weak);
+        background-color: var(--color-disabled);
+        pointer-events: none;
+    }
+}
