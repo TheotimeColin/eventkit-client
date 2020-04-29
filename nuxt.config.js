@@ -51,6 +51,9 @@ export default {
   */
   axios: {
   },
+  env: {
+    NUXT_ENV_SERVER_URL: process.env.NUXT_ENV_SERVER_URL
+  },
   /*
   ** Build configuration
   */
