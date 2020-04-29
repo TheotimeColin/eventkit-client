@@ -1,0 +1,55 @@
+.ArticleBlock {
+    overflow: hidden;
+    display: block;
+    background-color: var(--color-bg-light);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px 0 rgba(17, 91, 239, 0.2);
+    transform: translateY(0);
+    transition: all 250ms ease-in;
+}
+
+.ArticleBlock_image {
+    height: 75px;
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.ArticleBlock_content {
+    height: 135px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.ArticleBlock_title {
+    font: var(--ft-title-s);
+    font-weight: bold;
+    color: var(--color-ft-strong);
+}
+
+.ArticleBlock_excerpt {
+    margin-top: 10px;
+    font: var(--ft-s);
+    color: var(--color-ft);
+}
+
+.ArticleBlock_read {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+/* STATES */
+
+.ArticleBlock:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 12px 0 rgba(17, 91, 239, 0.25);
+}

@@ -1,0 +1,15 @@
+.SimpleUploader {
+
+}
+
+.SimpleUploader_gallery {
+    display: flex;
+    height: 200px;
+    margin: 0 -5px;
+    overflow-x: auto;
+}
+
+.SimpleUploader_file {
+    height: 100%;
+    margin: 0 5px;
+}

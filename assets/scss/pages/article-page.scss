@@ -1,0 +1,21 @@
+.ArticlePage_cover {
+    position: relative;
+    height: 80px;
+    
+    img {
+        @include img-cover;
+    }
+}
+
+.ArticlePage_intro {
+    position: relative;
+    margin: -40px auto 0;
+    padding: 40px;
+    border-radius: 12px;
+    background-color: var(--color-bg-light);
+}
+
+.ArticlePage_excerpt {
+    font: var(--ft-l);
+    font-style: italic;
+}
