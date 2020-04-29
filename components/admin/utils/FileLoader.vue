@@ -1,25 +1,37 @@
 <template>
     <div class="FileLoader">
         <popin-generic ref="popin" :is-active="isActive">
-            <tabs class="mb-20" :items="{
-                gallery: { title: 'Choisir dans la galerie', isActive: true },
-                upload: { title: 'Mettre en ligne' }
-            }" @update="(e) => state.uploadMode = e == 'upload'" ref="tabs" />
+            <template slot="header">
+                <div class="ph-40 pt-20">
+                    <tabs
+                        :items="{
+                            gallery: { title: 'Choisir dans la galerie', isActive: !state.uploadMode },
+                            upload: { title: 'Mettre en ligne', isActive: state.uploadMode }
+                        }"
+                        @update="(e) => state.uploadMode = e == 'upload'"
+                    />
+                </div>
+             </template>
 
-            <file-gallery prefix="articles/" @select="onSelect" v-show="!state.uploadMode" ref="gallery" />
+            <file-gallery prefix="articles/" @select="onSelect" v-show="!state.uploadMode" ref="gallery" :max="maxSelect" />
             <simple-uploader @upload="onUpload" v-show="state.uploadMode" />
 
             <template slot="footer">
-                <p class="mr-20" @click="onDone">Annuler</p>
+                <div class="pl-10" :class="{ 'ft-bold': selected.length == maxSelect }">
+                    {{ selected.length }} / {{ maxSelect }}
+                </div>
+                <div class="d-flex fx-align-center">
+                    <p class="mr-20" @click="onDone">Annuler</p>
 
-                <button
-                    class="Button"
-                    :class="{ 'is-disable': selected == null }"
-                    type="button"
-                    @click="onSubmit"
-                >
-                    Sélectionner
-                </button>
+                    <button
+                        class="Button"
+                        :class="{ 'is-disable': selected == null }"
+                        type="button"
+                        @click="onSubmit"
+                    >
+                        Sélectionner
+                    </button>
+                </div>
             </template>
         </popin-generic>
     </div>
@@ -36,13 +48,14 @@ export default {
     components: { PopinGeneric, SimpleUploader, FileGallery, Tabs },
     props: {
         value: { type: String, default: '' },
+        maxSelect: { type: Number, default: 1 },
         isActive: { type: Boolean, default: false }
     },
     data: () => ({
         state: {
             uploadMode: false
         },
-        selected: null
+        selected: []
     }),
     watch: {
         isActive (v) {
@@ -51,14 +64,14 @@ export default {
     },
     methods: {
         onSelect (selected) {
-            this.$data.selected = selected[0] ? selected[0] : null
+            this.$data.selected = selected
         },
         onDone () {
-            this.$data.selected = null
+            this.$data.selected = []
             this.$emit('done')
         },
         onSubmit () {
-            this.$emit('input', this.$data.selected.src)
+            this.$emit('input', this.$data.selected.length == 1 ? this.$data.selected[0].src : this.$data.selected)
             this.onDone()
         },
         onUpload () {

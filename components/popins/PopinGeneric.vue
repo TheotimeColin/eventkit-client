@@ -1,5 +1,8 @@
 <template>
     <div class="PopinGeneric" :class="{ 'is-active': isActive }">
+        <div class="PopinGeneric_header">
+            <slot name="header"></slot>
+        </div>
         <div class="PopinGeneric_content">
             <slot></slot>
         </div>

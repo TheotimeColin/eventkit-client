@@ -16,8 +16,8 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <button type="button" class="Button" :class="{ 'is-disable': queue.length <= 0 }" @click="onUpload">
+        <div class="text-center" v-if="queue.length > 0">
+            <button type="button" class="Button" @click="onUpload">
                 Uploader
             </button>
         </div>

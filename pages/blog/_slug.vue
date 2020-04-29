@@ -6,8 +6,8 @@
             </div>
 
             <div class="Wrapper">
-                <div class="max-width-s">
-                    <h1 class="ft-title-3xl color-ft-strong mt-60">{{ article.title }}</h1>
+                <div class="max-width-s mt-60">
+                    <h1 class="ArticlePage_title">{{ article.title }}</h1>
                     <p class="ArticlePage_excerpt mt-20">{{ article.excerpt }}</p>
 
                     <div class="TextBody mt-60" v-html="article.content"></div>

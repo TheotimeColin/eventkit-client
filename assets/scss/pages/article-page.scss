@@ -7,15 +7,13 @@
     }
 }
 
-.ArticlePage_intro {
-    position: relative;
-    margin: -40px auto 0;
-    padding: 40px;
-    border-radius: 12px;
-    background-color: var(--color-bg-light);
-}
-
 .ArticlePage_excerpt {
     font: var(--ft-l);
+    color: var(--color-ft-weak);
     font-style: italic;
+}
+
+.ArticlePage_title {
+    font: var(--ft-title-3xl);
+    color: var(--color-ft-strong);
 }

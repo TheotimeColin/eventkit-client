@@ -2,7 +2,11 @@
     <div class="TextEditor">
         <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands, isActive }">
             <div>
-                <file-loader @input="(e) => onInsertImage(commands.image, e)" ref="fileLoader" />
+                <file-loader
+                    :is-active="state.fileSelect"
+                    @input="(e) => onInsertImage(commands.image, e)"
+                    @done="state.fileSelect = false"
+                />
                 
                 <div class="TextEditor_first">
                     <button class="TextEditor_button" type="button" @click="commands.undo">
@@ -30,7 +34,7 @@
                     
                     <div class="TextEditor_separator"></div>
 
-                    <button class="TextEditor_button" type="button" @click="openFileLoader">
+                    <button class="TextEditor_button" type="button" @click="state.fileSelect = true">
                         <i class="fa fa-image"></i>
                     </button>
                     <button class="TextEditor_button" type="button">
@@ -63,6 +67,9 @@ export default {
         value: { type: String, default: '' }
     },
     data: () => ({
+        state: {
+            fileSelect: false
+        },
         editor: null,
     }),
     async mounted () {
@@ -79,10 +86,8 @@ export default {
             this.$emit('input', this.$data.editor.getHTML())
             this.$emit('words', this.$refs.text.$el.innerText.split(' ').length)
         },
-        openFileLoader () {
-            this.$refs.fileLoader.open()
-        },
         onInsertImage (command, image) {
+            this.$data.state.fileSelect = false
             command({ src: image })
         },
         onInsertLink (command) {

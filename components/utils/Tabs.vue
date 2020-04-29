@@ -35,11 +35,6 @@ export default {
     },
     methods: {
         onClick (clicked) {
-            this.$data.tabs = this.$data.tabs.map(tab => {
-                tab.isActive = tab == clicked
-                return tab
-            })
-            
             this.$emit('update', clicked.id)
         }
     }

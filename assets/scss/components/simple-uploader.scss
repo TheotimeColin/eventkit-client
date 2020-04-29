@@ -10,8 +10,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    height: 200px;
+    justify-content: center;
+    height: 300px;
     cursor: pointer;
 
     &:hover {
@@ -24,6 +24,7 @@
 }
 
 .SimpleUploader_title {
+    margin-top: 20px;
     transition: all 250ms ease;
 }
 

@@ -24,9 +24,13 @@
     min-height: 60px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 15px 10px;
     border-top: 1px solid var(--color-border);
+}
+
+.PopinGeneric_header {
+    border-bottom: 1px solid var(--color-border);
 }
 
 /* STATES */
