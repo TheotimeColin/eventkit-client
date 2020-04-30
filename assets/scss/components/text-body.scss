@@ -1,9 +1,10 @@
 .TextBody {
     font: var(--ft-l);
-    color: var(--color-ft-strong);
+    color: var(--color-ft);
 
     h1 {
         font: var(--ft-title-3xl);
+        font-weight: bold;
         color: var(--color-ft-strong);
         margin-top: 40px;
         margin-bottom: 20px;
@@ -15,6 +16,7 @@
 
     h2 {
         font: var(--ft-title-2xl);
+        font-weight: bold;
         color: var(--color-ft-strong);
         margin-top: 120px;
         margin-bottom: 40px;

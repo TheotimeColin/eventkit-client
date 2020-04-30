@@ -1,12 +1,16 @@
 <template>
     <div class="ArticlePage Page">
         <div class="Page_content" v-if="article">
-            <div class="Wrapper pt-100">
+            <div class="Wrapper pt-60">
                 <article class="max-width-s">
                     <h1 class="ArticlePage_title">{{ article.title }}</h1>
 
+                    <legend class="ArticlePage_excerpt mt-10">
+                        {{ article.excerpt }}
+                    </legend>
+
                     <article-author
-                        class="mt-40 mb-20"
+                        class="mt-60 mb-20"
                         name="Théotime Colin"
                         published="Publié le 2 avril 2020"
                         description="Théotime a organisé plus de 50 Meetups dans la région Parisienne"
@@ -16,12 +20,7 @@
                         <img :src="article.cover">
                     </div>
 
-                    <legend class="ArticlePage_excerpt mt-20">
-                        {{ article.excerpt }}
-                        Tentez aussi ces <link-base href="http://google.com" :context="{ title: article.title, description: article.excerpt, cover: article.cover, href: 'http://google.com' }">5 astuces</link-base> pour améliorer le référencement de votre Meetup.
-                    </legend>
-
-                    <div class="TextBody mt-60" v-html="article.content"></div>
+                    <div class="TextBody mt-60 mb-100" v-html="article.content"></div>
                 </article>
             </div>
         </div>
@@ -38,6 +37,16 @@ export default {
     data: () => ({
         article: null
     }),
+    head () {
+        if (!this.article) return
+
+        return {
+            title: this.article.title,
+            meta: [
+                { hid: 'description', name: 'description', content: this.article.excerpt }
+            ]
+        }
+    },
     async fetch () {
         const search = await this.$store.dispatch('modules/articles/get', {
             query: { slug: this.$route.params.slug }

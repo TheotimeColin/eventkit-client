@@ -6,11 +6,11 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: `eventKit, le blog des créateurs de lien social`,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: `Rends tes événements inoubliables grâce aux conseils et idées d'animations d'eventKit. Que ça soit pour ta prochaine soirée, mariage, Meetup ou événement professionnel.` }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -23,13 +23,12 @@ export default {
   /*
   ** Global CSS
   */
-  css: [
-      "@/assets/scss/global.scss"
-  ],
+  css: [],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+      '~/plugins/base.js'
   ],
   /*
   ** Nuxt.js dev-modules

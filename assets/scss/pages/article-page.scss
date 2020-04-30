@@ -15,11 +15,12 @@
 
 .ArticlePage_excerpt {
     font: var(--ft-l);
-    color: var(--color-ft-weak);
+    color: var(--color-ft);
     font-style: italic;
 }
 
 .ArticlePage_title {
     font: var(--ft-title-3xl);
+    font-weight: bold;
     color: var(--color-ft-strong);
 }

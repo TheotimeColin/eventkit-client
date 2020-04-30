@@ -5,9 +5,9 @@
         :style="position"
         @mouseleave="state.overContext = false"
         @mouseenter="state.overContext = true"
-        v-if="context"
+        v-show="context"
     >   
-        <div class="ContextInfo_content">
+        <div class="ContextInfo_content" v-if="context">
             <div
                 class="ContextInfo_cover"
                 :style="{ 'backgroundImage': `url(${context.data.cover})` }"
@@ -54,19 +54,23 @@ export default {
         position () {
             let position = {
                 x: -9999,
-                y: -9999
+                y: -9999,
+                width: 0,
+                height: 0,
             }
 
             if (this.context) {
                 position.x = this.context.position.x
                 position.y = this.context.position.y - this.$data.windowY
+                position.width = this.context.position.width
+                position.height = this.context.position.height
             }
 
             return {
                 '--x': Math.round(position.x) + 'px',
                 '--y': Math.round(position.y) + 'px',
-                '--width': Math.round(this.context.position.width) + 'px',
-                '--height': Math.round(this.context.position.height) + 'px',
+                '--width': Math.round(position.width) + 'px',
+                '--height': Math.round(position.height) + 'px',
             }
         },
         shortDescription () {
@@ -80,11 +84,7 @@ export default {
     },
     watch: {
         context (v) {
-            if (v) {
-                this.$nextTick(() => this.$data.state.appear = true)
-            } else {
-                this.$data.state.appear = false
-            }
+            if (v) setTimeout(() => this.$data.state.appear = true, 100)
         },
         elementLeft (v) {
             setTimeout(() => {

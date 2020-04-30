@@ -1,10 +1,11 @@
 .ArticleAuthor {
     display: inline-flex;
+    align-items: center;
 }
 
 .ArticleAuthor_image {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
@@ -16,10 +17,12 @@
 
 .ArticleAuthor_text {
     padding-left: 15px;
-    font: var(--ft-m);
+    font: var(--ft-title-s);
+    font-weight: bold;
     color: var(--color-ft);
 }
 
 .ArticleAuthor_description {
-    color: var(--color-ft-weak);
+    font: var(--ft-xs);
+    color: var(--color-ft);
 }

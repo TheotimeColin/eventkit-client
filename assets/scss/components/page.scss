@@ -1,12 +1,13 @@
 .Page {
     position: relative;
     min-height: 105vh;
+    background-color: var(--color-bg-xweak);
 
     &::before {
         content: "";
         @include absolute-fill;
-        height: 50vh;
-        background-color: var(--color-bg-xweak);
+        height: 75vh;
+        background-color: var(--color-bg-light);
     }
 }
 
@@ -14,4 +15,8 @@
     padding-top: 100px;
     position: relative;
     z-index: 1;
+}
+
+.Page--full {
+    min-height: auto;
 }

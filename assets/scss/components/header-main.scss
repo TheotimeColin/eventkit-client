@@ -7,11 +7,11 @@
 
     --height: 100px;
     --height-2: 50px;
+    border-bottom: 1px solid transparent;
 
     &::before {
         content: "";
         @include absolute-fill;
-        border-bottom: 1px solid transparent;
         transform-origin: top;
         transition: all 150ms ease-out;
         height: 100px;
@@ -59,6 +59,8 @@
 }
 
 .HeaderMain_item {
+    font: var(--ft-l);
+    color: var(--color-ft);
     margin-right: 30px;
 }
 
@@ -67,6 +69,7 @@
 .HeaderMain.is-scroll {
     --height: 60px;
     --height-2: 30px;
+    border-color: var(--color-border);
 
     .HeaderMain_nav,
     .HeaderMain_logo,
@@ -77,12 +80,11 @@
     }
 
     .HeaderMain_baseline {
-        opacity: 0;;
+        opacity: 0;
     }
 
     &::before {
         background-color: var(--color-bg-light);
-        border-color: var(--color-border);
         transform: scaleY(0.6);
         transition: all 150ms ease-in;
     }

@@ -1,6 +1,6 @@
 <template>
     <header class="HeaderMain" :class="{'is-scroll': state.scroll }">
-        <div class="Wrapper">
+        <div class="Wrapper ">
             <div class="HeaderMain_container">
                 <nuxt-link to="/" class="HeaderMain_logo">
                     eventKit
@@ -25,12 +25,12 @@ export default {
         navItems () {
             let items = [
                 { title: 'Blog', name: 'index', enabled: true },
-                { title: 'Nos kits', name: 'kits', enabled: true },
-                { title: 'À propos', name: 'about', enabled: true },
-                { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },
-                { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin },
-                { title: 'Mon compte', name: 'account', enabled: !this.$store.state.auth.loggedIn },
-                { title: 'Se déconnecter', name: 'account-logout', enabled: this.$store.state.auth.loggedIn }
+                // { title: 'Nos kits', name: 'kits', enabled: true },
+                // { title: 'À propos', name: 'about', enabled: true },
+                // { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },
+                // { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin },
+                // { title: 'Mon compte', name: 'account', enabled: !this.$store.state.auth.loggedIn },
+                // { title: 'Se déconnecter', name: 'account-logout', enabled: this.$store.state.auth.loggedIn }
             ]
 
             return items.filter(item => item.enabled)

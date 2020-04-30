@@ -1,0 +1,49 @@
+.CardGenerator {
+    height: calc(100vh - 100px);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.CardGenerator_container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.CardGenerator_result,
+.CardGenerator_config {
+    width: 50%;
+    flex-shrink: 0;
+}
+
+.CardGenerator_result {
+    border-left: 1px solid var(--color-border);
+    background-color: var(--color-bg-weak);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.CardGenerator_card {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: translateY(-50%);
+}
+
+.CardGenerator_row {
+    display: flex;
+}
+
+.CardGenerator_id {
+    width: 40px;
+    text-align: center;
+    color: var(--color-ft-weak);
+}

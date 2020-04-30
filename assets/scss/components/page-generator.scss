@@ -1,0 +1,17 @@
+.PageGenerator {
+    margin: 40px 0;
+    width: calc(210mm * var(--page-scale, 1));
+    height: calc(297mm * var(--page-scale, 1));
+    padding: calc(15mm * var(--page-scale, 1));
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+    font-size: 0;
+
+    & > * {
+        display: inline-block;
+        margin: 1px;
+        --scale: var(--page-scale, 1);
+        opacity: 1;
+        position: relative;
+    }
+}

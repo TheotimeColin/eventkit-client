@@ -38,17 +38,17 @@
 }
 
 @mixin box-shadow-s {
-    box-shadow: 0 2px 2px 0 rgba(108, 126, 164, 0.3);
+    box-shadow: 0 2px 2px 0 rgba(30, 102, 255, 0.3);
 }
 
 @mixin box-shadow {
-    box-shadow: 0 3px 6px 0 rgba(17, 91, 239, 0.4);
+    box-shadow: 0 3px 6px 0 rgba(30, 102, 255, 0.4);
 }
 
 @mixin box-shadow-l {
-    box-shadow: 0 4px 8px 0 rgba(108, 126, 164, 0.4);
+    box-shadow: 0 4px 8px 0 rgba(30, 102, 255, 0.4);
 }
 
 @mixin box-shadow-xl {
-    box-shadow: 0 10px 10px 0 rgba(108, 126, 164, 0.2);
+    box-shadow: 0 10px 10px 0 rgba(30, 102, 255, 0.2);
 }
