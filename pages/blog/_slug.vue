@@ -1,17 +1,18 @@
 <template>
-    <div class="ArticlePage">
+    <div class="ArticlePage pt-60">
         <div v-if="article">
-            <div class="ArticlePage_cover">
-                <img :src="article.cover">
-            </div>
-
             <div class="Wrapper">
-                <div class="max-width-s mt-60">
-                    <h1 class="ArticlePage_title">{{ article.title }}</h1>
-                    <p class="ArticlePage_excerpt mt-20">{{ article.excerpt }}</p>
+                <article class="max-width-s">
+                    <h1 class="ArticlePage_title mb-40">{{ article.title }}</h1>
+                    
+                    <div class="ArticlePage_cover">
+                        <img :src="article.cover">
+                    </div>
+
+                    <legend class="ArticlePage_excerpt mt-20">{{ article.excerpt }}</legend>
 
                     <div class="TextBody mt-60" v-html="article.content"></div>
-                </div>
+                </article>
             </div>
         </div>
     </div>

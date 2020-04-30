@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+    <div>
+        <header-main />
+        <nuxt />
+    </div>
 </template>
 
-<style>
-</style>
+<script>
+import HeaderMain from '@/components/HeaderMain'
+
+export default {
+    name: 'LayoutDefault',
+    components: { HeaderMain }
+}
+</script>

@@ -56,7 +56,7 @@
         white-space: nowrap;
         position: relative;
         transform-style: preserve-3d;
-        font-weight: 500;
+        font-weight: bold;
         transition: transform 150ms ease;
         color: var(--color-ft);
         cursor: pointer;
@@ -75,11 +75,11 @@
             left: 0;
             display: block;
             width: 100%;
-            height: 8px;
+            height: 6px;
             background-color: var(--color-blue);
             border-radius: 4px;
             transform-style: preserve-3d;
-            transform: translate3d(0, -5px, -1px);
+            transform: translate3d(0, -6px, -1px);
             transition: transform 150ms ease;
         }
     }

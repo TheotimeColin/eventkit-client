@@ -1,9 +1,15 @@
 .ArticlePage_cover {
     position: relative;
-    height: 80px;
+    margin: 0 -30px;
     
     img {
         @include img-cover;
+    }
+
+    &::before {
+        content: "";
+        display: block;
+        padding-bottom: 50%;;
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
-    <div class="HomePage">
-        <div class="pv-100 bg-bg-xweak">
+    <div class="HomePage pt-60 bg-bg-xweak">
+        <div class="pv-60">
             <div class="Wrapper">
                 <div class="row">
                     <div class="col-7">
