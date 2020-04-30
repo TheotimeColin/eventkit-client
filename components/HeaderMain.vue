@@ -24,12 +24,16 @@ export default {
     computed: {
         navItems () {
             let items = [
-                { title: 'Blog', name: 'index' },
-                { title: 'Nos kits', name: 'kits' },
-                { title: 'À propos', name: 'about' }
+                { title: 'Blog', name: 'index', enabled: true },
+                { title: 'Nos kits', name: 'kits', enabled: true },
+                { title: 'À propos', name: 'about', enabled: true },
+                { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },
+                { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin },
+                { title: 'Mon compte', name: 'account', enabled: !this.$store.state.auth.loggedIn },
+                { title: 'Se déconnecter', name: 'account-logout', enabled: this.$store.state.auth.loggedIn }
             ]
 
-            return items
+            return items.filter(item => item.enabled)
         }
     },
     data: () => ({

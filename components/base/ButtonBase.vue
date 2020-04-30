@@ -1,6 +1,8 @@
 <template>
-    <div
-        class="ButtonBase ButtonBase--full ButtonBase--static"
+    <component
+        :is="!href && !to ? 'button' : 'div'"
+        :type="type"
+        class="ButtonBase"
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
@@ -12,10 +14,8 @@
             <slot></slot>
         </a>
 
-        <div v-if="!href && !to">
-            <slot></slot>
-        </div>
-    </div>
+        <slot v-if="!href && !to"></slot>
+    </component>
 </template>
 
 <script>
@@ -27,7 +27,8 @@ export default {
     props: {
         href: { default: false },
         to: { default: false },
-        context: { default: false }
+        context: { default: false },
+        type: { default: false }
     },
     methods: {
         onHover (v) {

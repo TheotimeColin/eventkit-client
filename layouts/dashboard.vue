@@ -1,17 +1,19 @@
 <template>
-    <div class="Admin">
+    <div>
+        <header-main />
         <context-info />
         <nuxt />
     </div>
 </template>
 
 <script>
+import HeaderMain from '@/components/HeaderMain'
 import ContextInfo from '@/components/utils/ContextInfo'
 
 export default {
-    name: 'LayoutAdmin',
-    middleware: 'admin',
-    components: { ContextInfo },
+    name: 'LayoutDashboard',
+    middleware: 'user',
+    components: { HeaderMain, ContextInfo },
     watch: {
         ['$route'] () {
             this.$store.commit('modules/context/set', null)

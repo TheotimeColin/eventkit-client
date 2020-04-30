@@ -44,9 +44,27 @@ export default {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
   ],
   env: {
     API_URL: process.env.NUXT_ENV_API_URL
+  },
+  auth: {
+    redirect: {
+        login: '/dashboard',
+        logout: '/',
+        callback: '/dashboard',
+        home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: process.env.NUXT_ENV_API_URL + '/user', method: 'post', propertyName: 'token' },
+          logout: { url: process.env.NUXT_ENV_API_URL + '/logout', method: 'post' },
+          user: { url: process.env.NUXT_ENV_API_URL + '/user', method: 'get', propertyName: 'user' }
+        }
+      }
+    }
   },
   /*
   ** Axios module configuration
