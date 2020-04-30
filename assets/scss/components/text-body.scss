@@ -52,35 +52,6 @@
     }
 
     a {
-        display: inline-block;
-        white-space: nowrap;
-        position: relative;
-        transform-style: preserve-3d;
-        font-weight: bold;
-        transition: transform 150ms ease;
-        color: var(--color-ft);
-        cursor: pointer;
-        
-        &:hover {
-
-            &::after { 
-                transform: scaleY(1.25) translate3d(0, -5px, -1px);
-            }
-        }
-
-        &::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            display: block;
-            width: 100%;
-            height: 6px;
-            background-color: var(--color-blue);
-            border-radius: 4px;
-            transform-style: preserve-3d;
-            transform: translate3d(0, -6px, -1px);
-            transition: transform 150ms ease;
-        }
+        @extend .LinkBase;
     }
 }

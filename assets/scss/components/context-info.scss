@@ -1,0 +1,61 @@
+.ContextInfo {
+    position: fixed;
+    top: var(--y, -999px);
+    left: var(--x, -999px);
+    width: var(--width);
+    min-width: 260px;
+    height: 10px;
+    z-index: 100;
+    transform: translateY(-100%);
+}
+
+.ContextInfo_content {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 130px);
+    background-color: var(--color-bg-light);
+    width: 260px;
+    overflow: hidden;
+    border-radius: 12px;
+    text-align: center;
+    
+    opacity: 0;
+    transform: translateY(calc(-100% - 10px));
+    @include box-shadow-s;
+    transition: all 50ms ease;
+}
+
+
+.ContextInfo_cover {
+    height: 80px;
+    background-size: cover;
+}
+
+.ContextInfo_text {
+    padding: 18px;
+}
+
+.ContextInfo_title {
+    font: var(--ft-l);
+    line-height: 1.35;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ContextInfo_description {
+    font: var(--ft-m);
+    line-height: 1.35;
+    color: var(--color-ft-weak);
+}
+
+/* STATES */
+
+.ContextInfo.is-appear {
+
+    .ContextInfo_content {
+        opacity: 1;
+        transform: translateY(-100%);
+        @include box-shadow-l;
+        transition: all 250ms ease;
+    }
+}

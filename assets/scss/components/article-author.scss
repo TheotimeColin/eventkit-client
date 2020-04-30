@@ -1,0 +1,25 @@
+.ArticleAuthor {
+    display: inline-flex;
+}
+
+.ArticleAuthor_image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        @include img-cover;
+    }
+}
+
+.ArticleAuthor_text {
+    padding-left: 15px;
+    font: var(--ft-m);
+    color: var(--color-ft);
+}
+
+.ArticleAuthor_description {
+    color: var(--color-ft-weak);
+}

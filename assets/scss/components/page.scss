@@ -1,0 +1,17 @@
+.Page {
+    position: relative;
+    min-height: 105vh;
+
+    &::before {
+        content: "";
+        @include absolute-fill;
+        height: 50vh;
+        background-color: var(--color-bg-xweak);
+    }
+}
+
+.Page_content {
+    padding-top: 60px;
+    position: relative;
+    z-index: 1;
+}

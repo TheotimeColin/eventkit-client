@@ -24,7 +24,7 @@ export default {
     computed: {
         navItems () {
             let items = [
-                { title: 'Blog', name: '' },
+                { title: 'Blog', name: 'index' },
                 { title: 'Nos kits', name: 'kits' },
                 { title: 'À propos', name: 'about' },
                 { title: 'Admin', name: 'admin-articles' }
