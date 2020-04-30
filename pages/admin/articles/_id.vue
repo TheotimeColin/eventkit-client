@@ -80,6 +80,7 @@ import ArticleBlock from '@/components/articles/ArticleBlock'
 
 export default {
     name: 'ArticlePageAdmin',
+    layout: 'admin',
     components: { TextEditor, FileLoader, ArticleBlock },
     async fetch () {
         if (this.$route.params.id && this.$route.params.id !== 'new') {

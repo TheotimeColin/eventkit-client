@@ -1,5 +1,7 @@
 export default {
-
+    beforeDestroy () {
+        this.onUtilsDestroy()
+    },
     methods: {
         onContext (v, data) {
             if (v) {
@@ -17,6 +19,9 @@ export default {
             } else {
                 this.$store.commit('modules/context/leave')
             }
+        },
+        onUtilsDestroy() {
+            this.$store.commit('modules/context/leave')
         }
     }
 }

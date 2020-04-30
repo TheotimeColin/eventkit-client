@@ -18,16 +18,28 @@
                 <p class="ContextInfo_title" v-if="context.data.title">{{ context.data.title }}</p>
                 <p class="ContextInfo_description" v-if="context.data.description">{{ shortDescription }}</p>
             </div>
+
+            <button-base
+                class="ContextInfo_cta"
+                :to="context.data.to ? context.data.to : false"
+                :href="context.data.href ? context.data.href : false"
+                v-if="context.data.to || context.data.href"
+            >
+                À propos
+            </button-base>
         </div>
     </div>
 </template>
 
 <script>
+import ButtonBase from '@/components/base/ButtonBase'
+
 export default {
     name: 'ContextInfo',
+    components: { ButtonBase },
     data: () => ({
         state: {
-            appear: false,
+            appear: true,
             overContext: false
         },
         windowY: 0
@@ -61,9 +73,9 @@ export default {
             if (!this.context || !this.context.data.description) return
 
             let description = this.context.data.description
-            let excerpt = description.substr(0, description.lastIndexOf(' ', 50))
+            let excerpt = description.substr(0, description.lastIndexOf(' ', 75))
 
-            return description.length > 50 ? excerpt + '...' : description
+            return description.length > 75 ? excerpt + '...' : description
         }
     },
     watch: {
@@ -77,12 +89,12 @@ export default {
         elementLeft (v) {
             setTimeout(() => {
                 if (v && !this.$data.state.overContext) this.disappear()
-            }, 10)
+            }, 25)
         },
         ['state.overContext'] (v) {
             setTimeout(() => {
                 if (!v && this.elementLeft) this.disappear()
-            }, 10)
+            }, 25)
         }
     },
     mounted () {
@@ -98,7 +110,7 @@ export default {
 
             setTimeout(() => {
                 this.$store.commit('modules/context/set', null)
-            }, 50)
+            }, 25)
         }
     }
 }

@@ -18,7 +18,7 @@
 
                     <legend class="ArticlePage_excerpt mt-20">
                         {{ article.excerpt }}
-                        Tentez aussi ces <link-base href="test" :context="{ title: article.title, description: article.excerpt, cover: article.cover }">5 astuces</link-base> pour améliorer le référencement de votre Meetup.
+                        Tentez aussi ces <link-base href="http://google.com" :context="{ title: article.title, description: article.excerpt, cover: article.cover, href: 'http://google.com' }">5 astuces</link-base> pour améliorer le référencement de votre Meetup.
                     </legend>
 
                     <div class="TextBody mt-60" v-html="article.content"></div>

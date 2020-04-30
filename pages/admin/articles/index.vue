@@ -26,6 +26,7 @@ import ArticleBlockActions from '@/components/admin/articles/ArticleBlockActions
 
 export default {
     name: 'HomePage',
+    layout: 'admin',
     components: { ArticleBlockActions },
     async fetch () {
         await this.$store.dispatch('modules/articles/fetch')

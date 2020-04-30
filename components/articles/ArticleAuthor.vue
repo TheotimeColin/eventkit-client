@@ -27,7 +27,8 @@ export default {
             this.onContext(v, {
                 cover: this.$props.image,
                 title: this.$props.name,
-                description: this.$props.description
+                description: this.$props.description,
+                to: { name: 'about' }
             })
         }
     }
