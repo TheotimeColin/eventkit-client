@@ -18,10 +18,9 @@
                 v-for="option in Object.keys(searchOptions)"
                 :class="{ 'is-selected': current && searchOptions[option].value == current.value }"
                 :value="searchOptions[option].value"
-                v-html="searchOptions[option].html ? searchOptions[option].html : searchOptions[option].label"
                 @click="onSelectValue(searchOptions[option])"
                 :key="searchOptions[option].value"
-            ></div>
+            >{{ searchOptions[option].label }}</div>
         </div>
     </div>
 </template>
@@ -93,12 +92,6 @@ export default {
         onChange () {
             this.$data.search = this.$refs.search.value
         },
-        boldResult (text) {
-            let result = text
-            let position = text.toLowerCase().search(this.$data.search.toLowerCase())
-            let toBold = result.slice(position, position + this.$data.search.length)
-            return result.replace(toBold, '<b>' + toBold + '</b>')
-        },
         showList (action) {
             if (action) {
                 this.fetchOptions()
@@ -114,6 +107,7 @@ export default {
         onSelectValue (option) {
             this.showList(false)
             this.$refs.search.value = ''
+            
             this.$emit('input', option.value)
         }
     }

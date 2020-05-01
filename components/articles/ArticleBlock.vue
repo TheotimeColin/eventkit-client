@@ -4,11 +4,9 @@
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
 
             <div class="ArticleBlock_tags">
-                <p class="Tag" v-if="category">
-                    {{ category.title }}
-                </p>
-                
-                <p class="Tag" v-if="readTime">
+                <Tag :modifiers="['s']" :title="category.title" :id="category.id" v-if="category" />
+
+                <p class="Tag Tag--s" v-if="readTime">
                     {{ readTime }} min.
                 </p>
             </div>
@@ -23,8 +21,11 @@
 </template>
 
 <script>
+import Tag from '@/components/utils/Tag'
+
 export default {
     name: 'ArticleBlock',
+    components: { Tag },
     props: {
         id: { type: Number },
         title: { type: String },

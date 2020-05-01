@@ -6,18 +6,18 @@ export default {
     }),
     mutations: {
         update (state, value) {
-            let items = { ...state.items }
+            let items = JSON.parse(JSON.stringify(state.items))
             items[value.id] = value
 
-            state.items = items
             state.collection = Object.keys(items).map(key => items[key])
+            state.items = items
         },
         refresh (state, value) {
             let items = {}
             value.forEach(value => items[value.id] = value)
 
-            state.items = items
             state.collection = Object.keys(items).map(key => items[key])
+            state.items = items
         }
     },
     actions: {
@@ -29,7 +29,7 @@ export default {
         },
         async get ({ commit }, params) {
             if (state.items[params.query.id]) {
-                return state.items[params.query.id]
+                return JSON.parse(JSON.stringify(state.items[params.query.id]))
             } else {
                 let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
                 const response = await this.$axios.$get(`/articles?${query}`)

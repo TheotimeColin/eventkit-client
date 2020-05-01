@@ -56,7 +56,7 @@
                                 <select-search
                                     class="fx-grow"
                                     action="article-categories/fetch"
-                                    v-model="article.category._id"
+                                    v-model="article.categoryId"
                                 />
 
                                 <button-base class="ml-5" type="button" @click="state.createCategory = !state.createCategory">
@@ -88,7 +88,6 @@
                             :read-time="article.readTime"
                             :excerpt="article.excerpt"
                             :thumbnail="article.thumbnail"
-                            :category="article.category"
                             :article="article"
                         />
 
@@ -120,9 +119,10 @@ export default {
                 query: { id: this.$route.params.id }
             })
 
-            if (search) this.$data.article = {
+            this.$data.article = {
                 ...this.$data.article,
-                ...search
+                ...search,
+                categoryId: search.category._id
             }
         }
         
@@ -144,7 +144,8 @@ export default {
             slug: '',
             content: '',
             excerpt: '',
-            category: { _id: null },
+            category: null,
+            categoryId: '',
             cover: null,
             thumbnail: null,
             publishedDate: null,

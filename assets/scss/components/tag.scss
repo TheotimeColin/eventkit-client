@@ -1,8 +1,18 @@
 .Tag {
     display: inline-block;
-    font: var(--ft-xs);
+    font: var(--ft-s);
     color: var(--color-ft);
-    padding: 2px 8px;
+    text-align: center;
+    min-width: 80px;
+    padding: 8px;
     border-radius: 20px;
     background-color: var(--color-bg-light);
+}
+
+/* MODIFIERS */
+
+.Tag--s {
+    font: var(--ft-xs);
+    min-width: 0;
+    padding: 2px 8px;
 }

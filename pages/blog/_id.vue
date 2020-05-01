@@ -9,14 +9,25 @@
                     
                     <div class="ArticlePage_titles">
                         <div class="ArticlePage_titlesContainer">
+                            
+
                             <h1 class="ArticlePage_title">{{ article.title }}</h1>
 
                             <legend class="ArticlePage_excerpt mt-10">
                                 {{ article.excerpt }}
                             </legend>
 
+                            <div>
+                                <Tag
+                                    class="mt-40"
+                                    :title="article.category.title"
+                                    :id="article.category.id"
+                                    v-if="article.category"
+                                />
+                            </div>
+
                             <article-author
-                                class="mt-60 mb-20"
+                                class="mt-20"
                                 name="Théotime Colin"
                                 :published="publishedDate"
                                 description="Théotime a organisé plus de 50 Meetups dans la région Parisienne"
@@ -34,11 +45,13 @@
 <script>
 import ArticleAuthor from '@/components/articles/ArticleAuthor'
 import LinkBase from '@/components/base/LinkBase'
+import Tag from '@/components/utils/Tag'
+
 import dayjs from 'dayjs'
 
 export default {
     name: 'ArticlePage',
-    components: { ArticleAuthor, LinkBase },
+    components: { ArticleAuthor, LinkBase, Tag },
     data: () => ({
         article: null
     }),
@@ -58,6 +71,7 @@ export default {
         })
 
         this.$data.article = search
+        history.pushState({}, null, this.$data.article.slug)
     },
     computed: {
         publishedDate () {

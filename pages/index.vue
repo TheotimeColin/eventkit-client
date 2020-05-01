@@ -54,6 +54,7 @@
                             <div class="col-4" v-for="article in category.articles.slice(0, 3)" :key="article.id">
                                 <article-block
                                     :title="article.title"
+                                    :category="category"
                                     :id="article.id"
                                     :read-time="article.readTime"
                                     :excerpt="article.excerpt"
