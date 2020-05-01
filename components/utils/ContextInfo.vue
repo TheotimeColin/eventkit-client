@@ -19,14 +19,14 @@
                 <p class="ContextInfo_description" v-if="context.data.description">{{ shortDescription }}</p>
             </div>
 
-            <button-base
+            <button-inline
                 class="ContextInfo_cta"
                 :to="context.data.to ? context.data.to : false"
                 :href="context.data.href ? context.data.href : false"
                 v-if="context.data.to || context.data.href"
             >
                 À propos
-            </button-base>
+            </button-inline>
         </div>
     </div>
 </template>

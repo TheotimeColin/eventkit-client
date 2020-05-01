@@ -22,7 +22,7 @@ $spacings: (
 );
 
 $gutters: (
-    "l": 15,
+    "l": 30,
     "m": 20,
     "s": 10,
     "xs": 5
@@ -31,9 +31,11 @@ $gutters: (
 $colors: (
     "ft": #000000,
     "ft-weak": #5abbff,
+    "ft-xweak": #DEECFC,
     "ft-strong": #2e46ef,
     "ft-light": #ffffff,
 
+    "bg": #EDEFFD,
     "bg-light": #ffffff,
     "bg-weak": #deebff,
     "bg-xweak": #f8f9ff,

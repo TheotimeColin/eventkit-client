@@ -1,7 +1,15 @@
+.ArticlePage_header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 100px;
+    background-color: var(--color-bg);
+}
+
 .ArticlePage_cover {
     position: relative;
-    margin: 0 -30px;
-    
+    width: 40vw;
+    min-height: 400px;
+
     img {
         @include img-cover;
     }
@@ -9,8 +17,22 @@
     &::before {
         content: "";
         display: block;
-        padding-bottom: 50%;;
+        padding-bottom: 65%;
     }
+}
+
+.ArticlePage_titles {
+    padding: 0 60px;
+    flex-grow: 1;
+}
+
+.ArticlePage_titlesContainer {
+    max-width: 720px;
+}
+
+.ArticlePage_body {
+    max-width: 720px;
+    margin: 0 auto;
 }
 
 .ArticlePage_excerpt {

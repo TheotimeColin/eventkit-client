@@ -3,6 +3,7 @@
         :is="!href && !to ? 'button' : 'div'"
         :type="type"
         class="ButtonBase"
+        :class="[ ...$modifiers ]"
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
@@ -19,11 +20,8 @@
 </template>
 
 <script>
-import utils from '@/mixins/utils'
-
 export default {
     name: 'ButtonBase',
-    mixins: [ utils ],
     props: {
         href: { default: false },
         to: { default: false },
@@ -32,7 +30,7 @@ export default {
     },
     methods: {
         onHover (v) {
-            if (this.$props.context) this.onContext(v, this.$props.context)
+            if (this.$props.context) this.$onContext(v, this.$props.context)
         }
     }
 }

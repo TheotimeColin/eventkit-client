@@ -1,0 +1,19 @@
+.HomePage_popular {
+    padding: 20px;
+    background-color: var(--color-bg-light);
+    border-radius: 12px;
+    @include box-shadow;
+}
+
+.HomePage_popularArticle {
+    border-bottom: 1px solid var(--color-border);
+    margin: 5px 0;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        border: none;
+    }
+}

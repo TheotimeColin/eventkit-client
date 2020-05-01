@@ -16,14 +16,13 @@
     width: 280px;
     overflow: hidden;
     border-radius: 12px;
-    text-align: center;
+    text-align: left;
     
     opacity: 0;
     transform: translateY(calc(-100% + 10px));
     @include box-shadow-s;
     transition: all 250ms ease;
 }
-
 
 .ContextInfo_cover {
     height: 80px;
@@ -36,28 +35,20 @@
 
 .ContextInfo_title {
     font: var(--ft-title-m);
-    color: var(--color-ft-strong);
+    color: var(--color-ft);
     line-height: 1.35;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 .ContextInfo_description {
-    font: var(--ft-m);
+    font: var(--ft-s);
     line-height: 1.35;
     color: var(--color-ft);
 }
 
 .ContextInfo_cta {
-    padding: 10px 10px;
-    color: var(--color-ft-light);
-    background-color: var(--color-blue-strong);
-    cursor: pointer;
-    transition: all 200ms ease;
-
-    &:hover {
-        background-color: var(--color-blue);
-    }
+    
 }
 
 /* STATES */

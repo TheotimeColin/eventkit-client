@@ -62,6 +62,15 @@
     font: var(--ft-l);
     color: var(--color-ft);
     margin-right: 30px;
+    transition: all 150ms ease-in;
+
+    &:hover {
+        color: var(--color-ft-strong);
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
 }
 
 /* STATES */

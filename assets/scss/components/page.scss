@@ -1,13 +1,13 @@
 .Page {
     position: relative;
     min-height: 105vh;
-    background-color: var(--color-bg-xweak);
+    background-color: var(--color-bg-light);
 
     &::before {
         content: "";
         @include absolute-fill;
-        height: 75vh;
-        background-color: var(--color-bg-light);
+        height: 50vh;
+        background-color: var(--color-bg);
     }
 }
 

@@ -24,7 +24,7 @@ export default {
     computed: {
         navItems () {
             let items = [
-                { title: 'Blog', name: 'index', enabled: true },
+                { title: 'Blog', name: 'blog', enabled: true },
                 // { title: 'Nos kits', name: 'kits', enabled: true },
                 // { title: 'À propos', name: 'about', enabled: true },
                 // { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },

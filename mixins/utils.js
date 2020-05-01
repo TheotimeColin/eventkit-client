@@ -1,9 +1,9 @@
 export default {
     beforeDestroy () {
-        this.onUtilsDestroy()
+        this.$onUtilsDestroy()
     },
     methods: {
-        onContext (v, data) {
+        $onContext (v, data) {
             if (v) {
                 let position = this.$el.getBoundingClientRect()
 
@@ -20,7 +20,7 @@ export default {
                 this.$store.commit('modules/context/leave')
             }
         },
-        onUtilsDestroy() {
+        $onUtilsDestroy() {
             this.$store.commit('modules/context/leave')
         }
     }

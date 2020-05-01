@@ -32,7 +32,8 @@
 .ArticleBlock_title {
     font: var(--ft-title-s);
     font-weight: bold;
-    color: var(--color-ft-strong);
+    color: var(--color-ft);
+    transition: all 250ms ease-in;
 }
 
 .ArticleBlock_excerpt {
@@ -52,4 +53,9 @@
 .ArticleBlock:hover {
     transform: translateY(-1px);
     @include box-shadow-xl;
+
+    .ArticleBlock_title {
+        color: var(--color-ft-strong);
+        text-decoration: underline;
+    }
 }

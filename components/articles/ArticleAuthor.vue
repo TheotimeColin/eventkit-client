@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         onHover (v) {
-            this.onContext(v, {
+            this.$onContext(v, {
                 cover: this.$props.image,
                 title: this.$props.name,
                 description: this.$props.description,

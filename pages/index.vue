@@ -3,7 +3,7 @@
         <div class="Page_content">
             <div class="pv-60">
                 <div class="Wrapper">
-                    <div class="row">
+                    <div class="row-l fx-center">
                         <div class="col-7">
                             <article-featured
                                 :title="featured.title"
@@ -13,6 +13,30 @@
                                 :thumbnail="featured.cover"
                                 v-if="featured"
                             />
+                        </div>
+                        <div class="col-5">
+                            <div class="HomePage_popular">
+                                <div class="d-flex fx-align-center fx-justify-between mb-20">
+                                    <p class="ft-title-l">
+                                        <b>Articles populaires</b>
+                                    </p>
+                                    <button-inline :to="{ name: 'blog' }">
+                                        Plus d'articles
+                                    </button-inline>
+                                </div>
+
+                                <div>
+                                    <article-line
+                                        class="HomePage_popularArticle"
+                                        v-for="(article, i) in popular" 
+                                        :ranking="i + 1"
+                                        :title="article.title"
+                                        :slug="article.slug"
+                                        :excerpt="article.excerpt"
+                                        :key="article.id"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,10 +64,11 @@
 <script>
 import ArticleBlock from '@/components/articles/ArticleBlock'
 import ArticleFeatured from '@/components/articles/ArticleFeatured'
+import ArticleLine from '@/components/articles/ArticleLine'
 
 export default {
     name: 'HomePage',
-    components: { ArticleBlock, ArticleFeatured },
+    components: { ArticleBlock, ArticleFeatured, ArticleLine },
     async fetch () {
         await this.$store.dispatch('modules/articles/fetch')
     },
@@ -53,6 +78,9 @@ export default {
         },
         articles () {
             return this.$store.state.modules.articles.items
+        },
+        popular () {
+            return this.$store.state.modules.articles.items.slice(0, 5)
         }
     }
 }

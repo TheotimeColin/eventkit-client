@@ -1,28 +1,32 @@
 <template>
     <div class="ArticlePage Page">
         <div class="Page_content" v-if="article">
-            <div class="Wrapper pt-60">
-                <article class="max-width-s">
-                    <h1 class="ArticlePage_title">{{ article.title }}</h1>
-
-                    <legend class="ArticlePage_excerpt mt-10">
-                        {{ article.excerpt }}
-                    </legend>
-
-                    <article-author
-                        class="mt-60 mb-20"
-                        name="Théotime Colin"
-                        published="Publié le 2 avril 2020"
-                        description="Théotime a organisé plus de 50 Meetups dans la région Parisienne"
-                    />
-                    
+            <article>
+                <header class="ArticlePage_header">
                     <div class="ArticlePage_cover">
                         <img :src="article.cover">
                     </div>
+                    
+                    <div class="ArticlePage_titles">
+                        <div class="ArticlePage_titlesContainer">
+                            <h1 class="ArticlePage_title">{{ article.title }}</h1>
 
-                    <div class="TextBody mt-60 mb-100" v-html="article.content"></div>
-                </article>
-            </div>
+                            <legend class="ArticlePage_excerpt mt-10">
+                                {{ article.excerpt }}
+                            </legend>
+
+                            <article-author
+                                class="mt-60 mb-20"
+                                name="Théotime Colin"
+                                published="Publié le 2 avril 2020"
+                                description="Théotime a organisé plus de 50 Meetups dans la région Parisienne"
+                            />
+                        </div>
+                    </div>
+                </header>
+
+                <div class="ArticlePage_body TextBody" v-html="article.content"></div>
+            </article>
         </div>
     </div>
 </template>

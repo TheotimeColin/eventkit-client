@@ -1,0 +1,21 @@
+.ButtonInline {
+    font: var(--ft-m);
+    color: var(--color-ft);
+    display: inline-flex;
+    align-items: center;
+    transition: all 150ms ease-in;
+}
+
+.ButtonInline_icon {
+    margin-left: 5px;
+    font-size: 12px;
+    transition: all 150ms ease-in;
+}
+
+.ButtonInline:hover {
+    color: var(--color-ft-strong);
+
+    .ButtonInline_icon {
+        transform: translateX(2px);
+    }
+}

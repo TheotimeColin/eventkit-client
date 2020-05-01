@@ -43,7 +43,8 @@
 .ArticleFeatured_title {
     font: var(--ft-title-2xl);
     font-weight: bold;
-    color: var(--color-ft-strong);
+    color: var(--color-ft);
+    transition: all 250ms ease-in;
 }
 
 .ArticleFeatured_excerpt {
@@ -65,5 +66,9 @@
     .ArticleFeatured_content {
         transform: translateY(-1px);
         box-shadow: 0 8px 12px 0 rgba(17, 91, 239, 0.25);
+    }
+
+    .ArticleFeatured_title {
+        color: var(--color-ft-strong);
     }
 }

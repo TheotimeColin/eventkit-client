@@ -1,21 +1,27 @@
 <template>
     <div
-        class="LinkBase"
+        class="ButtonInline"
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
         <nuxt-link :to="to" v-if="to" >
             <slot></slot>
         </nuxt-link>
+
         <a :href="href" v-if="href">
             <slot></slot>
         </a>
+
+        <i class="ButtonInline_icon fa fa-arrow-right"></i>
     </div>
 </template>
 
 <script>
+import utils from '@/mixins/utils'
+
 export default {
-    name: 'LinkBase',
+    name: 'ButtonInline',
+    mixins: [ utils ],
     props: {
         href: { default: false },
         to: { default: false },
@@ -23,9 +29,7 @@ export default {
     },
     methods: {
         onHover (v) {
-            if (this.$props.context) {
-                this.$onContext(v, this.$props.context)
-            }
+            if (this.$props.context) this.$onContext(v, this.$props.context)
         }
     }
 }
