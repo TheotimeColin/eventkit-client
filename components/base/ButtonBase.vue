@@ -4,6 +4,7 @@
         :type="type"
         class="ButtonBase"
         :class="[ ...$modifiers ]"
+        @click="$emit('click')"
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
@@ -20,8 +21,11 @@
 </template>
 
 <script>
+import context from '@/utils/context-mixin'
+
 export default {
     name: 'ButtonBase',
+    mixins: [ context ],
     props: {
         href: { default: false },
         to: { default: false },

@@ -24,4 +24,5 @@ export default {
 
 <style lang="scss">
     @import "@/assets/scss/global.scss";
+    @import "@/assets/scss/global/atomic.scss";
 </style>

@@ -13,20 +13,23 @@
                 :style="{ 'backgroundImage': `url(${context.data.cover})` }"
                 v-if="context.data.cover"
             ></div>
-
-            <div class="ContextInfo_text">
-                <p class="ContextInfo_title" v-if="context.data.title">{{ context.data.title }}</p>
-                <p class="ContextInfo_description" v-if="context.data.description">{{ shortDescription }}</p>
+            
+            <div class="ContextInfo_main">
+                <div class="ContextInfo_profile" :style="{ 'backgroundImage': `url(${context.data.profile})` }" v-if="context.data.profile"></div>
+                <div class="ContextInfo_text">
+                    <p class="ContextInfo_title" v-if="context.data.title">{{ context.data.title }}</p>
+                    <p class="ContextInfo_description" v-if="context.data.description">{{ shortDescription }}</p>
+                </div>
             </div>
 
-            <button-inline
-                class="ContextInfo_cta"
-                :to="context.data.to ? context.data.to : false"
-                :href="context.data.href ? context.data.href : false"
-                v-if="context.data.to || context.data.href"
-            >
-                À propos
-            </button-inline>
+            <div class="ContextInfo_cta" v-if="context.data.to || context.data.href">
+                <button-inline
+                    :to="context.data.to ? context.data.to : false"
+                    :href="context.data.href ? context.data.href : false"
+                >
+                    À propos
+                </button-inline>
+            </div>
         </div>
     </div>
 </template>
@@ -39,7 +42,7 @@ export default {
     components: { ButtonBase },
     data: () => ({
         state: {
-            appear: true,
+            appear: false,
             overContext: false
         },
         windowY: 0

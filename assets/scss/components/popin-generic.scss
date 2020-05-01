@@ -38,3 +38,10 @@
 .PopinGeneric.is-active {
     display: flex;
 }
+
+/* MODIFIERS */
+
+.PopinGeneric--top {
+    top: 10vh;
+    transform: none;
+}

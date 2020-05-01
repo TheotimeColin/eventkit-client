@@ -1,6 +1,6 @@
 <template>
     <div class="FileLoader">
-        <popin-generic ref="popin" :is-active="isActive">
+        <popin-generic :modifiers="['top']" :is-active="isActive" ref="popin">
             <template slot="header">
                 <div class="ph-40 pt-20">
                     <tabs
@@ -23,14 +23,13 @@
                 <div class="d-flex fx-align-center">
                     <p class="mr-20" @click="onDone">Annuler</p>
 
-                    <button
-                        class="Button"
-                        :class="{ 'is-disable': selected == null }"
+                    <button-base
+                        :class="{ 'is-disable': selected.length == 0 }"
                         type="button"
                         @click="onSubmit"
                     >
                         Sélectionner
-                    </button>
+                    </button-base>
                 </div>
             </template>
         </popin-generic>

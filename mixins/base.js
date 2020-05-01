@@ -4,13 +4,15 @@ export default {
     },
     computed: {
         $modifiers () {
-            return this.$props.modifiers.map(modifier => { 
+            let modifiers = {}
+
+            this.$props.modifiers.forEach(modifier => { 
                 if (modifier) {
-                    return { [this.$options.name + '--' + modifier]: true }
-                } else {
-                    return false
+                    modifiers[this.$options.name + '--' + modifier] = true
                 }
             })
+
+            return modifiers
         }
     }
 }

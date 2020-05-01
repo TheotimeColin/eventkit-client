@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import utils from '@/mixins/utils'
+import context from '@/utils/context-mixin'
 
 export default {
     name: 'ButtonInline',
-    mixins: [ utils ],
+    mixins: [ context ],
     props: {
         href: { default: false },
         to: { default: false },

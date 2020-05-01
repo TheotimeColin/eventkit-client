@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import utils from '@/mixins/utils'
+import context from '@/utils/context-mixin'
 
 export default {
     name: 'ArticleAuthor',
-    mixins: [ utils ],
+    mixins: [ context ],
     props: {
         image: { type: String, default: 'https://secure.meetupstatic.com/photos/member/3/b/d/b/member_291615323.jpeg' },
         name: { type: String, default: '' },
@@ -25,7 +25,7 @@ export default {
     methods: {
         onHover (v) {
             this.$onContext(v, {
-                cover: this.$props.image,
+                profile: this.$props.image,
                 title: this.$props.name,
                 description: this.$props.description,
                 to: { name: 'about' }

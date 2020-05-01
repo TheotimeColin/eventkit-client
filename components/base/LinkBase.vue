@@ -14,8 +14,11 @@
 </template>
 
 <script>
+import context from '@/utils/context-mixin'
+
 export default {
     name: 'LinkBase',
+    mixins: ['context'],
     props: {
         href: { default: false },
         to: { default: false },

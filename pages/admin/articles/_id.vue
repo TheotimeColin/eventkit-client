@@ -12,22 +12,22 @@
             v-model="article.thumbnail"
         />
 
-        <div class="cover mb-40" :style="{ 'backgroundImage': `url(${article.cover})` }">
-            <div class="text-right">
-                <button class="Button" type="button" @click="state.selectCover = true">
-                    Sélectionner image de couverture
-                </button><br>
-                <button class="Button mt-5" type="button" @click="state.selectThumbnail = true">
-                    Sélectionner miniature
-                </button>
-            </div>
-        </div>
-
         <div class="Wrapper">
             <form class="Form row-s" @submit="onSubmit">
-                <div class="col-8">
+                <div class="col-8 mt-20">
+                    <div class="Form_row cover" :style="{ 'backgroundImage': `url(${article.cover})` }">
+                        <div class="text-right">
+                            <button-base type="button" @click="state.selectCover = true">
+                                Sélectionner image de couverture
+                            </button-base><br>
+                            <button-base class="mt-5" type="button" @click="state.selectThumbnail = true">
+                                Sélectionner miniature
+                            </button-base>
+                        </div>
+                    </div>
+                    
                     <div class="Form_row">
-                        <input type="text" placeholder="Titre" v-model="article.title">
+                        <textarea class="ft-title-2xl ft-bold" type="text" placeholder="Titre" v-model="article.title"></textarea>
                     </div>
 
                     <div class="Form_row">
@@ -43,6 +43,9 @@
                     <div class="form-sticky">
                         <div class="form-secondary">
                             <div class="Form_row">
+                                <p v-if="article.id">Publication : <b>{{ publishedDate }}</b></p>
+                                <p v-if="article.id">Mise à jour : <b>{{ modifiedDate }}</b></p>
+                                
                                 <p>Nombre de mots : <b>{{ stats.words }}</b></p>
                                 <p>Temps de lecture : <b>{{ article.readTime }} min.</b></p>
                             </div>
@@ -62,7 +65,7 @@
                         />
 
                         <div class="mt-20 text-center">
-                            <button class="Button" type="submit">{{ article.id ? 'Sauvegarder' : 'Créer' }}</button>
+                            <button-base type="submit">{{ article.id ? 'Sauvegarder' : 'Créer' }}</button-base>
                         </div>
                     </div>
                 </div>
@@ -73,6 +76,7 @@
 
 <script>
 import slugify from 'slugify'
+import dayjs from 'dayjs'
 
 import TextEditor from '@/components/admin/utils/TextEditor'
 import FileLoader from '@/components/admin/utils/FileLoader'
@@ -113,9 +117,21 @@ export default {
             excerpt: '',
             cover: null,
             thumbnail: null,
+            publishedDate: null,
+            modifiedDate: null,
             readTime: 0
         }
     }),
+    computed: {
+        publishedDate () {
+            let date = dayjs(this.$data.article.publishedDate)
+            return `${date.format('D MMM YYYY')} (${date.fromNow()})`
+        },
+        modifiedDate () {
+            let date = dayjs(this.$data.article.modifiedDate)
+            return `${date.fromNow()}`
+        }
+    },
     watch: {
         ['article.title'] (v) {
             this.$data.article.slug = slugify(v, { lower: true, strict: true })
@@ -176,13 +192,13 @@ export default {
     }
 
     .cover {
-        height: 150px;
+        height: 400px;
         display: flex;
-        align-items: center;
         justify-content: flex-end;
-        padding: 0 40px;
+        padding: 20px;
         overflow: hidden;
         background-size: cover;
-        background-color: var(--color-blue);
+        background-position: center;
+        background-color: var(--color-bg-weak);
     }
 </style>

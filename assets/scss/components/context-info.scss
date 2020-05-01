@@ -11,26 +11,39 @@
 .ContextInfo_content {
     position: absolute;
     top: 0;
-    left: calc(50% - 140px);
+    left: calc(50% - 210px);
     background-color: var(--color-bg-light);
-    width: 280px;
+    width: 320px;
     overflow: hidden;
     border-radius: 12px;
     text-align: left;
     
     opacity: 0;
-    transform: translateY(calc(-100% + 10px));
+    transform: scale(0.98) translateY(calc(-100% + 10px));
     @include box-shadow-s;
     transition: all 250ms ease;
 }
 
 .ContextInfo_cover {
     height: 80px;
+    margin-bottom: 15px;
     background-size: cover;
 }
 
-.ContextInfo_text {
+.ContextInfo_main {
     padding: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.ContextInfo_profile {
+    width: 75px;
+    height: 75px;
+    flex-shrink: 0;
+    margin-right: 18px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
 }
 
 .ContextInfo_title {
@@ -48,7 +61,10 @@
 }
 
 .ContextInfo_cta {
-    
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg-weak);
+    text-align: right;
+    padding: 10px 15px;
 }
 
 /* STATES */

@@ -62,6 +62,7 @@
     text-align: center;
     background-color: var(--color-bg-weak);
     opacity: 0;
+    border-radius: 4px;
     cursor: pointer;
     transform: translateY(8px) scale(0.98);
     transition: all 250ms ease;
@@ -69,7 +70,7 @@
     &.is-select,
     &:hover {
         color: var(--color-ft-light);
-        background-color: var(--color-blue-strong);
+        background-color: var(--color-blue);
     }
 }
 
@@ -83,7 +84,7 @@
     }
     
     .FileGallery_name:not(.is-select) {
-        color: var(--color-ft-weak);
+        color: var(--color-ft-xweak);
         background-color: var(--color-disabled);
         pointer-events: none;
     }

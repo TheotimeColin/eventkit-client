@@ -1,36 +1,38 @@
-.Button,
 .ButtonBase {
     display: inline-block;
-    padding: 12px 20px;
+    padding: 13px 20px;
     border-radius: 4px;
     overflow: hidden;
-    background-color: var(--color-blue-strong);
+    font: var(--ft-s);
+    background-color: var(--color-blue);
     color: var(--color-ft-light);
     @include box-shadow-s;
     transform: translateY(0);
     transition: all 200ms ease-in;
+    border: 1px solid transparent;
 
     cursor: pointer;
 
     &:hover {
-        background-color: var(--color-blue);
+        background-color: var(--color-blue-strong);
         transform: translateY(-1px);
-        @include box-shadow;
+        @include box-shadow-l;
     }
 
     &:active {
-        background-color: var(--color-blue);
-        transform: translateY(1px);
+        background-color: var(--color-blue-strong);
+        transform: translateY(2px);
         @include box-shadow-s;
     }
 }
 
-.Button:disabled,
-.Button.is-disable {
+.ButtonBase:disabled,
+.ButtonBase.is-disable {
     pointer-events: none;
     cursor: default;
-    color: var(--color-ft-weak);
-    background-color: var(--color-disabled);
+    color: var(--color-ft-xweak);
+    background-color: transparent;
+    border: 1px solid var(--color-border);
     box-shadow: none;
 }
 
@@ -50,4 +52,9 @@
         transform: none;
         box-shadow: none;
     }
+}
+
+.ButtonBase--xs {
+    font: var(--ft-xs);
+    padding: 7px 10px;
 }

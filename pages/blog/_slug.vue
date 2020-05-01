@@ -18,7 +18,7 @@
                             <article-author
                                 class="mt-60 mb-20"
                                 name="Théotime Colin"
-                                published="Publié le 2 avril 2020"
+                                :published="publishedDate"
                                 description="Théotime a organisé plus de 50 Meetups dans la région Parisienne"
                             />
                         </div>
@@ -34,6 +34,7 @@
 <script>
 import ArticleAuthor from '@/components/articles/ArticleAuthor'
 import LinkBase from '@/components/base/LinkBase'
+import dayjs from 'dayjs'
 
 export default {
     name: 'ArticlePage',
@@ -57,6 +58,12 @@ export default {
         })
 
         if (search[0]) this.$data.article = search[0]
+    },
+    computed: {
+        publishedDate () {
+            let date = dayjs(this.$data.article.publishedDate)
+            return `${date.format('D MMM YYYY')} (mis à jour ${date.fromNow()})`
+        }
     },
     watch: {
         article: {

@@ -1,11 +1,11 @@
 <template>
-    <div class="SimpleUploader">
-        <label for="uploader" class="SimpleUploader_area">
+    <div class="SimpleUploader" :class="{ 'is-loaded': queue.length > 0 }">
+        <label :for="id" class="SimpleUploader_area" v-show="queue.length <= 0">
             <i class="SimpleUploader_icon fa fa-cloud"></i>
             <p class="SimpleUploader_title">Choisissez les fichiers à uploader.</p>
-
-            <input type="file" id="uploader" class="d-none" @change="onAdd" multiple>
         </label>
+
+        <input type="file" :id="id" class="d-none" @change="onAdd" multiple>
 
         <div class="SimpleUploader_galleryContainer" v-show="queue.length > 0">
             <div class="SimpleUploader_gallery">
@@ -17,16 +17,26 @@
         </div>
 
         <div class="text-center" v-if="queue.length > 0">
-            <button type="button" class="Button" @click="onUpload">
+            <button-base :modifiers="['xs']" type="button">
+                <label :for="id">
+                    <i class="fa fa-plus"></i>
+                </label>
+            </button-base>
+            <button-base type="button" @click="onUpload">
                 Uploader
-            </button>
+            </button-base>
         </div>
     </div>
 </template>
 
 <script>
+import shortid from 'shortid'
+
 export default {
     name: 'SimpleUploader',
+    props: {
+        id: { type: String, default: shortid.generate() }
+    },
     data: () => ({
         queue: []
     }),

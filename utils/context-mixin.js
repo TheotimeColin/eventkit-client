@@ -1,6 +1,6 @@
 export default {
     beforeDestroy () {
-        this.$onUtilsDestroy()
+        if (process.client) this.$onUtilsDestroy()
     },
     methods: {
         $onContext (v, data) {
@@ -21,7 +21,7 @@ export default {
             }
         },
         $onUtilsDestroy() {
-            this.$store.commit('modules/context/leave')
+            if (process.client && this.$store) this.$store.commit('modules/context/leave')
         }
     }
 }
