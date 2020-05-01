@@ -8,6 +8,7 @@
                             <article-featured
                                 :title="featured.title"
                                 :id="featured.id"
+                                :slug="featured.slug"
                                 :read-time="featured.readTime"
                                 :excerpt="featured.excerpt"
                                 :thumbnail="featured.cover"
@@ -32,6 +33,7 @@
                                         :ranking="i + 1"
                                         :title="article.title"
                                         :id="article.id"
+                                        :slug="article.slug"
                                         :excerpt="article.excerpt"
                                         :key="article.id"
                                     />
@@ -56,6 +58,7 @@
                                     :title="article.title"
                                     :category="category"
                                     :id="article.id"
+                                    :slug="article.slug"
                                     :read-time="article.readTime"
                                     :excerpt="article.excerpt"
                                     :thumbnail="article.thumbnail"

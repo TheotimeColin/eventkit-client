@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-id', params: { id } }">
+    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-slug', params: { slug, id } }">
         <div class="ArticleBlock_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
 
@@ -28,6 +28,7 @@ export default {
     components: { Tag },
     props: {
         id: { type: Number },
+        slug: { type: String },
         title: { type: String },
         excerpt: { type: String },
         category: { type: Object },

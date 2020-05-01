@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="{ name: 'blog-id', params: { id } }" class="ArticleFeatured">
+    <nuxt-link :to="{ name: 'blog-slug', params: { slug, id } }" class="ArticleFeatured">
         <div class="ArticleFeatured_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
         </div>
@@ -18,6 +18,7 @@ export default {
     name: 'ArticleFeatured',
     props: {
         id: { type: Number },
+        slug: { type: String },
         title: { type: String },
         excerpt: { type: String },
         readTime: { type: Number },

@@ -1,5 +1,5 @@
 <template>
-    <div class="Admin">
+    <div class="Body Admin">
         <context-info />
         <nuxt />
     </div>
@@ -25,11 +25,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-    @import "@/assets/scss/global.scss";
-    .Admin {
-        @import "@/assets/scss/admin/index.scss";
-        @import "@/assets/scss/global/atomic.scss";
-    }
-</style>

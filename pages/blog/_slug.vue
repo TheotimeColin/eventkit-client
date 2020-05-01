@@ -67,11 +67,9 @@ export default {
     },
     async fetch () {
         const search = await this.$store.dispatch('articles/get', {
-            query: { id: this.$route.params.id, hitCount: true }
+            query: { slug: this.$route.params.slug, hitCount: true }
         })
-
         this.$data.article = search
-        history.pushState({}, null, this.$data.article.slug)
     },
     computed: {
         publishedDate () {

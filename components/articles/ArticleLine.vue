@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link class="ArticleLine" :to="{ name: 'blog-id', params: { id } }">
+    <nuxt-link class="ArticleLine" :to="{ name: 'blog-slug', params: { slug, id } }">
         <div class="ArticleLine_number">
             {{ rankingString }}
         </div>
@@ -15,6 +15,7 @@ export default {
     name: 'ArticleLine',
     props: {
         id: { type: Number },
+        slug: { type: String },
         ranking: { type: Number, default: 0 },
         title: { type: String },
         excerpt: { type: String },

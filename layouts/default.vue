@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="Body">
         <header-main />
         <context-info />
         <nuxt />
@@ -20,8 +20,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-    @import "@/assets/scss/global.scss";
-    @import "@/assets/scss/global/atomic.scss";
-</style>

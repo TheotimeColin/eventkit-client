@@ -17,7 +17,7 @@
             Vues : {{ article.hitCount }}
         </div>
         <div class="ArticleBlock_actions">
-            <p><nuxt-link :to="{ name: 'blog-id', params: { id: article.id } }" target="_blank">Voir</nuxt-link></p>
+            <p><nuxt-link :to="{ name: 'blog-slug', params: { slug: article.slug, id: article.id } }" target="_blank">Voir</nuxt-link></p>
             <p><nuxt-link :to="{ name: 'admin-articles-id', params: { id: article.id } }">Éditer</nuxt-link></p>
             <p><span @click="$emit('delete')">Supprimer</span></p>
         </div>
