@@ -1,11 +1,17 @@
 <template>
-    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-slug', params: { slug: slug } }">
+    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-id', params: { id } }">
         <div class="ArticleBlock_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
 
-            <p class="Tag ArticleBlock_read">
-                {{ readTime }} min.
-            </p>
+            <div class="ArticleBlock_tags">
+                <p class="Tag" v-if="category">
+                    {{ category.title }}
+                </p>
+                
+                <p class="Tag" v-if="readTime">
+                    {{ readTime }} min.
+                </p>
+            </div>
         </div>
         <div class="ArticleBlock_content">
             <div>
@@ -20,9 +26,10 @@
 export default {
     name: 'ArticleBlock',
     props: {
+        id: { type: Number },
         title: { type: String },
         excerpt: { type: String },
-        slug: { type: String },
+        category: { type: Object },
         readTime: { type: Number },
         thumbnail: { type: String },
         excerptLength: { type: Number, default: 85 }

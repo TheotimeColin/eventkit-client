@@ -1,5 +1,5 @@
 <template>
-    <div class="HomePage Page bg-bg-xweak">
+    <div class="HomePage Page bg-bg">
         <div class="Page_content">
             <div class="pv-60">
                 <div class="Wrapper">
@@ -7,7 +7,7 @@
                         <div class="col-7">
                             <article-featured
                                 :title="featured.title"
-                                :slug="featured.slug"
+                                :id="featured.id"
                                 :read-time="featured.readTime"
                                 :excerpt="featured.excerpt"
                                 :thumbnail="featured.cover"
@@ -31,7 +31,7 @@
                                         v-for="(article, i) in popular" 
                                         :ranking="i + 1"
                                         :title="article.title"
-                                        :slug="article.slug"
+                                        :id="article.id"
                                         :excerpt="article.excerpt"
                                         :key="article.id"
                                     />
@@ -41,18 +41,26 @@
                     </div>
                 </div>
             </div>
-            <div class="pv-60 bg-bg-weak">
+            <div class="pv-20 bg-bg-weak">
                 <div class="Wrapper">
-                    <div class="row fx-wrap">
-                        <div class="col-4" v-for="article in articles" :key="article.id">
-                            <article-block
-                                :title="article.title"
-                                :slug="article.slug"
-                                :read-time="article.readTime"
-                                :excerpt="article.excerpt"
-                                :thumbnail="article.thumbnail"
-                                class="article-block"
-                            />
+                    <div class="mv-40" v-for="category in categories" :key="category.id">
+                        <div class="d-flex fx-align-center fx-justify-between">
+                            <p class="ft-title-l"><b>{{ category.title }}</b></p>
+                            <button-inline :to="{ name: '' }">
+                                Plus d'articles
+                            </button-inline>
+                        </div>
+                        <div class="row fx-wrap">
+                            <div class="col-4" v-for="article in category.articles.slice(0, 3)" :key="article.id">
+                                <article-block
+                                    :title="article.title"
+                                    :id="article.id"
+                                    :read-time="article.readTime"
+                                    :excerpt="article.excerpt"
+                                    :thumbnail="article.thumbnail"
+                                    class="article-block"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,17 +78,25 @@ export default {
     name: 'HomePage',
     components: { ArticleBlock, ArticleFeatured, ArticleLine },
     async fetch () {
-        await this.$store.dispatch('modules/articles/fetch')
+        await this.$store.dispatch('articles/fetch')
+        await this.$store.dispatch('article-categories/fetch')
     },
     computed: {
         featured () {
-            return this.$store.state.modules.articles.items[0]
+            return this.articles[0]
         },
         articles () {
-            return this.$store.state.modules.articles.items
+            return this.$store.state.articles.collection
         },
         popular () {
-            return this.$store.state.modules.articles.items.slice(0, 5)
+            let articles = this.articles.slice()
+            return articles.sort((a, b) => b.hitCount - a.hitCount).slice(0, 5)
+        },
+        categories () {
+            return this.$store.state['article-categories'].collection.map(category => ({
+                ...category,
+                articles: category.articles.map(article => this.$store.state.articles.items[article.id])
+            }))
         }
     }
 }

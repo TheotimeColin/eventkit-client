@@ -65,7 +65,7 @@ export default {
             this.$data.queue = this.$data.queue.filter(file => file.id !== id)
         },
         async onUpload () {
-            await this.$store.dispatch('modules/files/post', {
+            await this.$store.dispatch('files/post', {
                 folder: 'articles',
                 files: this.$data.queue
             })

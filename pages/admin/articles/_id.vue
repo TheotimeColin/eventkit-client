@@ -44,24 +44,52 @@
                         <div class="form-secondary">
                             <div class="Form_row">
                                 <p v-if="article.id">Publication : <b>{{ publishedDate }}</b></p>
-                                <p v-if="article.id">Mise à jour : <b>{{ modifiedDate }}</b></p>
+                                <p v-if="article.id">Mis à jour : <b>{{ modifiedDate }}</b></p>
                                 
                                 <p>Nombre de mots : <b>{{ stats.words }}</b></p>
                                 <p>Temps de lecture : <b>{{ article.readTime }} min.</b></p>
                             </div>
-                            
-                            <div class="Form_row">
-                                <input type="text" placeholder="Slug" v-model="article.slug">
+
+                            <p class="mt-20 mb-10">Catégorie :</p>
+
+                            <div class="Form_row d-flex">
+                                <select-search
+                                    class="fx-grow"
+                                    action="article-categories/fetch"
+                                    v-model="article.category._id"
+                                />
+
+                                <button-base class="ml-5" type="button" @click="state.createCategory = !state.createCategory">
+                                    Créer
+                                </button-base>
+                            </div>
+
+                            <div class="Form_row" v-if="state.createCategory">
+                                <form @submit="onCreateCategory">
+                                    <div class="Form_row">
+                                        <input type="text" placeholder="Titre" v-model="newCategory.title">
+                                    </div>
+
+                                    <div class="Form_row">
+                                        <input type="text" placeholder="Sous-titre" v-model="newCategory.subtitle">
+                                    </div>
+
+                                    <button-base type="submit">
+                                        Créer catégorie
+                                    </button-base>
+                                </form>
                             </div>
                         </div>
 
                         <article-block
                             class="mt-20"
                             :title="article.title"
-                            :slug="article.slug"
+                            :id="article.id"
                             :read-time="article.readTime"
                             :excerpt="article.excerpt"
                             :thumbnail="article.thumbnail"
+                            :category="article.category"
+                            :article="article"
                         />
 
                         <div class="mt-20 text-center">
@@ -75,26 +103,26 @@
 </template>
 
 <script>
-import slugify from 'slugify'
 import dayjs from 'dayjs'
 
 import TextEditor from '@/components/admin/utils/TextEditor'
 import FileLoader from '@/components/admin/utils/FileLoader'
 import ArticleBlock from '@/components/articles/ArticleBlock'
+import SelectSearch from '@/components/utils/SelectSearch'
 
 export default {
     name: 'ArticlePageAdmin',
     layout: 'admin',
-    components: { TextEditor, FileLoader, ArticleBlock },
+    components: { TextEditor, FileLoader, ArticleBlock, SelectSearch },
     async fetch () {
         if (this.$route.params.id && this.$route.params.id !== 'new') {
-            const search = await this.$store.dispatch('modules/articles/get', {
+            const search = await this.$store.dispatch('articles/get', {
                 query: { id: this.$route.params.id }
             })
 
-            if (search[0]) this.$data.article = {
+            if (search) this.$data.article = {
                 ...this.$data.article,
-                ...search[0]
+                ...search
             }
         }
         
@@ -104,7 +132,8 @@ export default {
         state: {
             loading: true,
             selectCover: false,
-            selectThumbnail: false
+            selectThumbnail: false,
+            createCategory: false
         },
         stats: {
             words: 0,
@@ -115,11 +144,16 @@ export default {
             slug: '',
             content: '',
             excerpt: '',
+            category: { _id: null },
             cover: null,
             thumbnail: null,
             publishedDate: null,
             modifiedDate: null,
             readTime: 0
+        },
+        newCategory: {
+            title: '',
+            subtitle: ''
         }
     }),
     computed: {
@@ -132,42 +166,21 @@ export default {
             return `${date.fromNow()}`
         }
     },
-    watch: {
-        ['article.title'] (v) {
-            this.$data.article.slug = slugify(v, { lower: true, strict: true })
-        }
-    },
     methods: {
         async onSubmit (e) {
             e.preventDefault()
 
-            try {
-                const response = await this.$store.dispatch('modules/articles/post', {
-                    data: this.$data.article
-                })
+            const response = await this.$store.dispatch('articles/post', {
+                data: this.$data.article
+            })
 
-                this.$data.article = {
-                    ...this.$data.article,
-                    ...response
-                }
+            this.$data.article = {
+                ...this.$data.article,
+                ...response
+            }
 
-                if (this.$route.params.id === 'new') {
-                    this.$router.push({ name: 'admin-articles-id', params: { id: response.id } })
-                }
-                
-                if (response.status == 1) {
-                    // this.$store.commit(`global/${ADD_FLASH}`, {
-                    //     text: `L'article a été publié avec succès.`
-                    // })
-                } else {
-                    // this.$store.commit(`global/${ADD_FLASH}`, {
-                    //     text: `Erreur lors de l'enregistrement, veuillez réessayer.`
-                    // })
-                }
-            } catch (e) {
-                // this.$store.commit(`global/${ADD_FLASH}`, {
-                //     text: `Erreur lors de l'enregistrement, veuillez réessayer.`
-                // })
+            if (this.$route.params.id === 'new') {
+                this.$router.push({ name: 'admin-articles-id', params: { id: response.id } })
             }
         },
         onLengthChange (words) {
@@ -176,6 +189,16 @@ export default {
         },
         onCoverSelect () {
             this.$data.state.selectCover = true
+        },
+        async onCreateCategory (e) {
+            e.preventDefault()
+
+            const response = await this.$store.dispatch('article-categories/post', {
+                data: this.$data.newCategory
+            })
+
+            this.$data.article.category = response
+            this.$data.state.createCategory = false
         }
     }
 }

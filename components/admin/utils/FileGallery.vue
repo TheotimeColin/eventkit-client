@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         async onFetch () {
-            let response = await this.$store.dispatch('modules/files/fetch', {
+            let response = await this.$store.dispatch('files/fetch', {
                 query: { prefix: this.$props.prefix }
             })
 

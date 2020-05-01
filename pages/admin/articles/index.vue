@@ -8,12 +8,7 @@
                     <div class="col-4" v-for="article in articles" :key="article.id">
                         <article-block-actions
                             class="article-block"
-                            :id="article.id"
-                            :title="article.title"
-                            :slug="article.slug"
-                            :read-time="article.readTime"
-                            :excerpt="article.excerpt"
-                            :thumbnail="article.thumbnail"
+                            :article="article"
                             @delete="onDelete(article.id)"
                         />
                     </div>
@@ -31,23 +26,23 @@ export default {
     layout: 'admin',
     components: { ArticleBlockActions },
     async fetch () {
-        await this.$store.dispatch('modules/articles/fetch')
+        await this.$store.dispatch('articles/fetch')
     },
     data: () => ({
         featured: null
     }),
     computed: {
         articles () {
-            return this.$store.state.modules.articles.items
+            return this.$store.state.articles.items
         }
     },
     methods: {
         async onDelete (id) {
-            await this.$store.dispatch('modules/articles/delete', {
+            await this.$store.dispatch('articles/delete', {
                 data: { id }
             })
 
-            this.$store.dispatch('modules/articles/fetch')
+            this.$store.dispatch('articles/fetch')
         }
     }
 }

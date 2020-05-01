@@ -1,22 +1,25 @@
 <template>
     <div class="ArticleBlock ArticleBlock--actions">
         <div class="ArticleBlock_image">
-            <img :src="thumbnail" :alt="title" v-if="thumbnail">
+            <img :src="article.thumbnail" v-if="article.thumbnail">
 
             <p class="Tag ArticleBlock_read">
-                {{ readTime }} min.
+                {{ article.readTime }} min.
             </p>
         </div>
         <div class="ArticleBlock_content">
             <div>
-                <div class="ArticleBlock_title">{{ title }}</div>
-                <div class="ArticleBlock_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
+                <div class="ArticleBlock_title">{{ article.title }}</div>
+                <div class="ArticleBlock_excerpt" v-if="article.excerpt">{{ shortExcerpt }}</div>
             </div>
         </div>
+        <div class="ArticleBlock_stats">
+            Vues : {{ article.hitCount }}
+        </div>
         <div class="ArticleBlock_actions">
-            <p><nuxt-link :to="{ name: 'blog-slug', params: { slug } }" target="_blank">Voir</nuxt-link></p>
-            <p><nuxt-link :to="{ name: 'admin-articles-id', params: { id } }">Éditer</nuxt-link></p>
-            <p @click="$emit('delete')">Supprimer</p>
+            <p><nuxt-link :to="{ name: 'blog-id', params: { id: article.id } }" target="_blank">Voir</nuxt-link></p>
+            <p><nuxt-link :to="{ name: 'admin-articles-id', params: { id: article.id } }">Éditer</nuxt-link></p>
+            <p><span @click="$emit('delete')">Supprimer</span></p>
         </div>
     </div>
 </template>
@@ -25,18 +28,13 @@
 export default {
     name: 'ArticleBlock',
     props: {
-        id: { type: Number },
-        title: { type: String },
-        excerpt: { type: String },
-        slug: { type: String },
-        readTime: { type: Number },
-        thumbnail: { type: String },
-        excerptLength: { type: Number, default: 85 }
+        article: { type: Object },
+        excerptLength: { type: Number, default: 100 }
     },
     computed: {
         shortExcerpt () {
-            let excerpt = this.$props.excerpt.substr(0, this.$props.excerpt.lastIndexOf(' ', this.$props.excerptLength));
-            return this.$props.excerpt.length > this.$props.excerptLength ? excerpt + '...' : this.$props.excerpt
+            let excerpt = this.$props.article.excerpt.substr(0, this.$props.article.excerpt.lastIndexOf(' ', this.$props.excerptLength));
+            return this.$props.article.excerpt.length > this.$props.excerptLength ? excerpt + '...' : this.$props.article.excerpt
         }
     }
 }

@@ -15,7 +15,7 @@ export default {
     components: { HeaderMain, ContextInfo },
     watch: {
         ['$route'] () {
-            this.$store.commit('modules/context/set', null)
+            this.$store.commit('context/set', null)
         }
     }
 }

@@ -53,11 +53,11 @@ export default {
         }
     },
     async fetch () {
-        const search = await this.$store.dispatch('modules/articles/get', {
-            query: { slug: this.$route.params.slug }
+        const search = await this.$store.dispatch('articles/get', {
+            query: { id: this.$route.params.id, hitCount: true }
         })
 
-        if (search[0]) this.$data.article = search[0]
+        this.$data.article = search
     },
     computed: {
         publishedDate () {

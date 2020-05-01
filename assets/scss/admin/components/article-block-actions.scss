@@ -1,15 +1,23 @@
 .ArticleBlock--actions {
 
     .ArticleBlock_actions {
-        padding: 10px 20px;
         background-color: var(--color-bg-weak);
         display: flex;
         width: 100%;
         justify-content: space-around;
         font: var(--ft-xs);
+        border-top: 1px solid var(--color-border);
 
         & > * {
             text-align: center;
+            flex-grow: 1;
+            cursor: pointer;
+
+            & > * {
+                display: block;
+                height: 100%;
+                padding: 10px 20px;
+            }
 
             &:hover {
                 background-color: var(--color-bg);
@@ -20,5 +28,12 @@
     &:hover {
         transform: none;
         box-shadow: 0 3px 10px 0 rgba(17, 91, 239, 0.2);
+    }
+
+    .ArticleBlock_stats {
+        font: var(--ft-xs);
+        padding: 8px;
+        border-top: 1px solid var(--color-border);
+        background-color: var(--color-bg-xweak);
     }
 }

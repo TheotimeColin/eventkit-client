@@ -1,5 +1,6 @@
 .ButtonInline {
     font: var(--ft-m);
+    line-height: 1;
     color: var(--color-ft);
     display: inline-flex;
     align-items: center;
@@ -7,7 +8,7 @@
 }
 
 .ButtonInline_icon {
-    margin-left: 5px;
+    margin-left: 10px;
     font-size: 12px;
     transition: all 150ms ease-in;
 }

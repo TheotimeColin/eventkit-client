@@ -7,7 +7,7 @@ export default {
             if (v) {
                 let position = this.$el.getBoundingClientRect()
 
-                this.$store.commit('modules/context/set', {
+                this.$store.commit('context/set', {
                     data: data,
                     position: {
                         y: this.$el.offsetTop,
@@ -17,11 +17,11 @@ export default {
                     }
                 })
             } else {
-                this.$store.commit('modules/context/leave')
+                this.$store.commit('context/leave')
             }
         },
         $onUtilsDestroy() {
-            if (process.client && this.$store) this.$store.commit('modules/context/leave')
+            if (process.client && this.$store) this.$store.commit('context/leave')
         }
     }
 }

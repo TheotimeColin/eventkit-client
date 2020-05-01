@@ -49,10 +49,10 @@ export default {
     }),
     computed: {
         context () {
-            return this.$store.state.modules.context.current
+            return this.$store.state.context.current
         },
         elementLeft () {
-            return this.$store.state.modules.context.left
+            return this.$store.state.context.left
         },
         position () {
             let position = {
@@ -112,7 +112,7 @@ export default {
             this.$data.state.appear = false
 
             setTimeout(() => {
-                this.$store.commit('modules/context/set', null)
+                this.$store.commit('context/set', null)
             }, 25)
         }
     }

@@ -1,5 +1,9 @@
 .Form {
 
+    .Form_row {
+        width: 100%;
+    }
+
     .Form_row + .Form_row {
         margin-top: 10px;
     }

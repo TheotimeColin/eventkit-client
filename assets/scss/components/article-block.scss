@@ -42,10 +42,12 @@
     color: var(--color-ft);
 }
 
-.ArticleBlock_read {
+.ArticleBlock_tags {
     position: absolute;
+    z-index: 2;
     top: 8px;
     right: 8px;
+    text-align: right;
 }
 
 /* STATES */
