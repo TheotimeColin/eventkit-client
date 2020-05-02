@@ -17,11 +17,12 @@
                 </simple-slider>
             </div>
 
-            <div class="bg-bg-xweak">
+            <div class="bg-bg-xweak o-hidden p-relative">
                 <div class="Wrapper pv-20">
                     <div class="max-width-m">
-                        <div v-for="article in articles" :key="article.id">
+                        <transition-group :name="state.mounted ? 'appear-simple' : 'none'">
                             <article-summary
+                                v-for="article in articlesResult"
                                 :title="article.title"
                                 :id="article.id"
                                 :slug="article.slug"
@@ -30,8 +31,9 @@
                                 :excerpt="article.excerpt"
                                 :thumbnail="article.thumbnail"
                                 class="article-summary"
+                                :key="article.id"
                             />
-                        </div>
+                        </transition-group>
                     </div>
                 </div>
             </div>
@@ -52,21 +54,50 @@ export default {
         await this.$store.dispatch('article-categories/fetch')
     },
     data: () => ({
+        state: {
+            mounted: false
+        },
         categories: []
     }),
     computed: {
         articles () {
             return this.$store.state.articles.collection
         },
+        articlesResult () {
+            if (this.noSelection) return this.articles
+            
+            return this.articles.filter(article => {
+                let selected = false 
+
+                this.selectedCategories.forEach(category => {
+                    if (category.id == article.category.id) selected = true
+                })
+
+                return selected
+            })
+        },
+        selectedCategories () {
+            return this.$data.categories.filter(category => category.selected)
+        },
         noSelection () {
-            return this.$data.categories.filter(category => category.selected).length <= 0
+            return this.selectedCategories.length <= 0
+        }
+    },
+    watch: {
+        selectedCategories (v) {
+            let allSelected = v.length >= this.$data.categories.length
+            this.$router.push({ query: { category: v.length > 0 && !allSelected ? v.map(c => c.slug).join(',') : undefined }})
         }
     },
     mounted () {
+        const initialCategories = this.$route.query.category ? this.$route.query.category.split(',') : []
+
         this.$data.categories = this.$store.state['article-categories'].collection.map(c => ({
             ...c,
-            selected: false
+            selected: initialCategories.filter(i => c.slug == i).length > 0
         }))
+
+        this.$nextTick(() => this.$data.state.mounted = true)
     },
     methods: {
         selectCategory (category) {

@@ -11,7 +11,9 @@
         <a :href="href" v-if="href">
             <slot></slot>
         </a>
-        <slot></slot>
+
+        
+        <slot v-if="!href && !to"></slot>
         
         <i class="ButtonInline_icon fa fa-arrow-right"></i>
     </div>

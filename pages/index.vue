@@ -48,7 +48,7 @@
                     <div class="mv-40" v-for="category in categories" :key="category.id">
                         <div class="d-flex fx-align-center fx-justify-between">
                             <p class="ft-title-l"><b>{{ category.subtitle }}</b></p>
-                            <button-inline :to="{ name: '' }">
+                            <button-inline :to="{ name: 'blog', query: { category: category.slug } }">
                                 Plus d'articles
                             </button-inline>
                         </div>

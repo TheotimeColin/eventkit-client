@@ -69,3 +69,33 @@
         transition: transform 500ms ease-out;
     }
 }
+
+.ArticleSummary.appear-simple-enter-active,
+.ArticleSummary.appear-simple-leave-active {
+    transition: all 150ms ease;
+}
+
+
+.ArticleSummary.appear-simple-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.ArticleSummary.appear-simple-leave-to {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.ArticleSummary.appear-simple-enter {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.ArticleSummary.appear-simple-leave-active {
+    position: absolute;
+}
+
+
+.ArticleSummary.appear-simple-move {
+    transition: all 250ms ease-out;
+}
