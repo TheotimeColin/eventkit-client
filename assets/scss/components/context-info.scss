@@ -3,7 +3,7 @@
     top: var(--y, -999px);
     left: var(--x, -999px);
     width: var(--width);
-    height: 10px;
+    height: 20px;
     z-index: 50;
     transform: translateY(-100%);
 }
@@ -11,22 +11,28 @@
 .ContextInfo_content {
     position: absolute;
     top: 0;
-    left: calc(50% - 210px);
+    left: 0;
+    left: calc(50% - 160px);
     background-color: var(--color-bg-light);
     width: 320px;
     overflow: hidden;
     border-radius: 12px;
-    text-align: left;
+    text-align: center;
+    display: block;
+    color: var(--color-ft);
     
     opacity: 0;
     transform: scale(0.98) translateY(calc(-100% + 10px));
     @include box-shadow-s;
-    transition: all 250ms ease;
+    transition: all 150ms ease;
+
+    &:hover {
+        color: var(--color-ft-strong);
+    }
 }
 
 .ContextInfo_cover {
     height: 80px;
-    margin-bottom: 15px;
     background-size: cover;
 }
 
@@ -48,7 +54,6 @@
 
 .ContextInfo_title {
     font: var(--ft-title-m);
-    color: var(--color-ft);
     line-height: 1.35;
     margin-bottom: 5px;
     font-weight: bold;
@@ -57,7 +62,6 @@
 .ContextInfo_description {
     font: var(--ft-s);
     line-height: 1.35;
-    color: var(--color-ft);
 }
 
 .ContextInfo_cta {

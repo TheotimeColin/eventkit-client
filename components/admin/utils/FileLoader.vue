@@ -14,7 +14,7 @@
              </template>
 
             <file-gallery prefix="articles/" @select="onSelect" v-show="!state.uploadMode" ref="gallery" :max="maxSelect" />
-            <simple-uploader @upload="onUpload" v-show="state.uploadMode" />
+            <simple-uploader :id="id" @upload="onUpload" v-show="state.uploadMode" />
 
             <template slot="footer">
                 <div class="pl-10" :class="{ 'ft-bold': selected.length == maxSelect }">
@@ -46,6 +46,7 @@ export default {
     name: 'FileLoader',
     components: { PopinGeneric, SimpleUploader, FileGallery, Tabs },
     props: {
+        id: { type: String },
         value: { type: String, default: '' },
         maxSelect: { type: Number, default: 1 },
         isActive: { type: Boolean, default: false }

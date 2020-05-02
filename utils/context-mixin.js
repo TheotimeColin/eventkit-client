@@ -10,7 +10,7 @@ export default {
                 this.$store.commit('context/set', {
                     data: data,
                     position: {
-                        y: this.$el.offsetTop,
+                        y: position.top,
                         x: position.left,
                         height: position.height,
                         width: position.width

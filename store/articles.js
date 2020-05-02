@@ -25,7 +25,7 @@ export default {
             const response = await this.$axios.$get(`/articles`)
             commit('refresh', response.articles)
 
-            return response
+            return response.articles
         },
         async get ({ state, commit }, params) {
             if (state.items[params.query.id]) {

@@ -1,8 +1,9 @@
 .HomePage_popular {
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
     background-color: var(--color-bg-light);
     border-radius: 12px;
-    @include box-shadow;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .HomePage_popularArticle {
@@ -15,5 +16,6 @@
 
     &:last-child {
         border: none;
+        margin-bottom: 0;
     }
 }

@@ -22,10 +22,11 @@
 
 <script>
 import context from '@/utils/context-mixin'
+import base from '@/utils/base'
 
 export default {
     name: 'ButtonBase',
-    mixins: [ context ],
+    mixins: [ context, base ],
     props: {
         href: { default: false },
         to: { default: false },

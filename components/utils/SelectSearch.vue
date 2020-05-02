@@ -30,6 +30,7 @@ export default {
     name: 'SelectSearch',
     props: {
         value: { type: String },
+        valueFull: { type: Boolean, default: false },
         action: { type: String, default: '' },
         placeholder: { type: String, default: '' },
         valueKey: { type: String, default: 'value' },
@@ -57,9 +58,15 @@ export default {
         current () {
             let result = null
             
-            Object.keys(this.$data.activeOptions).forEach(key => {
-                if (key == this.$props.value) result = this.$data.activeOptions[key]
-            })
+            if (this.$props.value) {
+                Object.keys(this.$data.activeOptions).forEach(key => {
+                    if (this.$props.valueFull) {
+                        if (this.$data.activeOptions[key].full.id == this.$props.value.id) result = this.$data.activeOptions[key]
+                    } else {
+                        if (key == this.$props.value) result = this.$data.activeOptions[key]
+                    }
+                })
+            }
             
             return result
         },
@@ -83,7 +90,8 @@ export default {
             results.forEach(result => {
                 options[result._id] = {
                     value: result._id,
-                    label: result.title
+                    label: result.title,
+                    full: result
                 }
             })
 
@@ -108,7 +116,7 @@ export default {
             this.showList(false)
             this.$refs.search.value = ''
             
-            this.$emit('input', option.value)
+            this.$emit('input', this.$props.valueFull ? option.full : option.value)
         }
     }
 }

@@ -30,12 +30,11 @@
 </template>
 
 <script>
-import shortid from 'shortid'
 
 export default {
     name: 'SimpleUploader',
     props: {
-        id: { type: String, default: shortid.generate() }
+        id: { type: String }
     },
     data: () => ({
         queue: []

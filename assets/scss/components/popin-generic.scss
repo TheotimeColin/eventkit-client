@@ -9,7 +9,7 @@
     right: 0;
     margin: 0 auto;
     background-color: var(--color-bg-light);
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
     transform: translateY(-50%);
     display: none;
     flex-direction: column;
@@ -44,4 +44,15 @@
 .PopinGeneric--top {
     top: 10vh;
     transform: none;
+}
+
+.PopinGeneric--xs {
+    width: 500px;
+}
+
+.PopinGeneric--overflow {
+
+    .PopinGeneric_content {
+        overflow: visible;
+    }
 }

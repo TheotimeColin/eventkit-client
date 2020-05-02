@@ -4,10 +4,12 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
-        <nuxt-link :to="to" v-if="to" >
+        <nuxt-link :to="to" v-if="to">
             <slot></slot>
         </nuxt-link>
-        <a :href="href" v-if="href">
+
+        <a :href="href || node && node.attrs.href" v-if="!to">
+            <span ref="content"></span>
             <slot></slot>
         </a>
     </div>
@@ -18,16 +20,20 @@ import context from '@/utils/context-mixin'
 
 export default {
     name: 'LinkBase',
-    mixins: ['context'],
+    mixins: [context],
     props: {
         href: { default: false },
         to: { default: false },
-        context: { default: false }
+        context: { default: false },
+        node: { default: false }
+    },
+    mounted () {
+        
     },
     methods: {
         onHover (v) {
-            if (this.$props.context) {
-                this.$onContext(v, this.$props.context)
+            if (this.$props.context || this.$props.node.attrs.context) {
+                this.$onContext(v, this.$props.context ? this.$props.context : this.$props.node.attrs.context)
             }
         }
     }

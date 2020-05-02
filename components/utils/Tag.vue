@@ -1,12 +1,15 @@
 <template>
-    <nuxt-link :to="{ name: id }" class="Tag" :class="{ ...$modifiers }">
+    <a class="Tag" :class="{ ...$modifiers }">
         {{ title }}
-    </nuxt-link>
+    </a>
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'Tag',
+    mixins: [ base ],
     props: {
         id: { type: Number },
         title: { type: String }

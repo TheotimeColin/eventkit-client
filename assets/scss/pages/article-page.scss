@@ -9,15 +9,39 @@
     position: relative;
     width: 40vw;
     min-height: 400px;
+    overflow: hidden;
 
     img {
         @include img-cover;
+        width: 105%;
+        height: 105%;
+        left: -2.5%;
+        top: -2.5%;
+        animation: 30s ease-in-out 1s infinite alternate movement;
     }
 
     &::before {
         content: "";
         display: block;
         padding-bottom: 65%;
+    }
+}
+
+@keyframes movement {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    25% {
+        transform: translate3d(-1%, 0, 0) scale(0.98);
+    }
+    50% {
+        transform: translate3d(1%, -1%, 0);
+    }
+    75% {
+        transform: translate3d(0, 1%, 0) scale(0.98);
+    }
+    100% {
+        transform: translate3d(-1%, 1%, 0);
     }
 }
 

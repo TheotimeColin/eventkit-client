@@ -7,7 +7,13 @@
         @mouseenter="state.overContext = true"
         v-show="context"
     >   
-        <div class="ContextInfo_content" v-if="context">
+        <component
+            :is="element"
+            :to="context.data.to ? context.data.to : undefined"
+            :href="context.data.href ? context.data.href : undefined"
+            class="ContextInfo_content"
+            v-if="context"
+        >
             <div
                 class="ContextInfo_cover"
                 :style="{ 'backgroundImage': `url(${context.data.cover})` }"
@@ -21,16 +27,7 @@
                     <p class="ContextInfo_description" v-if="context.data.description">{{ shortDescription }}</p>
                 </div>
             </div>
-
-            <div class="ContextInfo_cta" v-if="context.data.to || context.data.href">
-                <button-inline
-                    :to="context.data.to ? context.data.to : false"
-                    :href="context.data.href ? context.data.href : false"
-                >
-                    À propos
-                </button-inline>
-            </div>
-        </div>
+        </component>
     </div>
 </template>
 
@@ -48,6 +45,16 @@ export default {
         windowY: 0
     }),
     computed: {
+        element () {
+            let element = 'div'
+
+            if (this.context && this.context.data.to) element = 'nuxt-link'
+            if (this.context && this.context.data.href) element = 'a'
+
+            console.log(element)
+
+            return element 
+        },
         context () {
             return this.$store.state.context.current
         },
@@ -92,12 +99,12 @@ export default {
         elementLeft (v) {
             setTimeout(() => {
                 if (v && !this.$data.state.overContext) this.disappear()
-            }, 25)
+            }, 100)
         },
         ['state.overContext'] (v) {
             setTimeout(() => {
                 if (!v && this.elementLeft) this.disappear()
-            }, 25)
+            })
         }
     },
     mounted () {

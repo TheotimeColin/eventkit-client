@@ -13,8 +13,11 @@
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'PopinGeneric',
+    mixins: [ base ],
     props: {
         isActive: { type: Boolean, default: false }
     },

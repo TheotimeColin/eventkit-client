@@ -1,7 +1,7 @@
 <template>
     <div class="HomePage Page bg-bg">
         <div class="Page_content">
-            <div class="pv-60">
+            <div class="pt-60">
                 <div class="Wrapper">
                     <div class="row-l fx-center">
                         <div class="col-7">
@@ -47,7 +47,7 @@
                 <div class="Wrapper">
                     <div class="mv-40" v-for="category in categories" :key="category.id">
                         <div class="d-flex fx-align-center fx-justify-between">
-                            <p class="ft-title-l"><b>{{ category.title }}</b></p>
+                            <p class="ft-title-l"><b>{{ category.subtitle }}</b></p>
                             <button-inline :to="{ name: '' }">
                                 Plus d'articles
                             </button-inline>

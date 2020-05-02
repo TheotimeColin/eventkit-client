@@ -36,7 +36,8 @@
                     </div>
                 </header>
 
-                <div class="ArticlePage_body TextBody" v-html="article.content"></div>
+                <div class="ArticlePage_body TextBody" v-html="article.content" v-if="!editor"></div>
+                <editor-content class="ArticlePage_body TextBody" :editor="editor" ref="text" v-if="editor" />
             </article>
         </div>
     </div>
@@ -46,14 +47,29 @@
 import ArticleAuthor from '@/components/articles/ArticleAuthor'
 import LinkBase from '@/components/base/LinkBase'
 import Tag from '@/components/utils/Tag'
+import { Editor, EditorContent } from 'tiptap'
+import { Heading, Bold, Blockquote, Image, History, Link } from 'tiptap-extensions'
+import Internal from '@/plugins/tiptap/Internal'
 
 import dayjs from 'dayjs'
 
 export default {
     name: 'ArticlePage',
-    components: { ArticleAuthor, LinkBase, Tag },
+    components: { EditorContent, ArticleAuthor, LinkBase, Tag },
+    async fetch () {
+        const search = await this.$store.dispatch('articles/get', {
+            query: { slug: this.$route.params.slug, hitCount: true }
+        })
+
+        this.$data.article = search
+        this.$data.state.loaded = true
+    },
     data: () => ({
-        article: null
+        state: {
+            loaded: false
+        },
+        article: null,
+        editor: null
     }),
     head () {
         if (!this.article) return
@@ -65,18 +81,6 @@ export default {
             ]
         }
     },
-    async fetch () {
-        const search = await this.$store.dispatch('articles/get', {
-            query: { slug: this.$route.params.slug, hitCount: true }
-        })
-        this.$data.article = search
-    },
-    computed: {
-        publishedDate () {
-            let date = dayjs(this.$data.article.publishedDate)
-            return `${date.format('D MMM YYYY')} (mis à jour ${date.fromNow()})`
-        }
-    },
     watch: {
         article: {
             deep: true,
@@ -85,7 +89,27 @@ export default {
                 if (this.$data.article.title) document.title = this.$data.article.title
                 if (this.$data.article.excerpt) metaDescription.setAttribute('content', this.$data.article.excerpt)
             }
+        },
+        ['article.content']: {
+            deep: true,
+            immediate: true,
+            handler (v) {
+                if (this.$data.editor) this.$data.editor.setContent(v)
+            }
         }
-    }
+    },
+    mounted () {
+        this.$data.editor = new Editor({
+            editable: false,
+            extensions: [ new Heading({ levels: [1, 2, 3] }), new Bold(), new Internal(), new Blockquote(), new Image(), new History(), new Link() ],
+        })
+    },
+    computed: {
+        publishedDate () {
+            let date = dayjs(this.$data.article.publishedDate)
+            return `${date.format('D MMM YYYY')} (mis à jour ${date.fromNow()})`
+        }
+    },
+    
 }
 </script>

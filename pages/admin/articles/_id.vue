@@ -1,12 +1,14 @@
 <template>
     <div class="Admin" v-if="!state.loading">
         <file-loader
+            id="cover"
             :is-active="state.selectCover"
             @done="state.selectCover = false"
             v-model="article.cover"
         />
 
         <file-loader
+            id="thumbnail"
             :is-active="state.selectThumbnail"
             @done="state.selectThumbnail = false"
             v-model="article.thumbnail"
