@@ -1,15 +1,17 @@
-.ArticleBlock {
+.CategoryBlock {
     overflow: hidden;
     display: block;
     background-color: var(--color-bg-light);
     border-radius: 12px;
     @include box-shadow-l;
     transform: translateY(0);
+    opacity: 0.5;
     transition: all 250ms ease-in;
+    cursor: pointer;
 }
 
-.ArticleBlock_image {
-    height: 90px;
+.CategoryBlock_image {
+    height: 80px;
     position: relative;
     background-color: var(--color-bg-weak);
 
@@ -18,27 +20,27 @@
     }
 }
 
-.ArticleBlock_content {
-    min-height: 135px;
-    padding: 20px;
+.CategoryBlock_content {
+    min-height: 70px;
+    padding: 5px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
-.ArticleBlock_title {
+.CategoryBlock_title {
     font: var(--ft-title-s);
     font-weight: bold;
     color: var(--color-ft);
     transition: all 250ms ease-in;
 }
 
-.ArticleBlock_excerpt {
-    margin-top: 10px;
+.CategoryBlock_description {
     font: var(--ft-s);
-    color: var(--color-ft);
+    color: var(--color-ft-weak);
 }
 
-.ArticleBlock_tags {
+.CategoryBlock_tags {
     position: absolute;
     z-index: 2;
     top: 8px;
@@ -48,24 +50,13 @@
 
 /* STATES */
 
-.ArticleBlock:hover {
+.CategoryBlock.is-selected,
+.CategoryBlock:hover {
     transform: translateY(-1px);
     @include box-shadow-xl;
+    opacity: 1;
 
-    .ArticleBlock_title {
+    .CategoryBlock_title {
         color: var(--color-ft-strong);
-    }
-}
-
-/* MODIFIERS */
-
-.ArticleBlock--s {
-
-    .ArticleBlock_image {
-        height: 60px;
-    }
-
-    .ArticleBlock_content {
-        min-height: 50px;
     }
 }

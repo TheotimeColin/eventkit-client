@@ -19,12 +19,12 @@
   @media (max-width: #{map-get($breakpoints, "xs")}) { @content; }
 }
 
-@mixin img-cover {
+@mixin img-cover($overflow: 100) {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: #{(100 - $overflow) / 2 +'%'};
+    left: #{(100 - $overflow) / 2 +'%'};
+    width: #{$overflow +'%'};
+    height: #{$overflow +'%'};
     object-fit: cover;
 }
 

@@ -4,14 +4,15 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
-        <nuxt-link :to="to" v-if="to" >
+        <nuxt-link :to="to" v-if="to">
             <slot></slot>
         </nuxt-link>
 
         <a :href="href" v-if="href">
             <slot></slot>
         </a>
-
+        <slot></slot>
+        
         <i class="ButtonInline_icon fa fa-arrow-right"></i>
     </div>
 </template>

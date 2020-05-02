@@ -1,5 +1,10 @@
 <template>
-    <nuxt-link class="ArticleBlock" :to="{ name: 'blog-slug', params: { slug, id } }">
+    <component
+        :is="slug ? 'nuxt-link' : 'div'"
+        class="ArticleBlock"
+        :class="{ ...$modifiers }"
+        :to="{ name: 'blog-slug', params: { slug, id } }"
+    >
         <div class="ArticleBlock_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
 
@@ -17,15 +22,17 @@
                 <div class="ArticleBlock_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
             </div>
         </div>
-    </nuxt-link>
+    </component>
 </template>
 
 <script>
 import Tag from '@/components/utils/Tag'
+import base from '@/utils/base'
 
 export default {
     name: 'ArticleBlock',
     components: { Tag },
+    mixins: [ base ],
     props: {
         id: { type: Number },
         slug: { type: String },

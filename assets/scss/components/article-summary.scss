@@ -1,0 +1,71 @@
+.ArticleSummary {
+    display: flex;
+}
+
+.ArticleSummary_title {
+    font: var(--ft-title-2xl);
+    color: var(--color-ft);
+    margin-bottom: 10px;
+
+    transition: color 150ms ease-out;
+}
+
+.ArticleSummary_content {
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ArticleSummary_text {
+    flex-grow: 1;
+}
+
+.ArticleSummary_cta {
+    flex-grow: 0;
+}
+
+.ArticleSummary_image {
+    width: 400px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+
+    img {
+        @include img-cover(105);
+        transform: scale(0.99);
+        transition: transform 1s ease-out;
+    }
+
+    &::before {
+        content: "";
+        display: block;
+        padding-bottom: 65%;
+    }
+}
+
+.ArticleSummary_date {
+    font: var(--ft-s);
+    color: var(--color-ft-weak);
+    margin-bottom: 5px;
+}
+
+.ArticleSummary_tags {
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    left: 20px;
+}
+
+/* STATES */
+
+.ArticleSummary:hover {
+
+    .ArticleSummary_title {
+        color: var(--color-ft-strong);
+    }
+
+    .ArticleSummary_image img {
+        transform: scale(1);
+        transition: transform 500ms ease-out;
+    }
+}

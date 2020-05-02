@@ -16,6 +16,9 @@
     .text-left#{$name} { text-align: left; }
     .text-right#{$name} { text-align: right; }
 
+    .o-hidden { overflow: hidden; }
+    .o-visible { overflow: visible; }
+
     /* DISPLAY */
     .d-flex#{$name} { display: flex; }
     .d-block#{$name} { display: block; }

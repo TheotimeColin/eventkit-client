@@ -1,0 +1,43 @@
+.SimpleSlider {
+
+}
+
+.SimpleSlider_rail {
+    display: flex;
+    position: relative;
+
+    & > * {
+        flex-shrink: 0;
+        margin-right: var(--gutter, 0);
+    }
+
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 600%;
+    }
+}
+
+/* STATES */
+
+.SimpleSlider.is-panning {
+    
+    .SimpleSlider_rail {
+        cursor: grabbing;
+
+        & > * {
+            pointer-events: none;
+        }
+    }
+}
+
+.SimpleSlider.is-transition {
+
+    .SimpleSlider_rail {
+        transition: transform 500ms cubic-bezier(0, 1.54, 0.57, 0.97);
+    }
+}
