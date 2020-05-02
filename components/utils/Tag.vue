@@ -1,7 +1,7 @@
 <template>
-    <a class="Tag" :class="{ ...$modifiers }">
+    <component :is="to ? 'nuxt-link' : 'div'" class="Tag" :class="{ ...$modifiers }">
         {{ title }}
-    </a>
+    </component>
 </template>
 
 <script>
@@ -12,7 +12,8 @@ export default {
     mixins: [ base ],
     props: {
         id: { type: Number },
-        title: { type: String }
+        title: { type: String },
+        to: {}
     }
 }
 </script>

@@ -1,12 +1,10 @@
 <template>
-    <component
-        :is="slug ? 'nuxt-link' : 'div'"
+    <nuxt-link
         class="ArticleBlock"
         :class="{ ...$modifiers }"
-        :to="{ name: 'blog-slug', params: { slug, id } }"
-    >
+        :to="{ name: 'blog-slug', params: { slug, id } }">
         <div class="ArticleBlock_image">
-            <img :src="thumbnail" :alt="title" v-if="thumbnail">
+            <img :src="thumbnail" :alt="title" v-if="thumbnail" />
 
             <div class="ArticleBlock_tags">
                 <Tag :modifiers="['s']" :title="category.title" :id="category.id" v-if="category" />
@@ -22,7 +20,7 @@
                 <div class="ArticleBlock_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
             </div>
         </div>
-    </component>
+    </nuxt-link>
 </template>
 
 <script>

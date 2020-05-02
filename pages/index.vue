@@ -87,7 +87,7 @@ export default {
     },
     computed: {
         featured () {
-            return this.articles[0]
+            return this.articles[0] ? this.articles[0] : false
         },
         articles () {
             return this.$store.state.articles.collection

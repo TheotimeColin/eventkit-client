@@ -4,6 +4,10 @@
             <nuxt-link :to="{ name: 'admin-articles' }">
                 Articles
             </nuxt-link>
+
+            <nuxt-link :to="{ name: 'admin-entities-categories' }">
+                Catégories
+            </nuxt-link>
         </div>
     </div>
 </template>

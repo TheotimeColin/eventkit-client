@@ -13,9 +13,10 @@
                 </div>
              </template>
 
-            <file-gallery prefix="articles/" @select="onSelect" v-show="!state.uploadMode" ref="gallery" :max="maxSelect" />
-            <simple-uploader :id="id" @upload="onUpload" v-show="state.uploadMode" />
-
+            <div class="p-40">
+                <file-gallery prefix="articles/" @select="onSelect" v-show="!state.uploadMode" ref="gallery" :max="maxSelect" />
+                <simple-uploader :id="id" @upload="onUpload" v-show="state.uploadMode" />
+            </div>
             <template slot="footer">
                 <div class="pl-10" :class="{ 'ft-bold': selected.length == maxSelect }">
                     {{ selected.length }} / {{ maxSelect }}

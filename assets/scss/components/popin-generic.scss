@@ -17,7 +17,6 @@
 
 .PopinGeneric_content {
     overflow-y: auto;
-    padding: 40px;
 }
 
 .PopinGeneric_footer {
@@ -54,5 +53,18 @@
 
     .PopinGeneric_content {
         overflow: visible;
+    }
+}
+
+.PopinGeneric--confirm {
+    width: 300px;
+    text-align: center;
+
+    &.active {
+        display: inline-flex;
+    }
+
+    .PopinGeneric_footer {
+        justify-content: space-around;
     }
 }

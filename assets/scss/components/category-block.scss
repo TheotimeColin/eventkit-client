@@ -5,13 +5,12 @@
     border-radius: 12px;
     @include box-shadow-l;
     transform: translateY(0);
-    opacity: 0.5;
     transition: all 250ms ease-in;
     cursor: pointer;
 }
 
 .CategoryBlock_image {
-    height: 80px;
+    height: 40px;
     position: relative;
     background-color: var(--color-bg-weak);
 
@@ -21,7 +20,7 @@
 }
 
 .CategoryBlock_content {
-    min-height: 70px;
+    min-height: 120px;
     padding: 5px 20px;
     display: flex;
     align-items: center;
@@ -38,6 +37,8 @@
 .CategoryBlock_description {
     font: var(--ft-s);
     color: var(--color-ft-weak);
+    margin-top: 5px;
+    padding-right: 10px
 }
 
 .CategoryBlock_tags {
@@ -59,4 +60,10 @@
     .CategoryBlock_title {
         color: var(--color-ft-strong);
     }
+}
+
+/* MODIFIERS */
+
+.CategoryBlock--selectable {
+    opacity: 0.5;
 }

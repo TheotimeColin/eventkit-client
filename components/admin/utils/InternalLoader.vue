@@ -1,19 +1,21 @@
 <template>
     <div class="InternalLoader">
         <popin-generic :modifiers="['xs', 'overflow']" :is-active="isActive" ref="popin">
-            <form @submit="onSubmit">
-                <div class="Form_row">
-                    <select-search
-                        action="articles/fetch"
-                        :value-full="true"
-                        :value="selected"
-                        @input="onSelect"
-                    />
-                </div>
-                <div class="Form_row">
-                    <input type="text" v-show="selected" ref="title">
-                </div>
-            </form>
+            <div class="p-40">
+                <form @submit="onSubmit">
+                    <div class="Form_row">
+                        <select-search
+                            action="articles/fetch"
+                            :value-full="true"
+                            :value="selected"
+                            @input="onSelect"
+                        />
+                    </div>
+                    <div class="Form_row">
+                        <input type="text" v-show="selected" ref="title">
+                    </div>
+                </form>
+            </div>
 
             <template slot="footer">
                 <div></div>

@@ -2,7 +2,7 @@
     <component
         :is="slug ? 'nuxt-link' : 'div'"
         class="CategoryBlock"
-        :class="{ 'is-selected': selected, ...$modifiers }"
+        :class="{ 'CategoryBlock--selectable': selectable, 'is-selected': selected, ...$modifiers }"
         :to="{ name: 'blog-slug', params: { slug, id } }"
     >
         <div class="CategoryBlock_image">
@@ -14,7 +14,7 @@
                 <div class="CategoryBlock_description">{{ subtitle }}</div>
             </div>
 
-            <input type="checkbox" :checked="checked">
+            <input type="checkbox" :checked="checked" v-if="selectable">
         </div>
     </component>
 </template>
@@ -28,6 +28,7 @@ export default {
     props: {
         id: { type: Number },
         slug: { type: String },
+        selectable: { type: Boolean, default: false },
         selected: { type: Boolean, default: false },
         checked: { type: Boolean, default: false },
         title: { type: String },

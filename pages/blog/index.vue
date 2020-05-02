@@ -7,7 +7,9 @@
                         <category-block
                             :modifiers="['s']"
                             :title="category.title"
-                            :subtitle="category.subtitle"
+                            :subtitle="category.description"
+                            :thumbnail="category.thumbnail"
+                            :selectable="true"
                             :selected="category.selected || noSelection"
                             :checked="category.selected"
                             class="category-block"
@@ -70,7 +72,7 @@ export default {
                 let selected = false 
 
                 this.selectedCategories.forEach(category => {
-                    if (category.id == article.category.id) selected = true
+                    if (article.category && category.id == article.category.id) selected = true
                 })
 
                 return selected

@@ -124,7 +124,7 @@ export default {
             this.$data.article = {
                 ...this.$data.article,
                 ...search,
-                categoryId: search.category._id
+                categoryId: search.category ? search.category._id : ''
             }
         }
         

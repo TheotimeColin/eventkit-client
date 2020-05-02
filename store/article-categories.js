@@ -18,6 +18,13 @@ export default {
 
             state.collection = Object.keys(items).map(key => items[key])
             state.items = items
+        },
+        delete (state, value) {
+            let items = state.collection.slice()
+            items = items.filter(item => item != value)
+
+            state.collection = Object.keys(items).map(key => items[key])
+            state.items = items
         }
     },
     actions: {
@@ -47,6 +54,8 @@ export default {
             const response = await this.$axios.$delete(`/articles/categories`, {
                 data: params.data
             })
+
+            commit('delete', params.data.id)
 
             return response.status
         }
