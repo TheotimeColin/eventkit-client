@@ -11,14 +11,16 @@
 }
 
 .ArticleBlock_image {
-    height: 90px;
+    height: 120px;
     position: relative;
     background-color: var(--color-bg-weak);
 
     img {
-        @include img-cover;
+        @include img-cover(102);
+        transform-origin: bottom;
+        transform: scale(0.99);
+        transition: transform 500ms ease-out;
     }
-    
 }
 
 .ArticleBlock_content {
@@ -58,6 +60,10 @@
     .ArticleBlock_title {
         color: var(--color-ft-strong);
     }
+
+    .ArticleBlock_image img {
+        transform: scale(1);
+    }
 }
 
 /* MODIFIERS */
@@ -77,12 +83,6 @@
     
     .ArticleBlock_image {
         height: 210px;
-
-        img {
-            @include img-cover(105);
-            transform: scale(0.98);
-            transition: transform 500ms ease-out;
-        }
 
         &::after {
             content: "";
@@ -113,10 +113,6 @@
 
         .ArticleBlock_title {
             color: var(--color-ft-light);
-        }
-
-        .ArticleBlock_image img {
-            transform: scale(1);
         }
     }
 }

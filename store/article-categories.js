@@ -48,12 +48,21 @@ export default {
         },
         async post ({ commit }, params) {
             const response = await this.$axios.$post(`/articles/categories`, params.data)
+
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
+
             return response.category
         },
         async delete ({ commit }, params) {
             const response = await this.$axios.$delete(`/articles/categories`, {
                 data: params.data
             })
+
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
 
             commit('delete', params.data.id)
 

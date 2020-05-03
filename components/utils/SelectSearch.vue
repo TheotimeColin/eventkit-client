@@ -2,7 +2,7 @@
     <div class="SelectSearch" :class="{ 'is-show-list': state.showList }">
         <div class="SelectSearch_input">
             <input 
-                class="SelectSearch_search Input"
+                class="SelectSearch_search"
                 type="text"
                 :placeholder="current ? current.label : 'Sélectionnez'"
                 @keyup="onChange"
@@ -10,6 +10,8 @@
                 @blur="showList(false)"
                 ref="search"
             >
+
+            <i class="SelectSearch_chevron fa fa-chevron-down fa-xs"></i>
         </div>
 
         <div class="SelectSearch_results" ref="list">

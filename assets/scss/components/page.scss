@@ -15,8 +15,16 @@
     padding-top: 110px;
     position: relative;
     z-index: 1;
+    padding-bottom: calc(60px + var(--bottom-bar, 0px));
 }
 
 .Page--full {
     min-height: auto;
+}
+
+.Page--admin {
+
+    &::before {
+        display: none;
+    }
 }

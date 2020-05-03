@@ -1,8 +1,10 @@
 <template>
-    <div class="Page">
+    <div class="Page Page--admin Admin">
         <div class="Page_content">
             <div class="Wrapper">
-                <nuxt-link :to="{ name: 'admin-articles-id', params: { id: 'new' } }">Nouvel article</nuxt-link>
+                <button-base :to="{ name: 'admin-articles-id', params: { id: 'new' } }">
+                    Nouvel article
+                </button-base>
 
                 <div class="row fx-wrap">
                     <div class="col-4" v-for="article in articles" :key="article.id">

@@ -1,0 +1,51 @@
+.Notifications {
+    position: fixed;
+    bottom: calc(10px + var(--bottom-bar, 0px));
+    right: 10px;
+    z-index: 10000;
+}
+
+.Notification {
+    padding: 15px;
+    color: var(--color-ft-light);
+    background-color: var(--color-confirm);
+    margin: 10px;
+    width: 300px;
+    position: relative;
+    @include box-shadow;
+
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform-origin: left;
+        width: 100%;
+        height: 4px;
+        transform: scaleX(0);
+        background-color: var(--color-confirm-strong);
+
+        animation: flash-load 4s linear;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes flash-load {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+/* MODIFIERS */
+
+.Notification--error {
+    background-color: var(--color-error);
+
+    &::after {
+        background-color: var(--color-error-strong);
+    }
+}

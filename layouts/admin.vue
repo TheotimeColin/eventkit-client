@@ -3,12 +3,14 @@
         <context-info />
         <nuxt />
         <confirm-popin />
+        <notifications />
     </div>
 </template>
 
 <script>
 import ContextInfo from '@/components/utils/ContextInfo'
 import ConfirmPopin from '@/components/utils/ConfirmPopin'
+import Notifications from '@/components/utils/Notifications'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -20,7 +22,7 @@ dayjs.locale('fr')
 export default {
     name: 'LayoutAdmin',
     middleware: 'admin',
-    components: { ContextInfo, ConfirmPopin },
+    components: { ContextInfo, ConfirmPopin, Notifications },
     watch: {
         ['$route'] () {
             this.$store.commit('context/set', null)

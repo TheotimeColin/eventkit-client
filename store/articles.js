@@ -41,12 +41,21 @@ export default {
         },
         async post ({ commit }, params) {
             const response = await this.$axios.$post(`/articles`, params.data)
+
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
+
             return response.article
         },
         async delete ({ commit }, params) {
             const response = await this.$axios.$delete(`/articles`, {
                 data: params.data
             })
+
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
 
             return response.status
         }

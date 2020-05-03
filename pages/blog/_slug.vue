@@ -99,7 +99,14 @@ export default {
         return {
             title: this.article.title,
             meta: [
-                { hid: 'description', name: 'description', content: this.article.excerpt }
+                { hid: 'description', name: 'description', content: this.article.excerpt },
+                { property: 'og:description', content: this.article.excerpt },
+                { property: 'og:image', content: this.article.cover },
+                { property: 'og:type', content: 'article' },
+                { property: 'og:article:published_time', content: this.article.publishedDate },
+                { property: 'og:article:modified_time', content: this.article.modifiedDate },
+                { property: 'og:article:author', content: 'Théotime Colin' },
+                { property: 'og:article:section', content: this.article.category.title }
             ]
         }
     },

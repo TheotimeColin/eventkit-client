@@ -1,100 +1,110 @@
 <template>
-    <div class="Admin" v-if="!state.loading">
-        <file-loader
-            id="cover"
-            :is-active="state.selectCover"
-            @done="state.selectCover = false"
-            v-model="article.cover"
-        />
+    <div class="Page Page--admin Admin AdminArticleEdit">
+        <div class="Page_content" v-if="!state.loading">
+            <file-loader
+                id="cover"
+                :is-active="state.selectCover"
+                @done="state.selectCover = false"
+                v-model="article.cover"
+            />
 
-        <file-loader
-            id="thumbnail"
-            :is-active="state.selectThumbnail"
-            @done="state.selectThumbnail = false"
-            v-model="article.thumbnail"
-        />
+            <file-loader
+                id="thumbnail"
+                :is-active="state.selectThumbnail"
+                @done="state.selectThumbnail = false"
+                v-model="article.thumbnail"
+            />
 
-        <div class="Wrapper">
-            <form class="Form row-s" @submit="onSubmit">
-                <div class="col-8 mt-20">
-                    <div class="Form_row cover" :style="{ 'backgroundImage': `url(${article.cover})` }">
-                        <div class="text-right">
-                            <button-base type="button" @click="state.selectCover = true">
-                                Sélectionner image de couverture
-                            </button-base><br>
-                            <button-base class="mt-5" type="button" @click="state.selectThumbnail = true">
-                                Sélectionner miniature
-                            </button-base>
+            <div class="Wrapper">
+                <form id="mainForm" class="Form row-s" @submit="onSubmit" ref="form">
+                    <div class="col-8 mt-20">
+                        <div class="Form_row cover" :style="{ 'backgroundImage': `url(${article.cover})` }">
+                            <div class="text-right">
+                                <button-base type="button" @click="state.selectCover = true">
+                                    Sélectionner image de couverture
+                                </button-base><br>
+                                <button-base class="mt-5" type="button" @click="state.selectThumbnail = true">
+                                    Sélectionner miniature
+                                </button-base>
+                            </div>
+                        </div>
+                        
+                        <div class="Form_row">
+                            <textarea class="ft-title-2xl ft-bold" type="text" placeholder="Titre" v-model="article.title"></textarea>
+                        </div>
+
+                        <div class="Form_row">
+                            <textarea placeholder="Excerpt" v-model="article.excerpt"></textarea>
+                        </div>
+                        
+                        <div class="Form_row">
+                            <text-editor v-model="article.content" @words="onLengthChange" />
                         </div>
                     </div>
-                    
-                    <div class="Form_row">
-                        <textarea class="ft-title-2xl ft-bold" type="text" placeholder="Titre" v-model="article.title"></textarea>
-                    </div>
 
-                    <div class="Form_row">
-                        <textarea placeholder="Excerpt" v-model="article.excerpt"></textarea>
-                    </div>
-                    
-                    <div class="Form_row">
-                        <text-editor v-model="article.content" @words="onLengthChange" />
-                    </div>
-                </div>
+                    <div class="col-4">
+                        <div class="form-sticky">
+                            <div class="form-secondary">
+                                <div class="Form_row">
+                                    <p v-if="article.id">Publication : <b>{{ publishedDate }}</b></p>
+                                    <p v-if="article.id">Mis à jour : <b>{{ modifiedDate }}</b></p>
+                                    
+                                    <p>Nombre de mots : <b>{{ stats.words }}</b></p>
+                                    <p>Temps de lecture : <b>{{ article.readTime }} min.</b></p>
+                                </div>
 
-                <div class="col-4">
-                    <div class="form-sticky">
-                        <div class="form-secondary">
-                            <div class="Form_row">
-                                <p v-if="article.id">Publication : <b>{{ publishedDate }}</b></p>
-                                <p v-if="article.id">Mis à jour : <b>{{ modifiedDate }}</b></p>
+                                <p class="mt-20 mb-10"><b>Catégorie</b></p>
+
+                                <div class="Form_row d-flex">
+                                    <select-search
+                                        class="fx-grow"
+                                        action="article-categories/fetch"
+                                        v-model="article.categoryId"
+                                    />
+                                </div>
                                 
-                                <p>Nombre de mots : <b>{{ stats.words }}</b></p>
-                                <p>Temps de lecture : <b>{{ article.readTime }} min.</b></p>
-                            </div>
-
-                            <p class="mt-20 mb-10">Catégorie :</p>
-
-                            <div class="Form_row d-flex">
-                                <select-search
-                                    class="fx-grow"
-                                    action="article-categories/fetch"
-                                    v-model="article.categoryId"
-                                />
-                            </div>
-
-                            <p class="mt-20 mb-10">Articles liés :</p>
-                            
-                            <div class="Form_row">
-                                <div class="row-none" v-for="link in linked" :key="link._id">
-                                    <div class="col-9">
-                                        <select-search
-                                            action="articles/fetch"
-                                            v-model="link.article._id"
-                                        />
+                                <div class="Form_row">
+                                    <div class="row-none mb-10">
+                                        <div class="col-9">
+                                            <b>Articles liés</b>
+                                        </div>
+                                        <div class="col-3">
+                                            <b>Boost</b>
+                                        </div>
                                     </div>
-                                    <div class="col-3">
-                                        <input type="number" placeholder="0" v-model="link.boost">
+                                    <div class="row-none" v-for="link in linked" :key="link._id">
+                                        <div class="col-9">
+                                            <select-search
+                                                action="articles/fetch"
+                                                v-model="link.article._id"
+                                            />
+                                        </div>
+                                        <div class="col-3">
+                                            <input type="number" placeholder="0" v-model="link.boost">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <article-block
-                            class="mt-20"
-                            :title="article.title"
-                            :id="article.id"
-                            :read-time="article.readTime"
-                            :excerpt="article.excerpt"
-                            :thumbnail="article.thumbnail"
-                            :article="article"
-                        />
-
-                        <div class="mt-20 text-center">
-                            <button-base type="submit">{{ article.id ? 'Sauvegarder' : 'Créer' }}</button-base>
+                            <article-block
+                                class="mt-20"
+                                :title="article.title"
+                                :id="article.id"
+                                :read-time="article.readTime"
+                                :excerpt="article.excerpt"
+                                :thumbnail="article.thumbnail"
+                                :article="article"
+                            />
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <div class="bottom-bar">
+                <button-base type="submit" form="mainForm">
+                    {{ article.id ? 'Sauvegarder' : 'Créer' }}
+                </button-base>
+            </div>
         </div>
     </div>
 </template>
@@ -206,24 +216,43 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    .form-sticky {
-        position: sticky;
-        top: 20px;
-        padding: 20px;
-        background: var(--color-bg-weak);
-        border-radius: 5px;
-        border: 1px solid var(--color-border);
+<style lang="scss">
+    :root {
+        --bottom-bar: 80px;
     }
 
-    .cover {
-        height: 400px;
-        display: flex;
-        justify-content: flex-end;
-        padding: 20px;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        background-color: var(--color-bg-weak);
+    .AdminArticleEdit {
+        .form-sticky {
+            margin: 20px 0 0 10px;
+            padding: 20px;
+            background: var(--color-bg-weak);
+            border-radius: 5px;
+            border: 1px solid var(--color-border);
+        }
+
+        .cover {
+            height: 400px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--color-bg-weak);
+        }
+
+        .bottom-bar {
+            height: var(--bottom-bar);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            background-color: var(--color-bg-light);
+            border-top: 1px solid var(--color-border-strong);
+        }
     }
 </style>

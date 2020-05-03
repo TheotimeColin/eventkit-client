@@ -1,12 +1,12 @@
 <template>
-    <div class="Page">
+    <div class="Page Page--admin Admin">
         <div class="Page_content">
             <div class="Wrapper">
                 <button-base @click="state.new = true">
                     Nouvelle catégorie
                 </button-base>
 
-                <div class="row fx-wrap mt-60">
+                <div class="row fx-wrap mt-40">
                     <div class="col-3" v-for="category in categories" :key="category.id">
                         <category-block
                             :title="category.title"

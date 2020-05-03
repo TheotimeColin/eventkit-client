@@ -8,12 +8,12 @@ export default {
   head: {
     title: `eventKit, le blog des créateurs de lien social`,
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: `Rends tes événements inoubliables grâce aux conseils et idées d'animations d'eventKit. Que ça soit pour ta prochaine soirée, mariage, Meetup ou événement professionnel.` }
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: `Rends tes événements inoubliables grâce aux conseils et idées d'animations d'eventKit. Que ça soit pour ta prochaine soirée, mariage, Meetup ou événement professionnel.` }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   /*
@@ -44,7 +44,10 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    ['@nuxtjs/google-analytics', {
+        id: 'UA-165347177-1'
+    }]
   ],
   env: {
     API_URL: process.env.NUXT_ENV_API_URL
