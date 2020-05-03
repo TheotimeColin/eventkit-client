@@ -103,6 +103,8 @@ export default {
                 { hid: 'description', name: 'description', content: this.article.excerpt },
                 { property: 'og:description', content: this.article.excerpt },
                 { property: 'og:image', content: this.article.cover.src },
+                { property: 'og:image:width', content: this.article.cover.width },
+                { property: 'og:image:height', content: this.article.cover.height },
                 { property: 'og:type', content: 'article' },
                 { property: 'og:article:published_time', content: this.article.publishedDate },
                 { property: 'og:article:modified_time', content: this.article.modifiedDate },
