@@ -2,7 +2,7 @@
     <div class="BlogPage Page bg-bg">
         <div class="Page_content bg-bg">
             <div class="bg-bg pv-40 o-hidden">
-                <simple-slider class="Wrapper">
+                <simple-slider class="Wrapper" v-if="state.mounted">
                     <div v-for="(category, i) in categories" :key="i">
                         <category-block
                             :modifiers="['s']"
@@ -31,7 +31,7 @@
                                 :published-date="article.publishedDate"
                                 :read-time="article.readTime"
                                 :excerpt="article.excerpt"
-                                :thumbnail="article.thumbnail"
+                                :thumbnail="article.cover"
                                 class="article-summary"
                                 :key="article.id"
                             />

@@ -24,7 +24,7 @@
                                     class="HomePage_popularArticle"
                                     v-for="(article, i) in popular.slice(1, 3)" 
                                     :ranking="i + 1"
-                                    :thumbnail="article.thumbnail"
+                                    :thumbnail="article.cover"
                                     :title="article.title"
                                     :read-time="featured.readTime"
                                     :id="article.id"

@@ -1,10 +1,10 @@
   
-@mixin absolute-fill() {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+@mixin absolute-fill($overflow: 100) {
+    position: absolute;
+    top: #{(100 - $overflow) / 2 +'%'};
+    left: #{(100 - $overflow) / 2 +'%'};
+    width: #{$overflow +'%'};
+    height: #{$overflow +'%'};
 }
 
 @mixin breakpoint-m {

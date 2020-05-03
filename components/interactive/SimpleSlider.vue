@@ -38,7 +38,8 @@ export default {
         this.$data.hammer = new this.hammer(this.$refs.rail)
 
         this.$data.elementWidth = this.$el.querySelector('.SimpleSlider_rail > *').offsetWidth + this.$props.gutter
-        this.$data.itemsFit = Math.floor(this.$refs.rail.offsetWidth / this.elementWidth)
+        this.$data.itemsFit = Math.ceil(this.$refs.rail.offsetWidth / this.elementWidth)
+        this.$data.itemsFit -= Math.max(0, this.$data.itemsFit - this.$data.itemsCount)
 
         this.$data.hammer.on('panstart', (e) => this.onPanStart(e))
         this.$data.hammer.on('panend', (e) => this.onPanEnd(e))
