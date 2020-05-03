@@ -7,7 +7,7 @@
                 </div>
             </template>
             <template slot="footer">
-                <p @click="data.onCancel">{{ data.cancelText }}</p>
+                <p @click="onCancel">{{ data.cancelText }}</p>
                 <button-base @click.native="onConfirm">{{ data.confirmText }}</button-base>
             </template>
         </popin-generic>
@@ -26,7 +26,6 @@ export default {
     mounted () {
         this.$data.defaults = {
             headerText: 'Confirmez cette action',
-            onCancel: this.onCancel,
             cancelText: 'Annuler',
             confirmText: 'Confirmer'
         }
@@ -41,6 +40,7 @@ export default {
     },
     methods: {
         onCancel () {
+            if (this.data.onCancel) this.data.onCancel()
             this.$store.commit('utils/confirmPrompt', { active: false })
         },
         onConfirm () {

@@ -5,16 +5,17 @@
     width: 100%;
     z-index: 100;
 
-    --height: 100px;
-    --height-2: 50px;
+    --height: 110px;
+    --height-2: 55px;
     border-bottom: 1px solid transparent;
+    transition: border 150ms ease-out;
 
     &::before {
         content: "";
         @include absolute-fill;
         transform-origin: top;
-        transition: all 150ms ease-out;
-        height: 100px;
+        transition: all 200ms ease-out;
+        height: 110px;
     }
 }
 
@@ -36,6 +37,10 @@
 
     transform: translateY(calc(var(--height-2) - 100%));
     transition: all 150ms ease-out;
+
+    &:hover {
+        color: var(--color-ft-strong);
+    }
 }
 
 .HeaderMain_baseline {
@@ -44,7 +49,7 @@
     left: 0;
     white-space: nowrap;
 
-    font: var(--ft-title-xs);
+    font: var(--ft-title-s);
     color: var(--color-ft);
 
     transform: translateY(calc(var(--height-2)));
@@ -60,7 +65,7 @@
 }
 
 .HeaderMain_item {
-    font: var(--ft-l);
+    font: var(--ft-title-xs);
     color: var(--color-ft);
     margin-right: 30px;
     transition: all 150ms ease-in;

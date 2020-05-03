@@ -2,20 +2,18 @@
     <component
         :is="slug ? 'nuxt-link' : 'div'"
         class="CategoryBlock"
-        :class="{ 'CategoryBlock--selectable': selectable, 'is-selected': selected, ...$modifiers }"
+        :class="{ 'CategoryBlock--selectable': selectable, 'is-selected': selected, 'is-checked': checked, ...$modifiers }"
         :to="{ name: 'blog-slug', params: { slug, id } }"
     >
         <div class="CategoryBlock_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
         </div>
         <div class="CategoryBlock_content">
-            <div>
-                <div class="CategoryBlock_title">{{ title }}</div>
-                <div class="CategoryBlock_description">{{ subtitle }}</div>
-            </div>
-
-            <input type="checkbox" :checked="checked" v-if="selectable">
+            <div class="CategoryBlock_title">{{ title }}</div>
+            <div class="CategoryBlock_description">{{ subtitle }}</div>
         </div>
+
+        <input class="CategoryBlock_check" type="checkbox" :checked="checked" v-if="selectable">
     </component>
 </template>
 

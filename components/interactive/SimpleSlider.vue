@@ -4,10 +4,8 @@
         :class="{ 'is-panning': state.panning, 'is-transition': state.transition }"
         :style="{ '--gutter': gutter + 'px' }"
     >
-        <div class="Wrapper">
-            <div class="SimpleSlider_rail" :style="{ transform: `translate3d(${state.transition ? position : panPosition}px, 0, 0)` }" ref="rail">
-                <slot></slot>
-            </div>
+        <div class="SimpleSlider_rail" :style="{ transform: `translate3d(${state.transition ? position : panPosition}px, 0, 0)` }" ref="rail">
+            <slot></slot>
         </div>
     </div>
 </template>

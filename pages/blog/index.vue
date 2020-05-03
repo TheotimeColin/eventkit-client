@@ -2,7 +2,7 @@
     <div class="BlogPage Page bg-bg">
         <div class="Page_content bg-bg">
             <div class="bg-bg pv-40 o-hidden">
-                <simple-slider>
+                <simple-slider class="Wrapper">
                     <div v-for="(category, i) in categories" :key="i">
                         <category-block
                             :modifiers="['s']"
@@ -114,9 +114,7 @@ export default {
 
 <style lang="scss" scoped>
     .category-block {
-        width: 300px;
-        user-select: none;
-        -webkit-user-drag: none;
+        width: 350px;
     }
 
     .article-summary {

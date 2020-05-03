@@ -29,7 +29,7 @@
 export default {
     name: 'SelectSearch',
     props: {
-        value: { type: String },
+        value: {},
         valueFull: { type: Boolean, default: false },
         action: { type: String, default: '' },
         placeholder: { type: String, default: '' },

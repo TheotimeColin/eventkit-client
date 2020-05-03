@@ -7,7 +7,8 @@
 .ArticleLine_number {
     font: var(--ft-title-3xl);
     font-weight: bold;
-    color: var(--color-ft-xweak);
+    color: var(--color-ft-strong);
+    opacity: 0.15;
     min-width: 55px;
     transition: all 150ms ease-in;
 }
@@ -29,6 +30,7 @@
     }
 
     .ArticleLine_number {
+        opacity: 1;
         color: var(--color-ft);
     }
 }

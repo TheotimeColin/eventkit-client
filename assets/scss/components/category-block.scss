@@ -2,41 +2,58 @@
     overflow: hidden;
     display: block;
     background-color: var(--color-bg-light);
-    border-radius: 12px;
     @include box-shadow-l;
     transform: translateY(0);
     transition: all 250ms ease-in;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .CategoryBlock_image {
-    height: 40px;
+    height: 160px;
     position: relative;
     background-color: var(--color-bg-weak);
 
     img {
         @include img-cover;
     }
+
+    &::after {
+        content: "";
+        display: block;
+        @include absolute-fill;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
+    }
+}
+
+.CategoryBlock_check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
 }
 
 .CategoryBlock_content {
-    min-height: 120px;
-    padding: 5px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include absolute-fill;
+    height: auto;
+    bottom: 0;
+    top: auto;
+    padding: 20px;
 }
 
 .CategoryBlock_title {
     font: var(--ft-title-s);
     font-weight: bold;
-    color: var(--color-ft);
+    color: var(--color-ft-light);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
     transition: all 250ms ease-in;
 }
 
 .CategoryBlock_description {
     font: var(--ft-s);
-    color: var(--color-ft-weak);
+    color: var(--color-ft-light);
     margin-top: 5px;
     padding-right: 10px
 }
@@ -51,15 +68,14 @@
 
 /* STATES */
 
-.CategoryBlock.is-selected,
+.CategoryBlock.is-checked,
 .CategoryBlock:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     @include box-shadow-xl;
-    opacity: 1;
+}
 
-    .CategoryBlock_title {
-        color: var(--color-ft-strong);
-    }
+.CategoryBlock.is-selected {
+    opacity: 1;
 }
 
 /* MODIFIERS */

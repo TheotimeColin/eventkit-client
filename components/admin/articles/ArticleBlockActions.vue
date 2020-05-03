@@ -19,7 +19,11 @@
         <div class="ArticleBlock_actions">
             <p><nuxt-link :to="{ name: 'blog-slug', params: { slug: article.slug, id: article.id } }" target="_blank">Voir</nuxt-link></p>
             <p><nuxt-link :to="{ name: 'admin-articles-id', params: { id: article.id } }">Éditer</nuxt-link></p>
-            <p><span @click="$emit('delete')">Supprimer</span></p>
+            <p><span @click="$store.commit('utils/confirmPrompt', {
+                active: true,
+                onConfirm: () => $emit('delete'),
+                confirmText: 'Supprimer'
+            })">Supprimer</span></p>
         </div>
     </div>
 </template>

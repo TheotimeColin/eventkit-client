@@ -6,11 +6,12 @@ export default {
         $onContext (v, data) {
             if (v) {
                 let position = this.$el.getBoundingClientRect()
+                let body = document.body.getBoundingClientRect()
 
                 this.$store.commit('context/set', {
                     data: data,
                     position: {
-                        y: position.top,
+                        y: position.top - body.top,
                         x: position.left,
                         height: position.height,
                         width: position.width

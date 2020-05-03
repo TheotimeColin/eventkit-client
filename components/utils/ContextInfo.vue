@@ -51,8 +51,6 @@ export default {
             if (this.context && this.context.data.to) element = 'nuxt-link'
             if (this.context && this.context.data.href) element = 'a'
 
-            console.log(element)
-
             return element 
         },
         context () {

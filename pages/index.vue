@@ -1,29 +1,40 @@
 <template>
     <div class="HomePage Page bg-bg">
         <div class="Page_content">
-            <div class="pt-60">
+            <div class="pb-60">
                 <div class="Wrapper">
-                    <div class="row-l fx-center">
-                        <div class="col-7">
-                            <article-featured
+                    <div class="row-xs fx-center fx-align-stretch">
+                        <div class="col-8">
+                            <article-block
+                                :modifiers="['image', 'full']"
                                 :title="featured.title"
                                 :id="featured.id"
                                 :slug="featured.slug"
                                 :read-time="featured.readTime"
                                 :excerpt="featured.excerpt"
+                                :excerpt-length="300"
                                 :thumbnail="featured.cover"
                                 v-if="featured"
                             />
                         </div>
-                        <div class="col-5">
+                        <div class="col-4">
                             <div class="HomePage_popular">
-                                <div class="d-flex fx-align-center fx-justify-between mb-20">
+                                <article-block
+                                    :modifiers="['image']"
+                                    class="HomePage_popularArticle"
+                                    v-for="(article, i) in popular.slice(1, 3)" 
+                                    :ranking="i + 1"
+                                    :thumbnail="article.thumbnail"
+                                    :title="article.title"
+                                    :read-time="featured.readTime"
+                                    :id="article.id"
+                                    :slug="article.slug"
+                                    :key="article.id"
+                                />
+                                <!-- <div class="d-flex fx-align-center fx-justify-between mb-20">
                                     <p class="ft-title-l">
                                         <b>Articles populaires</b>
                                     </p>
-                                    <button-inline :to="{ name: 'blog' }">
-                                        Plus d'articles
-                                    </button-inline>
                                 </div>
 
                                 <div>
@@ -37,23 +48,26 @@
                                         :excerpt="article.excerpt"
                                         :key="article.id"
                                     />
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="pv-20 bg-bg-weak">
+            <div class="pv-20 bg-bg-weak o-hidden">
                 <div class="Wrapper">
                     <div class="mv-40" v-for="category in categories" :key="category.id">
                         <div class="d-flex fx-align-center fx-justify-between">
-                            <p class="ft-title-l"><b>{{ category.subtitle }}</b></p>
+                            <nuxt-link class="ft-title-l mr-20 mb-5" :to="{ name: 'blog', query: { category: category.slug } }">
+                                <b>{{ category.subtitle }}</b>
+                            </nuxt-link>
                             <button-inline :to="{ name: 'blog', query: { category: category.slug } }">
                                 Plus d'articles
                             </button-inline>
                         </div>
-                        <div class="row fx-wrap">
-                            <div class="col-4" v-for="article in category.articles.slice(0, 3)" :key="article.id">
+
+                        <simple-slider>
+                            <div class="col-4" v-for="article in category.articles" :key="article.id">
                                 <article-block
                                     :title="article.title"
                                     :category="category"
@@ -65,7 +79,7 @@
                                     class="article-block"
                                 />
                             </div>
-                        </div>
+                        </simple-slider>
                     </div>
                 </div>
             </div>
@@ -77,17 +91,18 @@
 import ArticleBlock from '@/components/articles/ArticleBlock'
 import ArticleFeatured from '@/components/articles/ArticleFeatured'
 import ArticleLine from '@/components/articles/ArticleLine'
+import SimpleSlider from '@/components/interactive/SimpleSlider'
 
 export default {
     name: 'HomePage',
-    components: { ArticleBlock, ArticleFeatured, ArticleLine },
+    components: { SimpleSlider, ArticleBlock, ArticleFeatured, ArticleLine },
     async fetch () {
         await this.$store.dispatch('articles/fetch')
         await this.$store.dispatch('article-categories/fetch')
     },
     computed: {
         featured () {
-            return this.articles[0] ? this.articles[0] : false
+            return this.popular[0] ? this.popular[0] : false
         },
         articles () {
             return this.$store.state.articles.collection

@@ -27,9 +27,6 @@ export default {
         context: { default: false },
         node: { default: false }
     },
-    mounted () {
-        
-    },
     methods: {
         onHover (v) {
             if (this.$props.context || this.$props.node.attrs.context) {

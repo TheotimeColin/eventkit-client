@@ -60,26 +60,22 @@
                                     action="article-categories/fetch"
                                     v-model="article.categoryId"
                                 />
-
-                                <button-base class="ml-5" type="button" @click="state.createCategory = !state.createCategory">
-                                    Créer
-                                </button-base>
                             </div>
 
-                            <div class="Form_row" v-if="state.createCategory">
-                                <form @submit="onCreateCategory">
-                                    <div class="Form_row">
-                                        <input type="text" placeholder="Titre" v-model="newCategory.title">
+                            <p class="mt-20 mb-10">Articles liés :</p>
+                            
+                            <div class="Form_row">
+                                <div class="row-none" v-for="link in linked" :key="link._id">
+                                    <div class="col-9">
+                                        <select-search
+                                            action="articles/fetch"
+                                            v-model="link.article._id"
+                                        />
                                     </div>
-
-                                    <div class="Form_row">
-                                        <input type="text" placeholder="Sous-titre" v-model="newCategory.subtitle">
+                                    <div class="col-3">
+                                        <input type="number" placeholder="0" v-model="link.boost">
                                     </div>
-
-                                    <button-base type="submit">
-                                        Créer catégorie
-                                    </button-base>
-                                </form>
+                                </div>
                             </div>
                         </div>
 
@@ -126,6 +122,8 @@ export default {
                 ...search,
                 categoryId: search.category ? search.category._id : ''
             }
+
+            this.$data.linked = this.$data.article.linked.slice()
         }
         
         this.$data.state.loading = false
@@ -134,8 +132,7 @@ export default {
         state: {
             loading: true,
             selectCover: false,
-            selectThumbnail: false,
-            createCategory: false
+            selectThumbnail: false
         },
         stats: {
             words: 0,
@@ -148,16 +145,16 @@ export default {
             excerpt: '',
             category: null,
             categoryId: '',
+            linked: [],
             cover: null,
             thumbnail: null,
             publishedDate: null,
             modifiedDate: null,
             readTime: 0
         },
-        newCategory: {
-            title: '',
-            subtitle: ''
-        }
+        linked: [
+            { article: { _id: '' }, boost: 0 }
+        ]
     }),
     computed: {
         publishedDate () {
@@ -169,12 +166,24 @@ export default {
             return `${date.fromNow()}`
         }
     },
+    watch: {
+        linked: {
+            deep: true,
+            immediate: true,
+            handler (v) {
+                if (v.length == 0 || v[v.length - 1].article._id != '') this.$data.linked.push({ article: { _id: '' }, boost: 0 })
+            }
+        }
+    },
     methods: {
         async onSubmit (e) {
             e.preventDefault()
 
             const response = await this.$store.dispatch('articles/post', {
-                data: this.$data.article
+                data: {
+                    ...this.$data.article,
+                    linked: this.$data.linked.filter(a => a.article._id !== '')
+                }
             })
 
             this.$data.article = {
@@ -192,16 +201,6 @@ export default {
         },
         onCoverSelect () {
             this.$data.state.selectCover = true
-        },
-        async onCreateCategory (e) {
-            e.preventDefault()
-
-            const response = await this.$store.dispatch('article-categories/post', {
-                data: this.$data.newCategory
-            })
-
-            this.$data.article.category = response
-            this.$data.state.createCategory = false
         }
     }
 }

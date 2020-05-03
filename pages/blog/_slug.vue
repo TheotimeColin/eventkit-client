@@ -1,7 +1,7 @@
 <template>
     <div class="ArticlePage Page">
         <div class="Page_content" v-if="article">
-            <article>
+            <article class="pb-150">
                 <header class="ArticlePage_header">
                     <div class="ArticlePage_cover">
                         <img :src="article.cover">
@@ -39,12 +39,33 @@
                 <div class="ArticlePage_body TextBody" v-html="article.content" v-if="!editor"></div>
                 <editor-content class="ArticlePage_body TextBody" :editor="editor" ref="text" v-if="editor" />
             </article>
+
+            <div class="pv-100 bg-bg-weak" v-if="linkedArticles.length > 0">
+                <div class="Wrapper">
+                    <p class="ft-title-2xl mb-60">
+                        <b>Encore un peu de lecture ?</b>
+                    </p>
+
+                    <div class="row">
+                        <div class="col-4" v-for="link in linkedArticles" :key="link._id">
+                            <article-block
+                                :title="link.article.title"
+                                :excerpt="link.article.excerpt"
+                                :slug="link.article.slug"
+                                :read-time="link.article.readTime"
+                                :thumbnail="link.article.thumbnail"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import ArticleAuthor from '@/components/articles/ArticleAuthor'
+import ArticleBlock from '@/components/articles/ArticleBlock'
 import LinkBase from '@/components/base/LinkBase'
 import Tag from '@/components/utils/Tag'
 import { Editor, EditorContent } from 'tiptap'
@@ -55,7 +76,7 @@ import dayjs from 'dayjs'
 
 export default {
     name: 'ArticlePage',
-    components: { EditorContent, ArticleAuthor, LinkBase, Tag },
+    components: { EditorContent, ArticleAuthor, ArticleBlock, LinkBase, Tag },
     async fetch () {
         const search = await this.$store.dispatch('articles/get', {
             query: { slug: this.$route.params.slug, hitCount: true }
@@ -69,7 +90,8 @@ export default {
             loaded: false
         },
         article: null,
-        editor: null
+        editor: null,
+        linkedArticles: []
     }),
     head () {
         if (!this.article) return
@@ -96,6 +118,11 @@ export default {
             handler (v) {
                 if (this.$data.editor) this.$data.editor.setContent(v)
             }
+        },
+        ['article.linked']: {
+            deep: true,
+            immediate: true,
+            handler (v) { this.onGenerateSimilar(v) }
         }
     },
     mounted () {
@@ -110,6 +137,41 @@ export default {
             return `${date.format('D MMM YYYY')} (mis à jour ${date.fromNow()})`
         }
     },
+    methods: {
+        
+        async onGenerateSimilar (links) {
+            if (!links) return 
+
+            let results = []
+
+            links = await Promise.all(links.map(async link => {
+                let article = await this.$store.dispatch('articles/get', {
+                    query: { id: link.article.id }
+                })
+
+                return {
+                    ...link,
+                    article: article
+                }
+            }))
+
+            let pool = []
+            links.forEach(link => {
+                for (let i = 0; i < link.boost + 1; i++) {
+                    pool.push(link)
+                }
+            })
+
+            while (pool.length > 0 && results.length < 3) {
+                let selected = pool[Math.floor(Math.random() * pool.length)]
+                pool = pool.filter(link => link._id != selected._id)
+                
+                results.push(selected)
+            }
+
+            this.$data.linkedArticles = results
+        } 
+    }
     
 }
 </script>

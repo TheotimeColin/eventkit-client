@@ -25,7 +25,8 @@ $gutters: (
     "l": 30,
     "m": 20,
     "s": 10,
-    "xs": 5
+    "xs": 5,
+    "none": 0
 );
 
 $colors: (
@@ -35,7 +36,7 @@ $colors: (
     "ft-strong": #2e46ef,
     "ft-light": #ffffff,
 
-    "bg": #EDEFFD,
+    "bg": #e8e4ff,
     "bg-light": #ffffff,
     "bg-weak": #deebff,
     "bg-xweak": #f8f9ff,
@@ -67,8 +68,8 @@ $fonts: (
     "ft-title": (
         "name": "'Merriweather', serif",
         "sizes": (
-            "xs": "12px/1.4",
-            "s": "17px/1.5",
+            "xs": "15px/1.4",
+            "s": "16px/1.5",
             "m": "18px/1.6",
             "l": "18px/1.6",
             "xl": "22px/1.8",
