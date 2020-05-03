@@ -19,7 +19,28 @@ export default {
             let formData = new FormData()
 
             if (params.folder) formData.append('folder', params.folder)
-            params.files.forEach(file => formData.append('files', file.data))
+            params.files.forEach(file => {
+                formData.append('files', file.data.file)
+
+                delete file.data.file
+
+                Object.keys(file.data).forEach(key => {
+                    let data = file.data[key]
+
+                    if (key == 'sizes') {
+                        data.forEach(size => {
+                            Object.keys(size).forEach(sizeKey => {
+                                let sizeData = size[sizeKey]
+                                formData.append(`file[${file.id}][${key}][${size.type}][${sizeKey}]`, sizeData)
+                            })
+                            
+                        })
+                    } else {
+                        formData.append(`file[${file.id}][${key}]`, data)
+                    }
+                    
+                })
+            })
 
             const response = await this.$axios.$post(`/files`, formData)
             return response.files

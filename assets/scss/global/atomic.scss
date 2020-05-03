@@ -76,6 +76,7 @@
     }
 
     .width-100#{$name} { width: 100%; }
+    .width-auto#{$name} { width: auto; }
 
     /* BORDERS */
     .b-top#{$name} { border-top: 1px solid var(--color-border); }

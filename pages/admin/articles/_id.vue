@@ -5,20 +5,22 @@
                 id="cover"
                 :is-active="state.selectCover"
                 @done="state.selectCover = false"
-                v-model="article.cover"
+                :value="article.cover ? article.cover._id : undefined"
+                @input="(v) => article.cover = v"
             />
 
             <file-loader
                 id="thumbnail"
                 :is-active="state.selectThumbnail"
                 @done="state.selectThumbnail = false"
-                v-model="article.thumbnail"
+                :value="article.thumbnail ? article.thumbnail._id : undefined"
+                @input="(v) => article.thumbnail = v"
             />
 
             <div class="Wrapper">
                 <form id="mainForm" class="Form row-s" @submit="onSubmit" ref="form">
                     <div class="col-8 mt-20">
-                        <div class="Form_row cover" :style="{ 'backgroundImage': `url(${article.cover})` }">
+                        <div class="Form_row cover" :style="{ 'backgroundImage': `url(${article.cover.src})` }">
                             <div class="text-right">
                                 <button-base type="button" @click="state.selectCover = true">
                                     Sélectionner image de couverture
@@ -156,8 +158,8 @@ export default {
             category: null,
             categoryId: '',
             linked: [],
-            cover: null,
-            thumbnail: null,
+            cover: { _id: '', src: '' },
+            thumbnail: { _id: '', src: '' },
             publishedDate: null,
             modifiedDate: null,
             readTime: 0
@@ -192,6 +194,8 @@ export default {
             const response = await this.$store.dispatch('articles/post', {
                 data: {
                     ...this.$data.article,
+                    cover: this.$data.article.cover._id,
+                    thumbnail: this.$data.article.thumbnail._id,
                     linked: this.$data.linked.filter(a => a.article._id !== '')
                 }
             })

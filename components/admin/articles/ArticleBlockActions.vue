@@ -1,7 +1,7 @@
 <template>
     <div class="ArticleBlock ArticleBlock--actions">
         <div class="ArticleBlock_image">
-            <img :src="article.thumbnail" v-if="article.thumbnail">
+            <img :src="article.thumbnail.src" :alt="article.thumbnail.alt" v-if="article.thumbnail">
 
             <p class="Tag ArticleBlock_read">
                 {{ article.readTime }} min.

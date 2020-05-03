@@ -4,7 +4,7 @@
         :class="{ ...$modifiers }"
         :to="{ name: 'blog-slug', params: { slug, id } }">
         <div class="ArticleBlock_image">
-            <img :src="thumbnail" :alt="title" v-if="thumbnail" />
+            <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail" />
 
             <div class="ArticleBlock_tags">
                 <Tag :modifiers="['s']" :title="category.title" :id="category.id" v-if="category" />
@@ -38,7 +38,7 @@ export default {
         excerpt: { type: String },
         category: { type: Object },
         readTime: { type: Number },
-        thumbnail: { type: String },
+        thumbnail: { type: Object },
         excerptLength: { type: Number, default: 85 }
     },
     computed: {

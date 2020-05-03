@@ -6,7 +6,7 @@
         :to="{ name: 'blog-slug', params: { slug, id } }"
     >
         <div class="CategoryBlock_image">
-            <img :src="thumbnail" :alt="title" v-if="thumbnail">
+            <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail">
         </div>
         <div class="CategoryBlock_content">
             <div class="CategoryBlock_title">{{ title }}</div>
@@ -31,7 +31,7 @@ export default {
         checked: { type: Boolean, default: false },
         title: { type: String },
         subtitle: { type: String },
-        thumbnail: { type: String },
+        thumbnail: { type: Object },
     }
 }
 </script>

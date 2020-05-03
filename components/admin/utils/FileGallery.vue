@@ -7,10 +7,10 @@
                         class="FileGallery_name"
                         v-for="size in item.sizes"
                         :class="{ 'is-select': size.isSelected }"
-                        :key="size.id"
+                        :key="size.type"
                         @click="onSelect(item, size)"
                     >
-                        {{ size.name }}
+                        {{ size.type }}
                     </div>
 
                     <img :src="item.sizes[0].src">

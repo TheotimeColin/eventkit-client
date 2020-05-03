@@ -72,7 +72,7 @@ export default {
             this.$emit('done')
         },
         onSubmit () {
-            this.$emit('input', this.$data.selected.length == 1 ? this.$data.selected[0].src : this.$data.selected)
+            this.$emit('input', this.$data.selected.length == 1 ? this.$data.selected[0] : this.$data.selected)
             this.onDone()
         },
         onUpload () {

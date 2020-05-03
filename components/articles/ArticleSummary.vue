@@ -6,7 +6,7 @@
         @mouseleave.native="state.hover = false"
     >
         <div class="ArticleSummary_image">
-            <img :src="thumbnail" :alt="title" v-if="thumbnail">
+            <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail">
             
             <div class="ArticleSummary_tags">
                 <p class="Tag Tag--s" v-if="readTime">
@@ -42,7 +42,7 @@ export default {
         publishedDate: { type: String },
         excerpt: { type: String },
         readTime: { type: Number },
-        thumbnail: { type: String },
+        thumbnail: { type: Object },
         excerptLength: { type: Number, default: 250 }
     },
     data: () => ({

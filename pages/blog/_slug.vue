@@ -3,8 +3,8 @@
         <div class="Page_content" v-if="article">
             <article class="pb-150">
                 <header class="ArticlePage_header">
-                    <div class="ArticlePage_cover">
-                        <img :src="article.cover">
+                    <div class="ArticlePage_cover" v-if="article.cover">
+                        <img :src="article.cover.src" :alt="article.cover.alt">
                     </div>
                     
                     <div class="ArticlePage_titles">
@@ -102,12 +102,12 @@ export default {
             meta: [
                 { hid: 'description', name: 'description', content: this.article.excerpt },
                 { property: 'og:description', content: this.article.excerpt },
-                { property: 'og:image', content: this.article.cover },
+                { property: 'og:image', content: this.article.cover.src },
                 { property: 'og:type', content: 'article' },
                 { property: 'og:article:published_time', content: this.article.publishedDate },
                 { property: 'og:article:modified_time', content: this.article.modifiedDate },
                 { property: 'og:article:author', content: 'Théotime Colin' },
-                { property: 'og:article:section', content: this.article.category.title }
+                { property: 'og:article:section', content: this.article.category ? this.article.category.title : undefined }
             ]
         } : false
     },

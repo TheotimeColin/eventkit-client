@@ -25,7 +25,7 @@
                         </p>
                     </template>
                     
-                    <div class="cover" :style="{ backgroundImage: `url(${category.thumbnail})` }">
+                    <div class="cover" :style="{ backgroundImage: `url(${category.thumbnail.src})` }">
                         
                         <button-base :modifiers="['xs']" @click="state.thumbnail = true">
                             Sélectionner image

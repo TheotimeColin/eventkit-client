@@ -16,7 +16,7 @@
     background-color: var(--color-bg-weak);
 
     img {
-        @include img-cover(102);
+        @include img-cover(101);
         transform-origin: bottom;
         transform: scale(0.99);
         transition: transform 500ms ease-out;
