@@ -21,8 +21,12 @@ export default {
         }
     },
     actions: {
-        async fetch ({ commit }) {
-            const response = await this.$axios.$get(`/articles`)
+        async fetch ({ commit }, params = { query: {} }) {
+            let query = ''
+            if (params) query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+                
+            const response = await this.$axios.$get(`/articles?${query}`)
+
             commit('refresh', response.articles)
 
             return response.articles
@@ -34,8 +38,10 @@ export default {
                 let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
                 const response = await this.$axios.$get(`/articles?${query}`)
                 
-                commit('update', response.articles[0])
+                let result = response.articles[0]
+                if (!result) return false
 
+                commit('update', response.articles[0])
                 return response.articles[0]
             }
         },

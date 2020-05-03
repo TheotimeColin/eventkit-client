@@ -14,6 +14,11 @@
                     </div>
 
                     <img :src="item.sizes[0].src">
+
+                    <i class="FileGallery_delete fa fa-times" @click="$store.commit('utils/confirmPrompt', {
+                        active: true,
+                        onConfirm: () => onDelete(item._id)
+                    })"></i>
                 </div>
             </div>
         </div>
@@ -80,6 +85,13 @@ export default {
             })
 
             this.$emit('select', this.selectedItems)
+        },
+        async onDelete (item) {
+            await this.$store.dispatch('files/delete', {
+                data: { id: item }
+            })
+
+            this.onFetch()
         }
     }
 }

@@ -50,6 +50,10 @@
                 }
             }
         }
+        
+        .FileGallery_delete {
+            opacity: 1;
+        }
     }
 }
 
@@ -72,6 +76,16 @@
         color: var(--color-ft-light);
         background-color: var(--color-blue);
     }
+}
+
+.FileGallery_delete {
+    position: absolute;
+    z-index: 5;
+    top: 10px;
+    right: 10px;
+    color: var(--color-error);
+    cursor: pointer;
+    opacity: 0;
 }
 
 /* STATES */

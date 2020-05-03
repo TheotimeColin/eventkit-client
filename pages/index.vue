@@ -114,7 +114,7 @@ export default {
         categories () {
             return this.$store.state['article-categories'].collection.map(category => ({
                 ...category,
-                articles: category.articles.map(article => this.$store.state.articles.items[article.id])
+                articles: category.articles.map(article => this.$store.state.articles.items[article.id]).filter(a => a)
             }))
         }
     }

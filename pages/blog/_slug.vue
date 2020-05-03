@@ -155,6 +155,8 @@ export default {
             let results = []
 
             links = await Promise.all(links.map(async link => {
+                if (!link.article.published) return false
+
                 let article = await this.$store.dispatch('articles/get', {
                     query: { id: link.article.id }
                 })
@@ -164,6 +166,8 @@ export default {
                     article: article
                 }
             }))
+
+            links = links.filter(v => v)
 
             let pool = []
             links.forEach(link => {

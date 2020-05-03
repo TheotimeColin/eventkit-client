@@ -28,7 +28,9 @@ export default {
     layout: 'admin',
     components: { ArticleBlockActions },
     async fetch () {
-        await this.$store.dispatch('articles/fetch')
+        await this.$store.dispatch('articles/fetch', {
+            query: { published: false }
+        })
     },
     data: () => ({
         featured: null
@@ -44,7 +46,9 @@ export default {
                 data: { id }
             })
 
-            this.$store.dispatch('articles/fetch')
+            this.$store.dispatch('articles/fetch', {
+                query: { published: false }
+            })
         }
     }
 }

@@ -78,6 +78,8 @@
                                         <div class="col-9">
                                             <select-search
                                                 action="articles/fetch"
+                                                :unset="true"
+                                                :params="{ query: { published: false }}"
                                                 v-model="link.article._id"
                                             />
                                         </div>
@@ -103,6 +105,7 @@
             </div>
 
             <div class="bottom-bar">
+                <input type="checkbox" v-model="article.published">
                 <button-base type="submit" form="mainForm">
                     {{ article.id ? 'Sauvegarder' : 'Créer' }}
                 </button-base>
@@ -126,7 +129,7 @@ export default {
     async fetch () {
         if (this.$route.params.id && this.$route.params.id !== 'new') {
             const search = await this.$store.dispatch('articles/get', {
-                query: { id: this.$route.params.id }
+                query: { id: this.$route.params.id, published: false }
             })
 
             this.$data.article = {
@@ -139,6 +142,12 @@ export default {
         }
         
         this.$data.state.loading = false
+    },
+    
+    head () {
+        return {
+            title: 'Admin - ' + (this.$data.article.title ? this.$data.article.title : 'Nouvel article') 
+        }
     },
     data: () => ({
         state: {

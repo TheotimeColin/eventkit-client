@@ -44,6 +44,17 @@ export default {
 
             const response = await this.$axios.$post(`/files`, formData)
             return response.files
+        },
+        async delete ({ commit }, params) {
+            const response = await this.$axios.$delete(`/files`, {
+                data: params.data
+            })
+
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
+
+            return response.status
         }
     }
 }

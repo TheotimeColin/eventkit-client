@@ -17,6 +17,13 @@
         <div class="SelectSearch_results" ref="list">
             <div
                 class="SelectSearch_result"
+                @click="onSelectValue({ value: '', full: null })"
+                v-if="unset"
+            >
+                Supprimer la sélection
+            </div>
+            <div
+                class="SelectSearch_result"
                 v-for="option in Object.keys(searchOptions)"
                 :class="{ 'is-selected': current && searchOptions[option].value == current.value }"
                 :value="searchOptions[option].value"
@@ -33,7 +40,9 @@ export default {
     props: {
         value: {},
         valueFull: { type: Boolean, default: false },
+        unset: { type: Boolean, default: false },
         action: { type: String, default: '' },
+        params: { default: null },
         placeholder: { type: String, default: '' },
         valueKey: { type: String, default: 'value' },
         labelKey: { type: String, default: 'label' },
@@ -86,7 +95,7 @@ export default {
     },
     methods: {
         async fetchOptions () {
-            let results = await this.$store.dispatch(this.$props.action)
+            let results = await this.$store.dispatch(this.$props.action, this.$props.params)
 
             let options = {}
             results.forEach(result => {
