@@ -94,9 +94,10 @@ export default {
         linkedArticles: []
     }),
     head () {
-        if (!this.article) return
-
-        return {
+        return this.article ? {
+            htmlAttrs: {
+                prefix: 'og: http://ogp.me/ns#'
+            },
             title: this.article.title,
             meta: [
                 { hid: 'description', name: 'description', content: this.article.excerpt },
@@ -108,7 +109,7 @@ export default {
                 { property: 'og:article:author', content: 'Théotime Colin' },
                 { property: 'og:article:section', content: this.article.category.title }
             ]
-        }
+        } : false
     },
     watch: {
         article: {
