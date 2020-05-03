@@ -6,6 +6,7 @@
                     <div class="Form_row">
                         <select-search
                             action="articles/fetch"
+                            :params="{ refresh: false }"
                             :value-full="true"
                             :value="selected"
                             @input="onSelect"

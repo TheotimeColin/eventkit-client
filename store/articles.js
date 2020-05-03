@@ -16,6 +16,8 @@ export default {
             let items = {}
             value.forEach(value => items[value.id] = value)
 
+            console.log('refresh')
+
             state.collection = Object.keys(items).map(key => items[key])
             state.items = items
         }
@@ -27,16 +29,16 @@ export default {
                 
             const response = await this.$axios.$get(`/articles?${query}`)
 
-            commit('refresh', response.articles)
+            if (!params || params.refresh !== false) commit('refresh', response.articles)
 
             return response.articles
         },
         async get ({ state, commit }, params) {
-            if (state.items[params.query.id]) {
+            if (!params.refetch && state.items[params.query.id]) {
                 return JSON.parse(JSON.stringify(state.items[params.query.id]))
             } else {
                 let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
-                const response = await this.$axios.$get(`/articles?${query}`)
+                const response = await this.$axios.$get(`/articles?${encodeURI(query)}`)
                 
                 let result = response.articles[0]
                 if (!result) return false

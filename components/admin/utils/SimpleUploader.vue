@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="SimpleUploader_config">
-                    <input class="Form_row" type="text" v-model="item.data.name" placeholder="Slug">
+                    <input class="Form_row" type="text" v-model="item.data.name" placeholder="Slug" @blur="onSlugify(item.data)">
                     <input class="Form_row" type="text" v-model="item.data.alt" placeholder="Attribut alt">
 
                     <div class="Form_row d-flex fx-grow">
@@ -60,6 +60,11 @@ export default {
         sizes: SIZE_CONFIG
     }),
     methods: {
+        onSlugify (item) {
+            if (item.name != slugify(item.name, { strict: true, lower: true })) {
+                item.name = slugify(item.name, { strict: true, lower: true })
+            }
+        },
         onAdd (e) {
             let input = e.target
             let files = Object.keys(input.files).map(key => input.files[key])

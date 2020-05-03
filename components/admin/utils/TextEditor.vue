@@ -26,17 +26,26 @@
 
                     <div class="TextEditor_separator"></div>
 
-                    <button class="TextEditor_button" type="button" :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
+                    <button class="TextEditor_button" type="button" @click="commands.bold">
                         <i class="fa fa-bold"></i>
                     </button>
-                    <button class="TextEditor_button" type="button" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })">
+                    <button class="TextEditor_button" type="button" @click="commands.italic">
+                        <i class="fa fa-italic"></i>
+                    </button>
+                    <button class="TextEditor_button" type="button" @click="commands.heading({ level: 2 })">
                         <i class="fa fa-heading"></i><span class="ft-2xs">2</span>
                     </button>
-                    <button class="TextEditor_button" type="button" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })">
+                    <button class="TextEditor_button" type="button" @click="commands.heading({ level: 3 })">
                         <i class="fa fa-heading"></i><span class="ft-2xs">3</span>
                     </button>
-                    <button class="TextEditor_button" type="button" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote()">
+                    <button class="TextEditor_button" type="button" @click="commands.blockquote()">
                         <i class="fa fa-quote-right"></i>
+                    </button>
+                    <button class="TextEditor_button" type="button" @click="commands.bullet_list()">
+                        <i class="fa fa-list-ul"></i>
+                    </button>
+                    <button class="TextEditor_button" type="button" @click="commands.ordered_list()">
+                        <i class="fa fa-list-ol"></i>
                     </button>
                     
                     <div class="TextEditor_separator"></div>
@@ -44,18 +53,18 @@
                     <button class="TextEditor_button" type="button" @click="state.fileSelect = true">
                         <i class="fa fa-image"></i>
                     </button>
-                    <!-- <button class="TextEditor_button" type="button">
-                        <i class="fa fa-link"></i>
-                    </button> -->
                     <button class="TextEditor_button" type="button" @click="state.internalSelect = true">
                         <i class="fa fa-link"></i>
                     </button>
+                    <button class="TextEditor_button" type="button">
+                        <i class="fa fa-external-link-alt"></i>
+                    </button>
                 </div>
                 <div class="TextEditor_second">
-                    <!-- <div class="d-flex">
+                    <div class="d-flex">
                         <input type="text" placeholder="Lien" ref="link">
                         <button type="button" class="Button" @click="onInsertLink(commands.link)">Insérer</button>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </editor-menu-bar>
@@ -69,7 +78,7 @@ import FileLoader from '@/components/admin/utils/FileLoader'
 import InternalLoader from '@/components/admin/utils/InternalLoader'
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Heading, Bold, Blockquote, Image, History, Link } from 'tiptap-extensions'
+import { Heading, Bold, Blockquote, Image, History, Link, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
 
 export default {
@@ -88,7 +97,16 @@ export default {
     }),
     async mounted () {
         this.$data.editor = new Editor({
-            extensions: [ new Heading({ levels: [1, 2, 3] }), new Bold(), new Internal(), new Blockquote(), new Image(), new History(), new Link() ],
+            extensions: [
+                new Heading({ levels: [2, 3] }),
+                new Bold(), new Italic(),
+                new OrderedList(), new BulletList(), new ListItem(),
+                new Internal(),
+                new Blockquote(),
+                new Image(),
+                new History(),
+                new Link()
+            ],
             content: this.$props.value,
         })
 
@@ -102,7 +120,7 @@ export default {
         },
         onInsertImage (command, image) {
             this.$data.state.fileSelect = false
-            command({ src: image })
+            command({ src: image.src })
         },
         onInsertLink (command) {
             command({ href: this.$refs.link.value })

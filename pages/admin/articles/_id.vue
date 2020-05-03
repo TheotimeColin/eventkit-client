@@ -30,9 +30,20 @@
                                 </button-base>
                             </div>
                         </div>
+
+                        <div class="Form_row row" v-if="article.notes">
+                            <textarea
+                                v-for="note in article.notes"
+                                rows="1"
+                                type="text"
+                                :value="note.text"
+                                @input="(e) => onNoteMutate(e, note)"
+                                :key="note.id"
+                            ></textarea>
+                        </div>
                         
                         <div class="Form_row">
-                            <textarea class="ft-title-2xl ft-bold" type="text" placeholder="Titre" v-model="article.title"></textarea>
+                            <textarea class="ft-title-2xl ft-bold" placeholder="Titre" v-model="article.title"></textarea>
                         </div>
 
                         <div class="Form_row">
@@ -79,7 +90,7 @@
                                             <select-search
                                                 action="articles/fetch"
                                                 :unset="true"
-                                                :params="{ query: { published: false }}"
+                                                :params="{ refresh: false, query: { published: false }}"
                                                 v-model="link.article._id"
                                             />
                                         </div>
@@ -129,13 +140,18 @@ export default {
     async fetch () {
         if (this.$route.params.id && this.$route.params.id !== 'new') {
             const search = await this.$store.dispatch('articles/get', {
-                query: { id: this.$route.params.id, published: false }
+                refetch: true,
+                query: { id: this.$route.params.id, published: false, notes: true }
             })
 
             this.$data.article = {
                 ...this.$data.article,
                 ...search,
-                categoryId: search.category ? search.category._id : ''
+                categoryId: search.category ? search.category._id : '',
+                notes: search.notes.length >= 2 ? search.notes : [
+                    { id: 0, text: '' },
+                    { id: 1, text: '' },
+                ]
             }
 
             this.$data.linked = this.$data.article.linked.slice()
@@ -171,7 +187,8 @@ export default {
             thumbnail: { _id: '', src: '' },
             publishedDate: null,
             modifiedDate: null,
-            readTime: 0
+            readTime: 0,
+            notes: []
         },
         linked: [
             { article: { _id: '' }, boost: 0 }
@@ -197,6 +214,12 @@ export default {
         }
     },
     methods: {
+        onNoteMutate (e, note) {
+            this.$data.article.notes = this.$data.article.notes.map(n => ({
+                ...n,
+                text: n.id == note.id ? e.target.value : n.text
+            }))
+        },
         async onSubmit (e) {
             e.preventDefault()
 

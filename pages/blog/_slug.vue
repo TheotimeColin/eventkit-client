@@ -69,7 +69,7 @@ import ArticleBlock from '@/components/articles/ArticleBlock'
 import LinkBase from '@/components/base/LinkBase'
 import Tag from '@/components/utils/Tag'
 import { Editor, EditorContent } from 'tiptap'
-import { Heading, Bold, Blockquote, Image, History, Link } from 'tiptap-extensions'
+import { Heading, Bold, Blockquote, Image, Link, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
 
 import dayjs from 'dayjs'
@@ -138,7 +138,15 @@ export default {
     mounted () {
         this.$data.editor = new Editor({
             editable: false,
-            extensions: [ new Heading({ levels: [1, 2, 3] }), new Bold(), new Internal(), new Blockquote(), new Image(), new History(), new Link() ],
+            extensions: [
+                new Heading({ levels: [2, 3] }),
+                new Bold(), new Italic(),
+                new OrderedList(), new BulletList(), new ListItem(),
+                new Internal(),
+                new Blockquote(),
+                new Image(),
+                new Link()
+            ],
         })
     },
     computed: {
