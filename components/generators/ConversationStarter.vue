@@ -3,11 +3,11 @@
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">starter n°</p>
-                <p class="ConversationStarter_id">{{ id }}</p>
+                <p class="ConversationStarter_id">{{ data.id }}</p>
             </div>
 
-            <p class="ConversationStarter_main" :class="{ 'is-empty': main == '' }">
-                {{ main ? main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
+            <p class="ConversationStarter_main" :class="{ 'is-empty': data.main == '' }">
+                {{ data.main ? data.main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
             </p>
             
             <p class="ConversationStarter_copyright">Créé sur eventkit.social</p>
@@ -20,8 +20,7 @@ export default {
     name: 'ConversationStarter',
     props: {
         config: {},
-        main: { type: String, default: '' },
-        id: { type: Number, default: 0 }
+        data: {}
     },
     computed: {
         classes () {
@@ -41,6 +40,10 @@ export default {
                 let choice = this.$props.config.theme.choices[key]
                 if (choice.var) style[`--${choice.var}`] = choice.value
             })
+
+            style['--width'] = this.$props.config.theme.choices.size.value.x + 'mm'
+            style['--height'] = this.$props.config.theme.choices.size.value.y + 'mm'
+            
 
             return style 
         }

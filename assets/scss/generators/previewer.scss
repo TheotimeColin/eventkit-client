@@ -1,5 +1,6 @@
 .Previewer {
     position: relative;
+    overflow: auto;
     width: 100%;
     height: 100%;
     background-image: linear-gradient(45deg, #dadada 25%, transparent 25%),
@@ -15,4 +16,27 @@
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
+}
+
+.Previewer_page {
+    margin: 40px auto;
+    width: calc(210mm * var(--page-scale, 1));
+    height: calc(297mm * var(--page-scale, 1));
+    padding: calc(15mm * var(--page-scale, 1));
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+    font-size: 0;
+    box-shadow: 0 5px 8px 2px rgba(0, 0, 0, 0.2);
+
+    & > * {
+        --scale: var(--page-scale) !important;
+        display: inline-block;
+        margin: 1px;
+        opacity: 1;
+        position: relative;
+    }
+}
+
+.Previewer.is-print {
+    background: lightgrey;
 }

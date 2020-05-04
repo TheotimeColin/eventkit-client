@@ -50,7 +50,10 @@ export default {
                     let value = this.$props.config
                     path.forEach(key => value = value[key])
 
-                    if (value != condition) disabled = true
+                    if (value != condition) {
+                        item.value = item.default
+                        disabled = true
+                    }
                 })
             }
 

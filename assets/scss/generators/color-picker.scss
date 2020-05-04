@@ -1,18 +1,47 @@
+.ColorPicker {
+    font-size: 0;
+}
+
 .ColorPicker_option {
     display: inline-block;
     width: 50px;
     height: 50px;
     border: 1px solid var(--color-border);
-    opacity: 0.5;
+    border-left: none;
     cursor: pointer;
-    transition: all 150ms ease;
+    position: relative;
+
+    &::after {
+        content: "";
+        @include absolute-fill;
+        opacity: 0.5;
+        background: var(--background);
+        background-size: cover;
+    }
+
+    &:first-child {
+        border: 1px solid var(--color-border);
+    }
 }
 
 .ColorPicker_option:hover,
 .ColorPicker_option.is-selected {
-    opacity: 1;
+    
+    &::after {
+        opacity: 1;
+    }
 }
 
-.ColorPicker_option.pink {
-    background-color: #ef476f;
+.ColorPicker_custom {
+
+    &.is-active .a-color-picker {
+        display: block;
+    }
+}
+
+.a-color-picker {
+    position: absolute;
+    left: 60px;
+    z-index: 5;
+    display: none;
 }

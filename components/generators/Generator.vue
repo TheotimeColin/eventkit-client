@@ -1,20 +1,29 @@
 <template>
     <div class="Generator">
         <div class="Generator_container">
-            <div class="Generator_configurator">
-                <configurator :config="config" @update="onUpdate" v-if="config" />
+            <div class="Generator_left">
+                <div class="Generator_overflow">
+                    <configurator :config="config" @update="onUpdate" v-if="config && currentStep.id == 'config'" />
+                </div>
+                <div class="Generator_footer">
+                    <button-base :disabled="step == 0" @click="previousStep">
+                        Étape précédente
+                    </button-base>
+
+                    <button-base @click="nextStep">
+                        Prochaine étape
+                    </button-base>
+                </div>
             </div>
             <div class="Generator_previewer">
-                <previewer :config="config" v-if="config" />
+                <div class="Generator_previewOptions">
+                    <button-base @click="state.print = !state.print">
+                        Mode page
+                    </button-base>
+                </div>
+                
+                <previewer :config="config" :active="0" :print="state.print" v-if="config" />
             </div>
-        </div>
-        <div class="Generator_footer">
-            <!-- <button-base @click.native="state.preview = !state.preview">
-                Preview mode
-            </button-base>
-            <button-base @click.native="onExport">
-                Format pdf
-            </button-base> -->
         </div>
     </div>
 </template>
@@ -30,10 +39,26 @@ export default {
         initConfig: { type: Object }
     },
     data: () => ({
-        config: null
+        state: {
+            print: true
+        },
+        steps: {
+            config: {
+                id: 'config',
+                active: true
+            },
+            data: {
+                id: 'data',
+                active: false
+            }
+        },
+        step: 0,
+        config: null,
     }),
     computed: {
-
+        currentStep () {
+            return this.$data.steps[Object.keys(this.$data.steps)[this.$data.step]]
+        }
     },
     watch: {
 
@@ -44,6 +69,12 @@ export default {
     methods: {
        onUpdate (config) {
            this.$data.config = config 
+       },
+       nextStep () {
+           this.$data.step += 1
+       },
+       previousStep () {
+           this.$data.step -= 1
        }
     }
 }

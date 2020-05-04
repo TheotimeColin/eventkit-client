@@ -1,12 +1,20 @@
 .ConversationStarter {
     --scale: 1;
     font-family: var(--font);
-    background-color: #ffffff;
-    color: black;
+    background: var(--background-color);
+    color: var(--color);
+    border-radius: calc(5mm * var(--scale));
+
+    height: calc(var(--height) * var(--scale));
+    width: calc(var(--width) * var(--scale));
 
     &::before {
         content: "";
         display: block;
+    }
+
+    &.colors-monochrome {
+        border: 1px solid lightgrey;
     }
 }
 
@@ -22,6 +30,7 @@
 
 .ConversationStarter_main {
     width: 100%;
+
     // &.is-empty {
     //     opacity: 0.25;
     // }
@@ -29,6 +38,7 @@
 
 .ConversationStarter_id {
     position: absolute;
+    opacity: 0.45;
     top: 50%;
     width: 100%;
     transform: translateY(-50%);
@@ -53,18 +63,7 @@
 
 /* THEMES */
 
-.ConversationStarter.size-square {
-    height: calc(65mm * var(--scale));
-    width: calc(65mm * var(--scale));
-}
-
-.ConversationStarter.size-rectangle {
-    height: calc(55mm * var(--scale));
-    width: calc(84mm * var(--scale));
-}
-
 .ConversationStarter.theme-default {
-    border-radius: calc(5mm * var(--scale));
 
     .ConversationStarter_main {
         font-size: calc(16px * var(--scale));
@@ -75,16 +74,14 @@
     .ConversationStarter_id {
         font-size: calc(45px * var(--scale));
         font-weight: bold;
-        letter-spacing: -10px;
-        text-indent: -10px;
+        letter-spacing: calc(-5px * var(--scale));
+        text-indent: calc(-5px * var(--scale));
         text-align: center;
-        color: lightgrey;
     }
     
     .ConversationStarter_name {
         font-size: calc(10px * var(--scale));
         font-weight: bold;
-        color: black;
         letter-spacing: 1px;
         font-weight: bold;
     }
@@ -94,25 +91,15 @@
         font-weight: bold;
     }
 
-    &.colors-colored {
-        background-color: #ef476f;
+    &.colors-monochrome {
 
         .ConversationStarter_id {
-            color: #ff7395;
-        }
-        
-        .ConversationStarter_name {
-            color: #ffffff;
-        }
-        
-        .ConversationStarter_copyright {
-
+            opacity: 0.25;
         }
     }
 }
 
 .ConversationStarter.theme-simple {
-    border-radius: 0;
 
     &::before {
         content: "";
@@ -136,9 +123,10 @@
         vertical-align: middle;
         width: auto;
         font-size: calc(10px * var(--scale));
+        opacity: 1;
         font-weight: bold;
         text-align: center;
-        color: black;
+        opacity: 1;
         position: relative;
     }
     
@@ -148,7 +136,6 @@
         width: auto;
         font-size: calc(10px * var(--scale));
         font-weight: bold;
-        color: black;
         letter-spacing: normal;
         font-weight: bold;
     }
