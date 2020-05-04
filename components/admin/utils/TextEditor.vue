@@ -1,6 +1,6 @@
 <template>
     <div class="TextEditor">
-        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands, isActive }">
+        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands }">
             <div>
                 <file-loader
                     id="image-select"
@@ -53,16 +53,19 @@
                     <button class="TextEditor_button" type="button" @click="state.fileSelect = true">
                         <i class="fa fa-image"></i>
                     </button>
-                    <button class="TextEditor_button" type="button" @click="state.internalSelect = true">
+                    <button class="TextEditor_button" type="button" @click="state.linkSelect = !state.linkSelect">
                         <i class="fa fa-link"></i>
                     </button>
-                    <button class="TextEditor_button" type="button">
+                    <button class="TextEditor_button" type="button" @click="state.internalSelect = true">
                         <i class="fa fa-external-link-alt"></i>
                     </button>
                 </div>
                 <div class="TextEditor_second">
-                    <div class="d-flex">
-                        <input type="text" placeholder="Lien" ref="link">
+                    <div class="d-flex" v-show="state.linkSelect">
+                        <input type="text" placeholder="Lien" v-model="link.href">
+                        <label class="fx-no-shrink">
+                            <input type="checkbox" v-model="link.blank">Nouvel onglet
+                        </label>
                         <button type="button" class="Button" @click="onInsertLink(commands.link)">Insérer</button>
                     </div>
                 </div>
@@ -78,8 +81,9 @@ import FileLoader from '@/components/admin/utils/FileLoader'
 import InternalLoader from '@/components/admin/utils/InternalLoader'
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import { Heading, Bold, Blockquote, Image, History, Link, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
+import { Heading, Bold, Blockquote, Image, History, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
+import Link from '@/plugins/tiptap/Link'
 
 export default {
     name: 'TextEditor',
@@ -91,9 +95,14 @@ export default {
     data: () => ({
         state: {
             fileSelect: false,
-            internalSelect: false
+            internalSelect: false,
+            linkSelect: false
         },
         editor: null,
+        link: {
+            href: '',
+            blank: true
+        }
     }),
     async mounted () {
         this.$data.editor = new Editor({
@@ -123,7 +132,7 @@ export default {
             command({ src: image.src })
         },
         onInsertLink (command) {
-            command({ href: this.$refs.link.value })
+            command(this.$data.link)
         },
         onInsertInternal (command, article) {
             command({
@@ -131,7 +140,7 @@ export default {
                 context: {
                     title: article.title,
                     description: article.excerpt,
-                    cover: article.thumbnail,
+                    cover: article.thumbnail.src,
                     href: '/blog/' + article.slug,
                 }
             })

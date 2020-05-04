@@ -6,14 +6,11 @@
                     <div class="Form_row">
                         <select-search
                             action="articles/fetch"
-                            :params="{ refresh: false }"
+                            :params="{ refresh: false, query: { published: false } }"
                             :value-full="true"
                             :value="selected"
                             @input="onSelect"
                         />
-                    </div>
-                    <div class="Form_row">
-                        <input type="text" v-show="selected" ref="title">
                     </div>
                 </form>
             </div>
@@ -44,7 +41,6 @@ export default {
     components: { PopinGeneric, SelectSearch },
     props: {
         id: { type: String },
-        value: { type: String, default: '' },
         isActive: { type: Boolean, default: false }
     },
     data: () => ({
@@ -56,16 +52,15 @@ export default {
     methods: {
         onSelect (selected) {
             this.$data.selected = selected
-            this.$refs.title.value = selected.title
         },
         onDone () {
             this.$emit('done')
         },
         onSubmit () {
             this.$emit('input', {
-                ...this.$data.selected,
-                text: this.$refs.title.value
+                ...this.$data.selected
             })
+
             this.onDone()
         }
     }

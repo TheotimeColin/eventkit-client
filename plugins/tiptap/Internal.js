@@ -18,16 +18,16 @@ export default class Internal extends Mark {
             },
             inclusive: false,
             parseDOM: [{
-                tag: 'a',
+                tag: 'a[data-context]',
                 getAttrs: dom => {
                     return {
                         href: dom.getAttribute('href'),
-                        context: JSON.parse(dom.getAttribute('context')),
+                        context: JSON.parse(dom.getAttribute('data-context')),
                     }
                 },
             }],
             toDOM: node => ['a', {
-                context: JSON.stringify(node.attrs.context).replace('&quot;', `'`),
+                ['data-context']: JSON.stringify(node.attrs.context).replace('&quot;', `'`),
                 href: node.attrs.href
             }, 0]
         }

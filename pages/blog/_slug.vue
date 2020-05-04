@@ -69,8 +69,9 @@ import ArticleBlock from '@/components/articles/ArticleBlock'
 import LinkBase from '@/components/base/LinkBase'
 import Tag from '@/components/utils/Tag'
 import { Editor, EditorContent } from 'tiptap'
-import { Heading, Bold, Blockquote, Image, Link, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
+import { Heading, Bold, Blockquote, Image, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
+import Link from '@/plugins/tiptap/Link'
 
 import dayjs from 'dayjs'
 
