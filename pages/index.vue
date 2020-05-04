@@ -26,7 +26,7 @@
                                     :ranking="i + 1"
                                     :thumbnail="article.cover"
                                     :title="article.title"
-                                    :read-time="featured.readTime"
+                                    :read-time="article.readTime"
                                     :id="article.id"
                                     :slug="article.slug"
                                     :key="article.id"
