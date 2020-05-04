@@ -33,6 +33,7 @@ export default {
             let positionBounds = [10, 30]
             let scaleBounds = [0.5, 1]
             let rotateBounds = [0, 40]
+            let transitionBounds = [480, 500]
 
             let positionX = Math.floor(Math.random()*2) == 1 ? 1 : -1
             let positionY = Math.floor(Math.random()*2) == 1 ? 1 : -1
@@ -42,6 +43,7 @@ export default {
                 '--y': Math.round((Math.random() * positionBounds[1]) + positionBounds[0]) * positionY + 'px',
                 '--scale': ((Math.random() * scaleBounds[1]) + scaleBounds[0]).toFixed(2),
                 '--rotation': Math.round((Math.random() * rotateBounds[1]) + rotateBounds[0]) * positionX + 'deg',
+                '--transition': Math.round((Math.random() * transitionBounds[1]) + transitionBounds[0]) + 'ms',
             }
 
             this.$nextTick(() => this.$data.state.start = true)
@@ -49,7 +51,7 @@ export default {
             setTimeout(() => {
                 this.$data.state.start = false
                 this.$emit('done')
-            }, 500)
+            }, transitionBounds[1])
         }
     }
 }

@@ -4,7 +4,7 @@
 }
 
 .EmojiParticle.is-start {
-    animation: particle 500ms linear;
+    animation: particle var(--transition) linear;
 }
 
 @keyframes particle {

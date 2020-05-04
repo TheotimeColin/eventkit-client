@@ -51,6 +51,7 @@
                         :count="reaction.count"
                         :key="reaction._id"
                         @click="$store.dispatch('articles/postReaction', { query: { id: reaction._id } })"
+                        @click-first="$store.dispatch('articles/postReaction', { query: { id: reaction._id, unique: true } })"
                     />
                 </div>
             </div>

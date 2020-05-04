@@ -15,6 +15,10 @@
         </div>
         <div class="ArticleBlock_stats">
             Vues : {{ article.hitCount }}
+
+            <div class="d-inline-block mh-10" v-for="reaction in article.reactions" :key="reaction._id">
+                {{ reaction.type.emoji }} {{ reaction.uniqueCount }}
+            </div>
         </div>
         <div class="ArticleBlock_actions">
             <p><nuxt-link :to="{ name: 'blog-slug', params: { slug: article.slug, id: article.id } }" target="_blank">Voir</nuxt-link></p>

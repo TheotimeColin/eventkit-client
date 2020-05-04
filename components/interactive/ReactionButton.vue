@@ -55,8 +55,13 @@ export default {
         onClick () {
             this.generateParticles()
             
-            this.$data.clicks += 1 
-            this.$emit('click')
+            this.$data.clicks += 1
+            
+            if (this.$data.clicks == 1) {
+                this.$emit('click-first')
+            } else {
+                this.$emit('click')
+            }
         },
         generateParticles () {
             let available = this.$data.particles.filter(p => !p.active).slice(0, 3)

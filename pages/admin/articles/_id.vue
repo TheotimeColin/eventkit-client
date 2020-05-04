@@ -105,9 +105,6 @@
                                         <div class="col-9">
                                             <b>Réactions</b>
                                         </div>
-                                        <div class="col-3">
-                                            <b>Boost</b>
-                                        </div>
                                     </div>
                                     <div class="row-none" v-for="reaction in reactions" :key="reaction.type._id">
                                         <div class="col-9">
@@ -119,7 +116,7 @@
                                             />
                                         </div>
                                         <div class="col-3">
-                                            <input type="number" placeholder="0" v-model="reaction.count">
+                                            <input class="text-center" type="text" placeholder="0" v-model="reaction.uniqueCount" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +125,7 @@
                             <article-block
                                 class="mt-20"
                                 :title="article.title"
-                                :id="article.id"
+                                :slug="article.slug"
                                 :read-time="article.readTime"
                                 :excerpt="article.excerpt"
                                 :thumbnail="article.thumbnail"
