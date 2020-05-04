@@ -1,0 +1,36 @@
+.Generator {
+    position: relative;
+    height: calc(100vh - var(--height));
+    margin-top: var(--height);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-bg-light);
+}
+
+.Generator_container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.Generator_previewer,
+.Generator_configurator {
+    width: 50%;
+    flex-shrink: 0;
+}
+
+.Generator_configurator {
+    border-right: 1px solid var(--color-border);
+}
+
+.Generator_footer {
+    height: 80px;
+    border-top: 1px solid var(--color-border-strong);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

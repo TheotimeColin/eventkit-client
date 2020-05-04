@@ -1,16 +1,18 @@
 <template>
-    <div class="Page Page--full">
-        <div class="Page_content">
-            <card-generator />
-        </div>
+    <div class="Page Page--full GeneratorPage">
+        <generator :init-config="config" />
     </div>
 </template>
 
 <script>
-import CardGenerator from '@/components/generators/CardGenerator'
+import Generator from '@/components/generators/Generator'
+import config from '@/config/conversation-starters'
 
 export default {
     name: 'ConversationStarters',
-    components: { CardGenerator }
+    components: { Generator },
+    data: () => ({
+        config: config
+    })
 }
 </script>

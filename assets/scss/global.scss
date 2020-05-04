@@ -7,7 +7,12 @@
     @import "./admin/index.scss";
 }
 
+.GeneratorPage {
+    @import "./generators/index.scss";
+}
+
 .Body,
-.Admin {
+.Admin,
+.GeneratorPage {
     @import "./global/atomic.scss";
 }
