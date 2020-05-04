@@ -40,6 +40,15 @@
                 <editor-content class="ArticlePage_body TextBody" :editor="editor" ref="text" v-if="editor" />
             </article>
 
+            <div classs="pv-40" v-if="article.reactions && article.reactions.length > 0">
+                <div class="Wrapper d-flex">
+                    <div class="fx-1" v-for="reaction in article.reactions" :key="reaction._id">
+                        <p>{{ reaction.type.emoji }} {{ reaction.type.title }}</p>
+                        <p>{{ reaction.type.description }}</p>        
+                    </div>
+                </div>
+            </div>
+
             <div class="pv-100 bg-bg-weak" v-if="linkedArticles.length > 0">
                 <div class="Wrapper">
                     <p class="ft-title-2xl mb-60">

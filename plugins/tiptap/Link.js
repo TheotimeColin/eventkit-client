@@ -42,8 +42,6 @@ export default class Link extends Mark {
 
           if (node.attrs.blank) attrs['target'] = '_blank'
 
-          console.log(attrs)
-
           return ['a', attrs, 0]
       },
     }

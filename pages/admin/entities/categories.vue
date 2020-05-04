@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="Form_row">
-                            <input type="text" placeholder="Sous-titre" v-model="category.subtitle"></textarea>
+                            <textarea type="text" placeholder="Sous-titre" v-model="category.subtitle"></textarea>
                         </div>
 
                         <div class="Form_row">

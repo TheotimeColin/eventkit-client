@@ -99,6 +99,30 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="Form_row">
+                                    <div class="row-none mb-10">
+                                        <div class="col-9">
+                                            <b>Réactions</b>
+                                        </div>
+                                        <div class="col-3">
+                                            <b>Boost</b>
+                                        </div>
+                                    </div>
+                                    <div class="row-none" v-for="reaction in reactions" :key="reaction.type._id">
+                                        <div class="col-9">
+                                            <select-search
+                                                action="reactions/fetch"
+                                                :unset="true"
+                                                :params="{ refresh: false, query: { _id: reaction.type._id } }"
+                                                v-model="reaction.type._id"
+                                            />
+                                        </div>
+                                        <div class="col-3">
+                                            <input type="number" placeholder="0" v-model="reaction.count">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <article-block
@@ -155,6 +179,7 @@ export default {
             }
 
             this.$data.linked = this.$data.article.linked.slice()
+            if (this.$data.article.reactions) this.$data.reactions = this.$data.article.reactions.slice()
         }
         
         this.$data.state.loading = false
@@ -192,6 +217,9 @@ export default {
         },
         linked: [
             { article: { _id: '' }, boost: 0 }
+        ],
+        reactions: [
+            { type: { _id: '' } , count: 0 }
         ]
     }),
     computed: {
@@ -211,6 +239,13 @@ export default {
             handler (v) {
                 if (v.length == 0 || v[v.length - 1].article._id != '') this.$data.linked.push({ article: { _id: '' }, boost: 0 })
             }
+        },
+        reactions: {
+            deep: true,
+            immediate: true,
+            handler (v) {
+                if (v.length == 0 || v[v.length - 1].type._id != '') this.$data.reactions.push({ type: { _id: '' } , count: 0 })
+            }
         }
     },
     methods: {
@@ -228,7 +263,8 @@ export default {
                     ...this.$data.article,
                     cover: this.$data.article.cover._id,
                     thumbnail: this.$data.article.thumbnail._id,
-                    linked: this.$data.linked.filter(a => a.article._id !== '')
+                    linked: this.$data.linked.filter(a => a.article._id !== ''),
+                    reactions: this.$data.reactions.filter(r => r.type._id !== '')
                 }
             })
 

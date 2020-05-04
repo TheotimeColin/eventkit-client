@@ -49,6 +49,7 @@
     .fx-dir-row#{$name} { flex-direction: row; }
     .fx-grow#{$name} { flex-grow: 1; }
     .fx-no-shrink#{$name} { flex-shrink: 0; }
+    .fx-1#{$name} { flex: 1; }
 
     /* FONTS */
     @each $fontName, $font in $fonts {

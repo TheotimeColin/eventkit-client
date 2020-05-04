@@ -8,6 +8,10 @@
             <nuxt-link :to="{ name: 'admin-entities-categories' }">
                 Catégories
             </nuxt-link>
+
+            <nuxt-link :to="{ name: 'admin-entities-reactions' }">
+                Réactions
+            </nuxt-link>
         </div>
     </div>
 </template>
