@@ -40,12 +40,18 @@
                 <editor-content class="ArticlePage_body TextBody" :editor="editor" ref="text" v-if="editor" />
             </article>
 
-            <div classs="pv-40" v-if="article.reactions && article.reactions.length > 0">
-                <div class="Wrapper d-flex">
-                    <div class="fx-1" v-for="reaction in article.reactions" :key="reaction._id">
-                        <p>{{ reaction.type.emoji }} {{ reaction.type.title }}</p>
-                        <p>{{ reaction.type.description }}</p>        
-                    </div>
+            <div class="bg-bg" v-if="article.reactions && article.reactions.length > 0">
+                <div class="Wrapper pv-40 text-center">
+                    <reaction-button
+                        v-for="reaction in article.reactions"
+                        class="mh-20"
+                        :title="reaction.type.title"
+                        :description="reaction.type.description"
+                        :emoji="reaction.type.emoji"
+                        :count="reaction.count"
+                        :key="reaction._id"
+                        @click="$store.dispatch('articles/postReaction', { query: { id: reaction._id } })"
+                    />
                 </div>
             </div>
 
@@ -76,6 +82,7 @@
 import ArticleAuthor from '@/components/articles/ArticleAuthor'
 import ArticleBlock from '@/components/articles/ArticleBlock'
 import LinkBase from '@/components/base/LinkBase'
+import ReactionButton from '@/components/interactive/ReactionButton'
 import Tag from '@/components/utils/Tag'
 import { Editor, EditorContent } from 'tiptap'
 import { Heading, Bold, Blockquote, Image, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
@@ -86,7 +93,7 @@ import dayjs from 'dayjs'
 
 export default {
     name: 'ArticlePage',
-    components: { EditorContent, ArticleAuthor, ArticleBlock, LinkBase, Tag },
+    components: { EditorContent, ArticleAuthor, ArticleBlock, LinkBase, Tag, ReactionButton },
     async fetch () {
         const search = await this.$store.dispatch('articles/get', {
             query: { slug: this.$route.params.slug, hitCount: true }

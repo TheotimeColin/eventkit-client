@@ -66,6 +66,12 @@ export default {
             }, { root: true })
 
             return response.status
+        },
+        async postReaction ({ commit }, params) {
+            let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+            const response = await this.$axios.$get(`/articles/reaction?${encodeURI(query)}`)
+
+            return response.count
         }
     },
 }
