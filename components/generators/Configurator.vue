@@ -1,9 +1,9 @@
 <template>
     <div class="Configurator">
-        <div class="Configurator_theme Form">
+        <div class="Configurator_theme">
             <div
-                class="Configurator_row Form_row"
-                v-for="(item, key) in config.theme.choices"
+                class="Configurator_row"
+                v-for="(item, key) in config.theme"
                 :class="{ 'is-disabled': configCondition(item) }"
                 :key="key"
             >
@@ -11,7 +11,9 @@
 
                 <component
                     :is="item.type"
+                    :premium="item.premium"
                     :options="item.options"
+                    :default-value="item.defaultValue"
                     v-model="item.value"
                 />
             </div>
@@ -22,10 +24,11 @@
 <script>
 import ChoiceButtons from '@/components/generators/components/ChoiceButtons'
 import ColorPicker from '@/components/generators/components/ColorPicker'
+import InputText from '@/components/generators/components/InputText'
 
 export default {
     name: 'Configurator',
-    components: { ChoiceButtons, ColorPicker },
+    components: { ChoiceButtons, ColorPicker, InputText },
     props: {
         config: { type: Object }
     },
@@ -51,7 +54,7 @@ export default {
                     path.forEach(key => value = value[key])
 
                     if (value != condition) {
-                        item.value = item.default
+                        item.value = item.defaultValue
                         disabled = true
                     }
                 })
@@ -63,9 +66,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss"> 
+    .Configurator_row {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+
     .Configurator_row.is-disabled {
-        opacity: 0.5;
+        opacity: 0.25;
         pointer-events: none;
     }
 </style>

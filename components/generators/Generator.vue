@@ -3,16 +3,29 @@
         <div class="Generator_container">
             <div class="Generator_left">
                 <div class="Generator_overflow">
-                    <configurator :config="config" @update="onUpdate" v-if="config && currentStep.id == 'config'" />
+                    <configurator
+                        :config="config"
+                        @update="onUpdate"
+                        v-if="config && currentStep.id == 'config'"
+                    />
                 </div>
-                <div class="Generator_footer">
-                    <button-base :disabled="step == 0" @click="previousStep">
-                        Étape précédente
-                    </button-base>
 
-                    <button-base @click="nextStep">
-                        Prochaine étape
-                    </button-base>
+                <div class="Generator_footer">
+                    <div class="Generator_premiumAlert" v-show="isPremium">
+                        ⭐ Votre configuration comporte des éléments premium.
+                        <link-base>En savoir plus</link-base>
+                    </div>
+                    <div class="Generator_actions">
+                        <button-base :disabled="step == 0" @click="previousStep">
+                            Étape précédente
+                        </button-base>
+
+                        <div>
+                            <button-base @click="nextStep">
+                                Prochaine étape
+                            </button-base>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="Generator_previewer">
@@ -40,7 +53,7 @@ export default {
     },
     data: () => ({
         state: {
-            print: true
+            print: false
         },
         steps: {
             config: {
@@ -58,10 +71,36 @@ export default {
     computed: {
         currentStep () {
             return this.$data.steps[Object.keys(this.$data.steps)[this.$data.step]]
-        }
-    },
-    watch: {
+        },
+        isPremium () {
+            let isPremium = false 
 
+            if (this.$data.config) {
+                Object.keys(this.$data.config.theme).forEach(key => {
+                    let config = this.$data.config.theme[key]
+
+                    if (config.options) {
+                        let valueFound = false
+
+                        config.options.forEach(option => {
+                            if (JSON.stringify(config.value) == JSON.stringify(option.value)) {
+                                valueFound = true
+
+                                if (option.premium && JSON.stringify(config.value) !== JSON.stringify(config.defaultValue)) {
+                                    isPremium = true
+                                }
+                            }
+                        })
+
+                        if (!valueFound) isPremium = true
+                    }
+
+                    if (config.premium && config.value !== config.defaultValue) isPremium = true
+                })
+            }
+
+            return isPremium
+        }
     },
     mounted () {
         this.$data.config = { ...this.$props.initConfig }

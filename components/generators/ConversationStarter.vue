@@ -2,7 +2,7 @@
     <div class="ConversationStarter" :class="{ ...classes }" :style="style">
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
-                <p class="ConversationStarter_name">starter n°</p>
+                <p class="ConversationStarter_name">{{ config.theme.title.value }}</p>
                 <p class="ConversationStarter_id">{{ data.id }}</p>
             </div>
 
@@ -10,7 +10,9 @@
                 {{ data.main ? data.main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
             </p>
             
-            <p class="ConversationStarter_copyright">Créé sur eventkit.social</p>
+            <p class="ConversationStarter_copyright">
+                {{ config.theme.footer.value }}
+            </p>
         </div>
     </div>
 </template>
@@ -26,8 +28,8 @@ export default {
         classes () {
             let classes = {}
 
-            Object.keys(this.$props.config.theme.choices).forEach(key => {
-                let choice = this.$props.config.theme.choices[key]
+            Object.keys(this.$props.config.theme).forEach(key => {
+                let choice = this.$props.config.theme[key]
                 if (choice.isClass) classes[`${choice.id}-${choice.value}`] = true
             })
 
@@ -36,13 +38,13 @@ export default {
         style () {
             let style = {}
 
-            Object.keys(this.$props.config.theme.choices).forEach(key => {
-                let choice = this.$props.config.theme.choices[key]
+            Object.keys(this.$props.config.theme).forEach(key => {
+                let choice = this.$props.config.theme[key]
                 if (choice.var) style[`--${choice.var}`] = choice.value
             })
 
-            style['--width'] = this.$props.config.theme.choices.size.value.x + 'mm'
-            style['--height'] = this.$props.config.theme.choices.size.value.y + 'mm'
+            style['--width'] = this.$props.config.theme.size.value.x + 'mm'
+            style['--height'] = this.$props.config.theme.size.value.y + 'mm'
             
 
             return style 

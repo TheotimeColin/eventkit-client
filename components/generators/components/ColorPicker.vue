@@ -1,22 +1,19 @@
 <template>
     <div class="ColorPicker">
         <div
-            class="ColorPicker_option"
             v-for="option in options"
-            :class="{ 'is-selected': value == option.value }"
-            :style="{ '--background': option.thumb ? option.thumb : option.value }"
+            class="ColorPicker_option"
+            :class="{
+                'ColorPicker_custom': option.custom,
+                'is-selected': option.custom ? value == custom : value == option.value,
+                'is-active': state.custom
+            }"
+            :style="{ '--background': option.thumb ? option.thumb : (option.custom ? custom : option.value) }"
+            @click="onSelect(option.custom ? custom : option.value, option.custom)"
+            :ref="option.custom ? 'custom' : 'color'"
             :key="option.id"
-            @click="onSelect(option.value)"
         >
-        </div>
-
-        <div
-            class="ColorPicker_option ColorPicker_custom"
-            :class="{ 'is-selected': value == custom, 'is-active': state.custom }"
-            :style="{ '--background': custom }"
-            @click="state.custom = true"
-            ref="custom"
-        >
+            <p class="ColorPicker_premium" v-if="option.premium">⭐</p>
         </div>
     </div>
 </template>
@@ -38,18 +35,29 @@ export default {
         custom: '#ffffff'
     }),
     mounted () {
-        this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom, {})
-        this.$data.colorPicker.on('change', (e) => {
-            this.$data.custom = e.color
-            this.onSelect(this.$data.custom)
-        })
+        if (this.$refs.custom) {
+            this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom[0], {
+                showHSL: false,
+                showRGB: false,
+                showHEX: false
+            })
+
+            this.$data.colorPicker.on('change', (e) => {
+                this.$data.custom = e.color
+                this.onSelect(this.$data.custom)
+            })
+        }
 
         document.addEventListener('click', (e) => {
-            if (!this.$refs.custom.contains(e.target)) this.$data.state.custom = false
+            if (!e.target || !this.$refs.custom) return
+            
+            if (!this.$refs.custom[0].contains(e.target)) this.$data.state.custom = false
         })
     },
     methods: {
-        onSelect (value) {
+        onSelect (value, custom) {
+            if (custom) this.$data.state.custom = true
+
             this.$emit('input', value)
         }
     }

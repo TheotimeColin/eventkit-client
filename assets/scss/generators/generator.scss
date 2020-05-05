@@ -43,8 +43,15 @@
     overflow: auto;
 }
 
-.Generator_footer {
-    height: 80px;
+.Generator_premiumAlert {
+    padding: 12px;
+    color: var(--color-ft-strong);
+    text-align: center;
+    background-color: var(--color-bg);
+}
+
+.Generator_actions {
+    min-height: 80px;
     flex-shrink: 0;
     border-top: 1px solid var(--color-border-strong);
     padding: 0 20px;

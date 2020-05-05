@@ -38,7 +38,7 @@ export default {
     }),
     mounted () {
         this.fit()
-        // window.addEventListener('resize', throttle(300, () => this.fit()))
+        window.addEventListener('resize', throttle(1000, () => this.fit()))
     },
     computed: {
         activeItems () {
@@ -52,8 +52,8 @@ export default {
             let pageHeight = 297
             let pageMargins = (15 * 2)
 
-            let componentWidth = this.$props.config.theme.choices.size.value.x
-            let componentHeight = this.$props.config.theme.choices.size.value.y
+            let componentWidth = this.$props.config.theme.size.value.x
+            let componentHeight = this.$props.config.theme.size.value.y
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
@@ -95,24 +95,29 @@ export default {
     },
     methods: {
         fit () {
-            if (!this.$el) return
+            if (!this.$el || !this.$refs.component) return
 
             this.resetFit()
 
             this.$nextTick(() => {
+                const maxSize = {
+                    x: 600,
+                    y: 500
+                }
+
                 let component = this.$refs.component[0] ? this.$refs.component[0] : this.$refs.component
 
-                let containerWidth = this.$el.offsetWidth * 0.8
+                let containerWidth = Math.min(this.$el.offsetWidth * 0.8, this.$props.print ? 9999 : maxSize.x)
                 let componentWidth = component.offsetWidth
                 let componentWidthScale = (containerWidth / componentWidth).toFixed(1)
 
-                let containerHeight = this.$el.offsetHeight * 0.8
+                let containerHeight = Math.min(this.$el.offsetHeight * 0.8, this.$props.print ? 9999 : maxSize.y)
                 let componentHeight = component.offsetHeight
                 let componentHeightScale = (containerHeight / componentHeight).toFixed(1)
 
                 this.$data.style = {
-                    '--page-scale': Math.min(componentWidthScale, componentHeightScale),
-                    '--scale': Math.min(componentWidthScale, componentHeightScale)
+                    '--page-scale': Math.min(componentWidthScale, this.$props.print ? 9999 : componentHeightScale),
+                    '--scale': Math.min(componentWidthScale, this.$props.print ? 9999 : componentHeightScale)
                 }
             })
         },

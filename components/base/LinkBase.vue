@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         onHover (v) {
-            if (this.$props.context || this.$props.node.attrs.context) {
+            if (this.$props.context || this.$props.node && this.$props.node.attrs.context) {
                 this.$onContext(v, this.$props.context ? this.$props.context : this.$props.node.attrs.context)
             }
         }

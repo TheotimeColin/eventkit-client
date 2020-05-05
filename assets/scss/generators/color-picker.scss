@@ -3,20 +3,26 @@
 }
 
 .ColorPicker_option {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
+    display: inline-flex;
+    width: 55px;
+    height: 55px;
     border: 1px solid var(--color-border);
     border-left: none;
     cursor: pointer;
     position: relative;
+    background: var(--background);
+    background-size: cover;
 
     &::after {
-        content: "";
-        @include absolute-fill;
-        opacity: 0.5;
-        background: var(--background);
-        background-size: cover;
+        content: "✅";
+        font-size: 15px;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 150ms ease;
     }
 
     &:first-child {
@@ -24,11 +30,19 @@
     }
 }
 
+.ColorPicker_premium {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    font-size: 12px;
+}
+
 .ColorPicker_option:hover,
 .ColorPicker_option.is-selected {
     
     &::after {
         opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -40,8 +54,10 @@
 }
 
 .a-color-picker {
-    position: absolute;
-    left: 60px;
+    position: fixed;
+    top: 50%;
+    left: 25%;
+    transform: translate3d(-50%, -50%, 0);
     z-index: 5;
     display: none;
 }
