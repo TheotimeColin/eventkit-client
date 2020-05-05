@@ -22,6 +22,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
     "nuxt": "^2.0.0",
+    "redirect-ssl": "^1.4.1",
     "shortid": "^2.2.15",
     "slugify": "^1.4.0",
     "throttle-debounce": "^2.1.0",

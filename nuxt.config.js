@@ -5,6 +5,9 @@ export default {
   /*
   ** Headers of the page
   */
+ serverMiddleware: [
+    'redirect-ssl'
+ ],
   head: {
     title: `eventKit, le blog des créateurs de lien social`,
     meta: [
