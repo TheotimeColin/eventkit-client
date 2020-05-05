@@ -24,11 +24,12 @@
 <script>
 import ChoiceButtons from '@/components/generators/components/ChoiceButtons'
 import ColorPicker from '@/components/generators/components/ColorPicker'
+import PatternPicker from '@/components/generators/components/PatternPicker'
 import InputText from '@/components/generators/components/InputText'
 
 export default {
     name: 'Configurator',
-    components: { ChoiceButtons, ColorPicker, InputText },
+    components: { ChoiceButtons, PatternPicker, ColorPicker, InputText },
     props: {
         config: { type: Object }
     },

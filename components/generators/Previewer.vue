@@ -1,7 +1,13 @@
 <template>
     <div class="Previewer" :class="{ 'is-print': print }">
         <div class="Previewer_component" ref="component" v-if="!print">
-            <component :is="config.component" :config="config" :data="activeItem" :style="style" />
+            <component
+                :is="config.component"
+                :config="config"
+                :data="activeItem"
+                :style="style"
+                :scale="style['--scale']"
+            />
         </div>
         <div class="Previewer_print" v-if="print">
             <div class="Previewer_page" :style="style" v-for="(batch, i) in batches" :key="i" ref="component">
@@ -12,6 +18,7 @@
                     :config="config"
                     :data="item"
                     :key="i"
+                    :scale="style['--scale']"
                 />
             </div>
         </div>

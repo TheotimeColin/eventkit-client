@@ -37,12 +37,47 @@ export default {
                 { value: '#ef476f' },
                 { value: '#ffffff' },
                 { value: '#4eb7ff' },
+                { value: 'picker', custom: true, premium: true }
+            ]
+        },
+        pattern: {
+            id: 'pattern',
+            label: `Choisir un motif de fond`,
+            value: {},
+            defaultValue: 'none',
+            type: 'pattern-picker',
+            varGroup: true,
+            conditions: {
+                ['theme.colors.value']: 'colored'
+            },
+            options: [
+                {
+                    value: {}
+                },
                 {
                     premium: true,
-                    value: 'url(https://eventkit.s3.eu-west-3.amazonaws.com/patterns/japanese/japanese.jpg)',
-                    thumb: 'url(https://eventkit.s3.eu-west-3.amazonaws.com/patterns/japanese/japanese-thumb.jpg)'
+                    value: {
+                        patternUrl: 'hideout',
+                        patternOpacity: 0.5,
+                        patternScale: 1
+                    }
                 },
-                { value: 'picker', custom: true, premium: true }
+                {
+                    premium: true,
+                    value: {
+                        patternUrl: 'autumn',
+                        patternOpacity: 0.5,
+                        patternScale: 1
+                    }
+                },
+                {
+                    premium: true,
+                    value: {
+                        patternUrl: 'overlap',
+                        patternOpacity: 0.5,
+                        patternScale: 1
+                    }
+                }
             ]
         },
         color: {

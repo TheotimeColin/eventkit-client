@@ -1,5 +1,10 @@
 <template>
     <div class="ConversationStarter" :class="{ ...classes }" :style="style">
+        <div
+            class="ConversationStarter_pattern"
+            :style="{ backgroundImage: patternUrl }">
+        </div>
+        
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">{{ config.theme.title.value }}</p>
@@ -18,11 +23,14 @@
 </template>
 
 <script>
+import patterns from '@/config/patterns'
+
 export default {
     name: 'ConversationStarter',
     props: {
         config: {},
-        data: {}
+        data: {},
+        scale: { type: Number, default: 1 }
     },
     computed: {
         classes () {
@@ -40,7 +48,20 @@ export default {
 
             Object.keys(this.$props.config.theme).forEach(key => {
                 let choice = this.$props.config.theme[key]
+
                 if (choice.var) style[`--${choice.var}`] = choice.value
+                if (choice.varGroup) {
+                    let group = {}
+
+                    Object.keys(choice.value).forEach(key => {
+                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = choice.value[key]
+                    })
+
+                    style = {
+                        ...style,
+                        ...group
+                    }
+                }
             })
 
             style['--width'] = this.$props.config.theme.size.value.x + 'mm'
@@ -48,6 +69,17 @@ export default {
             
 
             return style 
+        },
+        patternUrl () {
+            let value = ''
+            let pattern = patterns[this.$props.config.theme.pattern.value.patternUrl]
+
+            if (pattern) value = pattern(
+                this.$props.config.theme.color.value.replace('#', ''),
+                (this.$props.config.theme.pattern.value.patternScale) * this.$props.scale
+            )
+
+            return `url("${value}")`
         }
     }
 }
