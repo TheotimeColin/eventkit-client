@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import Configurator from '@/components/generators/configurator'
-import Previewer from '@/components/generators/previewer'
+import Configurator from '@/components/generators/Configurator'
+import Previewer from '@/components/generators/Previewer'
 
 export default {
     name: 'Generator',
