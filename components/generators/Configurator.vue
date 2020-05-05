@@ -3,18 +3,17 @@
         <div class="Configurator_theme">
             <div
                 class="Configurator_row"
-                v-for="(item, key) in config.theme"
+                v-for="(item, key) in project.config.theme"
                 :class="{ 'is-disabled': configCondition(item) }"
                 :key="key"
             >
-                <p class="mb-10">{{ item.label }}</p>
-
+                <p class="mb-10"><b>{{ item.label }}</b></p>
                 <component
                     :is="item.type"
                     :premium="item.premium"
                     :options="item.options"
                     :default-value="item.defaultValue"
-                    v-model="item.value"
+                    v-model="project.values.theme[key]"
                 />
             </div>
         </div>
@@ -31,35 +30,26 @@ export default {
     name: 'Configurator',
     components: { ChoiceButtons, PatternPicker, ColorPicker, InputText },
     props: {
-        config: { type: Object }
-    },
-    watch: {
-        config: {
-            immediate: true,
-            deep: true,
-            handler (v) {
-                this.$emit('update', v)
-            }
-        }
+        project: { type: Object }
     },
     methods: {
         configCondition (item) {
             let disabled = false
 
-            if (item.conditions) {
-                Object.keys(item.conditions).forEach(key => {
-                    let condition = item.conditions[key]
-                    let path = key.split('.')
+            // if (item.conditions) {
+            //     Object.keys(item.conditions).forEach(key => {
+            //         let condition = item.conditions[key]
+            //         let path = key.split('.')
 
-                    let value = this.$props.config
-                    path.forEach(key => value = value[key])
+            //         let value = this.$props.config
+            //         path.forEach(key => value = value[key])
 
-                    if (value != condition) {
-                        item.value = item.defaultValue
-                        disabled = true
-                    }
-                })
-            }
+            //         if (value != condition) {
+            //             item.value = item.defaultValue
+            //             disabled = true
+            //         }
+            //     })
+            // }
 
             return disabled
         }

@@ -1,21 +1,9 @@
 export default {
     component: 'conversation-starter',
     theme: {
-        colors: {
-            id: 'colors',
-            label: 'Choisir un mode de couleurs',
-            value: 'colored',
-            type: 'choice-buttons',
-            isClass: true,
-            options: [
-                { value: 'colored', label: 'Couleurs' },
-                { value: 'monochrome', label: 'Monochrome' }
-            ]
-        },
         theme: {
             id: 'theme',
-            label: `Choisir un style`,
-            value: 'default',
+            label: `Disposition`,
             type: 'choice-buttons',
             isClass: true,
             options: [
@@ -25,14 +13,11 @@ export default {
         },
         background: {
             id: 'background',
-            label: `Choisir un fond`,
-            value: '#ef476f',
-            defaultValue: '#ffffff',
+            label: `Couleur fond`,
+            defaultValue: '#ef476f',
             type: 'color-picker',
             var: 'background-color',
-            conditions: {
-                ['theme.colors.value']: 'colored'
-            },
+            custom: true,
             options: [
                 { value: '#ef476f' },
                 { value: '#ffffff' },
@@ -42,54 +27,122 @@ export default {
         },
         pattern: {
             id: 'pattern',
-            label: `Choisir un motif de fond`,
-            value: {},
-            defaultValue: 'none',
+            label: `Motif de fond`,
+            defaultValue: '',
             type: 'pattern-picker',
             varGroup: true,
-            conditions: {
-                ['theme.colors.value']: 'colored'
-            },
+            defining: 'patternUrl',
+            options: [
+                { value: { patternUrl: '', patternColor: '000000', patternOpacity: 1, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'triangles', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'autumn', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'hideout', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'overlap', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'leaf', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'bank', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'zigzag', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'wavy', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'topography', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+            ]
+        },
+        font: {
+            id: 'font',
+            label: `Police d'écriture`,
+            defaultValue: { fontFamily: '"Lato"' },
+            type: 'choice-buttons',
+            varGroup: true,
             options: [
                 {
-                    value: {}
+                    value: {
+                        fontFamily: '"Lato"'
+                    },
+                    label: 'Lato'
                 },
                 {
-                    premium: true,
                     value: {
-                        patternUrl: 'hideout',
-                        patternOpacity: 0.5,
-                        patternScale: 1
-                    }
+                        fontFamily: '"Tinos"'
+                    },
+                    label: `Tinos`,
+                    premium: true
                 },
                 {
-                    premium: true,
                     value: {
-                        patternUrl: 'autumn',
-                        patternOpacity: 0.5,
-                        patternScale: 1
-                    }
+                        fontFamily: '"Chewy"',
+                        fontSize: '18px'
+                    },
+                    label: `Chewy`,
+                    premium: true
                 },
                 {
-                    premium: true,
                     value: {
-                        patternUrl: 'overlap',
-                        patternOpacity: 0.5,
-                        patternScale: 1
-                    }
+                        fontFamily: '"Bebas Neue"',
+                        fontSize: '20px'
+                    },
+                    label: `Bebas Neue`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Dancing Script"',
+                        fontSize: '22px'
+                    },
+                    label: `Dancing Script`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Press Start 2P"',
+                        fontSize: '11px'
+                    },
+                    label: `Press Start`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Courgette"',
+                        fontSize: '20px'
+                    },
+                    label: `Handlee`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Amatic SC"',
+                        fontSize: '22px'
+                    },
+                    label: `Amatic SC`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Playfair display"'
+                    },
+                    label: `Playfair display`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Fira mono"'
+                    },
+                    label: `Fira mono`,
+                    premium: true
+                },
+                {
+                    value: {
+                        fontFamily: '"Finger paint"',
+                    },
+                    label: `Finger Paint`,
+                    premium: true
                 }
             ]
         },
         color: {
             id: 'color',
-            label: `Choisir une couleur de police`,
-            value: '#000000',
+            label: `Couleur de police`,
             defaultValue: '#000000',
             type: 'color-picker',
             var: 'color',
-            conditions: {
-                ['theme.colors.value']: 'colored'
-            },
+            custom: true,
             options: [
                 { value: '#000000' },
                 { value: '#ffffff' },
@@ -98,23 +151,9 @@ export default {
                 { value: 'picker', custom: true, premium: true }
             ]
         },
-        font: {
-            id: 'font',
-            label: `Choisir une police d'écriture`,
-            defaultValue: 'Roboto',
-            value: 'Roboto',
-            type: 'choice-buttons',
-            var: 'font',
-            options: [
-                { value: 'Roboto', label: 'Moderne' },
-                { value: 'Merriweather', label: `Élégant`, premium: true },
-                { value: 'Comic Sans MS', label: `Fun`, premium: true  }
-            ]
-        },
         size: {
             id: 'size',
-            label: `Choisir un format`,
-            value: { x: 65, y: 65 },
+            label: `Format d'impression`,
             type: 'choice-buttons',
             isSize: true,
             options: [
@@ -127,7 +166,6 @@ export default {
             id: 'title',
             label: 'Texte de titre',
             defaultValue: 'Starter n°',
-            value: 'Starter n°',
             type: 'input-text',
             isText: true,
             premium: true
@@ -136,25 +174,9 @@ export default {
             id: 'footer',
             label: 'Texte de footer',
             defaultValue: 'Créé sur eventkit.social',
-            value: 'Créé sur eventkit.social',
             type: 'input-text',
             isText: true,
             premium: true
         }
-    },
-    data: [
-        { id: 0, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 1, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 2, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 3, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 4, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 5, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 6, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 7, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 8, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 9, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 10, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 11, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 12, main: 'Quel est le pire film que tu aies jamais vu ?' },
-    ]
+    }
 }

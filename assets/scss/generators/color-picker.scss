@@ -11,7 +11,6 @@
     cursor: pointer;
     position: relative;
     background: var(--background);
-    background-size: cover;
 
     &::after {
         content: "✅";
@@ -64,8 +63,31 @@
 
 .ColorPicker_range {
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+    font: var(--ft-s);
+    font-weight: bold;
     
     input {
-        width: 100%;
+        flex-grow: 1;
+        margin: 0 20px;
+    }
+}
+
+.ColorPicker_pattern {
+    display: block;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    background: var(--background);
+    cursor: pointer;
+
+    &.is-active .a-color-picker {
+        display: block;
+    }
+    
+    &::after {
+        display: none;
     }
 }

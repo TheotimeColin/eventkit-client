@@ -3,10 +3,18 @@
         <div class="Generator_container">
             <div class="Generator_left">
                 <div class="Generator_overflow">
+                    <div v-if="!project">
+                        Welcome
+
+                        <button-base @click="$emit('create')">
+                            Créer mon projet
+                        </button-base>
+                    </div>
+
                     <configurator
-                        :config="config"
-                        @update="onUpdate"
-                        v-if="config && currentStep.id == 'config'"
+                        :project="project"
+                        @update="(v) => $emit('update', v)"
+                        v-if="project && currentStep.id == 'config'"
                     />
                 </div>
 
@@ -15,13 +23,21 @@
                         ⭐ Votre configuration comporte des éléments premium.
                         <link-base>En savoir plus</link-base>
                     </div>
-                    <div class="Generator_actions">
+
+                    <div class="Generator_actions" v-if="project">
                         <button-base :disabled="step == 0" @click="previousStep">
                             Étape précédente
                         </button-base>
 
-                        <div>
-                            <button-base @click="nextStep">
+                        <div class="d-flex fx-align-center">
+                            <p class="ft-s text-right">
+                                Dernière sauvegarde :<br>
+                                {{ lastSaved }}
+                            </p>
+                            <button-base class="ml-10" @click="$emit('save')">
+                                Sauvegarder
+                            </button-base>
+                            <button-base class="ml-10"  @click="nextStep">
                                 Prochaine étape
                             </button-base>
                         </div>
@@ -35,13 +51,15 @@
                     </button-base>
                 </div>
                 
-                <previewer :config="config" :active="0" :print="state.print" v-if="config" />
+                <previewer :project="project" :active="0" :print="state.print" v-if="project" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 
@@ -49,6 +67,7 @@ export default {
     name: 'Generator',
     components: { Configurator, Previewer },
     props: {
+        project: { type: Object },
         initConfig: { type: Object }
     },
     data: () => ({
@@ -66,7 +85,6 @@ export default {
             }
         },
         step: 0,
-        config: null,
     }),
     computed: {
         currentStep () {
@@ -75,40 +93,41 @@ export default {
         isPremium () {
             let isPremium = false 
 
-            if (this.$data.config) {
-                Object.keys(this.$data.config.theme).forEach(key => {
-                    let config = this.$data.config.theme[key]
+            if (this.$props.project) {
+                Object.keys(this.$props.project.values.theme).forEach(key => {
+                    let config = this.$props.project.config.theme[key]
+                    let value = this.$props.project.values.theme[key]
 
                     if (config.options) {
                         let valueFound = false
 
                         config.options.forEach(option => {
-                            if (JSON.stringify(config.value) == JSON.stringify(option.value)) {
+                            let optionValue = config.defining ? value[config.defining] : value
+                            let optionConfig = config.defining ? option.value[config.defining] : option.value
+
+                            if (JSON.stringify(optionValue) == JSON.stringify(optionConfig)) {
                                 valueFound = true
 
-                                if (option.premium && JSON.stringify(config.value) !== JSON.stringify(config.defaultValue)) {
+                                if (option.premium && JSON.stringify(value) !== JSON.stringify(config.defaultValue)) {
                                     isPremium = true
                                 }
                             }
                         })
-
-                        if (!valueFound) isPremium = true
+                        
+                        if (config.custom && !valueFound) isPremium = true
                     }
 
-                    if (config.premium && config.value !== config.defaultValue) isPremium = true
+                    if (config.premium && value !== config.defaultValue) isPremium = true
                 })
             }
 
             return isPremium
+        },
+        lastSaved () {
+            return dayjs(this.$props.project.modifiedDate).fromNow()
         }
     },
-    mounted () {
-        this.$data.config = { ...this.$props.initConfig }
-    },
     methods: {
-       onUpdate (config) {
-           this.$data.config = config 
-       },
        nextStep () {
            this.$data.step += 1
        },

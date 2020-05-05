@@ -2,8 +2,9 @@
     <div class="Previewer" :class="{ 'is-print': print }">
         <div class="Previewer_component" ref="component" v-if="!print">
             <component
-                :is="config.component"
-                :config="config"
+                :is="project.config.component"
+                :theme="project.values.theme"
+                :config="project.config.theme"
                 :data="activeItem"
                 :style="style"
                 :scale="style['--scale']"
@@ -14,8 +15,8 @@
                 <component
                     class="p-relative"
                     v-for="(item, i) in batch"
-                    :is="config.component"
-                    :config="config"
+                    :is="project.config.component"
+                    :theme="project.values.theme"
                     :data="item"
                     :key="i"
                     :scale="style['--scale']"
@@ -34,7 +35,7 @@ export default {
     name: 'Previewer',
     components: { ConversationStarter },
     props: {
-        config: { type: Object },
+        project: { type: Object },
         print: { type: Boolean, default: false },
         active: { type: Number, default: 0 }
     },
@@ -49,18 +50,18 @@ export default {
     },
     computed: {
         activeItems () {
-            return this.$props.config.data
+            return this.$props.project.values.data
         },
         activeItem () {
-            return this.$props.config.data.filter(i => i.id == this.$props.active)[0]
+            return this.activeItems.filter(i => i.id == this.$props.active)[0]
         },
         batches () {
             let pageWidth = 210
             let pageHeight = 297
             let pageMargins = (15 * 2)
 
-            let componentWidth = this.$props.config.theme.size.value.x
-            let componentHeight = this.$props.config.theme.size.value.y
+            let componentWidth = this.$props.project.values.theme.size.x
+            let componentHeight = this.$props.project.values.theme.size.y
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
@@ -89,7 +90,7 @@ export default {
         }
     },
     watch: {
-        config: {
+        project: {
             immediate: true,
             deep: true,
             handler () {

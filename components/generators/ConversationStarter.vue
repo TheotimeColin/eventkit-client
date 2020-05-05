@@ -7,7 +7,7 @@
         
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
-                <p class="ConversationStarter_name">{{ config.theme.title.value }}</p>
+                <p class="ConversationStarter_name">{{ theme.title }}</p>
                 <p class="ConversationStarter_id">{{ data.id }}</p>
             </div>
 
@@ -16,7 +16,7 @@
             </p>
             
             <p class="ConversationStarter_copyright">
-                {{ config.theme.footer.value }}
+                {{ theme.footer }}
             </p>
         </div>
     </div>
@@ -29,6 +29,7 @@ export default {
     name: 'ConversationStarter',
     props: {
         config: {},
+        theme: {},
         data: {},
         scale: { type: Number, default: 1 }
     },
@@ -36,9 +37,9 @@ export default {
         classes () {
             let classes = {}
 
-            Object.keys(this.$props.config.theme).forEach(key => {
-                let choice = this.$props.config.theme[key]
-                if (choice.isClass) classes[`${choice.id}-${choice.value}`] = true
+            Object.keys(this.$props.theme).forEach(key => {
+                let choice = this.$props.theme[key]
+                if (choice.isClass) classes[`${choice.id}-${choice}`] = true
             })
 
             return classes
@@ -46,15 +47,17 @@ export default {
         style () {
             let style = {}
 
-            Object.keys(this.$props.config.theme).forEach(key => {
-                let choice = this.$props.config.theme[key]
+            Object.keys(this.$props.config).forEach(key => {
+                let choice = this.$props.config[key]
+                let value = this.$props.theme[key]
 
-                if (choice.var) style[`--${choice.var}`] = choice.value
+                if (choice.var) style[`--${choice.var}`] = value
                 if (choice.varGroup) {
                     let group = {}
 
-                    Object.keys(choice.value).forEach(key => {
-                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = choice.value[key]
+                    Object.keys(value).forEach(key => {
+                        let groupValue = value[key]
+                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = groupValue
                     })
 
                     style = {
@@ -64,19 +67,19 @@ export default {
                 }
             })
 
-            style['--width'] = this.$props.config.theme.size.value.x + 'mm'
-            style['--height'] = this.$props.config.theme.size.value.y + 'mm'
+            style['--width'] = this.$props.theme.size.x + 'mm'
+            style['--height'] = this.$props.theme.size.y + 'mm'
             
 
             return style 
         },
         patternUrl () {
             let value = ''
-            let pattern = patterns[this.$props.config.theme.pattern.value.patternUrl]
+            let pattern = patterns[this.$props.theme.pattern.patternUrl]
 
             if (pattern) value = pattern(
-                this.$props.config.theme.color.value.replace('#', ''),
-                (this.$props.config.theme.pattern.value.patternScale) * this.$props.scale
+                this.$props.theme.pattern.patternColor.replace('#', ''),
+                (this.$props.theme.pattern.patternScale) * this.$props.scale
             )
 
             return `url("${value}")`

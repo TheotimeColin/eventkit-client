@@ -1,6 +1,6 @@
 .ConversationStarter {
     --scale: 1;
-    font-family: var(--font);
+    font-family: var(--font-family);
     background: var(--background-color);
     color: var(--color);
     border-radius: calc(5mm * var(--scale));
@@ -8,6 +8,9 @@
 
     height: calc(var(--height) * var(--scale));
     width: calc(var(--width) * var(--scale));
+
+    --footer-font-size: calc(0.6 * var(--font-size, 16px));
+    --id-font-size: calc(2.5 * var(--font-size, 16px));
 
     &.colors-monochrome {
         border: 1px solid lightgrey;
@@ -38,7 +41,9 @@
 }
 
 .ConversationStarter_main {
+    font-size: calc(var(--font-size, 16px) * var(--scale));
     width: 100%;
+    letter-spacing: normal;
 
     // &.is-empty {
     //     opacity: 0.25;
@@ -46,6 +51,7 @@
 }
 
 .ConversationStarter_id {
+    font-size: calc(var(--id-font-size, 24px) * var(--scale));
     position: absolute;
     opacity: 0.45;
     top: 50%;
@@ -54,8 +60,7 @@
 }
 
 .ConversationStarter_name {
-    font-size: calc(10px * var(--scale));
-    font-weight: bold;
+    font-size: calc(var(--footer-font-size, 16px) * var(--scale));
     position: relative;
     z-index: 1;
     width: 100%;
@@ -67,6 +72,7 @@
 }
 
 .ConversationStarter_copyright {
+    font-size: calc(var(--footer-font-size, 16px) * var(--scale));
     width: 100%;
 }
 
@@ -75,29 +81,21 @@
 .ConversationStarter.theme-default {
 
     .ConversationStarter_main {
-        font-size: calc(16px * var(--scale));
         line-height: 1.1;
-        font-weight: bold;
     }
     
     .ConversationStarter_id {
-        font-size: calc(45px * var(--scale));
-        font-weight: bold;
         letter-spacing: calc(-5px * var(--scale));
         text-indent: calc(-5px * var(--scale));
         text-align: center;
     }
     
     .ConversationStarter_name {
-        font-size: calc(10px * var(--scale));
-        font-weight: bold;
         letter-spacing: 1px;
-        font-weight: bold;
     }
     
     .ConversationStarter_copyright {
-        font-size: calc(10px * var(--scale));
-        font-weight: bold;
+
     }
 
     &.colors-monochrome {
@@ -121,10 +119,8 @@
     }
     
     .ConversationStarter_main {
-        font-size: calc(16px * var(--scale));
         text-align: left;
         line-height: 1.25;
-        font-weight: bold;
     }
     
     .ConversationStarter_id {
@@ -133,7 +129,6 @@
         width: auto;
         font-size: calc(10px * var(--scale));
         opacity: 1;
-        font-weight: bold;
         text-align: center;
         opacity: 1;
         position: relative;
@@ -143,15 +138,10 @@
         display: inline-block;
         vertical-align: middle;
         width: auto;
-        font-size: calc(10px * var(--scale));
-        font-weight: bold;
         letter-spacing: normal;
-        font-weight: bold;
     }
     
     .ConversationStarter_copyright {
-        font-size: calc(10px * var(--scale));
-        font-weight: bold;
         text-align: left;
     }
 }
