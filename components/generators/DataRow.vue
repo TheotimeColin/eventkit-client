@@ -1,12 +1,13 @@
 <template>
-    <div class="ConfigRow" :class="{ 'is-disable': isDisable }">
-        <div class="CardGenerator_id">{{ id }}</div>
+    <div class="DataRow" :class="{ 'is-disable': isDisable }">
+        <i class="fa fa-align-justify handle"></i>
 
         <input
+            class="DataRow_input"
             type="text"
             @input="onInput"
             :value="value"
-            @focus="$emit('focus', id)"
+            @focus="$emit('select', id)"
             @keyup.enter="$emit('submit')"
             ref="input"
         >
@@ -20,9 +21,9 @@
 
 <script>
 export default {
-    name: 'ConfigRow',
+    name: 'DataRow',
     props: {
-        id: { type: Number },
+        id: { type: String },
         value: { type: String },
         isDisable: { type: Boolean, default: false }
     },
@@ -38,11 +39,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .ConfigRow {
+    .DataRow {
         display: flex;
     }
 
-    .ConfigRow.is-disable {
+    .DataRow.is-disable {
 
         input {
             opacity: 0.5;

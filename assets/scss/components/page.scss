@@ -20,6 +20,11 @@
 
 .Page--full {
     min-height: auto;
+
+    .Page_content {
+        padding-top: 60px;
+        padding-bottom: 0;
+    }
 }
 
 .Page--admin {

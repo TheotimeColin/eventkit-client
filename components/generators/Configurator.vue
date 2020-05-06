@@ -1,19 +1,21 @@
 <template>
-    <div class="Configurator">
+    <div class="Configurator" v-if="theme">
         <div class="Configurator_theme">
             <div
                 class="Configurator_row"
-                v-for="(item, key) in project.config.theme"
+                v-for="(item, key) in config.theme"
                 :class="{ 'is-disabled': configCondition(item) }"
                 :key="key"
             >
                 <p class="mb-10"><b>{{ item.label }}</b></p>
+
                 <component
                     :is="item.type"
                     :premium="item.premium"
                     :options="item.options"
                     :default-value="item.defaultValue"
-                    v-model="project.values.theme[key]"
+                    v-model="theme[key]"
+                    @input="$store.commit('generators/updateTheme', theme)"
                 />
             </div>
         </div>
@@ -30,7 +32,20 @@ export default {
     name: 'Configurator',
     components: { ChoiceButtons, PatternPicker, ColorPicker, InputText },
     props: {
+        config: { type: Object },
         project: { type: Object }
+    },
+    data: () => ({
+        theme: null
+    }),
+    watch: {
+        project: {
+            immediate: true,
+            deep: true,
+            handler (v) {
+                this.$data.theme = JSON.parse(JSON.stringify(v.values.theme))
+            }
+        }
     },
     methods: {
         configCondition (item) {

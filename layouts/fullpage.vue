@@ -1,6 +1,6 @@
 <template>
     <div class="Body">
-        <header-main />
+        <header-main :modifiers="['fullpage']" />
         <context-info />
         <nuxt />
         <notifications />
@@ -14,7 +14,6 @@ import Notifications from '@/components/utils/Notifications'
 
 export default {
     name: 'LayoutDashboard',
-    middleware: 'user',
     components: { HeaderMain, ContextInfo, Notifications },
     watch: {
         ['$route'] () {

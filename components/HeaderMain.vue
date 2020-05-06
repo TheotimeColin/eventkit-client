@@ -1,6 +1,6 @@
 <template>
-    <header class="HeaderMain" :class="{'is-scroll': state.scroll }">
-        <div class="Wrapper ">
+    <header class="HeaderMain" :class="{'is-scroll': state.scroll, ...$modifiers }">
+        <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
                 <nuxt-link to="/" class="HeaderMain_logo">
                     eventKit
@@ -19,8 +19,11 @@
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'HeaderMain',
+    mixins: [ base ],
     computed: {
         navItems () {
             let items = [

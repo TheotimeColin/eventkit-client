@@ -18,7 +18,7 @@
         @include absolute-fill;
         transform-origin: top;
         transition: all 200ms ease-out;
-        height: 110px;
+        height: var(--height);
     }
 }
 
@@ -84,6 +84,7 @@
 
 /* STATES */
 
+.HeaderMain--fullpage,
 .HeaderMain.is-scroll {
     --height: 60px;
     --height-2: 30px;
@@ -103,7 +104,21 @@
 
     &::before {
         background-color: var(--color-bg-light);
-        transform: scaleY(0.6);
+        transform: scaleY(calc(110px / 60px));
         transition: all 150ms ease-in;
+    }
+}
+
+/* MODIFIERS */
+
+.HeaderMain--fullpage {
+
+    .HeaderMain_logo {
+        color: var(--color-ft);
+    }
+
+    .HeaderMain_wrapper {
+        max-width: 9999px;
+        width: calc(100% - 40px);
     }
 }

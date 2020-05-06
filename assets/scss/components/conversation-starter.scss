@@ -12,9 +12,7 @@
     --footer-font-size: calc(0.6 * var(--font-size, 16px));
     --id-font-size: calc(2.5 * var(--font-size, 16px));
 
-    &.colors-monochrome {
-        border: 1px solid lightgrey;
-    }
+    border: calc(0.2mm * var(--scale)) solid lightgrey;
 }
 
 
@@ -25,7 +23,9 @@
     background-position: center;
     border-radius: calc(5mm * var(--scale));
     overflow: hidden;
-    opacity: var(--pattern-opacity);
+    // opacity: var(--pattern-opacity);
+    display: block;
+    position: static;
 }
 
 .ConversationStarter_container {

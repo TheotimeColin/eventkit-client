@@ -13,8 +13,14 @@
 
                     <configurator
                         :project="project"
-                        @update="(v) => $emit('update', v)"
+                        :config="config"
                         v-if="project && currentStep.id == 'config'"
+                    />
+
+                    <data-editor
+                        :project="project"
+                        @select="(v) => selected = v"
+                        v-if="project && currentStep.id == 'data'"
                     />
                 </div>
 
@@ -34,7 +40,7 @@
                                 Dernière sauvegarde :<br>
                                 {{ lastSaved }}
                             </p>
-                            <button-base class="ml-10" @click="$emit('save')">
+                            <button-base class="ml-10" @click="$store.dispatch('generators/save')">
                                 Sauvegarder
                             </button-base>
                             <button-base class="ml-10"  @click="nextStep">
@@ -51,7 +57,7 @@
                     </button-base>
                 </div>
                 
-                <previewer :project="project" :active="0" :print="state.print" v-if="project" />
+                <previewer :project="project" :config="config" :active="selected" :print="state.print" v-if="project" />
             </div>
         </div>
     </div>
@@ -62,13 +68,14 @@ import dayjs from 'dayjs'
 
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
+import DataEditor from '@/components/generators/DataEditor'
 
 export default {
     name: 'Generator',
-    components: { Configurator, Previewer },
+    components: { Configurator, Previewer, DataEditor },
     props: {
         project: { type: Object },
-        initConfig: { type: Object }
+        config: { type: Object }
     },
     data: () => ({
         state: {
@@ -84,7 +91,8 @@ export default {
                 active: false
             }
         },
-        step: 0,
+        step: 1,
+        selected: 'default'
     }),
     computed: {
         currentStep () {
@@ -95,7 +103,7 @@ export default {
 
             if (this.$props.project) {
                 Object.keys(this.$props.project.values.theme).forEach(key => {
-                    let config = this.$props.project.config.theme[key]
+                    let config = this.$props.config.theme[key]
                     let value = this.$props.project.values.theme[key]
 
                     if (config.options) {

@@ -1,8 +1,6 @@
 .Generator {
     position: relative;
-    height: calc(100vh - var(--height));
-    margin-top: var(--height);
-    border: 1px solid var(--color-border);
+    height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
     overflow: hidden;

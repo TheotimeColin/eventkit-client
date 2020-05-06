@@ -1,5 +1,5 @@
 <template>
-    <div class="PageGenerator" :style="{ '--page-scale': state.screen ? 3 : scale }">
+    <div class="PageGenerator" :style="{ '--page-scale': scale }">
         <slot></slot>
     </div>
 </template>
@@ -25,7 +25,7 @@ export default {
 
             return new Promise(resolve => {
                 setTimeout(() => {
-                    this.html2canvas(this.$el).then(canvas => {
+                    this.html2canvas(this.$el, { allowTaint: true, profile: true }).then(canvas => {
                         this.$data.image = canvas.toDataURL()
                         this.$data.state.screen = false
 

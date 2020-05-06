@@ -2,27 +2,33 @@
     <div class="Previewer" :class="{ 'is-print': print }">
         <div class="Previewer_component" ref="component" v-if="!print">
             <component
-                :is="project.config.component"
+                :is="config.component"
                 :theme="project.values.theme"
-                :config="project.config.theme"
+                :config="config.theme"
                 :data="activeItem"
                 :style="style"
                 :scale="style['--scale']"
             />
         </div>
-        <div class="Previewer_print" v-if="print">
-            <div class="Previewer_page" :style="style" v-for="(batch, i) in batches" :key="i" ref="component">
+        <div class="Previewer_print" v-if="print" @click="onExport">
+            <page-generator
+                class="Previewer_page"
+                :scale="style['--page-scale'] * (state.export ? 3 : 1)"
+                v-for="(batch, i) in batches"
+                :key="i"
+                ref="page"
+            >
                 <component
                     class="p-relative"
                     v-for="(item, i) in batch"
-                    :is="project.config.component"
+                    :is="config.component"
                     :theme="project.values.theme"
-                    :config="project.config.theme"
+                    :config="config.theme"
                     :data="item"
                     :key="i"
-                    :scale="style['--scale']"
+                    :scale="style['--scale'] * (state.export ? 3 : 1)"
                 />
-            </div>
+            </page-generator>
         </div>
     </div>
 </template>
@@ -31,21 +37,28 @@
 import { throttle } from 'throttle-debounce';
 
 import ConversationStarter from '@/components/generators/ConversationStarter'
+import PageGenerator from '@/components/generators/PageGenerator'
 
 export default {
     name: 'Previewer',
-    components: { ConversationStarter },
+    components: { ConversationStarter, PageGenerator },
     props: {
+        config: { type: Object },
         project: { type: Object },
         print: { type: Boolean, default: false },
-        active: { type: Number, default: 0 }
+        active: { type: String, default: 'default' }
     },
     data: () => ({
+        state: {
+            export: false
+        },
         style: {
             '--scale': 1
         }
     }),
     mounted () {
+        this.jsPDF = require('jspdf')
+
         this.fit()
         window.addEventListener('resize', throttle(1000, () => this.fit()))
     },
@@ -74,7 +87,7 @@ export default {
             let size = batchSize
             let batchId = 0
 
-            this.activeItems.forEach(component => {
+            this.activeItems.slice(0, 1).forEach(component => {
                 batch.push(component)
                 size--
 
@@ -104,8 +117,6 @@ export default {
     },
     methods: {
         fit () {
-            if (!this.$el || !this.$refs.component) return
-
             this.resetFit()
 
             this.$nextTick(() => {
@@ -114,7 +125,11 @@ export default {
                     y: 500
                 }
 
-                let component = this.$refs.component[0] ? this.$refs.component[0] : this.$refs.component
+                let component = null
+                if (this.$refs.page && this.$refs.page[0]) component = this.$refs.page[0].$el
+                if (this.$refs.component) component = this.$refs.component
+
+                if (!component) return
 
                 let containerWidth = Math.min(this.$el.offsetWidth * 0.8, this.$props.print ? 9999 : maxSize.x)
                 let componentWidth = component.offsetWidth
@@ -135,6 +150,25 @@ export default {
                 '--page-scale': 1,
                 '--scale': 1
             }
+        },
+        async onExport () {
+            this.$data.state.export = true
+            this.$data.export = new this.jsPDF()
+
+            let pages = await Promise.all(this.$refs.page.map(page => {
+                return page.screenshot()
+            }))
+
+            let width = this.$data.export.internal.pageSize.getWidth()
+            let height = this.$data.export.internal.pageSize.getHeight()
+
+            pages.forEach((page, i) => {
+                this.$data.export.addImage(page, 0, 0, width, height)
+                if (i < pages.length - 1) this.$data.export.addPage()
+            })
+
+            this.$data.state.export = false
+            this.$data.export.save('test.pdf')
         }
     }
 }

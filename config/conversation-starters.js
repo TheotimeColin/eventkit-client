@@ -40,6 +40,7 @@ export default {
                 { premium: true, value: { patternUrl: 'autumn', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
                 { premium: true, value: { patternUrl: 'hideout', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
                 { premium: true, value: { patternUrl: 'charlie', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
+                { premium: true, value: { patternUrl: 'sprinkles', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
                 { premium: true, value: { patternUrl: 'overlap', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
                 { premium: true, value: { patternUrl: 'leaf', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
                 { premium: true, value: { patternUrl: 'bee', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },

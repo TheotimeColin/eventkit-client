@@ -8,7 +8,7 @@
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">{{ theme.title }}</p>
-                <p class="ConversationStarter_id">{{ data.id }}</p>
+                <!-- <p class="ConversationStarter_id">{{ data.id }}</p> -->
             </div>
 
             <p class="ConversationStarter_main" :class="{ 'is-empty': data.main == '' }">
@@ -79,7 +79,8 @@ export default {
 
             if (pattern) value = pattern(
                 this.$props.theme.pattern.patternColor.replace('#', ''),
-                (this.$props.theme.pattern.patternScale) * this.$props.scale
+                (this.$props.theme.pattern.patternScale) * this.$props.scale,
+                this.$props.theme.pattern.patternOpacity
             )
 
             return `url("${value}")`

@@ -20,6 +20,7 @@
         </div>
 
         <div class="ColorPicker_range" v-show="value.patternUrl && value.patternUrl != ''">
+            <p class="mr-20">Couleur</p>
             <div
                 class="ColorPicker_pattern"
                 :class="{ 'is-active': state.custom }"
@@ -27,7 +28,7 @@
                 @click="state.custom = true"
                 ref="picker"
             ></div>
-
+            <p class="ml-20">Transparence</p>
             <input type="range" min="1" max="100" @input="onOpacity" ref="opacity">
             <p>{{ Math.round(opacity * 100) }}%</p>
         </div>
