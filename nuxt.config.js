@@ -1,4 +1,5 @@
 require('dotenv').config()
+const getRoutes = require('./utils/get-routes');
 
 export default {
   mode: 'universal',
@@ -50,6 +51,22 @@ export default {
     '@nuxtjs/auth',
     ['@nuxtjs/google-analytics', {
         id: 'UA-165347177-1'
+    }],
+    ['@nuxtjs/sitemap',  {
+        hostname: process.env.BASE_URL,
+        gzip: true,
+        exclude: [
+            '/account',
+            '/kits',
+            '/kits/**',
+            '/about',
+            '/admin',
+            '/account/**',
+            '/admin/**'
+        ],
+        routes () {
+            return getRoutes()
+        }
     }]
   ],
   env: {
