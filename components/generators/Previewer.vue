@@ -17,6 +17,7 @@
                     v-for="(item, i) in batch"
                     :is="project.config.component"
                     :theme="project.values.theme"
+                    :config="project.config.theme"
                     :data="item"
                     :key="i"
                     :scale="style['--scale']"

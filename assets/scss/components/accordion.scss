@@ -1,0 +1,81 @@
+.Accordion {
+    position: relative;
+    border: 2px solid var(--color-bg);
+    border-radius: 4px;
+    max-height: 170px;
+    overflow: hidden;
+
+    h2, h3 {
+        
+        &:first-child {
+            font: var(--ft-l);
+            font-weight: bold;
+            margin: 0 -30px 30px;
+            padding: 10px 15px;
+            color: var(--color-ft);
+            background-color: var(--color-bg);
+            cursor: pointer;
+            transition: all 250ms ease;
+
+            &:hover {
+                color: var(--color-ft-strong);
+            }
+        }
+    }
+}
+
+.Accordion_content {
+    max-height: 170px;
+    padding: 0 30px 30px 30px;
+    overflow: hidden;
+
+    &::after {
+        content: "";
+        display: block;
+        @include absolute-fill;
+        bottom: 0;
+        top: auto;
+        height: 50%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 75%);
+        transform: scale(1);
+        transform-origin: bottom;
+        transition: transform 250ms ease;
+    }
+}
+
+.Accordion_opener {
+    position: absolute;
+    font-size: 16px;
+    z-index: 5;
+    top: 12px;
+    right: 20px;
+    pointer-events: none;
+}
+
+.Accordion.is-loaded {
+    max-height: 9999px;
+    overflow: visible;
+}
+
+.Accordion.is-active {
+ 
+    .Accordion_content {
+        max-height: 9999px;
+
+        &::after {
+            transform: scaleY(0);
+        }
+    }
+
+    .Accordion_opener {
+        transform: scaleY(-1);
+    }
+
+    h2, h3 {
+        
+        &:first-child {
+            color: var(--color-ft-strong);
+        }
+    }
+    
+}

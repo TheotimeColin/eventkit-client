@@ -89,6 +89,7 @@ import { Editor, EditorContent } from 'tiptap'
 import { Heading, Bold, Blockquote, Image, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
 import Link from '@/plugins/tiptap/Link'
+import Accordion from '@/plugins/tiptap/Accordion'
 
 import dayjs from 'dayjs'
 
@@ -163,7 +164,7 @@ export default {
                 new Internal(),
                 new Blockquote(),
                 new Image(),
-                new Link()
+                new Link(), new Accordion()
             ],
         })
     },

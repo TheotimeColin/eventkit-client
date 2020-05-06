@@ -47,6 +47,12 @@
                     <button class="TextEditor_button" type="button" @click="commands.ordered_list()">
                         <i class="fa fa-list-ol"></i>
                     </button>
+
+                    <div class="TextEditor_separator"></div>
+
+                    <button class="TextEditor_button" type="button" @click="commands.accordion()">
+                        <i class="fa fa-times"></i>
+                    </button>
                     
                     <div class="TextEditor_separator"></div>
 
@@ -84,6 +90,7 @@ import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { Heading, Bold, Blockquote, Image, History, Italic, OrderedList, BulletList, ListItem } from 'tiptap-extensions'
 import Internal from '@/plugins/tiptap/Internal'
 import Link from '@/plugins/tiptap/Link'
+import Accordion from '@/plugins/tiptap/Accordion'
 
 export default {
     name: 'TextEditor',
@@ -114,7 +121,7 @@ export default {
                 new Blockquote(),
                 new Image(),
                 new History(),
-                new Link()
+                new Link(), new Accordion()
             ],
             content: this.$props.value,
         })
