@@ -14,11 +14,10 @@ export default {
         },
         refresh (state, value) {
             let items = {}
+            console.log(value)
             value.forEach(value => items[value.id] = value)
 
-            console.log('refresh')
-
-            state.collection = Object.keys(items).map(key => items[key])
+            state.collection = value
             state.items = items
         }
     },

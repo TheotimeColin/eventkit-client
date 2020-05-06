@@ -37,7 +37,7 @@ export default {
     }),
     computed: {
         articles () {
-            return this.$store.state.articles.items
+            return this.$store.state.articles.collection
         }
     },
     methods: {

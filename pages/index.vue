@@ -31,24 +31,6 @@
                                     :slug="article.slug"
                                     :key="article.id"
                                 />
-                                <!-- <div class="d-flex fx-align-center fx-justify-between mb-20">
-                                    <p class="ft-title-l">
-                                        <b>Articles populaires</b>
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <article-line
-                                        class="HomePage_popularArticle"
-                                        v-for="(article, i) in popular" 
-                                        :ranking="i + 1"
-                                        :title="article.title"
-                                        :id="article.id"
-                                        :slug="article.slug"
-                                        :excerpt="article.excerpt"
-                                        :key="article.id"
-                                    />
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -109,7 +91,7 @@ export default {
         },
         popular () {
             let articles = this.articles.slice()
-            return articles.sort((a, b) => b.hitCount - a.hitCount).slice(0, 5)
+            return articles.sort((a, b) => b.hitCount - a.hitCount).slice(0, 3)
         },
         categories () {
             return this.$store.state['article-categories'].collection.map(category => ({
