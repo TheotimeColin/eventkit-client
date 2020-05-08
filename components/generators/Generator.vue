@@ -1,20 +1,27 @@
 <template>
     <div class="Generator">
-        
-        <div class="Generator_container">
-            <div class="Generator_navBar">
-                <div class="Generator_navBarItem">
-                    <i class="fa fa-paint-roller fa-lg"></i>
-                </div>
+        <div class="Generator_header">
+            <p class="ft-title-l">
+                <b>{{ project ? project.id : 'Nouveau projet' }}</b>
+            </p>
 
-                <div class="Generator_navBarItem">
-                    <i class="fa fa-tasks fa-lg"></i>
-                </div>
-
-                <div class="Generator_navBarItem">
-                    <i class="fa fa-print fa-lg"></i>
-                </div>
+            <div class="d-flex fx-align-center">
+                <p class="ft-s text-right mr-10">
+                    Dernière sauvegarde :<br>
+                    {{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}
+                </p>
+                <button-base class="ml-10" @click="$store.dispatch('generators/save')">
+                    Sauvegarder
+                </button-base>
             </div>
+        </div>
+
+        <div class="Generator_container">
+            <nav-bar class="Generator_navBar" :modifiers="['vertical', 'l']" :current="state.step" :items="[
+                { id: 'config', fa: 'paint-roller', onClick: () => state.step = 'config' },
+                { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
+                { id: 'print', fa: 'print', onClick: () => state.step = 'print' }
+            ]" />
 
             <div class="Generator_left">
                 <div class="Generator_overflow">
@@ -29,38 +36,25 @@
                     <configurator
                         class="Generator_configurator"
                         :project="project"
-                        :config="config"
-                        v-if="project && currentStep.id == 'config'"
+                        :initTheme="initTheme"
+                        v-if="project && state.step == 'config'"
                     />
 
                     <data-editor
                         class="Generator_dataEditor"
                         :project="project"
                         @select="(v) => selected = v"
-                        v-if="project && currentStep.id == 'data'"
+                        v-if="project && state.step == 'data'"
                     />
                 </div>
-
-                <!-- <div class="Generator_footer">
-                    <div class="Generator_creativeCenter" v-show="currentStep.id == 'data'">
-                        💡 Besoin d'idées ?
-                        <link-base @click.native="state.creative = !state.creative">Ouvrez le Creative center</link-base>
-                    </div>
-
-                    <div class="Generator_actions" v-if="project">
-                        <button-base :modifiers="['s', 'secondary']" :disabled="step == 0" @click="previousStep">
-                            Étape précédente
-                        </button-base>
-
-                        <div class="d-flex fx-align-center">
-                            <button-base :modifiers="['s']" class="ml-10" @click="nextStep">
-                                Prochaine étape
-                            </button-base>
-                        </div>
-                    </div>
-                </div> -->
             </div>
+
             <div class="Generator_previewer">
+                <div class="Generator_premiumAlert" v-show="isPremium">
+                    ⭐ Votre configuration comporte des éléments premium.
+                    <link-base>En savoir plus</link-base>
+                </div>
+                
                 <div class="Generator_previewOptions">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}
@@ -69,34 +63,11 @@
                 
                 <previewer
                     :project="project"
-                    :config="config"
+                    :init-theme="initTheme"
                     :active="selected"
                     :print="state.print"
                     v-if="project"
-                />
-
-                <creative-center :project="project" @select="(v) => selected = v" v-if="state.creative" />
-            </div>
-        </div>
-
-        <div class="Generator_premiumAlert" v-show="isPremium">
-            ⭐ Votre configuration comporte des éléments premium.
-            <link-base>En savoir plus</link-base>
-        </div>
-
-        <div class="Generator_header">
-            <p class="ft-title-l">
-                <b>{{ project.id }}</b>
-            </p>
-
-            <div class="d-flex fx-align-center">
-                <p class="ft-s text-right mr-10">
-                    Dernière sauvegarde :<br>
-                    {{ lastSaved }}
-                </p>
-                <button-base class="ml-10" @click="$store.dispatch('generators/save')">
-                    Sauvegarder
-                </button-base>
+                />*
             </div>
         </div>
     </div>
@@ -105,20 +76,21 @@
 <script>
 import dayjs from 'dayjs'
 
+import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
-import CreativeCenter from '@/components/generators/CreativeCenter'
 
 export default {
     name: 'Generator',
-    components: { Configurator, Previewer, DataEditor, CreativeCenter },
+    components: { NavBar, Configurator, Previewer, DataEditor },
     props: {
         project: { type: Object },
-        config: { type: Object }
+        initTheme: { type: Object }
     },
     data: () => ({
         state: {
+            step: 'config',
             print: false,
             creative: false
         },
@@ -132,7 +104,7 @@ export default {
                 active: false
             }
         },
-        step: 1,
+        step: 0,
         selected: 'default'
     }),
     computed: {
@@ -143,9 +115,9 @@ export default {
             let isPremium = false 
 
             if (this.$props.project) {
-                Object.keys(this.$props.project.values.theme).forEach(key => {
-                    let config = this.$props.config.theme[key]
-                    let value = this.$props.project.values.theme[key]
+                Object.keys(this.$props.project.theme).forEach(key => {
+                    let config = this.$props.initTheme[key]
+                    let value = this.$props.project.theme[key]
 
                     if (config.options) {
                         let valueFound = true
@@ -173,7 +145,12 @@ export default {
             return isPremium
         },
         lastSaved () {
-            return dayjs(this.$props.project.modifiedDate).fromNow()
+            let date = this.$props.project ? this.$props.project.modifiedDate : new Date()
+            return  dayjs(date).fromNow()
+        },
+        saveWarning () {
+            let date = this.$props.project ? this.$props.project.modifiedDate : new Date()
+            return dayjs(new Date()).diff(date, 'minutes') > 10
         }
     },
     methods: {

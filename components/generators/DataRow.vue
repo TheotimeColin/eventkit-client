@@ -6,8 +6,8 @@
             'is-disabled': localData ? localData.disabled : false
         }"
         :style="{
-            '--color1': localData ? localData.color1 : undefined,
-            '--color2': localData ? localData.color2 : undefined,   
+            '--color-1': localData && localData.pack ? localData.pack.color1 : undefined,
+            '--color-2': localData && localData.pack ? localData.pack.color2 : undefined,   
         }"
     >
         <template v-if="newRow">
@@ -23,7 +23,7 @@
             <label class="DataRow_label" v-if="selectable">
                 <input class="DataRow_checkbox" type="checkbox" @change="(e) => onCheck(e, value)" :checked="selected">
                 <p class="DataRow_check">✔️</p>
-                <div class="DataRow_text">{{ value.main }}</div>
+                <div class="DataRow_text">{{ value.content.main }}</div>
             </label>
 
             <input
@@ -32,7 +32,7 @@
                 @input="onInput"
                 @focus="select"
                 @keydown.enter="$emit('submit')"
-                :value="value.main"
+                :value="value.content ? value.content.main : ''"
                 ref="input"
                 v-if="!selectable"
             >
@@ -76,12 +76,15 @@ export default {
     },
     methods: {
         onInput () {
-            this.$data.localData.main = this.$refs.input.value
+            this.$data.localData.content = {
+                main: this.$refs.input.value
+            }
+            
             this.update()
             this.select()
         },
         onDelete () {
-            this.$emit('delete', this.$data.localData.id)
+            this.$emit('delete', this.$data.localData._id)
         },
         onDisable () {
             this.$data.localData.disabled = !this.$data.localData.disabled
@@ -98,7 +101,7 @@ export default {
             this.$emit('input', this.$data.localData)
         },
         select () {
-            this.$emit('select', this.$data.localData.id)
+            this.$emit('select', this.$data.localData._id)
         }
     },
 }

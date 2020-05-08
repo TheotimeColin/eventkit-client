@@ -3,7 +3,7 @@
         <div class="Page_content">
             <generator
                 :project="project"
-                :config="initConfig"
+                :init-theme="initTheme"
                 @create="onCreate"
             />
         </div>
@@ -12,24 +12,18 @@
 
 <script>
 import Generator from '@/components/generators/Generator'
-import initConfig from '@/config/conversation-starters'
+import initTheme from '@/config/conversation-starters'
 
-const initValues = {
-    theme: {
-        theme: 'default',
-        background: '#ef476f',
-        pattern: { patternUrl: '', patternColor: 'ffffff', patternOpacity: 1, patternScale: 1 },
-        font: { fontFamily: '"Lato"' },
-        color: '#000000',
-        size: { x: 65, y: 65 },
-        title: 'Starter n°',
-        footer: 'Créé sur eventkit.social'
-    },
-    data: [
-        { id: 'default', position: 0, main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 'sdqsd', position: 1, main: `Quel est le meilleur conseil qu'on t'aies jamais donné ?` },
-        { id: 'sdqsds', position: 2, main: `Quel serait ton boulot de rêve ?` },
-    ]
+const defaultTheme =  {
+    theme: 'default',
+    background: '#ef476f',
+    pattern: { patternUrl: '', patternColor: 'ffffff', patternOpacity: 1, patternScale: 1 },
+    font: { fontFamily: '"Lato"' },
+    color: '#000000',
+    size: { x: 65, y: 65, margin: 7.5 },
+    title: 'Starter n°',
+    footer: 'Créé sur eventkit.social',
+    elementScale: 1
 }
 
 export default {
@@ -46,7 +40,7 @@ export default {
         }
     },
     data: () => ({
-        initConfig
+        initTheme
     }),
     computed: {
         project () {
@@ -55,7 +49,9 @@ export default {
     },
     methods: {
         async onCreate () {
-            let newProject = await this.$store.dispatch('generators/create', initValues)
+            let newProject = await this.$store.dispatch('generators/create', defaultTheme)
+            console.log(newProject)
+            
             this.$router.push({ name: 'kits-generators-id', params: { id: newProject.id } })
         }
     }

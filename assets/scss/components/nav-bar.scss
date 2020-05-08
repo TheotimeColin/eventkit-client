@@ -11,6 +11,8 @@
     justify-content: center;
     border: 1px solid var(--color-border);
     border-left: none;
+    cursor: pointer;
+    transition: all 150ms ease;
 
     &:first-child {
         border: 1px solid var(--color-border);
@@ -19,4 +21,36 @@
 
 .NavBar_label {
     margin-left: 10px;
+}
+
+.NavBar_count {
+    font: var(--ft-2xs);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-ft-strong);
+    background-color: var(--color-bg);
+}
+
+.NavBar_item:hover,
+.NavBar_item.is-active {
+    color: var(--color-ft-strong);
+    background-color: var(--color-bg);
+}
+
+.NavBar--vertical {
+    flex-direction: column;
+}
+
+.NavBar--l {
+
+    .NavBar_item {
+        width: 80px;
+        height: 80px;
+        border: none;
+        border-bottom: 1px solid var(--color-border);
+    }
 }

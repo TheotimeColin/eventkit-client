@@ -2,12 +2,13 @@
     <div class="Previewer" :class="{ 'is-print': print, 'is-export': state.export }">
         <div class="Previewer_component" ref="component" v-if="!print">
             <component
-                :is="config.component"
-                :theme="project.values.theme"
-                :config="config.theme"
+                :is="initTheme.component.value"
+                :theme="project.theme"
+                :init-theme="initTheme"
                 :data="activeItem"
                 :style="style"
                 :scale="style['--scale']"
+                v-if="activeItem"
             />
         </div>
         <div class="Previewer_print" v-if="print">
@@ -21,9 +22,9 @@
                 <component
                     class="p-relative"
                     v-for="(item, i) in batch"
-                    :is="config.component"
-                    :theme="project.values.theme"
-                    :config="config.theme"
+                    :is="initTheme.component.value"
+                    :theme="project.theme"
+                    :init-theme="initTheme"
                     :data="item"
                     :key="i"
                     :scale="style['--scale'] * (state.export ? 3 : 1)"
@@ -43,7 +44,7 @@ export default {
     name: 'Previewer',
     components: { ConversationStarter, PageGenerator },
     props: {
-        config: { type: Object },
+        initTheme: { type: Object },
         project: { type: Object },
         print: { type: Boolean, default: false },
         active: { type: String, default: 'default' }
@@ -64,7 +65,7 @@ export default {
     },
     computed: {
         activeItems () {
-            return this.$props.project.values.data.filter(data => !data.disabled)
+            return this.$props.project.ideas.filter(idea => !idea.disabled)
         },
         activeItem () {
             let selected = this.activeItems.filter(i => i.id == this.$props.active)
@@ -75,8 +76,8 @@ export default {
             let pageHeight = 297
             let pageMargins = (15 * 2)
 
-            let componentWidth = this.$props.project.values.theme.size.x
-            let componentHeight = this.$props.project.values.theme.size.y
+            let componentWidth = this.$props.project.theme.size.x
+            let componentHeight = this.$props.project.theme.size.y
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)

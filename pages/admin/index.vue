@@ -12,6 +12,10 @@
             <nuxt-link :to="{ name: 'admin-entities-reactions' }">
                 Réactions
             </nuxt-link>
+
+            <nuxt-link :to="{ name: 'admin-generators-ideas' }">
+                Packs d'idées
+            </nuxt-link>
         </div>
     </div>
 </template>

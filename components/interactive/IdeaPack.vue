@@ -2,23 +2,23 @@
     <div
         class="IdeaPack"
         :class="{ 'is-active': state.active }"
-        :style="{ '--color-1': pack.color1, '--color-2': pack.color2 }"
+        :style="{ '--color-1': localPack.color1, '--color-2': localPack.color2 }"
     >
         <div class="IdeaPack_cover" @click="state.active = !state.active">
             <div class="IdeaPack_coverContainer">
-                <p class="IdeaPack_coverTitle">{{ pack.emoji }} {{ pack.title }}</p>
+                <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
 
                 <div class="IdeaPack_previewLength">
-                    <b>{{ pack.content.length * 100 }}</b>
-                    <p class="fx-shrink">{{ pack.description }}</p>
+                    <b>{{ ideas.length * 100 }}</b>
+                    <p class="fx-shrink">{{ localPack.description }}</p>
                 </div>
 
                 <div class="IdeaPack_preview">
                     <div class="IdeaPack_previewRail">
-                        <p class="IdeaPack_previewItem" v-for="value in pack.content.slice(0, 5)" :key="value.id">
+                        <p class="IdeaPack_previewItem" v-for="value in ideas.slice(0, 5)" :key="value._id">
                             {{ value.main }}
                         </p>
-                        <p class="IdeaPack_previewItem" v-for="(value, i) in pack.content.slice(0, 5)" :key="value.id + i">
+                        <p class="IdeaPack_previewItem" v-for="(value, i) in ideas.slice(0, 5)" :key="value._id + i">
                             {{ value.main }}
                         </p>
                     </div>
@@ -26,21 +26,32 @@
             </div>
         </div>
 
-        <div class="IdeaPack_content">
+        <div class="IdeaPack_ideas">
             <data-row
-                v-for="(value, i) in pack.content"
-                :value="{ ...value, emoji: pack.emoji }"
-                :selectable="true"
-                :selected="isSelected(value)"
+                class="IdeaPack_idea"
+                v-for="value in localPack.ideas"
+                :value="value"
+                @input="(v) => value = v"
                 @select="(v) => $emit('select', v)"
                 @deselect="(v) => $emit('deselect', v)"
-                :key="value.id + ' ' + i"
+                @delete="onDeleteValue"
+                :selectable="!updateMode"
+                :key="value._id"
+            />
+
+            <data-row
+                class="IdeaPack_idea"
+                :new-row="true"
+                @click.native="onAddIdea"
+                v-if="canAdd && updateMode"
             />
         </div>
     </div>
 </template>
 
 <script>
+import shortid from 'shortid'
+
 import DataRow from '@/components/generators/DataRow'
 
 export default {
@@ -48,16 +59,57 @@ export default {
     components: { DataRow },
     props: {
         pack: { type: Object },
-        values: { type: Array }
+        updateMode: { type: Boolean, default: false },
+        values: { type: Array },
+        defaultValue: { type: Object }
     },
     data: () => ({
         state: {
             active: false
-        }
+        },
+        localPack: null
     }),
+    computed: {
+        canAdd () {
+            let last = this.$data.localPack[this.$data.localPack.length - 1]
+            return last && last.content ? last.content.main != '' : true
+        },
+        ideas () {
+            return this.$data.localPack.ideas.filter(idea => idea.content)
+        }
+    },
+    watch: {
+        pack: {
+            immediate: true,
+            deep: true, 
+            handler (v) {
+                this.$data.localPack = JSON.parse(JSON.stringify(v))
+            }
+        }
+    },
     methods: {
         isSelected (option) {
+            return false
             return this.$props.values.filter(v => v.id == option.id).length > 0
+        },
+        onDeleteValue (id) {
+            this.$data.localPack.ideas = this.$data.localPack.ideas.filter(idea => idea._id != id)
+
+            this.update()
+        },
+        onAddIdea () {
+            this.$data.localPack.ideas.push({
+                _id: shortid.generate(),
+                new: true,
+                content: null
+            })
+
+            this.update()
+        },
+        update (v) {
+            this.$store.dispatch('generators/packs/post', {
+                data: this.$data.localPack
+            })
         }
     }
 }

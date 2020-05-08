@@ -7,26 +7,26 @@ export default {
         update (state, value) {
             state.project = value
         },
-        addData (state, value) {
-            let data = state.project.values.data.slice()
-            data.push(value)
+        addData (state, idea) {
+            let data = state.project.ideas.slice()
+            data.push(idea)
             
-            state.project.values.data = data
+            state.project.ideas = data
         },
-        removeData (state, value) {
-            let data = state.project.values.data.slice().filter(v => v.id !== value.id)
+        removeData (state, idea) {
+            let data = state.project.ideas.slice().filter(v => v.id !== idea.id)
             
-            state.project.values.data = data
+            state.project.ideas = data
         },
         addDataRow (state) {
-            let data = state.project.values.data.slice()
-            state.project.values.data = data
+            let data = state.project.ideas.slice()
+            state.project.ideas = data
         },
         updateTheme (state, theme) {
-            state.project.values.theme = theme
+            state.project.theme = theme
         },
         updateData (state, data) {
-            state.project.values.data = data
+            state.project.ideas = data
         }
     },
     actions: {
@@ -54,13 +54,14 @@ export default {
             dispatch('post', {
                 data: {
                     id: state.project.id,
-                    values: state.project.values
+                    ideas: state.project.ideas,
+                    theme: state.project.theme
                 }
             })
         },
-        async create ({ dispatch }, values) {
+        async create ({ dispatch }, theme) {
             return await dispatch('post', {
-                data: { values }
+                data: { theme }
             })
         }
     }

@@ -1,17 +1,28 @@
 <template>
-    <div class="NavBar">
-        <div class="NavBar_item" v-for="item in items" :key="item.id">
-            <i class="fa" :class="{ ['fa-' + item.fa ]: true }"></i>
-            <p class="NavBar_label">{{ item.label }}</p>
+    <div class="NavBar" :class="{ ...$modifiers }">
+        <div
+            v-for="item in items"
+            class="NavBar_item"
+            :class="{ 'is-active': item.id == current}"
+            @click="item.onClick"
+            :key="item.id"
+        >
+            <i class="fa" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
+            <div class="NavBar_count" v-if="item.count">{{ item.count }}</div>
+            <p class="NavBar_label" v-if="item.label">{{ item.label }}</p>
         </div>
     </div>
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'NavBar',
+    mixins: [ base ],
     props: {
-        items: { type: Array }
+        items: { type: Array },
+        current: { type: String }
     }
 }
 </script>

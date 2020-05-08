@@ -5,7 +5,7 @@
 
 .IdeaPack_cover {
     position: relative;
-    height: 100px;
+    height: 75px;
     overflow: hidden;
     z-index: 2;
     background: linear-gradient(-45deg, var(--color-2), var(--color-1));
@@ -112,6 +112,10 @@
         filter: blur(30px);
         opacity: 0.9;
     }
+}
+
+.IdeaPack_idea {
+    margin-top: 5px;
 }
 
 

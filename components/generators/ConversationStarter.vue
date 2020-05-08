@@ -11,8 +11,8 @@
                 <p class="ConversationStarter_id">{{ data.position ? data.position : '0' }}</p>
             </div>
 
-            <p class="ConversationStarter_main" :class="{ 'is-empty': data.main == '' }">
-                {{ data.main ? data.main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
+            <p class="ConversationStarter_main" :class="{ 'is-empty': !data.content }">
+                {{ data.content ? data.content.main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
             </p>
             
             <p class="ConversationStarter_copyright">
@@ -28,7 +28,7 @@ import patterns from '@/config/patterns'
 export default {
     name: 'ConversationStarter',
     props: {
-        config: {},
+        initTheme: {},
         theme: {},
         data: {},
         scale: { type: Number, default: 1 }
@@ -37,8 +37,8 @@ export default {
         classes () {
             let classes = {}
 
-            Object.keys(this.$props.config).forEach(key => {
-                let choice = this.$props.config[key]
+            Object.keys(this.$props.initTheme).forEach(key => {
+                let choice = this.$props.initTheme[key]
                 let value = this.$props.theme[key]
                 
                 if (choice.isClass) classes[`${choice.id}-${value}`] = true
@@ -49,8 +49,8 @@ export default {
         style () {
             let style = {}
 
-            Object.keys(this.$props.config).forEach(key => {
-                let choice = this.$props.config[key]
+            Object.keys(this.$props.initTheme).forEach(key => {
+                let choice = this.$props.initTheme[key]
                 let value = this.$props.theme[key]
 
                 if (choice.var) style[`--${choice.var}`] = value
