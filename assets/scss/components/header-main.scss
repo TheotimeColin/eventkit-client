@@ -104,7 +104,7 @@
 
     &::before {
         background-color: var(--color-bg-light);
-        transform: scaleY(calc(110px / 60px));
+        transform: scaleY(1.83);
         transition: all 150ms ease-in;
     }
 }
