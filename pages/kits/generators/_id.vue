@@ -44,14 +44,12 @@ export default {
     }),
     computed: {
         project () {
-            return this.$store.state.generators.project
+            return this.$store.getters['generators/getProject']
         }
     },
     methods: {
         async onCreate () {
             let newProject = await this.$store.dispatch('generators/create', defaultTheme)
-            console.log(newProject)
-            
             this.$router.push({ name: 'kits-generators-id', params: { id: newProject.id } })
         }
     }

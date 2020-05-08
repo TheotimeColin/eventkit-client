@@ -14,12 +14,8 @@ export default {
             state.project.ideas = data
         },
         removeData (state, idea) {
-            let data = state.project.ideas.slice().filter(v => v.id !== idea.id)
+            let data = state.project.ideas.slice().filter(v => v._id !== idea._id)
             
-            state.project.ideas = data
-        },
-        addDataRow (state) {
-            let data = state.project.ideas.slice()
             state.project.ideas = data
         },
         updateTheme (state, theme) {
@@ -43,6 +39,10 @@ export default {
         async post ({ commit }, params) {
             const response = await this.$axios.$post(`/generators/projects`, params.data)
 
+            commit('utils/addNotification', {
+                type: response.status ? 'success' : 'error'
+            }, { root: true })
+
             if (response.project) {
                 commit('update', response.project)
                 return response.project
@@ -63,6 +63,19 @@ export default {
             return await dispatch('post', {
                 data: { theme }
             })
+        }
+    },
+    getters: {
+        getProject (state) {
+            let position = 0
+
+            return state.project ? {
+                ...state.project,
+                ideas: state.project.ideas.map(idea => {
+                    if (!idea.disabled) position++
+                    return { ...idea, position }
+                })
+            } : null
         }
     }
 }

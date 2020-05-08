@@ -12,7 +12,7 @@
     border-left: none;
     cursor: pointer;
     position: relative;
-    background: var(--background);
+    background: var(--background, linear-gradient(45deg, rgba(253,29,90,1) 0%, rgba(253,229,38,1) 33%, rgba(78,251,255,1) 66%, rgba(69,76,252,1) 100%));
     margin: 3px;
 
     &::after {
@@ -94,6 +94,10 @@
     &::after {
         display: none;
     }
+}
+
+.ColorPicker_option--pattern {
+    background: var(--background, white);
 }
 
 .ColorPicker_option.is-premium {

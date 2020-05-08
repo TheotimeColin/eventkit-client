@@ -1,0 +1,49 @@
+.ActionMenu {
+    
+}
+
+.ActionMenu_trigger {
+    cursor: pointer;
+}
+
+.ActionMenu_list {
+    position: absolute;
+    z-index: 10;
+    bottom: 5px;
+    right: 5px;
+    padding: 0;
+    margin: 0;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(0, calc(100% - 5px), 0);
+    @include box-shadow-s;
+}
+
+.ActionMenu_listItem {
+    font: var(--ft-s);
+    margin: 0;
+    min-width: 100px;
+    list-style-type: none;
+    white-space: nowrap;
+    padding: 8px 10px;
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    transition: all 150ms ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--color-ft-strong);
+        background-color: var(--color-bg);
+    }
+}
+
+.ActionMenu.is-active {
+
+    .ActionMenu_list {
+        opacity: 1;
+        pointer-events: all;
+        transform: translate3d(0, 100%, 0);
+    }
+}

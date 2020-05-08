@@ -11,7 +11,7 @@
                 v-if="activeItem"
             />
         </div>
-        <div class="Previewer_print" v-if="print">
+        <div class="Previewer_print" v-if="print" @click="onExport">
             <page-generator
                 class="Previewer_page"
                 :scale="style['--page-scale'] * (state.export ? 3 : 1)"
@@ -47,7 +47,7 @@ export default {
         initTheme: { type: Object },
         project: { type: Object },
         print: { type: Boolean, default: false },
-        active: { type: String, default: 'default' }
+        selected: { type: String, default: 'default' }
     },
     data: () => ({
         state: {
@@ -68,7 +68,7 @@ export default {
             return this.$props.project.ideas.filter(idea => !idea.disabled)
         },
         activeItem () {
-            let selected = this.activeItems.filter(i => i.id == this.$props.active)
+            let selected = this.activeItems.filter(i => i._id == this.$props.selected)
             return selected[0] ? selected[0] : this.activeItems[this.activeItems.length - 1]
         },
         batches () {

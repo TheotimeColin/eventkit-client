@@ -26,32 +26,35 @@
                 <div class="DataRow_text">{{ value.content.main }}</div>
             </label>
 
-            <input
+            <textarea
                 class="DataRow_input"
-                type="text"
-                @input="onInput"
+                rows="1"
+                :value="localData.content ? localData.content.main : ''"
                 @focus="select"
-                @keydown.enter="$emit('submit')"
-                :value="value.content ? value.content.main : ''"
+                @input="onInput"
+                @keydown.enter="(e) => { e.preventDefault(); $emit('submit') }"
                 ref="input"
                 v-if="!selectable"
-            >
-        
-            <div @click="onDelete" class="DataRow_delete" v-show="value.disabled">
-                <i class="fa fa-trash"></i>
-            </div>
+            ></textarea>
 
-            <div @click="onDisable" class="DataRow_disable" v-if="!selectable">
-                <i class="fa fa-eye" v-show="!value.disabled"></i>
-                <i class="fa fa-eye-slash" v-show="value.disabled"></i>
-            </div>
+            <action-menu
+                class="DataRow_actions"
+                :items="[
+                    { label: value.disabled ? `Activer` : `Désactiver`, onClick: this.onDisable, disabled: selectable },
+                    { label: `Valeur d'origine`, onClick: this.reset, disabled: !canReset },
+                    { label: `Supprimer`, onClick: this.onDelete },
+                ]"
+            />
         </template>
     </div>
 </template>
 
 <script>
+import ActionMenu from '@/components/interactive/ActionMenu'
+
 export default {
     name: 'DataRow',
+    components: { ActionMenu },
     props: {
         value: { type: Object },
         selectable: { type: Boolean, default: false },
@@ -62,6 +65,12 @@ export default {
     data: () => ({
         localData: null
     }),
+    computed: {
+        canReset () {
+            let original = this.$data.localData.original
+            return original && this.$data.localData.content.main !== original.content.main
+        }
+    },
     watch: {
         value: {
             immediate: true,
@@ -72,16 +81,23 @@ export default {
         }
     },
     mounted () {
-        // if (!this.$props.newRow && this.$refs.input) this.$refs.input.focus()
+        this.setHeight()
     },
     methods: {
+        setHeight () {
+            if (!this.$refs.input) return 
+            
+            this.$refs.input.style.height = '0px'
+            this.$refs.input.style.height = this.$refs.input.scrollHeight + 'px'
+        },
         onInput () {
+            this.setHeight()
+
             this.$data.localData.content = {
                 main: this.$refs.input.value
             }
-            
+
             this.update()
-            this.select()
         },
         onDelete () {
             this.$emit('delete', this.$data.localData._id)
@@ -97,10 +113,15 @@ export default {
                 this.$emit('deselect', value)
             }
         },
+        reset () {
+            this.$data.localData.content = this.$data.localData.original.content
+            this.update()
+        },
         update (e) {
             this.$emit('input', this.$data.localData)
         },
         select () {
+            console.log('select')
             this.$emit('select', this.$data.localData._id)
         }
     },

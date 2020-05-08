@@ -9,17 +9,17 @@
                 <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
 
                 <div class="IdeaPack_previewLength">
-                    <b>{{ ideas.length * 100 }}</b>
+                    <b>{{ ideas.length }}</b>
                     <p class="fx-shrink">{{ localPack.description }}</p>
                 </div>
 
                 <div class="IdeaPack_preview">
                     <div class="IdeaPack_previewRail">
                         <p class="IdeaPack_previewItem" v-for="value in ideas.slice(0, 5)" :key="value._id">
-                            {{ value.main }}
+                            {{ value.content.main }}
                         </p>
                         <p class="IdeaPack_previewItem" v-for="(value, i) in ideas.slice(0, 5)" :key="value._id + i">
-                            {{ value.main }}
+                            {{ value.content.main }}
                         </p>
                     </div>
                 </div>
@@ -36,6 +36,7 @@
                 @deselect="(v) => $emit('deselect', v)"
                 @delete="onDeleteValue"
                 :selectable="!updateMode"
+                :selected="isSelected(value)"
                 :key="value._id"
             />
 
@@ -89,8 +90,7 @@ export default {
     },
     methods: {
         isSelected (option) {
-            return false
-            return this.$props.values.filter(v => v.id == option.id).length > 0
+            return this.$props.values.filter(v => v.content && v.content.main == option.content.main).length > 0
         },
         onDeleteValue (id) {
             this.$data.localPack.ideas = this.$data.localPack.ideas.filter(idea => idea._id != id)

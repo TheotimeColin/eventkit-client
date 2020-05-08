@@ -32,7 +32,7 @@ export default {
             custom: false
         },
         colorPicker: null,
-        custom: '#ffffff'
+        custom: undefined
     }),
     mounted () {
         if (this.$refs.custom) {
@@ -49,7 +49,7 @@ export default {
         }
 
         document.addEventListener('click', (e) => {
-            if (!e.target || !this.$refs.custom) return
+            if (!e.target || !this.$refs.custom || !this.$refs.custom[0]) return
             
             if (!this.$refs.custom[0].contains(e.target)) this.$data.state.custom = false
         })

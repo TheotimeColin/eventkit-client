@@ -25,6 +25,13 @@ hr {
     margin: 0;
 }
 
+input {
+
+    &::placeholder {
+        color: var(--color-ft-xweak);
+    }
+}
+
 .underline {
     display: inline-block;
     position: relative;

@@ -39,6 +39,7 @@ export default {
         onSelect (pack, v) {
             this.$store.commit('generators/addData', {
                 ...v,
+                original: v,
                 _id: shortid.generate(),
                 pack: {
                     ...pack,
@@ -48,7 +49,11 @@ export default {
             })
         },
         onDeselect (v) {
-            // this.$store.commit('generators/removeData', v)
+            let toRemove = this.$props.project.ideas.filter(idea => idea.content && idea.content.main == v.content.main)
+
+            toRemove.forEach(remove => {
+                this.$store.commit('generators/removeData', remove)
+            })
         }
     }
 }

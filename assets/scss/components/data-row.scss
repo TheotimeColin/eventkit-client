@@ -9,7 +9,6 @@
     padding-left: 7px;
 
     &:hover {
-        transform: translateY(-1px);
         box-shadow: 0 3px 6px 0 rgba(30, 102, 255, 0.2);
     }
 
@@ -25,6 +24,7 @@
 }
 
 .DataRow_input {
+    height: auto;
     font: var(--ft-m);
     border: none;
     background: transparent;
@@ -32,18 +32,11 @@
     padding: 10px;
     outline: none;
     flex-grow: 1;
+    resize: none;
 }
 
-.DataRow_disable,
-.DataRow_delete {
-    font-size: 12px;
-    padding: 10px;
-}
-
-.DataRow_delete {
-    padding: 10px 0;
-    margin-left: 5px;
-    color: var(--color-error-strong);
+.DataRow_actions {
+    margin-right: 10px;
 }
 
 .DataRow_handle {
@@ -87,17 +80,8 @@
 
 .DataRow.is-disabled {
 
-    .DataRow_disable,
-    .DataRow_handle,
     .DataRow_input {
         opacity: 0.25;
-    }
-
-    .DataRow_disable {
-        opacity: 0.5;
-    }
-
-    .DataRow_input {
         pointer-events: none;
     }
 }

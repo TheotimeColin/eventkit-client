@@ -1,11 +1,11 @@
 <template>
     <div class="Generator">
-        <div class="Generator_header">
+        <div class="Generator_header" v-if="project">
             <p class="ft-title-l">
                 <b>{{ project ? project.id : 'Nouveau projet' }}</b>
             </p>
 
-            <div class="d-flex fx-align-center">
+            <div class="d-flex fx-align-center" v-if="project">
                 <p class="ft-s text-right mr-10">
                     Dernière sauvegarde :<br>
                     {{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}
@@ -21,18 +21,12 @@
                 { id: 'config', fa: 'paint-roller', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' }
-            ]" />
+            ]" v-if="project" />
 
-            <div class="Generator_left">
+            <kickstart class="Generator_kickstart" @create="$emit('create')" v-if="!project" />
+
+            <div class="Generator_left" v-if="project">
                 <div class="Generator_overflow">
-                    <div v-if="!project">
-                        Welcome
-
-                        <button-base @click="$emit('create')">
-                            Créer mon projet
-                        </button-base>
-                    </div>
-
                     <configurator
                         class="Generator_configurator"
                         :project="project"
@@ -49,13 +43,13 @@
                 </div>
             </div>
 
-            <div class="Generator_previewer">
+            <div class="Generator_previewer" v-if="project">
                 <div class="Generator_premiumAlert" v-show="isPremium">
                     ⭐ Votre configuration comporte des éléments premium.
                     <link-base>En savoir plus</link-base>
                 </div>
                 
-                <div class="Generator_previewOptions">
+                <div class="Generator_previewOptions" v-if="project">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}
                     </button-base>
@@ -64,10 +58,10 @@
                 <previewer
                     :project="project"
                     :init-theme="initTheme"
-                    :active="selected"
+                    :selected="selected"
                     :print="state.print"
                     v-if="project"
-                />*
+                />
             </div>
         </div>
     </div>
@@ -80,10 +74,11 @@ import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
+import Kickstart from '@/components/generators/Kickstart'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Configurator, Previewer, DataEditor },
+    components: { NavBar, Kickstart, Configurator, Previewer, DataEditor },
     props: {
         project: { type: Object },
         initTheme: { type: Object }

@@ -1,24 +1,26 @@
 <template>
     <div class="Configurator" v-if="theme">
         <div class="Configurator_theme">
-            <nav-bar class="mb-20" :items="nav" :current="state.active" />
+            <nav-bar class="Configurator_nav" :modifiers="['secondary']" :items="nav" :current="state.active" />
             
-            <div class="Configurator_group" v-for="(group, key) in availableOptions" :key="key" v-show="state.active == key">
-                <div
-                    class="Configurator_row"
-                    v-for="(item, key) in group"
-                    :key="key"
-                >
-                    <p class="mb-10"><b>{{ item.label }}</b></p>
+            <div class="p-20">
+                <div class="Configurator_group" v-for="(group, key) in availableOptions" :key="key" v-show="state.active == key">
+                    <div
+                        class="Configurator_row"
+                        v-for="(item, key) in group"
+                        :key="key"
+                    >
+                        <p class="mb-10"><b>{{ item.label }}</b></p>
 
-                    <component
-                        :is="item.type"
-                        :premium="item.premium"
-                        :options="item.options"
-                        :default-value="item.defaultValue"
-                        v-model="theme[key]"
-                        @input="$store.commit('generators/updateTheme', theme)"
-                    />
+                        <component
+                            :is="item.type"
+                            :premium="item.premium"
+                            :options="item.options"
+                            :default-value="item.defaultValue"
+                            v-model="theme[key]"
+                            @input="$store.commit('generators/updateTheme', theme)"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,6 +95,15 @@ export default {
 <style lang="scss"> 
     .Configurator_row {
         padding: 20px 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .Configurator_nav {
+        position: sticky;
+        top: 0;
+        z-index: 8;
+        width: 100%;
+        background-color: var(--color-bg-light);
         border-bottom: 1px solid var(--color-border);
     }
 
