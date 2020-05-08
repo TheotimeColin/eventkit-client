@@ -1,6 +1,21 @@
 <template>
     <div class="Generator">
+        
         <div class="Generator_container">
+            <div class="Generator_navBar">
+                <div class="Generator_navBarItem">
+                    <i class="fa fa-paint-roller fa-lg"></i>
+                </div>
+
+                <div class="Generator_navBarItem">
+                    <i class="fa fa-tasks fa-lg"></i>
+                </div>
+
+                <div class="Generator_navBarItem">
+                    <i class="fa fa-print fa-lg"></i>
+                </div>
+            </div>
+
             <div class="Generator_left">
                 <div class="Generator_overflow">
                     <div v-if="!project">
@@ -12,52 +27,76 @@
                     </div>
 
                     <configurator
+                        class="Generator_configurator"
                         :project="project"
                         :config="config"
                         v-if="project && currentStep.id == 'config'"
                     />
 
                     <data-editor
+                        class="Generator_dataEditor"
                         :project="project"
                         @select="(v) => selected = v"
                         v-if="project && currentStep.id == 'data'"
                     />
                 </div>
 
-                <div class="Generator_footer">
-                    <div class="Generator_premiumAlert" v-show="isPremium">
-                        ⭐ Votre configuration comporte des éléments premium.
-                        <link-base>En savoir plus</link-base>
+                <!-- <div class="Generator_footer">
+                    <div class="Generator_creativeCenter" v-show="currentStep.id == 'data'">
+                        💡 Besoin d'idées ?
+                        <link-base @click.native="state.creative = !state.creative">Ouvrez le Creative center</link-base>
                     </div>
 
                     <div class="Generator_actions" v-if="project">
-                        <button-base :disabled="step == 0" @click="previousStep">
+                        <button-base :modifiers="['s', 'secondary']" :disabled="step == 0" @click="previousStep">
                             Étape précédente
                         </button-base>
 
                         <div class="d-flex fx-align-center">
-                            <p class="ft-s text-right">
-                                Dernière sauvegarde :<br>
-                                {{ lastSaved }}
-                            </p>
-                            <button-base class="ml-10" @click="$store.dispatch('generators/save')">
-                                Sauvegarder
-                            </button-base>
-                            <button-base class="ml-10"  @click="nextStep">
+                            <button-base :modifiers="['s']" class="ml-10" @click="nextStep">
                                 Prochaine étape
                             </button-base>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="Generator_previewer">
                 <div class="Generator_previewOptions">
                     <button-base @click="state.print = !state.print">
-                        Mode page
+                        {{ state.print ? 'Mode individuel' : 'Mode page' }}
                     </button-base>
                 </div>
                 
-                <previewer :project="project" :config="config" :active="selected" :print="state.print" v-if="project" />
+                <previewer
+                    :project="project"
+                    :config="config"
+                    :active="selected"
+                    :print="state.print"
+                    v-if="project"
+                />
+
+                <creative-center :project="project" @select="(v) => selected = v" v-if="state.creative" />
+            </div>
+        </div>
+
+        <div class="Generator_premiumAlert" v-show="isPremium">
+            ⭐ Votre configuration comporte des éléments premium.
+            <link-base>En savoir plus</link-base>
+        </div>
+
+        <div class="Generator_header">
+            <p class="ft-title-l">
+                <b>{{ project.id }}</b>
+            </p>
+
+            <div class="d-flex fx-align-center">
+                <p class="ft-s text-right mr-10">
+                    Dernière sauvegarde :<br>
+                    {{ lastSaved }}
+                </p>
+                <button-base class="ml-10" @click="$store.dispatch('generators/save')">
+                    Sauvegarder
+                </button-base>
             </div>
         </div>
     </div>
@@ -69,17 +108,19 @@ import dayjs from 'dayjs'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
+import CreativeCenter from '@/components/generators/CreativeCenter'
 
 export default {
     name: 'Generator',
-    components: { Configurator, Previewer, DataEditor },
+    components: { Configurator, Previewer, DataEditor, CreativeCenter },
     props: {
         project: { type: Object },
         config: { type: Object }
     },
     data: () => ({
         state: {
-            print: false
+            print: false,
+            creative: false
         },
         steps: {
             config: {
@@ -107,7 +148,7 @@ export default {
                     let value = this.$props.project.values.theme[key]
 
                     if (config.options) {
-                        let valueFound = false
+                        let valueFound = true
 
                         config.options.forEach(option => {
                             let optionValue = config.defining ? value[config.defining] : value

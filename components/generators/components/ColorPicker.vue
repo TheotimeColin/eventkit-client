@@ -5,6 +5,7 @@
             class="ColorPicker_option"
             :class="{
                 'ColorPicker_custom': option.custom,
+                'is-premium': option.premium,
                 'is-selected': option.custom ? value == custom : value == option.value,
                 'is-active': state.custom
             }"
@@ -13,7 +14,6 @@
             :ref="option.custom ? 'custom' : 'color'"
             :key="option.id"
         >
-            <p class="ColorPicker_premium" v-if="option.premium">⭐</p>
         </div>
     </div>
 </template>

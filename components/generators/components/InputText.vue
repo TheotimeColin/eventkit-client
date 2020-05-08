@@ -5,7 +5,6 @@
         <div class="InputText_undo" v-show="value != defaultValue" @click="reset">
             <i class="fa fa-undo"></i>
         </div>
-        <p class="InputText_premium" v-show="premium">⭐</p>
     </div>
 </template>
 
@@ -36,11 +35,10 @@ export default {
         align-items: center;
 
         &.is-premium.is-modified {
-            background-color: #fff6e4;
-            color: #ff9900;
+            color: var(--color-premium-strong);
             
             input {
-                color: #ff9900;
+                color: var(--color-premium-strong);
             }
         }
 
@@ -53,17 +51,20 @@ export default {
             outline: none;
             flex-grow: 1;
         }
-    }
+        
+        &.is-premium {
+            background-color: var(--color-premium-weak);
 
-    .InputText_premium {
-        flex-shrink: 0;
-        padding: 0 10px;
+            input {
+                color: var(--color-premium);
+            }
+        }
     }
 
     .InputText_undo {
         font-size: 12px;
         flex-shrink: 0;
-        padding-left: 10px;
+        padding: 0 10px;
         cursor: pointer;
         transition: all 150ms ease;
 

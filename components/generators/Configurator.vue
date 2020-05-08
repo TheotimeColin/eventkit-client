@@ -27,10 +27,11 @@ import ChoiceButtons from '@/components/generators/components/ChoiceButtons'
 import ColorPicker from '@/components/generators/components/ColorPicker'
 import PatternPicker from '@/components/generators/components/PatternPicker'
 import InputText from '@/components/generators/components/InputText'
+import Range from '@/components/generators/components/Range'
 
 export default {
     name: 'Configurator',
-    components: { ChoiceButtons, PatternPicker, ColorPicker, InputText },
+    components: { ChoiceButtons, PatternPicker, ColorPicker, InputText, Range },
     props: {
         config: { type: Object },
         project: { type: Object }

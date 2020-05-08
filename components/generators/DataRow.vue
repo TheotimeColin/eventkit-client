@@ -1,21 +1,51 @@
 <template>
-    <div class="DataRow" :class="{ 'is-disable': isDisable }">
-        <i class="fa fa-align-justify handle"></i>
+    <div
+        class="DataRow"
+        :class="{
+            'DataRow--new': newRow,
+            'is-disabled': localData ? localData.disabled : false
+        }"
+        :style="{
+            '--color1': localData ? localData.color1 : undefined,
+            '--color2': localData ? localData.color2 : undefined,   
+        }"
+    >
+        <template v-if="newRow">
+            <i class="pl-10 color-ft-xweak fa fa-plus fa-xs"></i>
+            <p class="DataRow_input color-ft-xweak">Ajouter</p>
+        </template>
 
-        <input
-            class="DataRow_input"
-            type="text"
-            @input="onInput"
-            :value="value"
-            @focus="$emit('select', id)"
-            @keyup.enter="$emit('submit')"
-            ref="input"
-        >
+        <template v-else-if="localData">
+            <i class="fa fa-align-justify handle DataRow_handle" v-if="!selectable"></i>
+            
+            <p class="color-ft-xweak">{{ value.disabled ? ' ' : value.position }}</p>
 
-        <div @click="$emit('toggle', !isDisable)">
-            <i class="fa fa-eye" v-show="!isDisable"></i>
-            <i class="fa fa-eye-slash" v-show="isDisable"></i>
-        </div>
+            <label class="DataRow_label" v-if="selectable">
+                <input class="DataRow_checkbox" type="checkbox" @change="(e) => onCheck(e, value)" :checked="selected">
+                <p class="DataRow_check">✔️</p>
+                <div class="DataRow_text">{{ value.main }}</div>
+            </label>
+
+            <input
+                class="DataRow_input"
+                type="text"
+                @input="onInput"
+                @focus="select"
+                @keydown.enter="$emit('submit')"
+                :value="value.main"
+                ref="input"
+                v-if="!selectable"
+            >
+        
+            <div @click="onDelete" class="DataRow_delete" v-show="value.disabled">
+                <i class="fa fa-trash"></i>
+            </div>
+
+            <div @click="onDisable" class="DataRow_disable" v-if="!selectable">
+                <i class="fa fa-eye" v-show="!value.disabled"></i>
+                <i class="fa fa-eye-slash" v-show="value.disabled"></i>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -23,31 +53,53 @@
 export default {
     name: 'DataRow',
     props: {
-        id: { type: String },
-        value: { type: String },
+        value: { type: Object },
+        selectable: { type: Boolean, default: false },
+        selected: { type: Boolean, default: false },
+        newRow: { type: Boolean, default: false },
         isDisable: { type: Boolean, default: false }
     },
-    methods: {
-        onInput (e) {
-            this.$emit('input', e.target.value)
+    data: () => ({
+        localData: null
+    }),
+    watch: {
+        value: {
+            immediate: true,
+            deep: true,
+            handler (v) {
+                this.$data.localData = v
+            }
         }
     },
     mounted () {
-        this.$refs.input.focus()
-    }
+        // if (!this.$props.newRow && this.$refs.input) this.$refs.input.focus()
+    },
+    methods: {
+        onInput () {
+            this.$data.localData.main = this.$refs.input.value
+            this.update()
+            this.select()
+        },
+        onDelete () {
+            this.$emit('delete', this.$data.localData.id)
+        },
+        onDisable () {
+            this.$data.localData.disabled = !this.$data.localData.disabled
+            this.update()
+        },
+        onCheck (e, value) {
+            if (e.target.checked) {
+                this.$emit('select', value)
+            } else {
+                this.$emit('deselect', value)
+            }
+        },
+        update (e) {
+            this.$emit('input', this.$data.localData)
+        },
+        select () {
+            this.$emit('select', this.$data.localData.id)
+        }
+    },
 }
 </script>
-
-<style lang="scss" scoped>
-    .DataRow {
-        display: flex;
-    }
-
-    .DataRow.is-disable {
-
-        input {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-    }
-</style>

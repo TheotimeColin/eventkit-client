@@ -54,7 +54,27 @@
     }
 }
 
+.ButtonBase--s {
+    font: var(--ft-xs);
+    padding: 10px 15px;
+}
+
 .ButtonBase--xs {
     font: var(--ft-xs);
     padding: 7px 10px;
+}
+
+.ButtonBase--secondary {
+    background-color: transparent;
+    color: var(--color-blue);
+    border: 1px solid var(--color-blue);
+    box-shadow: none;
+    transform: none;
+
+    &:hover {
+        color: var(--color-ft-light);
+        background-color: var(--color-blue-strong);
+        box-shadow: none;
+        transform: none;
+    }
 }

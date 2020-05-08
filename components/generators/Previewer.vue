@@ -1,5 +1,5 @@
 <template>
-    <div class="Previewer" :class="{ 'is-print': print }">
+    <div class="Previewer" :class="{ 'is-print': print, 'is-export': state.export }">
         <div class="Previewer_component" ref="component" v-if="!print">
             <component
                 :is="config.component"
@@ -10,7 +10,7 @@
                 :scale="style['--scale']"
             />
         </div>
-        <div class="Previewer_print" v-if="print" @click="onExport">
+        <div class="Previewer_print" v-if="print">
             <page-generator
                 class="Previewer_page"
                 :scale="style['--page-scale'] * (state.export ? 3 : 1)"
@@ -64,10 +64,11 @@ export default {
     },
     computed: {
         activeItems () {
-            return this.$props.project.values.data
+            return this.$props.project.values.data.filter(data => !data.disabled)
         },
         activeItem () {
-            return this.activeItems.filter(i => i.id == this.$props.active)[0]
+            let selected = this.activeItems.filter(i => i.id == this.$props.active)
+            return selected[0] ? selected[0] : this.activeItems[this.activeItems.length - 1]
         },
         batches () {
             let pageWidth = 210
@@ -87,7 +88,7 @@ export default {
             let size = batchSize
             let batchId = 0
 
-            this.activeItems.slice(0, 1).forEach(component => {
+            this.activeItems.forEach(component => {
                 batch.push(component)
                 size--
 

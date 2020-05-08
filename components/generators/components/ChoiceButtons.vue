@@ -2,9 +2,9 @@
     <div class="ChoiceButtons">
         <div
             class="ChoiceButtons_option"
-            v-for="option in options"
+            v-for="option in fixedOptions"
             :class="{
-                'is-selected': JSON.stringify(value) === JSON.stringify(option.value),
+                'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
                 'is-premium': option.premium
             }"
             :key="option.id"
@@ -13,8 +13,22 @@
             <p class="ChoiceButtons_content">
                 {{ option.label }}
             </p>
+        </div>
 
-            <p class="ChoiceButtons_premium" v-show="option.premium">⭐</p>
+        <div
+            class="ChoiceButtons_custom"
+            v-for="option in customOptions"
+            :class="{
+                'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
+                'is-premium': option.premium
+            }"
+            :key="option.id"
+        >
+            <div class="d-flex fx-align-center mr-10" v-for="(custom, key) in option.custom" :key="key">
+                <p class="mr-10">{{ custom.label }}</p>
+
+                <input class="ChoiceButtons_customInput" type="number" step="0.5" v-model="localValue[key]" @change="update" v-if="custom.type == 'input'">
+            </div>
         </div>
     </div>
 </template>
@@ -26,9 +40,31 @@ export default {
         value: {},
         options: { type: Array }
     },
+    data: () => ({
+        localValue: null
+    }),
+    watch: {
+        value: {
+            immediate: true,
+            deep: true,
+            handler (v) { this.$data.localValue = v }
+        }
+    },
+    computed: {
+        fixedOptions () {
+            return this.$props.options.filter(v => !v.custom)
+        },
+        customOptions () {
+            return this.$props.options.filter(v => v.custom)
+        }
+    },
     methods: {
         onSelect (value) {
-            this.$emit('input', value)
+            this.$data.localValue = value
+            this.update()
+        },
+        update () {
+            this.$emit('input', this.$data.localValue)
         }
     }
 }

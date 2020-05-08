@@ -26,9 +26,9 @@ const initValues = {
         footer: 'Créé sur eventkit.social'
     },
     data: [
-        { id: 'default', main: 'Quel est le pire film que tu aies jamais vu ?' },
-        { id: 'sdqsd', main: `Quel est le meilleur conseil qu'on t'aies jamais donné ?` },
-        { id: 'sdqsds', main: `Quel serait ton boulot de rêve ?` },
+        { id: 'default', position: 0, main: 'Quel est le pire film que tu aies jamais vu ?' },
+        { id: 'sdqsd', position: 1, main: `Quel est le meilleur conseil qu'on t'aies jamais donné ?` },
+        { id: 'sdqsds', position: 2, main: `Quel serait ton boulot de rêve ?` },
     ]
 }
 

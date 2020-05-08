@@ -1,19 +1,30 @@
 <template>
     <div class="DataEditor" :class="{ 'is-dragging': state.drag }" v-if="localData">
-        <draggable handle=".handle" @start="state.drag = true" @end="state.drag = false">
+        <nav-bar class="mb-20" :items="[
+            { id: 'current', label: 'Cartes', fa: 'times', onClick: () => {} },
+            { id: 'idea', label: 'Packs idées', fa: 'lightbulb', onClick: () => {} }
+        ]" />
+
+        <draggable v-model="localData" handle=".handle" @start="state.drag = true" @end="() => { update(); state.drag = false; }">
             <transition-group type="transition" name="appear-simple">
                 <data-row
                     class="DataEditor_row"
                     v-for="value in localData"
-                    v-model="value.main"
-                    :id="value.id"
-                    :key="value.id"
+                    :value="value"
+                    @input="onUpdateValue"
                     @select="(v) => $emit('select', v)"
-                    @input="$store.commit('generators/updateData', localData)"
+                    @delete="onDeleteValue"
                     @submit="onAddRow"
+                    :key="value.id"
                 />
             </transition-group>
         </draggable>
+
+        <data-row
+            :new-row="true"
+            @click.native="onAddRow"
+            v-if="canAdd"
+        />
     </div>
 </template>
 
@@ -22,10 +33,11 @@ import draggable from 'vuedraggable'
 import shortid from 'shortid'
 
 import DataRow from '@/components/generators/DataRow'
+import NavBar from '@/components/generators/NavBar'
 
 export default {
     name: 'DataEditor',
-    components: { DataRow, draggable },
+    components: { DataRow, draggable, NavBar },
     props: {
         project: { type: Object }
     },
@@ -35,6 +47,12 @@ export default {
         },
         localData: null
     }),
+    computed: {
+        canAdd () {
+            let last = this.$data.localData[this.$data.localData.length - 1]
+            return last ? last.main != '' || last.disabled : true
+        }
+    },
     watch: {
         project: {
             immediate: true,
@@ -48,10 +66,33 @@ export default {
         onAddRow () {
             this.$data.localData.push({
                 id: shortid.generate(),
-                main: 'Hello'
+                main: ''
+            })
+            
+            this.update()
+        },
+        onUpdateValue (value) {
+            this.$data.localData = this.$data.localData.map(data => {
+                return data.id == value.id ? value : data
             })
 
-            this.$store.commit('generators/updateData', this.$data.localData)
+            this.update()
+        },
+        onDeleteValue (id) {
+            this.$data.localData = this.$data.localData.filter(data => data.id != id)
+
+            this.update()
+        },
+        update () {
+            let position = 0
+            this.$store.commit('generators/updateData', this.$data.localData.map((d) => {
+                if (!d.disabled) position++
+
+                return {
+                    ...d,
+                    position
+                }
+            }))
         }
     }
 }
@@ -60,6 +101,10 @@ export default {
 <style lang="scss" scoped>
     .DataEditor {
         padding: 20px;
+    }
+
+    .DataEditor_row {
+        margin-bottom: 5px;
     }
 
     .DataEditor.is-dragging {

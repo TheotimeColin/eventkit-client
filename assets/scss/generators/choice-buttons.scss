@@ -1,10 +1,26 @@
+.ChoiceButtons {
+    font-size: 0;
+}
+
 .ChoiceButtons_option {
-    display: inline-block;
-    padding: 12px 25px;
+    font: var(--ft-m);
+    color: var(--color-ft-weak);
+    height: 45px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 15px;
     border: 1px solid var(--color-border);
     cursor: pointer;
     transition: all 150ms ease;
     position: relative;
+    margin: -1px 0 0 -1px;
+}
+
+.ChoiceButtons_custom {
+    font: var(--ft-m);
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .ChoiceButtons_premium {
@@ -20,7 +36,24 @@
     transition: all 150ms ease;
 }
 
-.ChoiceButtons_option:hover,
+.ChoiceButtons_customInput {
+    width: 75px;
+    font: var(--ft-s);
+    padding: 5px 5px 5px 8px;
+}
+
+.ChoiceButtons_option {
+
+    &.is-premium {
+        background-color: var(--color-weak);
+
+        .ChoiceButtons_content {
+            color: var(--color-premium);
+        }
+    }
+}
+
+.ChoiceButtons_option:not(.ChoiceButtons_option--custom):hover,
 .ChoiceButtons_option.is-selected {
     background-color: var(--color-bg);
     
@@ -30,10 +63,10 @@
     }
 
     &.is-premium {
-        background-color: #fff6e4;
+        background-color: var(--color-premium-weak);
 
         .ChoiceButtons_content {
-            color: #ff9900;
+            color: var(--color-premium-strong);
         }
     }
 }

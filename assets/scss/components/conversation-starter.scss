@@ -23,7 +23,6 @@
     background-position: center;
     border-radius: calc(5mm * var(--scale));
     overflow: hidden;
-    // opacity: var(--pattern-opacity);
     display: block;
     position: static;
 }
@@ -35,23 +34,21 @@
     align-items: center;
     text-align: center;
     position: relative;
+    overflow: hidden;
     z-index: 2;
-    padding: calc(7.5mm * var(--scale));
+    padding: calc(var(--margin, 7.5mm) * var(--scale));
     @include absolute-fill;
 }
 
 .ConversationStarter_main {
-    font-size: calc(var(--font-size, 16px) * var(--scale));
+    font-size: calc(calc(var(--font-size, 16px) * var(--element-scale, 1)) * var(--scale));
+    line-height: var(--line-height, 1.4);
     width: 100%;
     letter-spacing: normal;
-
-    // &.is-empty {
-    //     opacity: 0.25;
-    // }
 }
 
 .ConversationStarter_id {
-    font-size: calc(var(--id-font-size, 24px) * var(--scale));
+    font-size: calc(calc(var(--id-font-size, 24px) * var(--element-scale, 1)) * var(--scale));
     position: absolute;
     opacity: 0.45;
     top: 50%;
@@ -60,7 +57,7 @@
 }
 
 .ConversationStarter_name {
-    font-size: calc(var(--footer-font-size, 16px) * var(--scale));
+    font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
     position: relative;
     z-index: 1;
     width: 100%;
@@ -72,17 +69,13 @@
 }
 
 .ConversationStarter_copyright {
-    font-size: calc(var(--footer-font-size, 16px) * var(--scale));
+    font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
     width: 100%;
 }
 
 /* THEMES */
 
 .ConversationStarter.theme-default {
-
-    .ConversationStarter_main {
-        line-height: 1.1;
-    }
     
     .ConversationStarter_id {
         letter-spacing: calc(-5px * var(--scale));
@@ -92,10 +85,6 @@
     
     .ConversationStarter_name {
         letter-spacing: 1px;
-    }
-    
-    .ConversationStarter_copyright {
-
     }
 
     &.colors-monochrome {
@@ -108,28 +97,19 @@
 
 .ConversationStarter.theme-simple {
 
-    &::before {
-        content: "";
-        display: block;
-        padding-bottom: 100%;
-    }
-
     .ConversationStarter_footer {
         text-align: left;
     }
     
     .ConversationStarter_main {
         text-align: left;
-        line-height: 1.25;
     }
     
     .ConversationStarter_id {
         display: inline-block;
         vertical-align: middle;
         width: auto;
-        font-size: calc(10px * var(--scale));
-        opacity: 1;
-        text-align: center;
+        font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
         opacity: 1;
         position: relative;
     }

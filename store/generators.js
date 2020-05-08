@@ -7,6 +7,17 @@ export default {
         update (state, value) {
             state.project = value
         },
+        addData (state, value) {
+            let data = state.project.values.data.slice()
+            data.push(value)
+            
+            state.project.values.data = data
+        },
+        removeData (state, value) {
+            let data = state.project.values.data.slice().filter(v => v.id !== value.id)
+            
+            state.project.values.data = data
+        },
         addDataRow (state) {
             let data = state.project.values.data.slice()
             state.project.values.data = data

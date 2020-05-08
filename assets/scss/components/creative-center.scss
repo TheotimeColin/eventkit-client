@@ -1,0 +1,18 @@
+.CreativeCenter {
+    @include absolute-fill;
+    z-index: 5;
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+}
+
+.CreativeCenter_header {
+    font: var(--ft-l);
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: var(--color-bg);
+    color: var(--color-ft-strong);
+}
+
+.CreativeCenter_pack {
+    margin: 0 0 10px 0;
+}

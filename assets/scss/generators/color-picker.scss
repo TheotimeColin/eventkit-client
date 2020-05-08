@@ -1,26 +1,29 @@
 .ColorPicker {
     font-size: 0;
+    margin: -3px;
 }
 
 .ColorPicker_option {
     display: inline-flex;
-    width: 55px;
-    height: 55px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
     border: 1px solid var(--color-border);
     border-left: none;
     cursor: pointer;
     position: relative;
     background: var(--background);
+    margin: 3px;
 
     &::after {
-        content: "✅";
+        content: "✔️";
         font-size: 15px;
         display: block;
         position: absolute;
-        bottom: 0;
-        left: 0;
+        top: 50%;
+        left: 50%;
         opacity: 0;
-        transform: scale(0.8);
+        transform: translate3d(-50%, -50%, 0) scale(0.8);
         transition: all 150ms ease;
     }
 
@@ -41,7 +44,7 @@
     
     &::after {
         opacity: 1;
-        transform: scale(1);
+        transform: translate3d(-50%, -50%, 0) scale(1);
     }
 }
 
@@ -91,4 +94,12 @@
     &::after {
         display: none;
     }
+}
+
+.ColorPicker_option.is-premium {
+    border: 1px solid var(--color-premium);
+}
+
+.ColorPicker_option--pattern.is-premium {
+    background-color: var(--color-premium-weak);
 }

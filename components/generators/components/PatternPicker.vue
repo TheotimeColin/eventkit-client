@@ -2,15 +2,15 @@
     <div class="ColorPicker">
         <div
             v-for="option in patterns"
-            class="ColorPicker_option"
+            class="ColorPicker_option ColorPicker_option--pattern"
             :class="{
-                'is-selected': value.patternUrl == option.value.patternUrl
+                'is-selected': value.patternUrl == option.value.patternUrl,
+                'is-premium': option.premium
             }"
             :style="{ '--background': option.background }"
             @click="onSelect(option.value.patternUrl)"
             :key="option.id"
         >
-            <p class="ColorPicker_premium" v-if="option.premium">⭐</p>
         </div>
 
         <div class="ColorPicker_range" v-show="value.patternUrl && value.patternUrl != ''">

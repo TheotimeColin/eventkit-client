@@ -1,0 +1,22 @@
+.NavBar {
+    background-color: var(--color-bg-light);
+    display: flex;
+}
+
+.NavBar_item {
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-left: none;
+
+    &:first-child {
+        border: 1px solid var(--color-border);
+    }
+}
+
+.NavBar_label {
+    margin-left: 10px;
+}

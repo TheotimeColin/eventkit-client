@@ -8,7 +8,7 @@
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">{{ theme.title }}</p>
-                <!-- <p class="ConversationStarter_id">{{ data.id }}</p> -->
+                <p class="ConversationStarter_id">{{ data.position ? data.position : '0' }}</p>
             </div>
 
             <p class="ConversationStarter_main" :class="{ 'is-empty': data.main == '' }">
@@ -37,9 +37,11 @@ export default {
         classes () {
             let classes = {}
 
-            Object.keys(this.$props.theme).forEach(key => {
-                let choice = this.$props.theme[key]
-                if (choice.isClass) classes[`${choice.id}-${choice}`] = true
+            Object.keys(this.$props.config).forEach(key => {
+                let choice = this.$props.config[key]
+                let value = this.$props.theme[key]
+                
+                if (choice.isClass) classes[`${choice.id}-${value}`] = true
             })
 
             return classes
@@ -69,7 +71,7 @@ export default {
 
             style['--width'] = this.$props.theme.size.x + 'mm'
             style['--height'] = this.$props.theme.size.y + 'mm'
-            
+            style['--margin'] = this.$props.theme.size.margin + 'mm'
 
             return style 
         },
