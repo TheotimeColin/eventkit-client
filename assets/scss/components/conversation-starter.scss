@@ -12,7 +12,7 @@
     --footer-font-size: calc(0.6 * var(--font-size, 16px));
     --id-font-size: calc(2.5 * var(--font-size, 16px));
 
-    // border: calc(0.2mm * var(--scale)) solid lightgrey;
+    border: calc(0.2mm * var(--scale)) solid rgba(0, 0, 0, 0.15);
 }
 
 

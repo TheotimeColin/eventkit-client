@@ -7,8 +7,8 @@
         
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
-                <p class="ConversationStarter_name">{{ theme.title }}</p>
-                <p class="ConversationStarter_id" style="opacity: 0.45">{{ data.position ? data.position : '0' }}</p>
+                <p class="ConversationStarter_name">{{ theme.title }}{{ data.position ? data.position : '0' }}</p>
+                <!-- <p class="ConversationStarter_id" style="opacity: 0.45"></p> -->
             </div>
 
             <p class="ConversationStarter_main" :class="{ 'is-empty': !data.content }">
