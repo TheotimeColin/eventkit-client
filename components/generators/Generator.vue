@@ -18,9 +18,10 @@
 
         <div class="Generator_container">
             <nav-bar class="Generator_navBar" :modifiers="['vertical', 'l']" :current="state.step" :items="[
-                { id: 'config', fa: 'paint-roller', onClick: () => state.step = 'config' },
+                { id: 'config', fa: 'fill-drip', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
-                { id: 'print', fa: 'print', onClick: () => state.step = 'print' }
+                { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
+                { id: 'share', fa: 'heart', onClick: () => state.step = 'share' }
             ]" v-if="project" />
 
             <kickstart class="Generator_kickstart" @create="$emit('create')" v-if="!project" />
@@ -39,6 +40,12 @@
                         :project="project"
                         @select="(v) => selected = v"
                         v-if="project && state.step == 'data'"
+                    />
+
+                    <sharer
+                        :project="project"
+                        :init-theme="initTheme"
+                        v-if="project && state.step == 'share'"
                     />
                 </div>
             </div>
@@ -75,17 +82,18 @@ import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
 import Kickstart from '@/components/generators/Kickstart'
+import Sharer from '@/components/generators/Sharer'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Kickstart, Configurator, Previewer, DataEditor },
+    components: { NavBar, Kickstart, Sharer, Configurator, Previewer, DataEditor },
     props: {
         project: { type: Object },
         initTheme: { type: Object }
     },
     data: () => ({
         state: {
-            step: 'config',
+            step: 'share',
             print: false,
             creative: false
         },

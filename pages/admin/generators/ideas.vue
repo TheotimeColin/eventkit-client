@@ -110,10 +110,7 @@ export default {
         onEdit (pack) {
             this.$data.state.edit = true
 
-            this.$data.pack = {
-                ...this.$data.pack.filter(p => !p.content),
-                ...pack
-            }
+            this.$data.pack = pack
         },
         async onSubmit () {
             const response = await this.$store.dispatch('generators/packs/post', {

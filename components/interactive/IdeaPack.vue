@@ -90,7 +90,7 @@ export default {
     },
     methods: {
         isSelected (option) {
-            return this.$props.values.filter(v => v.content && v.content.main == option.content.main).length > 0
+            return this.$props.values ? this.$props.values.filter(v => v.content && v.content.main == option.content.main).length > 0 : false
         },
         onDeleteValue (id) {
             this.$data.localPack.ideas = this.$data.localPack.ideas.filter(idea => idea._id != id)

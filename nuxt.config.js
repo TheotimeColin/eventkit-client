@@ -18,6 +18,9 @@ export default {
     ],
     link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+        { src: '//assets.pinterest.com/js/pinit.js', async: true, defer: true, ['data-pin-tall']: 'true', ['data-pin-round']: 'true' }
     ]
   },
   /*

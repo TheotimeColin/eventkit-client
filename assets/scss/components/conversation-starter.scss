@@ -12,7 +12,7 @@
     --footer-font-size: calc(0.6 * var(--font-size, 16px));
     --id-font-size: calc(2.5 * var(--font-size, 16px));
 
-    border: calc(0.2mm * var(--scale)) solid lightgrey;
+    // border: calc(0.2mm * var(--scale)) solid lightgrey;
 }
 
 
@@ -50,7 +50,6 @@
 .ConversationStarter_id {
     font-size: calc(calc(var(--id-font-size, 24px) * var(--element-scale, 1)) * var(--scale));
     position: absolute;
-    opacity: 0.45;
     top: 50%;
     width: 100%;
     transform: translateY(-50%);
