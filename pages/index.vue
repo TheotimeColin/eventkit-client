@@ -24,6 +24,25 @@
                 </div>
             </section>
 
+            <div class="pv-100 bg-bg">
+                <div class="Wrapper">
+                    <div class="row">
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-6">
+                            <h2 class="ft-title-2xl">
+                                <b>À quoi ça sert un icebreaker ?</b>
+                            </h2>
+
+                            <p class="mt-40 ft-l">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce turpis erat, pretium nec erat nec. Consectetur adipiscing elit. Fusce turpis erat, pretium nec erat nec.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="pv-20 bg-bg-weak o-hidden">
                 <div class="Wrapper">
                     <div class="mv-40" v-for="category in categories" :key="category.id">

@@ -2,7 +2,7 @@
     <div class="LoginPage Page">
         <div class="Page_content">
             <div class="LoginPage_container mt-100">
-                <form class="Form">
+                <form class="Form" v-if="state.current == 'login'">
                     <p class="ft-title-2xl mb-20">
                         J'ai déjà un compte
                     </p>
@@ -19,9 +19,7 @@
                     </div>
                 </form>
 
-                <hr class="mv-40">
-
-                <form class="Form" @submit="onRegister">
+                <form class="Form" @submit="onRegister" v-if="state.current == 'register'">
                     <p class="ft-title-2xl mb-20">
                         Je m'inscris, c'est <span class="underline">gratuit</span>
                     </p>
@@ -49,6 +47,9 @@ export default {
     name: 'LoginPage',
     components: { ButtonBase },
     data: () => ({
+        state: {
+            current: 'login'
+        },
         register: {
             email: '',
             password: ''

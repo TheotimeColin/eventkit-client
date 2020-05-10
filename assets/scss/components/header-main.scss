@@ -53,6 +53,8 @@
     right: 0;
     transform: translateY(calc(var(--height-2) - 50%));
     transition: all 150ms ease-out;
+    display: flex;
+    align-items: center;
 }
 
 .HeaderMain_item {

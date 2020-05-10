@@ -6,7 +6,8 @@ export default {
     actions: {
         async register ({ commit }, params) {
             const response = await this.$axios.$post(`/user`, params.data)
-            return response.email
+            console.log(response)
+            return response
         }
     }
 }

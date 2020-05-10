@@ -4,15 +4,18 @@
     max-width: 1000px;
     width: 90%;
     max-height: 80vh;
-    top: 50%;
-    left: 0;
+    top: -9999px;
+    left: -9999px;
     right: 0;
     margin: 0 auto;
     background-color: var(--color-bg-light);
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
-    transform: translateY(-50%);
-    display: none;
+    box-shadow: 0 0 0 5000px rgba(0, 0, 0, 0.5);
+    transform: translateY(calc(-50% + 10px));
+    display: flex;
     flex-direction: column;
+    opacity: 0;
+
+    transition: opacity 250ms ease, transform 250ms ease;
 }
 
 .PopinGeneric_content {
@@ -35,7 +38,10 @@
 /* STATES */
 
 .PopinGeneric.is-active {
-    display: flex;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    left: 0;
 }
 
 /* MODIFIERS */

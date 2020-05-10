@@ -1,5 +1,5 @@
 <template>
-    <div class="PopinGeneric" :class="{ 'is-active': isActive, ...$modifiers }">
+    <div class="PopinGeneric" :class="{ 'is-active': state.visible, ...$modifiers }">
         <div class="PopinGeneric_header" v-if="$slots.header">
             <slot name="header"></slot>
         </div>
@@ -19,12 +19,61 @@ export default {
     name: 'PopinGeneric',
     mixins: [ base ],
     props: {
+        id: { type: String, default: 'default' },
         isActive: { type: Boolean, default: false }
     },
     data: () => ({
         state: {
             visible: false
         }
-    })
+    }),
+    computed: {
+        activePopins () {
+            return this.$store.state.popins.active
+        }
+    },
+    watch: {
+        activePopins: {
+            immediate: true,
+            handler (v) {
+                let found = v.find(v => v == this.$props.id)
+
+                if (found && !this.$data.state.visible) {
+                    this.$data.state.visible = true
+                    this.open()
+                } else if (!found && this.$data.state.visible) {
+                    this.$data.state.visible = false
+                    this.destroy()
+                }
+            }
+        }
+    },
+    mounted () {
+        if (this.$props.isActive) this.open()
+    },
+    beforeDestroy ()  {
+        this.destroy()
+    },
+    methods: {
+        onEscape (e) {
+            if (e.key === 'Escape') this.close()
+        },
+        onClick (e) {
+            if (!this.$el.contains(e.target)) this.close()
+        },
+        open () {
+            setTimeout(() => {
+                document.addEventListener('keyup', this.onEscape)
+                document.addEventListener('click', this.onClick)
+            }, 500)
+        },
+        close () {
+            this.$store.commit('popins/close', this.$props.id)
+        },
+        destroy () {
+            document.removeEventListener('keyup', this.onEscape)
+            document.removeEventListener('click', this.onClick)
+        }
+    }
 }
 </script>
