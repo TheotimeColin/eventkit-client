@@ -39,7 +39,7 @@ export default class Schema extends Node {
     return attrs => (state, dispatch) => {
         let range = state.selection.$from.blockRange(state.selection.$to)
         let wrapping = findWrapping(range, schema.nodes.paragraph)
-        console.log(wrapping)
+        
         if (!wrapping) return false
         if (dispatch) dispatch(state.tr.wrap(range, wrapping).scrollIntoView())
 

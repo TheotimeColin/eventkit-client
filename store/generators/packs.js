@@ -7,7 +7,7 @@ export default {
     }),
     mutations: {
         updatePack (state, value) {
-            console.log(items)
+            
         },
         update (state, value) {
             let items = JSON.parse(JSON.stringify(state.items))

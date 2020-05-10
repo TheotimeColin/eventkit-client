@@ -59,9 +59,9 @@ export default {
                 }
             })
         },
-        async create ({ dispatch }, theme) {
+        async create ({ dispatch }, { theme, ideas = [] }) {
             return await dispatch('post', {
-                data: { theme }
+                data: { theme, ideas }
             })
         }
     },

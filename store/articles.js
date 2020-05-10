@@ -14,7 +14,6 @@ export default {
         },
         refresh (state, value) {
             let items = {}
-            console.log(value)
             value.forEach(value => items[value.id] = value)
 
             state.collection = value

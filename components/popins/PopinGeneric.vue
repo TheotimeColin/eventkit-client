@@ -1,12 +1,12 @@
 <template>
     <div class="PopinGeneric" :class="{ 'is-active': isActive, ...$modifiers }">
-        <div class="PopinGeneric_header">
+        <div class="PopinGeneric_header" v-if="$slots.header">
             <slot name="header"></slot>
         </div>
         <div class="PopinGeneric_content">
             <slot></slot>
         </div>
-        <div class="PopinGeneric_footer">
+        <div class="PopinGeneric_footer" v-if="$slots.footer">
             <slot name="footer"></slot>
         </div>
     </div>

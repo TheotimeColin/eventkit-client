@@ -49,7 +49,13 @@ export default {
     },
     methods: {
         async onCreate () {
-            let newProject = await this.$store.dispatch('generators/create', defaultTheme)
+            let newProject = await this.$store.dispatch('generators/create', {
+                theme: defaultTheme,
+                ideas: [
+                    { id: '0', content: { main: 'Comment faire ?' }, new: true }
+                ]
+            })
+
             this.$router.push({ name: 'kits-generators-id', params: { id: newProject.id } })
         }
     }

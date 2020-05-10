@@ -52,6 +52,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/auth',
+    'nuxt-stripe-module',
     ['@nuxtjs/google-analytics', {
         id: 'UA-165347177-1'
     }],
@@ -61,6 +62,7 @@ export default {
         exclude: [
             '/account',
             '/kits',
+            '/premium',
             '/kits/**',
             '/about',
             '/admin',
@@ -74,6 +76,9 @@ export default {
   ],
   env: {
     API_URL: process.env.NUXT_ENV_API_URL
+  },
+  stripe: {
+    publishableKey: process.env.STRIPE_KEY,
   },
   auth: {
     redirect: {

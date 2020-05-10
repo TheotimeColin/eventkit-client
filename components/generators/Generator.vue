@@ -93,7 +93,7 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'share',
+            step: 'config',
             print: false,
             creative: false
         },

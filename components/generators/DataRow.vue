@@ -20,7 +20,7 @@
             
             <p class="color-ft-xweak">{{ value.disabled ? ' ' : value.position }}</p>
 
-            <label class="DataRow_label" v-if="selectable">
+            <label class="DataRow_label" v-if="selectable && value.content">
                 <input class="DataRow_checkbox" type="checkbox" @change="(e) => onCheck(e, value)" :checked="selected">
                 <p class="DataRow_check">✔️</p>
                 <div class="DataRow_text">{{ value.content.main }}</div>
@@ -67,6 +67,8 @@ export default {
     }),
     computed: {
         canReset () {
+            if (!this.$data.localData.content) return 
+
             let original = this.$data.localData.original
             return original && this.$data.localData.content.main !== original.content.main
         }
@@ -121,7 +123,6 @@ export default {
             this.$emit('input', this.$data.localData)
         },
         select () {
-            console.log('select')
             this.$emit('select', this.$data.localData._id)
         }
     },
