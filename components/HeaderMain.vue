@@ -11,7 +11,24 @@
                         {{ item.title }}
                     </nuxt-link>
 
-                    <button-base :modifiers="['s']" @click.native="$store.commit('popins/open', 'login')">
+                    <button-base
+                        class="mr-5"
+                        :modifiers="['s', 'secondary']"
+                        @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'login' } })"
+                        v-if="!$store.state.auth.user"
+                    >
+                        Me connecter
+                    </button-base>
+
+                    <button-base
+                        :modifiers="['s']"
+                        @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'register' } })"
+                        v-if="!$store.state.auth.user"
+                    >
+                        M'inscrire
+                    </button-base>
+
+                    <button-base to="account" :modifiers="['s']" v-if="$store.state.auth.user">
                         Mon compte
                     </button-base>
                 </nav>

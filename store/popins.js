@@ -12,7 +12,7 @@ export default {
         },
         close (state, value) {
             let active = state.active.slice()
-            active = active.filter(v => v.id == value)
+            active = active.filter(v => v.id == value.id)
 
             state.active = active
         }

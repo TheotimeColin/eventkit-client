@@ -36,12 +36,13 @@ export default {
         activePopins: {
             immediate: true,
             handler (v) {
-                let found = v.find(v => v == this.$props.id)
-
+                let found = v.find(v => v.id == this.$props.id)
                 if (found && !this.$data.state.visible) {
+                    this.$emit('open', found.data)
                     this.$data.state.visible = true
                     this.open()
                 } else if (!found && this.$data.state.visible) {
+                    this.$emit('close')
                     this.$data.state.visible = false
                     this.destroy()
                 }
@@ -49,7 +50,7 @@ export default {
         }
     },
     mounted () {
-        if (this.$props.isActive) this.open()
+        if (this.$props.isActive) this.$store.commit('popins/open', { id: this.$props.id })
     },
     beforeDestroy ()  {
         this.destroy()

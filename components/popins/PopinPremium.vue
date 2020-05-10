@@ -1,5 +1,5 @@
 <template>
-    <popin-generic :is-active="true">
+    <popin-generic id="premium" :is-active="true">
         <div class="p-40">
             <form @submit="onSubmit">
                 <div ref="cardInput"></div>
@@ -41,13 +41,13 @@ export default {
                     type: 'card',
                     card: this.$data.form.cardInput,
                     billing_details: {
-                        email: 'test@test.fr'
+                        email: this.$store.state.auth.user.email
                     }
                 })
 
                 const response = await this.$store.dispatch('premium/createCustomer', {
                     data: {
-                        email: 'test@test.fr',
+                        user: this.$store.state.auth.user._id,
                         paymentMethod: payment.paymentMethod.id
                     }
                 })

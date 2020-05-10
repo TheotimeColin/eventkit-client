@@ -7,7 +7,7 @@
             @click="item.onClick"
             :key="item.id"
         >
-            <i class="fa" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
+            <i class="NavBar_fa fa" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
             <div class="NavBar_count" v-if="item.count">{{ item.count }}</div>
             <p class="NavBar_label" v-if="item.label">{{ item.label }}</p>
         </div>

@@ -56,7 +56,7 @@ export default {
                 ]
             })
 
-            this.$router.push({ name: 'generators-id', params: { id: newProject.id } })
+            this.$router.push({ name: 'generators-conversation-starters-id', params: { id: newProject.id } })
         }
     }
 }

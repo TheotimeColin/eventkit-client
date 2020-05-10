@@ -1,0 +1,13 @@
+.AccountPage_banner {
+    background-color: var(--color-bg-weak);
+}
+
+.AccountPage_nav {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.AccountPage_navContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
