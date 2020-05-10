@@ -4,7 +4,7 @@
     border-radius: 4px;
     overflow: hidden;
     font: var(--ft-s);
-    background-color: var(--color-blue);
+    background-color: var(--background, var(--color-blue));
     color: var(--color-ft-light);
     @include box-shadow-s;
     transform: translateY(0);

@@ -12,17 +12,6 @@
                     <b>{{ ideas.length }}</b>
                     <p class="fx-shrink">{{ localPack.description }}</p>
                 </div>
-
-                <div class="IdeaPack_preview">
-                    <div class="IdeaPack_previewRail">
-                        <p class="IdeaPack_previewItem" v-for="value in ideas.slice(0, 5)" :key="value._id">
-                            {{ value.content.main }}
-                        </p>
-                        <p class="IdeaPack_previewItem" v-for="(value, i) in ideas.slice(0, 5)" :key="value._id + i">
-                            {{ value.content.main }}
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -90,6 +79,7 @@ export default {
     },
     methods: {
         isSelected (option) {
+            if (!option.content) return false
             return this.$props.values ? this.$props.values.filter(v => v.content && v.content.main == option.content.main).length > 0 : false
         },
         onDeleteValue (id) {

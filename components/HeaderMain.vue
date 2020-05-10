@@ -3,15 +3,17 @@
         <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
                 <nuxt-link to="/" class="HeaderMain_logo">
-                    eventKit
+                    eventkit
                 </nuxt-link>
-
-                <p class="HeaderMain_baseline">créez, imprimez, découpez</p>
 
                 <nav class="HeaderMain_nav">
                     <nuxt-link class="HeaderMain_item" v-for="item in navItems" :to="{ name: item.name }" :key="item.name">
                         {{ item.title }}
                     </nuxt-link>
+
+                    <button-base :modifiers="['s']">
+                        Mon compte
+                    </button-base>
                 </nav>
             </div>
         </div>
@@ -27,8 +29,8 @@ export default {
     computed: {
         navItems () {
             let items = [
+                { title: 'Générateurs', name: 'generators', enabled: true },
                 { title: 'Blog', name: 'blog', enabled: true },
-                // { title: 'Kits animation & jeux', name: 'kits', enabled: true },
                 // { title: 'À propos', name: 'about', enabled: true },
                 // { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },
                 { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin },

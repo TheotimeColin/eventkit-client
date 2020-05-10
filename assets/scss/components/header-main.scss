@@ -1,6 +1,6 @@
 :root {
-    --height: 110px;
-    --height-2: 55px;
+    --height: 68px;
+    --height-2: 34px;
 }
 
 .HeaderMain {
@@ -19,6 +19,7 @@
         transform-origin: top;
         transition: all 200ms ease-out;
         height: var(--height);
+        background-color: var(--color-bg-light);
     }
 }
 
@@ -38,25 +39,12 @@
     font-weight: bold;
     line-height: 1.4;
 
-    transform: translateY(calc(var(--height-2) - 100%));
+    transform: translateY(calc(var(--height-2) - 50%));
     transition: all 150ms ease-out;
 
     &:hover {
         color: var(--color-ft-strong);
     }
-}
-
-.HeaderMain_baseline {
-    position: absolute;
-    top: 0;
-    left: 0;
-    white-space: nowrap;
-
-    font: var(--ft-title-s);
-    color: var(--color-ft);
-
-    transform: translateY(calc(var(--height-2)));
-    transition: all 150ms ease-out;
 }
 
 .HeaderMain_nav {
@@ -68,9 +56,12 @@
 }
 
 .HeaderMain_item {
-    font: var(--ft-title-xs);
+    font: var(--ft-s);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
     color: var(--color-ft);
-    margin-right: 30px;
+    margin-right: 20px;
     transition: all 150ms ease-in;
 
     &:hover {
@@ -93,7 +84,6 @@
     .HeaderMain_nav,
     .HeaderMain_logo,
     .HeaderMain_baseline {
-        transform: translateY(calc(var(--height-2) - 50%));
         transition: all 150ms ease-in;
         color: var(--color-ft-strong);
     }
