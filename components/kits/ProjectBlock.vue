@@ -1,46 +1,60 @@
 <template>
-    <nuxt-link
-        class="ArticleBlock"
+    <div
+        class="ProjectBlock"
         :class="{ ...$modifiers }"
-        :to="to ? to : { name: 'blog-slug', params: { slug, id } }">
+    >
 
-        <div class="ArticleBlock_image" :style="style">
+        <div class="ProjectBlock_image" :style="style">
             <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail" />
         </div>
 
-        <div class="ArticleBlock_content">
+        <div class="ProjectBlock_content">
             <div>
-                <div class="ArticleBlock_title">{{ title }}</div>
-                <div class="ArticleBlock_excerpt" v-if="excerpt">{{ shortExcerpt.slice() }}</div>
+                <div class="ProjectBlock_title">{{ title }}</div>
+
+                <p class="ProjectBlock_excerpt" v-if="project && project.ideas">
+                    {{ project.ideas.length }} questions
+                </p>
+            </div>
+
+            <div class="ProjectBlock_cta">
+                <button-base
+                    :modifiers="['s', 'secondary']"
+                    :to="to ? to : { name: 'kits-slug-id', params: { slug: kit.slug, id: project.id } }"
+                >
+                    Éditer
+                </button-base>
             </div>
         </div>
-    </nuxt-link>
+
+        <action-menu
+            class="ProjectBlock_actions"
+            :items="[
+                { id: 0, label: 'Supprimer' }
+            ]"
+        />
+    </div>
 </template>
 
 <script>
 import Tag from '@/components/utils/Tag'
+import ActionMenu from '@/components/interactive/ActionMenu'
 import base from '@/utils/base'
 import patterns from '@/config/patterns'
 
 export default {
-    name: 'ArticleBlock',
-    components: { Tag },
+    name: 'ProjectBlock',
+    components: { Tag, ActionMenu },
     mixins: [ base ],
     props: {
-        id: { type: Number },
-        slug: { type: String },
         to: { type: Object },
         title: { type: String },
-        excerpt: { type: String },
         thumbnail: { type: Object },
         theme: { type: Object },
-        excerptLength: { type: Number, default: 85 }
+        project: { type: Object },
+        kit: { type: Object }
     },
     computed: {
-        shortExcerpt () {
-            let excerpt = this.$props.excerpt.substr(0, this.$props.excerpt.lastIndexOf(' ', this.$props.excerptLength));
-            return this.$props.excerpt.length > this.$props.excerptLength ? excerpt + '...' : this.$props.excerpt
-        },
         style () {
             if (!this.$props.theme) return {}
 
@@ -55,6 +69,8 @@ export default {
             }
 
             return {
+                '--color': this.$props.theme.color,
+                '--font-family': this.$props.theme.font.fontFamily,
                 '--background-color': this.$props.theme.background,
                 '--background-image': `url("${patternUrl}")`
             }

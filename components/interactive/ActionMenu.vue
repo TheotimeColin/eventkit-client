@@ -7,12 +7,19 @@
             <i class="fa fa-ellipsis-h"></i>
         </div>
 
-        <ul class="ActionMenu_list">
-            <li class="ActionMenu_listItem" v-for="(item, i) in listItems" @click="() => onClick(item)" :key="i">
+        <div class="ActionMenu_list">
+            <component
+                v-for="(item, i) in listItems"
+                class="ActionMenu_listItem"
+                :is="item.to ? 'nuxt-link' : 'div'"
+                :to="item.to"
+                @click="() => onClick(item)"
+                :key="i"
+            >
                 <i class="fa fa-sm" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
                 <p v-if="item.label">{{ item.label }}</p>
-            </li>
-        </ul>
+            </component>
+        </div>
     </div>
 </template>
 

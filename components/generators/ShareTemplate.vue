@@ -40,8 +40,8 @@ export default {
     }),
     mounted () {
         this.html2canvas = require('html2canvas')
-
-        this.screen()
+        console.log('mounted')
+        
     },
     computed: {
         activeItems () {
@@ -56,7 +56,7 @@ export default {
             this.$data.scale = 2
             
             setTimeout(() => {
-                this.html2canvas(this.$el, {  }).then(canvas => {
+                this.html2canvas(this.$el).then(canvas => {
                     this.$data.screenshot = canvas.toDataURL()
 
                     this.$data.scale = 0.75

@@ -1,0 +1,72 @@
+.ProjectBlock {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    background-color: var(--color-bg-light);
+    @include box-shadow;
+}
+
+.ProjectBlock_image {
+    width: 150px;
+    flex-shrink: 0;
+    position: relative;
+    background-color: var(--background-color, var(--color-bg-weak));
+    background-image: var(--background-image);
+    font-family: var(--font-family);
+    color: var(--color);
+    border-right: 1px solid var(--color-border);
+
+    &::before {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
+}
+
+.ProjectBlock_actions {
+    position: absolute;
+    top: 3px;
+    right: 10px;
+}
+
+.ProjectBlock_content {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ProjectBlock_title {
+    font: var(--ft-title-s);
+    font-weight: bold;
+    color: var(--color-ft);
+    transition: all 250ms ease-in;
+}
+
+.ProjectBlock_excerpt {
+    margin-top: 5px;
+    font: var(--ft-xs);
+    color: var(--color-ft-weak);
+}
+
+.ProjectBlock_cta {
+    font-size: 0;
+}
+
+/* STATES */
+
+.ProjectBlock:hover {
+    // transform: translateY(-1px);
+    // @include box-shadow-xl;
+
+    .ProjectBlock_title {
+        /// color: var(--color-ft-strong);
+    }
+
+    .ProjectBlock_image img {
+        transform: scale(1);
+    }
+}
+
+/* MODIFIERS */

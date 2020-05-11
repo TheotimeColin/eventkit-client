@@ -1,19 +1,28 @@
 <template>
     <div class="ColorPicker">
-        <div
-            v-for="option in options"
-            class="ColorPicker_option"
-            :class="{
-                'ColorPicker_custom': option.custom,
-                'is-premium': option.premium,
-                'is-selected': option.custom ? value == custom : value == option.value,
-                'is-active': state.custom
-            }"
-            :style="{ '--background': option.thumb ? option.thumb : (option.custom ? custom : option.value) }"
-            @click="onSelect(option.custom ? custom : option.value, option.custom)"
-            :ref="option.custom ? 'custom' : 'color'"
-            :key="option.id"
-        >
+        <label class="d-block mb-20 ft-s">
+            <input type="checkbox" v-model="state.custom"> Afficher sélecteur de couleurs
+        </label>
+        <div class="ColorPicker_container">
+            <div class="ColorPicker_picker" v-show="state.custom">
+                <div ref="custom"></div>
+            </div>
+            
+            <div class="ColorPicker_colors">
+                <div
+                    v-for="option in options"
+                    class="ColorPicker_option"
+                    :class="{
+                        'is-premium': option.premium,
+                        'is-selected': value == option.value,
+                        'is-active': state.custom
+                    }"
+                    :style="{ '--background': option.thumb ? option.thumb : option.value }"
+                    @click="onSelect(option.value)"
+                    ref="color"
+                    :key="option.id"
+                ></div>
+            </div>
         </div>
     </div>
 </template>
@@ -31,34 +40,37 @@ export default {
         state: {
             custom: false
         },
+        localValue: '',
         colorPicker: null,
-        custom: undefined
     }),
+    watch: {
+        value: {
+            immediate: true,
+            handler (v) {
+                this.$data.localValue = v
+                if (this.$data.colorPicker) this.$data.colorPicker.color = v
+            }
+        }
+    },
     mounted () {
         if (this.$refs.custom) {
-            this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom[0], {
-                showHSL: false,
-                showRGB: false,
-                showHEX: false
+            this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom, {
+                showHSL: false
             })
+
+            this.$data.colorPicker.color = this.$data.localValue
 
             this.$data.colorPicker.on('change', (e) => {
-                this.$data.custom = e.color
-                this.onSelect(this.$data.custom)
+                this.$data.localValue = e.color
+                this.onSelect()
             })
         }
-
-        document.addEventListener('click', (e) => {
-            if (!e.target || !this.$refs.custom || !this.$refs.custom[0]) return
-            
-            if (!this.$refs.custom[0].contains(e.target)) this.$data.state.custom = false
-        })
     },
     methods: {
-        onSelect (value, custom) {
-            if (custom) this.$data.state.custom = true
+        onSelect (value) {
+            if (value) this.$data.localValue = value
 
-            this.$emit('input', value)
+            this.$emit('input', this.$data.localValue)
         }
     }
 }

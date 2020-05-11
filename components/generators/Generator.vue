@@ -3,20 +3,21 @@
         <div class="Generator_header" v-if="project">
             <div>
                 <p class="ft-title-xl">
-                    <b>{{ project.kit.title }}</b>
+                    <input type="text" class="Input--unstyled" :value="project.title" v-if="project" @change="onTitleChange">
                 </p>
 
-                <p class="ft-title-s">
-                    <b>{{ project ? project.id : 'Nouveau projet' }}</b>
+                <p class="ft-m">
+                    {{ project.kit.title }}
                 </p>
             </div>
 
             <div class="d-flex fx-align-center" v-if="project">
                 <p class="ft-s text-right mr-10">
                     Dernière sauvegarde :<br>
-                    {{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}
+                    <b>{{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}</b>
                 </p>
-                <button-base class="ml-10" @click="$store.dispatch('kits/project/save')">
+
+                <button-base class="ml-10" :modifiers="['save']" @click="$store.dispatch('kits/project/save')">
                     Sauvegarder
                 </button-base>
             </div>
@@ -168,12 +169,11 @@ export default {
         }
     },
     methods: {
-       nextStep () {
-           this.$data.step += 1
-       },
-       previousStep () {
-           this.$data.step -= 1
-       }
+        onTitleChange (e) {
+            this.$store.commit('kits/project/updateProject', {
+                title: e.target.value
+            })
+        }
     }
 }
 </script>

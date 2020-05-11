@@ -78,3 +78,8 @@
         transform: none;
     }
 }
+
+.ButtonBase--save {
+    background-color: var(--color-confirm);
+    color: var(--color-ft-light);
+}

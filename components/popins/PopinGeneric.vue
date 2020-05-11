@@ -72,7 +72,7 @@ export default {
         open () {
             setTimeout(() => {
                 document.addEventListener('keyup', this.onEscape)
-                document.addEventListener('click', this.onClick)
+                document.addEventListener('mousedown', this.onClick)
             }, 500)
         },
         close () {
@@ -80,7 +80,7 @@ export default {
         },
         destroy () {
             document.removeEventListener('keyup', this.onEscape)
-            document.removeEventListener('click', this.onClick)
+            document.removeEventListener('mousedown', this.onClick)
         }
     }
 }

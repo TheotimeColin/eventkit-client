@@ -4,7 +4,7 @@
     color: var(--color-ft);
     text-align: center;
     min-width: 80px;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 20px;
     background-color: var(--color-bg-light);
 }
@@ -15,4 +15,9 @@
     font: var(--ft-xs);
     min-width: 0;
     padding: 4px 9px;
+}
+
+.Tag--outline {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
 }

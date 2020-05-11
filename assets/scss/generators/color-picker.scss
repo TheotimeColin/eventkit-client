@@ -1,6 +1,20 @@
 .ColorPicker {
+    
+}
+
+.ColorPicker_container {
+    display: flex;
+}
+
+.ColorPicker_colors {
     font-size: 0;
     margin: -3px;
+    flex-grow: 1;
+}
+
+.ColorPicker_picker {
+    flex-shrink: 0;
+    margin-right: 40px;
 }
 
 .ColorPicker_option {
@@ -48,20 +62,8 @@
     }
 }
 
-.ColorPicker_custom {
-
-    &.is-active .a-color-picker {
-        display: block;
-    }
-}
-
 .a-color-picker {
-    position: fixed;
-    top: 50%;
-    left: 25%;
-    transform: translate3d(-50%, -50%, 0);
-    z-index: 5;
-    display: none;
+
 }
 
 .ColorPicker_range {

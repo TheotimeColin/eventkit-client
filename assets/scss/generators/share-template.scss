@@ -19,6 +19,7 @@
 .ShareTemplate_item {
     position: absolute;
     display: none;
+    border: none;
 
     &::after {
         content: "";
@@ -33,7 +34,7 @@
         z-index: 5;
         top: calc(50% - calc(calc(var(--height) * var(--scale)) / 2));
         left: calc(50% - calc(calc(var(--width) * var(--scale)) / 2));
-        box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.05);
+        //box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.05);
     }
 
     .ShareTemplate_item:nth-child(2) {
@@ -52,7 +53,7 @@
 .ShareTemplate--messy {
 
     .ShareTemplate_item {
-        box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.15);
+        //box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.15);
     }
 
     .ShareTemplate_item:nth-child(1) {
@@ -121,7 +122,7 @@
         margin: 1%;
         flex-shrink: 0;
         position: relative;
-        box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.15);
+        //box-shadow: 0 0 calc(var(--image-scale) * 5px) 0 rgba(0, 0, 0, 0.15);
     }
 
     .ShareTemplate_container {

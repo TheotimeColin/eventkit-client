@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 export default {
     namespaced: true,
     state: () => ({
@@ -17,6 +19,12 @@ export default {
             let data = state.project.ideas.slice().filter(v => v._id !== idea._id)
             
             state.project.ideas = data
+        },
+        updateProject (state, data) {
+            state.project = {
+                ...state.project,
+                ...data
+            }
         },
         updateTheme (state, theme) {
             state.project.theme = theme
@@ -61,12 +69,21 @@ export default {
             dispatch('post', {
                 data: {
                     id: state.project.id,
+                    title: state.project.title,
                     ideas: state.project.ideas,
                     theme: state.project.theme
                 }
             })
         },
         async create ({ dispatch }, { theme, ideas = [], kit, user }) {
+            
+            if (!user) {
+                let id = shortid.generate()
+                user = this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : id
+
+                this.$cookies.set('anonymous-id', user) 
+            }
+
             return await dispatch('post', {
                 data: { theme, ideas, kit, user }
             })

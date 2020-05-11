@@ -52,6 +52,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/auth',
+    'cookie-universal-nuxt',
     'nuxt-stripe-module',
     ['@nuxtjs/google-analytics', {
         id: 'UA-165347177-1'

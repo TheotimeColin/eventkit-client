@@ -20,6 +20,7 @@
                             class="DataEditor_row"
                             v-for="value in reversed"
                             :value="value"
+                            :editable="true"
                             @input="onUpdateValue"
                             @select="(v) => $emit('select', v)"
                             @delete="onDeleteValue"

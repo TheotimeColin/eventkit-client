@@ -44,6 +44,7 @@
                     { label: `Valeur d'origine`, onClick: this.reset, disabled: !canReset },
                     { label: `Supprimer`, onClick: this.onDelete },
                 ]"
+                v-if="editable"
             />
         </template>
     </div>
@@ -57,6 +58,7 @@ export default {
     components: { ActionMenu },
     props: {
         value: { type: Object },
+        editable: { type: Boolean, default: false },
         selectable: { type: Boolean, default: false },
         selected: { type: Boolean, default: false },
         newRow: { type: Boolean, default: false },

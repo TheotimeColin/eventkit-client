@@ -1,0 +1,37 @@
+.KitSection {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+}
+
+.KitSection_image {
+    width: 200px;
+    margin-right: 40px;
+    flex-shrink: 0;
+    font-size: 0;
+    
+    img {
+        width: 100%;
+    }
+}
+
+.KitSection_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.KitSection_options {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+.KitSection_tags {
+    margin: 17px -4px;
+}
+
+.KitSection_tag {
+    margin: 4px;
+}

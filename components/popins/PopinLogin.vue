@@ -111,11 +111,13 @@ export default {
         async onRegister (e) {
             e.preventDefault()
 
-            let response = await this.$auth.loginWith('local', { data: this.$data.register })
+            let response = await this.$auth.loginWith('local', { data: {
+                ...this.$data.register,
+                userAnonymous: this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : undefined
+            } })
+
             if (response.data.status != 1) {
                 this.$data.register.errors = response.data.errors
-            } else {
-
             }
         }
     }

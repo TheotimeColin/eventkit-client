@@ -25,8 +25,7 @@ export default {
             { value: '#f0e6ef' },
             { value: '#c6dabf' },
             { value: '#390099' },
-            { value: '#1a936f' },
-            { value: 'picker', custom: true }
+            { value: '#1a936f' }
         ]
     },
     color: {
@@ -52,8 +51,7 @@ export default {
             { value: '#f0e6ef' },
             { value: '#c6dabf' },
             { value: '#390099' },
-            { value: '#1a936f' },
-            { value: 'picker', custom: true }
+            { value: '#1a936f' }
         ]
     },
     pattern: {

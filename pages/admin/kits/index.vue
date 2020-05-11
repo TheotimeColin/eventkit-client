@@ -6,28 +6,30 @@
                     Nouveau kit
                 </button-base>
 
-                <div class="row fx-wrap">
-                    <div class="col-4" v-for="kit in kits" :key="kit.id">
-                        <kit-block
-                            :title="kit.title"
-                            :excerpt="kit.excerpt"
-                            :thumbnail="kit.thumbnail"
-                            :to="{ name: 'admin-kits-id', params: { id: kit._id } }"
-                        />
-                    </div>
-                </div>
+                <kit-section
+                    v-for="kit in kits"
+                    class="mv-40"
+                    :id="kit._id"
+                    :title="kit.title"
+                    :tags="['3 variations', 'Tout public']"
+                    :editable="true"
+                    :excerpt="kit.excerpt"
+                    :thumbnail="kit.thumbnail"
+                    :to="{ name: 'admin-kits-id', params: { id: kit._id } }"
+                    :key="kit._id"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import KitBlock from '@/components/kits/KitBlock'
+import KitSection from '@/components/kits/KitSection'
 
 export default {
     name: 'AdminKitList',
     layout: 'admin',
-    components: { KitBlock },
+    components: { KitSection },
     async fetch () {
         await this.$store.dispatch('kits/fetch', {
             query: { published: false }

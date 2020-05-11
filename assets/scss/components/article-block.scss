@@ -13,8 +13,7 @@
 .ArticleBlock_image {
     height: 120px;
     position: relative;
-    background-color: var(--background-color, var(--color-bg-weak));
-    background-image: var(--background-image);
+    background-color: var(--color-bg-weak);
 
     img {
         @include img-cover(101);
