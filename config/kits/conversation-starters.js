@@ -12,7 +12,7 @@ export default {
         var: 'background-color',
         custom: true,
         options: [
-            { value: '#ffffff' },
+            { value: 'transparent' },
             { value: '#2a9d8f' },
             { value: '#ffcdb2' },
             { value: '#4eb7ff' },
@@ -139,19 +139,20 @@ export default {
             },
             {
                 value: {
-                    fontFamily: '"Press Start 2P"',
-                    fontSize: '11px'
+                    fontFamily: '"Parisienne"',
+                    fontSize: '22px',
+                    lineHeight: '1'
                 },
-                label: `Press Start`,
+                label: `Parisienne`,
                 premium: true
             },
             {
                 value: {
-                    fontFamily: '"Courgette"',
+                    fontFamily: '"Balsamiq Sans"',
                     fontSize: '18px',
                     lineHeight: '1.2'
                 },
-                label: `Courgette`,
+                label: `Balsamiq Sans`,
                 premium: true
             },
             {
@@ -172,19 +173,46 @@ export default {
             },
             {
                 value: {
-                    fontFamily: '"Fira mono"',
+                    fontFamily: '"Patua One"',
                     fontSize: '15px',
                     lineHeight: '1.35'
                 },
-                label: `Fira mono`,
+                label: `Patua One`,
                 premium: true
             },
             {
                 value: {
-                    fontFamily: '"Finger paint"',
-                    fontSize: '15px',
+                    fontFamily: '"Satisfy"',
+                    fontSize: '19px',
+                    lineHeight: '1.2'
                 },
-                label: `Finger Paint`,
+                label: `Satisfy`,
+                premium: true
+            },
+            {
+                value: {
+                    fontFamily: '"Kalam"',
+                    lineHeight: '1.3'
+                },
+                label: `Kalam`,
+                premium: true
+            },
+            {
+                value: {
+                    fontFamily: '"Cookie"',
+                    fontSize: '22px',
+                    lineHeight: '0.95'
+                },
+                label: `Cookie`,
+                premium: true
+            },
+            {
+                value: {
+                    fontFamily: '"VT323"',
+                    fontSize: '19px',
+                    lineHeight: '1'
+                },
+                label: `VT323`,
                 premium: true
             }
         ]

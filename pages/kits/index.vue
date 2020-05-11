@@ -1,39 +1,40 @@
 <template>
     <div class="Page">
         <div class="Page_content">
-                <div class="pv-40 bg-bg" v-if="projects.length > 0">
-                    <div class="Wrapper">
-                        <p class="ft-title-xl mb-20"><b>Mes derniers projets</b></p>
-                        <simple-slider>
-                            <div class="width-article-block" v-for="project in projects" :key="project.id">
-                                <project-block
-                                    :title="project.title"
-                                    :theme="project.theme"
-                                    :kit="project.kit"
-                                    :project="project"
-                                    :to="{ name: 'kits-slug-id', params: { slug: project.kit.slug, id: project.id } }"
-                                />
-                            </div>
-                        </simple-slider>
-                    </div>
+            <div class="pv-40 bg-bg o-hidden" v-if="projects.length > 0">
+                <div class="Wrapper">
+                    <p class="ft-title-xl mb-20"><b>Mes derniers projets</b></p>
+                    <simple-slider>
+                        <div class="width-project-block" v-for="project in projects" :key="project.id">
+                            <project-block
+                                :title="project.title ? project.title : project.id"
+                                :theme="project.theme"
+                                :kit="project.kit"
+                                :project="project"
+                                :to="{ name: 'kits-slug-id', params: { slug: project.kit.slug, id: project.id } }"
+                            />
+                        </div>
+                    </simple-slider>
                 </div>
+            </div>
 
-                <div class="pv-40">
-                    <div class="Wrapper">
-                        <div class="row">
-                            <div class="col-6" v-for="kit in kits" :key="kit._id">
-                                <kit-section
-                                    class="mv-40"
-                                    :id="kit._id"
-                                    :title="kit.title"
-                                    :tags="['3 variations', 'Tout public']"
-                                    :excerpt="kit.excerpt"
-                                    :thumbnail="kit.thumbnail"
-                                />
-                            </div>
+            <div class="pv-40">
+                <div class="Wrapper">
+                    <div class="row fx-wrap">
+                        <div class="col-6" v-for="kit in kits" :key="kit._id">
+                            <kit-block
+                                class="mv-40"
+                                :id="kit._id"
+                                :slug="kit.slug"
+                                :title="kit.title"
+                                :tags="['3 variations', 'Tout public']"
+                                :excerpt="kit.excerpt"
+                                :thumbnail="kit.thumbnail"
+                            />
                         </div>
                     </div>
                 </div>
+            </div>
         </div>    
     </div>
 </template>
@@ -41,11 +42,11 @@
 <script>
 import ProjectBlock from '@/components/kits/ProjectBlock'
 import SimpleSlider from '@/components/interactive/SimpleSlider'
-import KitSection from '@/components/kits/KitSection'
+import KitBlock from '@/components/kits/KitBlock'
 
 export default {
     name: 'KitList',
-    components: { ProjectBlock, SimpleSlider, KitSection },
+    components: { ProjectBlock, SimpleSlider, KitBlock },
     async fetch () {
         await this.$store.dispatch('kits/fetch')
 

@@ -48,7 +48,7 @@ export default {
             immediate: true,
             handler (v) {
                 this.$data.localValue = v
-                if (this.$data.colorPicker) this.$data.colorPicker.color = v
+                if (this.$data.colorPicker && v.includes('#')) this.$data.colorPicker.color = v
             }
         }
     },

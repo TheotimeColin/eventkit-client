@@ -1,6 +1,6 @@
 <template>
     <div class="Generator">
-        <div class="Generator_header" v-if="project">
+        <div class="Generator_header">
             <div>
                 <p class="ft-title-xl">
                     <input type="text" class="Input--unstyled" :value="project.title" v-if="project" @change="onTitleChange">
@@ -9,9 +9,13 @@
                 <p class="ft-m">
                     {{ project.kit.title }}
                 </p>
+
+                <label v-if="$store.state.auth.user && $store.state.auth.user.admin">
+                    <input type="checkbox" @change="onTemplateChange" :checked="project.template"> Template
+                </label>
             </div>
 
-            <div class="d-flex fx-align-center" v-if="project">
+            <div class="d-flex fx-align-center">
                 <p class="ft-s text-right mr-10">
                     Dernière sauvegarde :<br>
                     <b>{{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}</b>
@@ -29,11 +33,9 @@
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
                 { id: 'share', fa: 'heart', onClick: () => state.step = 'share' }
-            ]" v-if="project" />
+            ]" />
 
-            <kickstart class="Generator_kickstart" @create="$emit('create')" v-if="!project" />
-
-            <div class="Generator_left" v-if="project">
+            <div class="Generator_left">
                 <div class="Generator_overflow">
                     <configurator
                         class="Generator_configurator"
@@ -57,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="Generator_previewer" v-if="project">
+            <div class="Generator_previewer">
                 <div class="Generator_premiumAlert" v-show="isPremium">
                     ⭐ Votre configuration comporte des éléments premium.
                     <link-base>En savoir plus</link-base>
@@ -88,12 +90,11 @@ import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
-import Kickstart from '@/components/generators/Kickstart'
 import Sharer from '@/components/generators/Sharer'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Kickstart, Sharer, Configurator, Previewer, DataEditor },
+    components: { NavBar, Sharer, Configurator, Previewer, DataEditor },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -172,6 +173,13 @@ export default {
         onTitleChange (e) {
             this.$store.commit('kits/project/updateProject', {
                 title: e.target.value
+            })
+        },
+        onTemplateChange (e) {
+            if (!this.$store.state.auth.user.admin) return 
+
+            this.$store.commit('kits/project/updateProject', {
+                template: e.target.checked
             })
         }
     }

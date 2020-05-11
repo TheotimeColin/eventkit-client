@@ -31,6 +31,9 @@ export default {
         },
         updateData (state, data) {
             state.project.ideas = data
+        },
+        destroyProject (state) {
+            state.project = null
         }
     },
     actions: {
@@ -44,6 +47,13 @@ export default {
             } else {
                 return null
             }
+        },
+        async fetch ({ commit }, params = { query: {} }) {
+            let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+            console.log(query)
+            const response = await this.$axios.$get(`/kits/projects?${query}`)
+
+            return response.projects
         },
         async getUserProjects ({ commit }, params) {
             let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
@@ -71,12 +81,12 @@ export default {
                     id: state.project.id,
                     title: state.project.title,
                     ideas: state.project.ideas,
-                    theme: state.project.theme
+                    theme: state.project.theme,
+                    template: state.project.template
                 }
             })
         },
-        async create ({ dispatch }, { theme, ideas = [], kit, user }) {
-            
+        async create ({ dispatch }, { theme, ideas = [], kit, title, user }) {
             if (!user) {
                 let id = shortid.generate()
                 user = this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : id
@@ -85,7 +95,7 @@ export default {
             }
 
             return await dispatch('post', {
-                data: { theme, ideas, kit, user }
+                data: { theme, ideas, kit, user, title }
             })
         }
     },

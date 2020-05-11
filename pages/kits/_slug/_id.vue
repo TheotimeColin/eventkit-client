@@ -1,64 +1,68 @@
 <template>
     <div class="Page Page--full GeneratorPage">
-        <div class="Page_content">
+        <div class="Page_content" v-if="kit">
+            <kickstarter :kit="kit" v-if="!project && state.loaded" />
+
             <generator
                 :project="project"
                 :init-theme="initTheme"
-                @create="onCreate"
+                v-if="project && state.loaded"
             />
         </div>
     </div>
 </template>
 
 <script>
+import Kickstarter from '@/components/generators/Kickstarter'
 import Generator from '@/components/generators/Generator'
-import initTheme from '@/config/conversation-starters'
-
-const defaultTheme =  {
-    theme: 'default',
-    background: '#ef476f',
-    pattern: { patternUrl: '', patternColor: 'ffffff', patternOpacity: 1, patternScale: 1 },
-    font: { fontFamily: '"Lato"' },
-    color: '#000000',
-    size: { x: 65, y: 65, margin: 7.5 },
-    title: 'Starter n°',
-    footer: 'Créé sur eventkit.social',
-    elementScale: 1
-}
+import KITS from '@/config/kits'
 
 export default {
     name: 'ConversationStarters',
     layout: 'fullpage',
-    components: { Generator },
+    components: { Generator, Kickstarter },
     async fetch () {
         let project = null
+
+        if (this.$route.params.slug) {
+            this.$data.kit = await this.$store.dispatch('kits/get', {
+                query: { slug: this.$route.params.slug }
+            })
+        }
 
         if (this.$route.params.id) {
             project = await this.$store.dispatch('kits/project/get', {
                 query: { id: this.$route.params.id }
             })
         }
+
+        this.state.loaded = true
     },
     data: () => ({
-        initTheme
+        state: {
+            loaded: false
+        },
+        kit: null
     }),
     computed: {
         project () {
             return this.$store.getters['kits/project/getProject']
+        },
+        initTheme () {
+            return this.project ? KITS[this.project.kit.slug].theme : {}
+        },
+        slug () {
+            return this.$route.params.slug
         }
     },
-    methods: {
-        async onCreate () {
-            let newProject = await this.$store.dispatch('kits/project/create', {
-                kit: this.$route.params.slug,
-                theme: defaultTheme,
-                user: this.$store.state.auth.user ? this.$store.state.auth.user._id : undefined,
-                ideas: [
-                    { id: '0', content: { main: 'Comment faire ?' }, new: true }
-                ]
-            })
-
-            this.$router.push({ name: 'kits-slug-id', params: { slug: 'conversation-starters', id: newProject.id } })
+    beforeDestroy () {
+        this.$store.commit('kits/project/destroyProject')
+    },
+    watch: {
+        project (v) {
+            if (v) {
+                this.$router.push({ name: 'kits-slug-id', params: { slug: this.slug, id: v.id } })
+            }
         }
     }
 }

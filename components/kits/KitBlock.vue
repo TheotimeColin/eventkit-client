@@ -1,11 +1,11 @@
 <template>
     <div
-        class="KitSection"
+        class="KitBlock"
     >
-        <div class="KitSection_image">
+        <div class="KitBlock_image">
             <img :src="thumbnail.src">
         </div>
-        <div class="KitSection_content">
+        <div class="KitBlock_content">
             <div>
                 <p class="ft-title-xl">
                     <b>{{ title }}</b>
@@ -14,20 +14,20 @@
                 <p class="mt-10">{{ shortExcerpt }}</p>
             </div>
 
-            <div class="KitSection_tags">
-                <tag class="KitSection_tag" v-for="(tag, i) in tags" :modifiers="['outline']" :title="tag" :key="i" />
+            <div class="KitBlock_tags">
+                <tag class="KitBlock_tag" v-for="(tag, i) in tags" :modifiers="['outline']" :title="tag" :key="i" />
             </div>
             
-            <div class="KitSection_actions">
-                <button-base :modifiers="['secondary']">
+            <div class="KitBlock_actions">
+                <button-base :modifiers="['secondary']" :to="{ name: 'kits-slug', params: { slug } }">
                     En savoir plus
                 </button-base>
-                <button-base :modifiers="[]">
+                <button-base :to="{ name: 'kits-slug-id', params: { slug, id: 'new' } }">
                     Créer un kit personnalisé
                 </button-base>
             </div>
 
-            <action-menu class="KitSection_options" :items="[
+            <action-menu class="KitBlock_options" :items="[
                 { label: 'Éditer', to: { name: 'admin-kits-id', params: { id } }},
                 { label: 'Supprimer', to: { name: 'admin-kits-id', params: { id } }}
             ]" v-if="editable" />
@@ -40,10 +40,10 @@ import ActionMenu from '@/components/interactive/ActionMenu'
 import Tag from '@/components/utils/Tag'
 
 export default {
-    name: 'KitSection',
+    name: 'KitBlock',
     components: { ActionMenu, Tag },
     props: {
-        id: { type: String },
+        slug: { type: String },
         editable: { type: Boolean, default: false },
         tags: { type: Array, default: () => [] },
         to: { type: Object },

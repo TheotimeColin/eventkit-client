@@ -1,10 +1,10 @@
-.KitSection {
+.KitBlock {
     display: flex;
     align-items: stretch;
     position: relative;
 }
 
-.KitSection_image {
+.KitBlock_image {
     width: 200px;
     margin-right: 40px;
     flex-shrink: 0;
@@ -15,23 +15,23 @@
     }
 }
 
-.KitSection_content {
+.KitBlock_content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.KitSection_options {
+.KitBlock_options {
     position: absolute;
     top: 0;
     right: 0;
 }
 
 
-.KitSection_tags {
-    margin: 17px -4px;
+.KitBlock_tags {
+    margin: 24px -4px;
 }
 
-.KitSection_tag {
+.KitBlock_tag {
     margin: 4px;
 }
