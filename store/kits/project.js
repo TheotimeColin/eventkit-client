@@ -28,16 +28,23 @@ export default {
     actions: {
         async get ({ commit }, params) {
             let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
-            const response = await this.$axios.$get(`/generators/projects?${query}`)
-            if (response.project) {                
-                commit('update', response.project)
-                return response.project
+            const response = await this.$axios.$get(`/kits/projects?${query}`)
+            
+            if (response.projects[0]) {                
+                commit('update', response.projects[0])
+                return response.projects[0]
             } else {
                 return null
             }
         },
+        async getUserProjects ({ commit }, params) {
+            let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+            const response = await this.$axios.$get(`/kits/projects?${query}`)
+
+            return response.projects             
+        },
         async post ({ commit }, params) {
-            const response = await this.$axios.$post(`/generators/projects`, params.data)
+            const response = await this.$axios.$post(`/kits/projects`, params.data)
 
             commit('utils/addNotification', {
                 type: response.status ? 'success' : 'error'
@@ -59,9 +66,9 @@ export default {
                 }
             })
         },
-        async create ({ dispatch }, { theme, ideas = [] }) {
+        async create ({ dispatch }, { theme, ideas = [], kit, user }) {
             return await dispatch('post', {
-                data: { theme, ideas }
+                data: { theme, ideas, kit, user }
             })
         }
     },

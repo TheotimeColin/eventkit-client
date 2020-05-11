@@ -34,7 +34,7 @@ export default {
         let project = null
 
         if (this.$route.params.id) {
-            project = await this.$store.dispatch('generators/get', {
+            project = await this.$store.dispatch('kits/project/get', {
                 query: { id: this.$route.params.id }
             })
         }
@@ -44,19 +44,21 @@ export default {
     }),
     computed: {
         project () {
-            return this.$store.getters['generators/getProject']
+            return this.$store.getters['kits/project/getProject']
         }
     },
     methods: {
         async onCreate () {
-            let newProject = await this.$store.dispatch('generators/create', {
+            let newProject = await this.$store.dispatch('kits/project/create', {
+                kit: this.$route.params.slug,
                 theme: defaultTheme,
+                user: this.$store.state.auth.user ? this.$store.state.auth.user._id : undefined,
                 ideas: [
                     { id: '0', content: { main: 'Comment faire ?' }, new: true }
                 ]
             })
 
-            this.$router.push({ name: 'generators-conversation-starters-id', params: { id: newProject.id } })
+            this.$router.push({ name: 'kits-slug-id', params: { slug: 'conversation-starters', id: newProject.id } })
         }
     }
 }

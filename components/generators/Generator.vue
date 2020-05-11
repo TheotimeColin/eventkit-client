@@ -1,16 +1,22 @@
 <template>
     <div class="Generator">
         <div class="Generator_header" v-if="project">
-            <p class="ft-title-l">
-                <b>{{ project ? project.id : 'Nouveau projet' }}</b>
-            </p>
+            <div>
+                <p class="ft-title-xl">
+                    <b>{{ project.kit.title }}</b>
+                </p>
+
+                <p class="ft-title-s">
+                    <b>{{ project ? project.id : 'Nouveau projet' }}</b>
+                </p>
+            </div>
 
             <div class="d-flex fx-align-center" v-if="project">
                 <p class="ft-s text-right mr-10">
                     Dernière sauvegarde :<br>
                     {{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}
                 </p>
-                <button-base class="ml-10" @click="$store.dispatch('generators/save')">
+                <button-base class="ml-10" @click="$store.dispatch('kits/project/save')">
                     Sauvegarder
                 </button-base>
             </div>
@@ -87,6 +93,11 @@ import Sharer from '@/components/generators/Sharer'
 export default {
     name: 'Generator',
     components: { NavBar, Kickstart, Sharer, Configurator, Previewer, DataEditor },
+    head () {
+        return {
+            title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
+        }
+    },
     props: {
         project: { type: Object },
         initTheme: { type: Object }

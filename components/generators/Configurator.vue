@@ -18,7 +18,7 @@
                             :options="item.options"
                             :default-value="item.defaultValue"
                             v-model="theme[key]"
-                            @input="$store.commit('generators/updateTheme', theme)"
+                            @input="$store.commit('kits/project/updateTheme', theme)"
                         />
                     </div>
                 </div>

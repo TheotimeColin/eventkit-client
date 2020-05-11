@@ -9,6 +9,10 @@
                 Catégories
             </nuxt-link>
 
+            <nuxt-link :to="{ name: 'admin-kits' }">
+                Kits
+            </nuxt-link>
+
             <nuxt-link :to="{ name: 'admin-entities-reactions' }">
                 Réactions
             </nuxt-link>

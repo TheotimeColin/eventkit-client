@@ -1,6 +1,6 @@
 <template>
     <div class="FileLoader">
-        <popin-generic :modifiers="['top']" :is-active="isActive" ref="popin">
+        <popin-generic :id="id" :modifiers="['top']" :is-active="isActive" @close="onDone" ref="popin">
             <template slot="header">
                 <div class="ph-40 pt-20">
                     <tabs

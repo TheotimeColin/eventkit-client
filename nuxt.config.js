@@ -82,9 +82,7 @@ export default {
   },
   auth: {
     redirect: {
-        login: '/dashboard',
         logout: '/',
-        callback: '/dashboard',
         home: '/'
     },
     strategies: {

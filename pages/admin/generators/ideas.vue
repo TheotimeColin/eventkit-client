@@ -75,7 +75,7 @@ export default {
     layout: 'admin',
     components: { PopinGeneric, IdeaPack },
     async fetch () {
-        await this.$store.dispatch('generators/packs/fetch', {
+        await this.$store.dispatch('kits/packs/fetch', {
             query: {}
         })
     },
@@ -94,18 +94,18 @@ export default {
     }),
     computed: {
         packs () {
-            return this.$store.state.generators.packs.collection
+            return this.$store.state.kits.packs.collection
         }
     },
     methods: {
         async onDelete () {
-            await this.$store.dispatch('generators/packs/delete', {
+            await this.$store.dispatch('kits/packs/delete', {
                 data: { id: this.$data.pack.id }
             })
 
             this.onReset()
 
-            await this.$store.dispatch('generators/packs/fetch')
+            await this.$store.dispatch('kits/packs/fetch')
         },
         onEdit (pack) {
             this.$data.state.edit = true
@@ -113,13 +113,13 @@ export default {
             this.$data.pack = pack
         },
         async onSubmit () {
-            const response = await this.$store.dispatch('generators/packs/post', {
+            const response = await this.$store.dispatch('kits/packs/post', {
                 data: this.$data.pack
             })
 
             this.onReset()
 
-            await this.$store.dispatch('generators/packs/fetch')
+            await this.$store.dispatch('kits/packs/fetch')
         },
         onReset () {
             this.$data.state.edit = false

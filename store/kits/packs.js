@@ -34,7 +34,7 @@ export default {
     },
     actions: {
         async fetch ({ commit }) {
-            const response = await this.$axios.$get(`/generators/packs`)
+            const response = await this.$axios.$get(`/kits/packs`)
             commit('refresh', response.packs)
 
             return response.packs
@@ -52,7 +52,7 @@ export default {
         //     }
         // },
         async post ({ commit }, params) {
-            const response = await this.$axios.$post(`/generators/packs`, params.data)
+            const response = await this.$axios.$post(`/kits/packs`, params.data)
 
             commit('utils/addNotification', {
                 type: response.status ? 'success' : 'error'

@@ -102,7 +102,7 @@ export default {
         },
         update () {
             let position = 0
-            this.$store.commit('generators/updateData', this.reversed)
+            this.$store.commit('kits/project/updateData', this.reversed)
         }
     }
 }

@@ -33,6 +33,16 @@ export default {
         }
     },
     watch: {
+        isActive: {
+            immediate: true,
+            handler (v) {
+                if (v) {
+                    this.$store.commit('popins/open', { id: this.$props.id })
+                } else {
+                    this.$store.commit('popins/close', this.$props.id)
+                }
+            }
+        },
         activePopins: {
             immediate: true,
             handler (v) {
@@ -48,9 +58,6 @@ export default {
                 }
             }
         }
-    },
-    mounted () {
-        if (this.$props.isActive) this.$store.commit('popins/open', { id: this.$props.id })
     },
     beforeDestroy ()  {
         this.destroy()

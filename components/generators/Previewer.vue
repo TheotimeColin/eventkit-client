@@ -130,7 +130,7 @@ export default {
                 let component = null
                 if (this.$refs.page && this.$refs.page[0]) component = this.$refs.page[0].$el
                 if (this.$refs.component) component = this.$refs.component
-
+    
                 if (!component) return
 
                 let containerWidth = Math.min(this.$el.offsetWidth * 0.8, this.$props.print ? 9999 : maxSize.x)

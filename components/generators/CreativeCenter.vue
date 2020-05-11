@@ -29,15 +29,15 @@ export default {
         packs: null
     }),
     async mounted () {
-        if (!this.$store.state.generators.packs.fetched) {
-            await this.$store.dispatch('generators/packs/fetch')
+        if (!this.$store.state.kits.packs.fetched) {
+            await this.$store.dispatch('kits/packs/fetch')
         }
         
-        this.$data.packs = this.$store.state.generators.packs.collection
+        this.$data.packs = this.$store.state.kits.packs.collection
     },
     methods: {
         onSelect (pack, v) {
-            this.$store.commit('generators/addData', {
+            this.$store.commit('kits/project/addData', {
                 ...v,
                 original: v,
                 _id: shortid.generate(),
@@ -52,7 +52,7 @@ export default {
             let toRemove = this.$props.project.ideas.filter(idea => idea.content && idea.content.main == v.content.main)
 
             toRemove.forEach(remove => {
-                this.$store.commit('generators/removeData', remove)
+                this.$store.commit('kits/project/removeData', remove)
             })
         }
     }

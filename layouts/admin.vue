@@ -1,5 +1,6 @@
 <template>
     <div class="Body Admin">
+        <header-main />
         <context-info />
         <nuxt />
         <confirm-popin />
@@ -8,6 +9,8 @@
 </template>
 
 <script>
+import HeaderMain from '@/components/HeaderMain'
+
 import ContextInfo from '@/components/utils/ContextInfo'
 import ConfirmPopin from '@/components/utils/ConfirmPopin'
 import Notifications from '@/components/utils/Notifications'
@@ -22,7 +25,7 @@ dayjs.locale('fr')
 export default {
     name: 'LayoutAdmin',
     middleware: 'admin',
-    components: { ContextInfo, ConfirmPopin, Notifications },
+    components: { ContextInfo, ConfirmPopin, Notifications, HeaderMain },
     watch: {
         ['$route'] () {
             this.$store.commit('context/set', null)

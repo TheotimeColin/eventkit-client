@@ -7,7 +7,7 @@
                     <p class="ft-l width-xs mv-40">
                         Animez vos événements grâce à nos icebreakers & jeux 100% personnalisables, à imprimer de chez soi. C'est gratuit !
                     </p>
-                    <button-base to="generators" :style="{'--background': activePage.accent }">Commencer à créer</button-base>
+                    <button-base to="kits" :style="{'--background': activePage.accent }">Créer mon kit</button-base>
                 </div>
 
                 <div class="HomePage_sliderContainer">

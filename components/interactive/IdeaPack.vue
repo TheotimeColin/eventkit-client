@@ -97,7 +97,7 @@ export default {
             this.update()
         },
         update (v) {
-            this.$store.dispatch('generators/packs/post', {
+            this.$store.dispatch('kits/packs/post', {
                 data: this.$data.localPack
             })
         }
