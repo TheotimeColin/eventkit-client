@@ -5,7 +5,7 @@
                 <div class="Wrapper HomePage_titles">
                     <h1 class="ft-title-4xl"><b>Créer, imprimer, découper</b></h1>
                     <p class="ft-l width-xs mv-40">
-                        Animez vos événements grâce à nos icebreakers & jeux 100% personnalisables, à imprimer de chez soi. C'est gratuit !
+                        Animez tes événements grâce à nos icebreakers & jeux 100% personnalisables, à imprimer de chez toi. C'est gratuit !
                     </p>
                     <button-base to="kits" :style="{'--background': activePage.accent }">Créer mon kit</button-base>
                 </div>
@@ -83,6 +83,7 @@ import SimpleSlider from '@/components/interactive/SimpleSlider'
 import pink1 from '@/assets/img/cards/pink-1.gif'
 import blue1 from '@/assets/img/cards/blue-1.gif'
 import white1 from '@/assets/img/cards/white-1.gif'
+import yellow1 from '@/assets/img/cards/yellow-1.gif'
 
 export default {
     name: 'HomePage',
@@ -103,6 +104,11 @@ export default {
                 accent: '#028090',
                 background: '#E2F7FF',
                 items: [ blue1 ]
+            },
+            {
+                accent: '#fdba25',
+                background: '#fff2c8',
+                items: [ yellow1 ]
             },
             {
                 accent: '#414382',

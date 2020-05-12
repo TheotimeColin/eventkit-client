@@ -4,15 +4,20 @@
         :class="{ 'is-active': state.active }"
         :style="{ '--color-1': localPack.color1, '--color-2': localPack.color2 }"
     >
-        <div class="IdeaPack_cover" @click="state.active = !state.active">
-            <div class="IdeaPack_coverContainer">
-                <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
+        <div class="IdeaPack_cover" @click="state.active = !state.active" :style="cover">
+            <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
 
-                <div class="IdeaPack_previewLength">
-                    <b>{{ ideas.length }}</b>
-                    <p class="fx-shrink">{{ localPack.description }}</p>
-                </div>
+            <div class="IdeaPack_coverContainer">
+                <p class="IdeaPack_previewLength">{{ ideas.length }}</p>
+                <p class="fx-shrink">{{ localPack.description }}</p>
             </div>
+
+            <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
+
+            <action-menu class="IdeaPack_options" :items="[
+                { id: 0, label: 'Éditer', onClick: () => $emit('edit') },
+                { id: 1, label: 'Supprimer', onClick: () => $emit('delete') },
+            ]" v-if="updateMode" />
         </div>
 
         <div class="IdeaPack_ideas">
@@ -41,12 +46,14 @@
 
 <script>
 import shortid from 'shortid'
+import patterns from '@/config/patterns'
 
 import DataRow from '@/components/generators/DataRow'
+import ActionMenu from '@/components/interactive/ActionMenu'
 
 export default {
     name: 'IdeaPack',
-    components: { DataRow },
+    components: { DataRow, ActionMenu },
     props: {
         pack: { type: Object },
         updateMode: { type: Boolean, default: false },
@@ -66,6 +73,26 @@ export default {
         },
         ideas () {
             return this.$data.localPack.ideas.filter(idea => idea.content)
+        },
+        cover () {
+            if (!this.$props.pack.pattern) return {}
+
+            let patternUrl = ''
+            let pattern = patterns[this.$props.pack.pattern.patternUrl]
+
+            if (pattern) {
+                patternUrl = pattern(
+                    this.$props.pack.pattern.patternColor.replace('#', ''),
+                    this.$props.pack.pattern.patternScale,
+                    this.$props.pack.pattern.patternOpacity
+                )
+            }
+            
+            return {
+                color: this.$props.pack.color2,
+                backgroundColor: this.$props.pack.color1,
+                backgroundImage: `url("${patternUrl}")`
+            }
         }
     },
     watch: {

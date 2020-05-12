@@ -50,7 +50,6 @@ export default {
         },
         async fetch ({ commit }, params = { query: {} }) {
             let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
-            console.log(query)
             const response = await this.$axios.$get(`/kits/projects?${query}`)
 
             return response.projects

@@ -19,7 +19,7 @@
         left: 0;
         height: calc(100% + 2px);
         width: 4px;
-        background: linear-gradient(to bottom, var(--color-2, grey), var(--color-1, grey));
+        background: var(--color-1);
     }
 }
 
@@ -36,6 +36,7 @@
 }
 
 .DataRow_actions {
+    position: relative;
     margin-right: 10px;
 }
 

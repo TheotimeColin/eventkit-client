@@ -20,6 +20,7 @@ export default {
     mixins: [ base ],
     props: {
         id: { type: String, default: 'default' },
+        global: { type: Boolean, default: false },
         isActive: { type: Boolean, default: false }
     },
     data: () => ({
@@ -36,16 +37,28 @@ export default {
         isActive: {
             immediate: true,
             handler (v) {
-                if (v) {
-                    this.$store.commit('popins/open', { id: this.$props.id })
+                if (this.$props.global) {
+                    if (v) {
+                        this.$store.commit('popins/open', { id: this.$props.id })
+                    } else {
+                        this.$store.commit('popins/close', this.$props.id)
+                    }
                 } else {
-                    this.$store.commit('popins/close', this.$props.id)
+                    this.$data.state.visible = v
+                    
+                    if (v) {
+                        this.open()
+                    } else {
+                        this.close()
+                    }
                 }
             }
         },
         activePopins: {
             immediate: true,
             handler (v) {
+                if (!this.$props.global) return
+
                 let found = v.find(v => v.id == this.$props.id)
                 if (found && !this.$data.state.visible) {
                     this.$emit('open', found.data)
@@ -70,13 +83,19 @@ export default {
             if (!this.$el.contains(e.target)) this.close()
         },
         open () {
+            this.$emit('open')
+
             setTimeout(() => {
                 document.addEventListener('keyup', this.onEscape)
                 document.addEventListener('mousedown', this.onClick)
             }, 500)
         },
         close () {
-            this.$store.commit('popins/close', this.$props.id)
+            if (this.$props.global) {
+                this.$store.commit('popins/close', this.$props.id)
+            } else {
+                this.$emit('close')
+            }
         },
         destroy () {
             document.removeEventListener('keyup', this.onEscape)

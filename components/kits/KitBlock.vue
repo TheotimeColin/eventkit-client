@@ -50,7 +50,7 @@ export default {
         title: { type: String },
         excerpt: { type: String },
         thumbnail: { type: Object },
-        excerptLength: { type: Number, default: 80 }
+        excerptLength: { type: Number, default: 200 }
     },
     computed: {
         shortExcerpt () {

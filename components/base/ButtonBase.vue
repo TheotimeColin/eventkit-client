@@ -3,7 +3,7 @@
         :is="!href && !to ? 'button' : 'div'"
         :type="type"
         class="ButtonBase"
-        :class="[ ...$modifiers ]"
+        :class="{ 'ButtonBase--link': to || href , ...$modifiers }"
         @click="$emit('click')"
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"

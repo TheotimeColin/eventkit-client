@@ -19,7 +19,7 @@
 
             <div class="ProjectBlock_cta">
                 <button-base
-                    :modifiers="['s', 'secondary']"
+                    :modifiers="['xs', 'secondary']"
                     :to="to ? to : { name: 'kits-slug-id', params: { slug: kit.slug, id: project.id } }"
                 >
                     Éditer

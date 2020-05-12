@@ -39,18 +39,16 @@ export default {
 
             return response.packs
         },
-        // async get ({ commit }, params) {
-        //     if (state.items[params.query.id]) {
-        //         return JSON.parse(JSON.stringify(state.items[params.query.id]))
-        //     } else {
-        //         let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
-        //         const response = await this.$axios.$get(`/articles?${query}`)
+        async get ({ commit }, params = { query: {} }) {
+            try {
+                let query = Object.keys(params.query).map(key => `${key}=${params.query[key]}`).join('&')
+                const response = await this.$axios.$get(`/kits/packs?${query}`)
 
-        //         commit('update', response.categories[0])
+                commit('update', response.packs[0])
 
-        //         return response.categories[0]
-        //     }
-        // },
+                return response.packs[0]
+            } catch (e) { console.warn(e) }
+        },
         async post ({ commit }, params) {
             const response = await this.$axios.$post(`/kits/packs`, params.data)
 
@@ -59,19 +57,6 @@ export default {
             }, { root: true })
 
             return response.pack
-        },
-        // async delete ({ commit }, params) {
-        //     const response = await this.$axios.$delete(`/articles/categories`, {
-        //         data: params.data
-        //     })
-
-        //     commit('utils/addNotification', {
-        //         type: response.status ? 'success' : 'error'
-        //     }, { root: true })
-
-        //     commit('delete', params.data.id)
-
-        //     return response.status
-        // }
+        }
     }
 }

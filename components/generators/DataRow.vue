@@ -6,8 +6,7 @@
             'is-disabled': localData ? localData.disabled : false
         }"
         :style="{
-            '--color-1': localData && localData.pack ? localData.pack.color1 : undefined,
-            '--color-2': localData && localData.pack ? localData.pack.color2 : undefined,   
+            '--color-1': localData && localData.pack ? localData.pack.color1 : undefined
         }"
     >
         <template v-if="newRow">

@@ -81,7 +81,7 @@ export default {
         patterns () {
             return this.options.map(p => {
                 let pattern = patterns[p.value.patternUrl]
-
+                
                 return {
                     ...p,
                     background: pattern ? `url("${pattern('a5a5a5', 0.5)}")` : ''

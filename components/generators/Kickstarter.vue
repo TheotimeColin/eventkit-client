@@ -35,6 +35,7 @@
 
 <script>
 import KITS from '@/config/kits'
+import shortid from 'shortid'
 
 import ConversationStarter from '@/components/generators/ConversationStarter'
 
@@ -42,15 +43,22 @@ export default {
     name: 'Kickstarter',
     components: { ConversationStarter },
     async fetch () {
-        this.$data.templates = await this.$store.dispatch('kits/project/fetch', {
-            query: { template: true }
-        })
+        try {
+            this.$data.templates = await this.$store.dispatch('kits/project/fetch', {
+                query: { template: true }
+            })
+
+            this.$data.ideaPack = await this.$store.dispatch('kits/packs/get', {
+                query: { default: true, kit: this.$props.kit._id  }
+            })
+        } catch (e) { console.warn(e) }
     },
     props: {
         kit: { type: Object }
     },
     data: () => ({
         templates: [],
+        ideaPack: {},
         title: '',
         selectedTheme: null
     }),
@@ -61,14 +69,24 @@ export default {
     },
     methods: {
         onSelectTheme (theme) {
-            this.$data.selectedTheme = theme
+            this.$data.selectedTheme = this.$data.selectedTheme && this.$data.selectedTheme == theme ? null : theme
         },
         async create () {
+            let randomIdeas = this.$data.ideaPack.ideas.slice().sort(v => Math.random() - 0.5).slice(0, 5).map(v => ({
+                ...v,
+                original: v,
+                _id: shortid.generate(),
+                pack: { ...this.$data.ideaPack, ideas: [] },
+                new: true
+            }))
+
+            console.log(randomIdeas)
+
             await this.$store.dispatch('kits/project/create', {
                 title: this.$data.title,
                 kit: this.$props.kit._id,
                 theme: this.$data.selectedTheme,
-                ideas: [],
+                ideas: randomIdeas,
                 user: this.$store.state.auth.user ? this.$store.state.auth.user._id : undefined,
             })
         }

@@ -49,6 +49,14 @@
     transition: background-color 150ms ease;
     cursor: pointer;
     color: var(--color-ft);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    i {
+        display: none;
+    }
 
     &:hover {
         color: var(--color-ft-strong);
@@ -65,6 +73,13 @@
     &.is-selected {
         color: var(--color-ft-strong);
         font-weight: bold;
+    }
+
+    &.is-checked {
+
+        i { 
+            display: block;
+        }
     }
 }
 

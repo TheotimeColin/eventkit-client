@@ -44,9 +44,7 @@ export default {
         },
         async post ({ commit }, params) {
             const response = await this.$axios.$post(`/kits`, params.data)
-
-            console.log(response)
-
+            
             commit('utils/addNotification', {
                 type: response.status ? 'success' : 'error'
             }, { root: true })

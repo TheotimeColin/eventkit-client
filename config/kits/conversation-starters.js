@@ -1,3 +1,6 @@
+import patterns from '@/config/kits/common/patterns'
+import colors from '@/config/kits/common/colors'
+
 export default {
     component: {
         static: true,
@@ -11,22 +14,7 @@ export default {
         type: 'color-picker',
         var: 'background-color',
         custom: true,
-        options: [
-            { value: 'transparent' },
-            { value: '#2a9d8f' },
-            { value: '#ffcdb2' },
-            { value: '#4eb7ff' },
-            { value: '#a8dadc' },
-            { value: '#f1faee' },
-            { value: '#028090' },
-            { value: '#ff0054' },
-            { value: '#9e0059' },
-            { value: '#f0a6ca' },
-            { value: '#f0e6ef' },
-            { value: '#c6dabf' },
-            { value: '#390099' },
-            { value: '#1a936f' }
-        ]
+        options: colors
     },
     color: {
         id: 'color',
@@ -62,34 +50,7 @@ export default {
         type: 'pattern-picker',
         varGroup: true,
         defining: 'patternUrl',
-        options: [
-            { value: { patternUrl: '', patternColor: '000000', patternOpacity: 1, patternScale: 1 } },
-            { value: { patternUrl: 'stripes', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'bubbles', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'triangles', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'bee', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'piano', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'anchors', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'checkers', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { value: { patternUrl: 'wavy', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'polka', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'glam', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'wiggle', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'stars', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'squares', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'clouds', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'tictactoe', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'autumn', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'hideout', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'charlie', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'sprinkles', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'overlap', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'leaf', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'bathroom', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'bank', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'zigzag', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-            { premium: true, value: { patternUrl: 'topography', patternColor: '00ff00', patternOpacity: 0.5, patternScale: 1 } },
-        ]
+        options: patterns
     },
     font: {
         id: 'font',
