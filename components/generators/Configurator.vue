@@ -15,6 +15,7 @@
                         <component
                             :is="item.type"
                             :premium="item.premium"
+                            :is-premium="hasPremium"
                             :options="item.options"
                             :default-value="item.defaultValue"
                             v-model="theme[key]"
@@ -47,7 +48,8 @@ export default {
     components: { NavBar, ChoiceButtons, PatternPicker, ColorPicker, InputText, Range },
     props: {
         initTheme: { type: Object },
-        project: { type: Object }
+        project: { type: Object },
+        hasPremium: { type: Boolean, default: false }
     },
     data: () => ({
         state: {

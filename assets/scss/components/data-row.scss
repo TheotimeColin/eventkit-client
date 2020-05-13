@@ -19,7 +19,7 @@
         left: 0;
         height: calc(100% + 2px);
         width: 4px;
-        background: var(--color-1);
+        background: var(--color-1, var(--color-border));
     }
 }
 

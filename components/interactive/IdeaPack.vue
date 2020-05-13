@@ -5,7 +5,7 @@
         :style="{ '--color-1': localPack.color1, '--color-2': localPack.color2 }"
     >
         <div class="IdeaPack_cover" @click="state.active = !state.active" :style="cover">
-            <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
+            
 
             <div class="IdeaPack_coverContainer">
                 <p class="IdeaPack_previewLength">{{ ideas.length }}</p>

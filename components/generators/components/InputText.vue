@@ -1,5 +1,5 @@
 <template>
-    <div class="InputText" :class="{ 'is-modified': value != defaultValue, 'is-premium': premium }">
+    <div class="InputText" :class="{ 'is-modified': value != defaultValue, 'is-premium': premium && !isPremium }">
         <input type="text" :value="value" @keyup="onSelect">
 
         <div class="InputText_undo" v-show="value != defaultValue" @click="reset">
@@ -14,7 +14,8 @@ export default {
     props: {
         value: {},
         defaultValue: { default: false },
-        premium: { type: Boolean, default: false }
+        premium: { type: Boolean, default: false },
+        isPremium: { type: Boolean, default: false }
     },
     methods: {
         onSelect (e) {

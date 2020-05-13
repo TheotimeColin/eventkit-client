@@ -81,8 +81,14 @@ export default {
                     title: state.project.title,
                     ideas: state.project.ideas,
                     theme: state.project.theme,
+                    premium: state.project.premium,
                     template: state.project.template
                 }
+            })
+        },
+        async delete ({ commit }, params) {
+            const response = await this.$axios.$delete(`/kits/projects`, {
+                data: params.data
             })
         },
         async create ({ dispatch }, { theme, ideas = [], kit, title, user }) {
@@ -96,6 +102,18 @@ export default {
             return await dispatch('post', {
                 data: { theme, ideas, kit, user, title }
             })
+        },
+        async unlock ({ state, commit }) {
+            const response = await this.$axios.$post(`/kits/projects`, {
+                id: state.project.id, unlock: true
+            })
+
+            if (response.project) {
+                commit('update', response.project)
+                return response.project
+            } else {
+                return null
+            }
         }
     },
     getters: {

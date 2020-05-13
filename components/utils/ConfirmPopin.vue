@@ -1,6 +1,6 @@
 <template>
     <div class="ConfirmPopin">
-        <popin-generic :modifiers="['confirm']" :is-active="data.active">
+        <popin-generic id="confirm" :modifiers="['confirm']" :is-active="data.active">
             <template slot="header">
                 <div class="p-20">
                     <p class="ft-l"><b>{{ data.headerText }}</b></p>

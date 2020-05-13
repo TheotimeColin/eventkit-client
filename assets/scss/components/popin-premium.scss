@@ -1,0 +1,19 @@
+.PopinPremium {
+    
+}
+
+.PopinPremium_container {
+    overflow: hidden;
+}
+
+.PopinPremium_slider {
+    width: 200%;
+    display: flex;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateX(calc(-50% * var(--step)));
+}
+
+.PopinPremium_step {
+    padding: 40px;
+    width: 50%;
+}

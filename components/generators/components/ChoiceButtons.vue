@@ -5,7 +5,7 @@
             v-for="option in fixedOptions"
             :class="{
                 'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
-                'is-premium': option.premium
+                'is-premium': option.premium && !isPremium
             }"
             :key="option.id"
             @click="onSelect(option.value)"
@@ -38,7 +38,8 @@ export default {
     name: 'ChoiceButtons',
     props: {
         value: {},
-        options: { type: Array }
+        options: { type: Array },
+        isPremium: { type: Boolean, default: false }
     },
     data: () => ({
         localValue: null

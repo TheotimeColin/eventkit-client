@@ -10,10 +10,12 @@
 
         <div class="ProjectBlock_content">
             <div>
-                <div class="ProjectBlock_title">{{ title }}</div>
+                <div class="ProjectBlock_title">
+                    {{ title }}
+                </div>
 
                 <p class="ProjectBlock_excerpt" v-if="project && project.ideas">
-                    {{ project.ideas.length }} questions
+                    {{ project.kit.title }} - {{ project.ideas.length }} questions
                 </p>
             </div>
 
@@ -30,7 +32,7 @@
         <action-menu
             class="ProjectBlock_actions"
             :items="[
-                { id: 0, label: 'Supprimer' }
+                { id: 0, label: 'Supprimer', onClick: () => onDelete() }
             ]"
         />
     </div>
@@ -47,6 +49,7 @@ export default {
     components: { Tag, ActionMenu },
     mixins: [ base ],
     props: {
+        id: { type: String },
         to: { type: Object },
         title: { type: String },
         thumbnail: { type: Object },
@@ -74,6 +77,22 @@ export default {
                 '--background-color': this.$props.theme.background,
                 '--background-image': `url("${patternUrl}")`
             }
+        }
+    },
+    methods: {
+        onDelete () {
+            this.$store.commit('utils/confirmPrompt', {
+                active: true,
+                onConfirm: async () => {
+                    await this.$store.dispatch('kits/project/delete', {
+                        data: { _id: this.$props.project._id }
+                    })
+
+                    this.$emit('delete')
+                },
+                confirmText: 'Supprimer'
+            })
+            
         }
     }
 }

@@ -45,7 +45,7 @@ export default {
     async fetch () {
         try {
             this.$data.templates = await this.$store.dispatch('kits/project/fetch', {
-                query: { template: true }
+                query: { template: true, kit: this.$props.kit._id }
             })
 
             this.$data.ideaPack = await this.$store.dispatch('kits/packs/get', {
@@ -72,15 +72,13 @@ export default {
             this.$data.selectedTheme = this.$data.selectedTheme && this.$data.selectedTheme == theme ? null : theme
         },
         async create () {
-            let randomIdeas = this.$data.ideaPack.ideas.slice().sort(v => Math.random() - 0.5).slice(0, 5).map(v => ({
+            let randomIdeas = this.$data.ideaPack ? this.$data.ideaPack.ideas.slice().sort(v => Math.random() - 0.5).slice(0, 5).map(v => ({
                 ...v,
                 original: v,
                 _id: shortid.generate(),
                 pack: { ...this.$data.ideaPack, ideas: [] },
                 new: true
-            }))
-
-            console.log(randomIdeas)
+            })) : []
 
             await this.$store.dispatch('kits/project/create', {
                 title: this.$data.title,

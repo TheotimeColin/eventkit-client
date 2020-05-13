@@ -15,6 +15,7 @@
     .text-center#{$name} { text-align: center; }
     .text-left#{$name} { text-align: left; }
     .text-right#{$name} { text-align: right; }
+    .text-through#{$name} { text-decoration: line-through; }
 
     .o-hidden { overflow: hidden; }
     .o-visible { overflow: visible; }

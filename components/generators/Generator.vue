@@ -8,11 +8,19 @@
 
                 <p class="ft-m">
                     {{ project.kit.title }}
-                </p>
 
-                <label v-if="$store.state.auth.user && $store.state.auth.user.admin">
-                    <input type="checkbox" @change="onTemplateChange" :checked="project.template"> Template
-                </label>
+                    <label v-if="$store.state.auth.user && $store.state.auth.user.admin">
+                        <input type="checkbox" @change="onTemplateChange" :checked="project.template"> Template
+                    </label>
+                </p>
+            </div>
+
+            <div class="Generator_premiumAlert" v-if="isPremium && !hasPremium">
+                <button-base @click="onPremium" :modifiers="['premium', 'secondary', 's']" class="fx-no-shrink">
+                    Devenir Créateur
+                </button-base>
+
+                <p class="ml-20">Tu as le sens du détail ? Toutes les options à partir de <span class="ft-m"><b>1.49€</b></span> <span class="text-through">2.50€</span> avec notre <b>offre de lancement limitée</b> ! </p>
             </div>
 
             <div class="d-flex fx-align-center">
@@ -39,6 +47,7 @@
                 <div class="Generator_overflow">
                     <configurator
                         class="Generator_configurator"
+                        :has-premium="hasPremium"
                         :project="project"
                         :initTheme="initTheme"
                         v-if="project && state.step == 'config'"
@@ -60,11 +69,6 @@
             </div>
 
             <div class="Generator_previewer">
-                <div class="Generator_premiumAlert" v-show="isPremium">
-                    ⭐ Votre configuration comporte des éléments premium.
-                    <link-base>En savoir plus</link-base>
-                </div>
-                
                 <div class="Generator_previewOptions" v-if="project">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}
@@ -91,10 +95,11 @@ import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
 import Sharer from '@/components/generators/Sharer'
+import PopinGeneric from '@/components/popins/PopinGeneric'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Sharer, Configurator, Previewer, DataEditor },
+    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -107,8 +112,8 @@ export default {
     data: () => ({
         state: {
             step: 'config',
+            setPremium: false,
             print: false,
-            creative: false
         },
         steps: {
             config: {
@@ -160,6 +165,9 @@ export default {
 
             return isPremium
         },
+        hasPremium () {
+            return this.$store.state.auth.user && this.$store.state.auth.user.plan ? true : false
+        },
         lastSaved () {
             let date = this.$props.project ? this.$props.project.modifiedDate : new Date()
             return  dayjs(date).fromNow()
@@ -167,9 +175,15 @@ export default {
         saveWarning () {
             let date = this.$props.project ? this.$props.project.modifiedDate : new Date()
             return dayjs(new Date()).diff(date, 'minutes') > 10
+        },
+        user () {
+            return this.$store.state.auth.user
         }
     },
     methods: {
+        onPremium () {
+            this.$store.commit('popins/open', { id: 'premium' })
+        },
         onTitleChange (e) {
             this.$store.commit('kits/project/updateProject', {
                 title: e.target.value

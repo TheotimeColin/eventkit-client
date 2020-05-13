@@ -18,6 +18,7 @@ $spacings: (
     "2xs": 5,
     "xs": 10,
     "s": 20,
+    "s-m": 30,
     "m": 40,
     "l": 60,
     "xl": 100,
@@ -42,7 +43,7 @@ $colors: (
     "bg": #e8e4ff,
     "bg-light": #ffffff,
     "bg-weak": #deebff,
-    "bg-xweak": #f8f9ff,
+    "bg-xweak": #f5eef3,
 
     "border": #cdd3da,
     "border-strong": #bdbdbd,
@@ -60,18 +61,22 @@ $colors: (
     "confirm": #10c773,
     "confirm-strong": #1ca04c,
 
-    "premium": #ff9900,
-    "premium-strong": #ff5e00,
-    "premium-weak": #fff6e4
+    "premium": #ff79bd,
+    "premium-strong": #ff4186,
+    "premium-weak": #ffd7ef,
+
+    "offer": #e1daff,
+    "offer-strong": #2841ef,
+    "offer-weak": #e1daff
 );
 
 $fonts: (
     "ft": (
-        "name": "'Roboto', sans-serif",
+        "name": "'Open sans', sans-serif",
         "sizes": (
             "2xs": "10px/1.5",
             "xs": "13px/1.4",
-            "s": "14px/1.4",
+            "s": "14px/1.5",
             "m": "16px/1.6",
             "l": "19px/1.7",
             "xl": "24px/1.4",

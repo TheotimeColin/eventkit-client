@@ -11,6 +11,7 @@
                                 :theme="project.theme"
                                 :kit="project.kit"
                                 :project="project"
+                                @delete="getProjects"
                                 :to="{ name: 'kits-slug-id', params: { slug: project.kit.slug, id: project.id } }"
                             />
                         </div>
@@ -50,17 +51,7 @@ export default {
     async fetch () {
         await this.$store.dispatch('kits/fetch')
 
-        let query = {}
-
-        if (this.$store.state.auth.user) {
-            query.user = this.$store.state.auth.user._id
-        } else if (this.$cookies.get('anonymous-id')) {
-            query.userAnonymous = this.$cookies.get('anonymous-id')
-        }
-        
-        if (query.user || query.userAnonymous) {
-            this.$data.projects = await this.$store.dispatch('kits/project/getUserProjects', { query })
-        }
+        await this.getProjects()
     },
     data: () => ({
         projects: []
@@ -71,7 +62,23 @@ export default {
         }
     },
     methods: {
+        getProjects () {
+            return new Promise(async resolve => {
+                let query = {}
 
+                if (this.$store.state.auth.user) {
+                    query.user = this.$store.state.auth.user._id
+                } else if (this.$cookies.get('anonymous-id')) {
+                    query.userAnonymous = this.$cookies.get('anonymous-id')
+                }
+                
+                if (query.user || query.userAnonymous) {
+                    this.$data.projects = await this.$store.dispatch('kits/project/getUserProjects', { query })
+                }
+
+                resolve()
+            })
+        }
     }
 }
 </script>

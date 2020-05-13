@@ -14,7 +14,7 @@
                     class="ColorPicker_option ColorPicker_option--pattern"
                     :class="{
                         'is-selected': value.patternUrl == option.value.patternUrl,
-                        'is-premium': option.premium
+                        'is-premium': option.premium && !isPremium
                     }"
                     :style="{ '--background': option.background }"
                     @click="onSelect(option.value.patternUrl)"
@@ -48,7 +48,8 @@ export default {
     name: 'PatternPicker',
     props: {
         value: {},
-        options: { type: Array }
+        options: { type: Array },
+        isPremium: { type: Boolean, default: false }
     },
     data: () => ({
         state: {

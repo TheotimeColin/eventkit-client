@@ -11,26 +11,30 @@
                         {{ item.title }}
                     </nuxt-link>
 
-                    <button-base
-                        class="mr-5"
-                        :modifiers="['s', 'secondary']"
-                        @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'login' } })"
-                        v-if="!$store.state.auth.user"
-                    >
-                        Me connecter
-                    </button-base>
+                    <div class="d-flex fx-align-center">
+                        <div class="HeaderMain_premium mr-10" v-if="user && user.plan">Créateur</div>
 
-                    <button-base
-                        :modifiers="['s']"
-                        @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'register' } })"
-                        v-if="!$store.state.auth.user"
-                    >
-                        M'inscrire
-                    </button-base>
+                        <button-base
+                            class="mr-5"
+                            :modifiers="['s', 'secondary']"
+                            @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'login' } })"
+                            v-if="!user"
+                        >
+                            Me connecter
+                        </button-base>
 
-                    <button-base to="account" :modifiers="['s']" v-if="$store.state.auth.user">
-                        Mon compte
-                    </button-base>
+                        <button-base
+                            :modifiers="['s']"
+                            @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'register' } })"
+                            v-if="!user"
+                        >
+                            M'inscrire
+                        </button-base>
+
+                        <button-base :to="{ name: 'account' }" :modifiers="['s']" v-if="user">
+                            Mon compte
+                        </button-base>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -43,6 +47,11 @@ import base from '@/utils/base'
 export default {
     name: 'HeaderMain',
     mixins: [ base ],
+    data: () => ({
+        state: {
+            scroll: false
+        }
+    }),
     computed: {
         navItems () {
             let items = [
@@ -55,13 +64,11 @@ export default {
             ]
 
             return items.filter(item => item.enabled)
+        },
+        user () {
+            return this.$store.state.auth.user
         }
     },
-    data: () => ({
-        state: {
-            scroll: false
-        }
-    }),
     mounted () {
         window.addEventListener('scroll', this.onScroll)
     },

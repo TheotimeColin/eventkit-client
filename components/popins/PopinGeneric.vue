@@ -83,7 +83,7 @@ export default {
             if (!this.$el.contains(e.target)) this.close()
         },
         open () {
-            this.$emit('open')
+            if (process.server) return
 
             setTimeout(() => {
                 document.addEventListener('keyup', this.onEscape)
@@ -98,6 +98,8 @@ export default {
             }
         },
         destroy () {
+            if (process.server) return
+
             document.removeEventListener('keyup', this.onEscape)
             document.removeEventListener('mousedown', this.onClick)
         }

@@ -1,6 +1,6 @@
 <template>
     <div class="PopinLogin">
-        <popin-generic id="login" :modifiers="['xs']" @open="(v) => state.current = v.type">
+        <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v.type">
             <div class="p-60">
                 <form class="Form" @submit="onLogin" v-show="state.current == 'login'">
                     <p class="ft-title-xl mb-20">
@@ -102,6 +102,7 @@ export default {
                 this.$data.login.errors = response.data.errors
             } else {
                 this.$store.commit('popins/close', 'login')
+                
                 this.$store.commit('utils/addNotification', {
                     type: 'success',
                     text: `Bonjour, ${this.$store.state.auth.user.name} ! Ravi de te revoir.`

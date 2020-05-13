@@ -75,6 +75,16 @@
     }
 }
 
+.HeaderMain_premium {
+    padding: 10px 20px;
+    font: var(--ft-s);
+    color: var(--color-premium);
+    background-color: var(--color-premium-weak);
+    border-radius: 35px;
+    background-image: url("../img/background/premium.svg");
+    background-position: center;
+}
+
 /* STATES */
 
 .HeaderMain--fullpage,
