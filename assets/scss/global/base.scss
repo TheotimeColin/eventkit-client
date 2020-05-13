@@ -77,6 +77,13 @@ input {
     background-image: url("../img/background/offer.svg");
 }
 
+.success {
+    background-color: var(--color-success);
+    border-radius: 4px;
+    color: var(--color-success-strong);
+    background-image: url("../img/background/success.svg");
+}
+
 table {
     width: 100%;
     border-spacing: 0;

@@ -1,3 +1,7 @@
+.br-4 {
+    border-radius: 4px;
+}
+
 @each $name, $value in $breakpoints {
   @if $name != "" { $name: \@#{$name}; }
 
@@ -38,6 +42,7 @@
     .fx-align-stretch#{$name} { align-items: stretch; }
     .fx-align-start#{$name} { align-items: flex-start; }
     .fx-align-end#{$name} { align-items: flex-end; }
+    .fx-align-self-end#{$name} { align-self: flex-end; }
     .fx-justify-center#{$name} { justify-content: center; }
     .fx-justify-between#{$name} { justify-content: space-between; }
     .fx-justify-stretch#{$name} { justify-content: stretch; }
@@ -79,6 +84,7 @@
 
     .width-100#{$name} { width: 100%; }
     .width-auto#{$name} { width: auto; }
+    .height-100#{$name} { height: 100%; }
 
     /* BORDERS */
     .b-top#{$name} { border-top: 1px solid var(--color-border); }

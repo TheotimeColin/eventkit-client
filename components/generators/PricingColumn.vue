@@ -19,7 +19,7 @@
                     {{ price.emoji }} {{ price.length }} mois
                 </div>
 
-                <div class="PricingColumn_price">
+            <div class="PricingColumn_price" :class="{ 'premium': price.highlight, 'offer': !price.highlight }">
                     <div>
                         <template v-if="price.coupon > 0">
                             <p class="PricingColumn_offer">Offre de lancement -{{ price.coupon * 100 }}%</p>

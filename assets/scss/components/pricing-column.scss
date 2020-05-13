@@ -29,11 +29,16 @@
     &.is-highlight {
         position: relative;
         z-index: 1;
-        margin: -10px;
-        border: 1px solid var(--color-border);
+        margin: -15px;
+        padding: 15px;
         background-color: var(--color-bg-light);
         border-radius: 8px;
-        box-shadow: 0 0 10px 0px #a9a9a9;
+        box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--color-border);
+
+        .PricingColumn_offer {
+            background-color: var(--color-premium-strong);
+        }
     }
 }
 
@@ -61,14 +66,11 @@
     justify-content: center;
     font: var(--ft-3xl);
     line-height: 1;
-    color: var(--color-premium-strong);
     font-weight: bold;
-    background-color: var(--color-premium-weak);
     margin: 10px 0;
     border-radius: 6px;
     overflow: hidden;
     position: relative;
-    background-image: url("../img/background/premium.svg");
 }
 
 .PricingColumn_offer {

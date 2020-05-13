@@ -5,7 +5,7 @@
                 <div class="PopinPremium_step">
                     <div class="p-20 offer text-center">
                         <p class="ft-xs"><b>Offre de lancement</b></p>
-                        <p class="ft-l">Jusqu'à <b>40% offerts</b> sur ton premier abonnement</p>
+                        <p class="ft-l">Jusqu'à <b>40% offerts</b> sur tes premiers mois</p>
                     </div>
 
                     <div class="row mt-20 ft-s">
@@ -35,32 +35,58 @@
                 </div>
 
                 <div class="PopinPremium_step">
-                    <form @submit="onSubmit" class="row-s" v-if="plan">
+                    <div class="success text-center p-20 mb-20">
+                        <p class="ft-l"><b>🎉 Génial !</b> On a hâte de te compter parmi nous.</p>
+                        <p class="ft-s">Il ne reste plus qu'à procéder au paiement.</p>
+                    </div>
+
+                    <form @submit="onSubmit" class="Form row-s" v-if="plan">
                         <div class="col-6">
                             <table>
-                                <tr>
-                                    <td class="premium"><b>{{ plan.label }}</b></td>
-                                    <td class="text-center">{{ plan.value }}€</td>
-                                </tr>
-                                <tr>
-                                    <td class="offer"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
-                                    <td class="text-center"><b>-{{ Math.floor((plan.value - (plan.value * (1 - plan.coupon))) * 100) / 100 }}€</b></td>
-                                </tr>
-                                <tr>
-                                    <td>Total aujourd'hui</td>
-                                    <td class="text-center"><b>{{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€</b></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="color-ft-weak ft-xs">Puis {{ plan.value }}€ tous les {{ plan.length }} mois ensuite. Abonnement résiliable à tout moment.</td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td class="premium"><b>{{ plan.label }}</b></td>
+                                        <td class="text-center">{{ plan.value }}€</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="offer"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
+                                        <td class="text-center"><b>-{{ Math.floor((plan.value - (plan.value * (1 - plan.coupon))) * 100) / 100 }}€</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total aujourd'hui</td>
+                                        <td class="text-center"><b>{{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="color-ft-weak ft-xs">Puis {{ plan.value }}€ tous les {{ plan.length }} mois ensuite. Abonnement résiliable à tout moment.</td>
+                                    </tr>
+                                </tbody>
                             </table>
-
-                            <button-base type="button" :modifiers="['xs', 'secondary']" @click.native="state.step = 0">Retour</button-base>
                         </div>
+
                         <div class="col-6">
-                            <div ref="cardInput"></div>
-                            <div class="text-right">
-                                <button-base type="submit">Confirmer mon paiement</button-base>
+                            <div class="bg-bg br-4 p-20 text-center mb-20">
+                                <div class="Form_row">
+                                    <input type="text" v-model="form.name" placeholder="Ton prénom" required>
+                                </div>
+
+                                <div class="Form_row">
+                                    <input type="email" v-model="form.email" placeholder="Ton adresse email" required>
+                                </div>
+
+                                <div class="Form_row">
+                                    <input type="password" v-model="form.password" placeholder="Ton mot de passe" required>
+                                </div>
+
+                                <hr class="mv-20">
+
+                                <div class="Form_row">
+                                    <div class="Input Input--card" ref="cardInput"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex fx-justify-between fx-align-center">
+                                <button-base type="button" :modifiers="['xs', 'secondary']" @click.native="state.step = 0">Retour</button-base>
+                                <button-base :modifiers="['s']" type="submit">Confirmer mon paiement</button-base>
                             </div>
                         </div>
                     </form>
@@ -79,30 +105,41 @@ export default {
     components: { PopinGeneric, PricingColumn },
     data: () => ({
         state: {
-            step: 0
+            step: 1
         },
         stripe: null,
         form: {
+            name: '',
+            email: '',
+            password: '',
             cardInput: null
         },
-        plan: null,
+        plan: { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
         plans: [
-            { id: 'creator-1', label: 'Abonnement créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
-            { id: 'creator-3', label: 'Abonnement créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '9.99', length: '3', highlight: true },
-            { id: 'creator-12', label: 'Abonnement créateur 12 mois', emoji: '💖', coupon: '0.4', value: '29.99', length: '12' }
+            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
+            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '9.99', length: '3', highlight: true },
+            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '29.99', length: '12' }
         ]
     }),
-    mounted () {
-        setTimeout(() => {
+    watch: {
+        ['state.step']: {
+            immediate: true,
+            handler (v) {
+                if (v == 1) setTimeout(() => this.initStripe(), 500)
+            }
+        }
+    },
+    methods: {
+        initStripe () {
+            if (this.$data.stripe || process.server) return 
+
             this.$data.stripe = this.$stripe.import()
 
             const elements = this.$data.stripe.elements()
             this.$data.form.cardInput = elements.create('card')
 
             this.$data.form.cardInput.mount(this.$refs.cardInput)
-        }, 1000)
-    },
-    methods: {
+        },
         onSelectOffer (plan) {
             this.$data.plan = plan
             this.$data.state.step = 1
@@ -111,6 +148,16 @@ export default {
             e.preventDefault()
 
             try {
+                if (!this.$store.state.auth.user) {
+                    let user = await this.$auth.loginWith('local', { data: {
+                        ...this.$data.form,
+                        register: true,
+                        userAnonymous: this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : undefined
+                    } })
+
+                    console.log(user)
+                }
+
                 const payment = await this.$data.stripe.createPaymentMethod({
                     type: 'card',
                     card: this.$data.form.cardInput,
@@ -121,6 +168,7 @@ export default {
 
                 const response = await this.$store.dispatch('premium/createCustomer', {
                     data: {
+                        plan: this.$data.plan.id,
                         user: this.$store.state.auth.user._id,
                         paymentMethod: payment.paymentMethod.id
                     }
