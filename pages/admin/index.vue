@@ -1,25 +1,25 @@
 <template>
     <div class="Page">
         <div class="Page_content pb-100">
-            <nuxt-link :to="{ name: 'admin-articles' }">
+            <button-base :to="{ name: 'admin-articles' }">
                 Articles
-            </nuxt-link>
+            </button-base>
 
-            <nuxt-link :to="{ name: 'admin-entities-categories' }">
+            <button-base :to="{ name: 'admin-entities-categories' }">
                 Catégories
-            </nuxt-link>
+            </button-base>
 
-            <nuxt-link :to="{ name: 'admin-kits' }">
+            <button-base :to="{ name: 'admin-kits' }">
                 Kits
-            </nuxt-link>
+            </button-base>
 
-            <nuxt-link :to="{ name: 'admin-entities-reactions' }">
+            <button-base :to="{ name: 'admin-entities-reactions' }">
                 Réactions
-            </nuxt-link>
+            </button-base>
 
-            <nuxt-link :to="{ name: 'admin-generators-ideas' }">
+            <button-base :to="{ name: 'admin-generators-ideas' }">
                 Packs d'idées
-            </nuxt-link>
+            </button-base>
         </div>
     </div>
 </template>

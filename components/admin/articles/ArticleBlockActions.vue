@@ -21,8 +21,8 @@
             </div>
         </div>
         <div class="ArticleBlock_actions">
-            <p><nuxt-link :to="{ name: 'blog-slug', params: { slug: article.slug, id: article.id } }" target="_blank">Voir</nuxt-link></p>
-            <p><nuxt-link :to="{ name: 'admin-articles-id', params: { id: article.id } }">Éditer</nuxt-link></p>
+            <p><button-base :to="{ name: 'blog-slug', params: { slug: article.slug, id: article.id } }" target="_blank">Voir</button-base></p>
+            <p><button-base :to="{ name: 'admin-articles-id', params: { id: article.id } }">Éditer</button-base></p>
             <p><span @click="$store.commit('utils/confirmPrompt', {
                 active: true,
                 onConfirm: () => $emit('delete'),

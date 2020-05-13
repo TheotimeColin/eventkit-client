@@ -9,7 +9,7 @@
     >   
         <component
             :is="element"
-            :to="context.data.to ? context.data.to : undefined"
+            :to="context.data.to ? localePath(context.data.to) : undefined"
             :href="context.data.href ? context.data.href : undefined"
             class="ContextInfo_content"
             v-if="context"

@@ -4,7 +4,7 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
-        <nuxt-link :to="to" v-if="to">
+        <nuxt-link :to="localePath(to)" v-if="to">
             <slot></slot>
         </nuxt-link>
 

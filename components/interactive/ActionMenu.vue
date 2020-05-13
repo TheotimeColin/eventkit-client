@@ -12,7 +12,7 @@
                 v-for="(item, i) in listItems"
                 class="ActionMenu_listItem"
                 :is="item.to ? 'nuxt-link' : 'div'"
-                :to="item.to"
+                :to="localePath(item.to)"
                 @click="() => onClick(item)"
                 :key="i"
             >

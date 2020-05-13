@@ -68,7 +68,7 @@ export default {
     watch: {
         project (v) {
             if (v) {
-                this.$router.push({ name: 'kits-slug-id', params: { slug: this.slug, id: v.id } })
+                this.$router.push(this.localePath({ name: 'kits-slug-id', params: { slug: this.slug, id: v.id } }))
             }
         }
     }

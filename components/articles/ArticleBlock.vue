@@ -2,7 +2,7 @@
     <nuxt-link
         class="ArticleBlock"
         :class="{ ...$modifiers }"
-        :to="{ name: 'blog-slug', params: { slug, id } }">
+        :to="localePath({ name: 'blog-slug', params: { slug, id } })">
         <div class="ArticleBlock_image">
             <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail" />
 

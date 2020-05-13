@@ -148,7 +148,7 @@ export default {
             }
 
             if (this.$route.params.id === 'new') {
-                this.$router.push({ name: 'admin-kits-id', params: { id: response._id } })
+                this.$router.push(this.localePath({ name: 'admin-kits-id', params: { id: response._id } }))
             }
         },
         onCoverSelect () {

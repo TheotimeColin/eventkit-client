@@ -88,7 +88,7 @@ export default {
     watch: {
         selectedCategories (v) {
             let allSelected = v.length >= this.$data.categories.length
-            this.$router.push({ query: { category: v.length > 0 && !allSelected ? v.map(c => c.slug).join(',') : undefined }})
+            this.$router.push(this.localePath({ name: 'blog', query: { category: v.length > 0 && !allSelected ? v.map(c => c.slug).join(',') : undefined }}))
         }
     },
     mounted () {

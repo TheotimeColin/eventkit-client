@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="{ name: 'blog-slug', params: { slug, id } }" class="ArticleFeatured">
+    <nuxt-link :to="localePath({ name: 'blog-slug', params: { slug, id } })" class="ArticleFeatured">
         <div class="ArticleFeatured_image">
             <img :src="thumbnail" :alt="title" v-if="thumbnail">
         </div>

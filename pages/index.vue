@@ -3,11 +3,12 @@
         <div class="Page_content">
             <section class="HomePage_heading" :style="{ '--background': activePage.background }">
                 <div class="Wrapper HomePage_titles">
-                    <h1 class="ft-title-4xl"><b>Créer, imprimer, découper</b></h1>
-                    <p class="ft-l width-xs mv-40">
-                        Animez tes événements grâce à nos icebreakers & jeux 100% personnalisables, à imprimer de chez toi. C'est gratuit !
-                    </p>
-                    <button-base to="kits" :style="{'--background': activePage.accent }">Créer mon kit</button-base>
+                    <h1 class="ft-title-4xl"><b>{{ $t('pages.home.main') }}</b></h1>
+                    <p class="ft-l width-xs mv-40">{{ $t('pages.home.subtitle') }}</p>
+
+                    <button-base to="kits" :style="{'--background': activePage.accent }">
+                        {{ $t('pages.home.cta') }}
+                    </button-base>
                 </div>
 
                 <div class="HomePage_sliderContainer">
@@ -47,10 +48,10 @@
                 <div class="Wrapper">
                     <div class="mv-40" v-for="category in categories" :key="category.id">
                         <div class="d-flex fx-align-center fx-justify-between">
-                            <nuxt-link class="ft-title-l mr-20 mb-5" :to="{ name: 'blog', query: { category: category.slug } }">
+                            <nuxt-link class="ft-title-l mr-20 mb-5" :to="localePath({ name: 'blog', query: { category: category.slug } })">
                                 <b>{{ category.subtitle }}</b>
                             </nuxt-link>
-                            <button-inline :to="{ name: 'blog', query: { category: category.slug } }">
+                            <button-inline :to="localePath({ name: 'blog', query: { category: category.slug } })">
                                 Plus d'articles
                             </button-inline>
                         </div>

@@ -52,12 +52,13 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/auth',
+    'nuxt-i18n',
     'cookie-universal-nuxt',
     'nuxt-stripe-module',
     ['@nuxtjs/google-analytics', {
         id: 'UA-165347177-1'
     }],
-    ['@nuxtjs/sitemap',  {
+    ['@nuxtjs/sitemap', {
         hostname: process.env.BASE_URL,
         gzip: true,
         exclude: [
@@ -75,6 +76,15 @@ export default {
         }
     }]
   ],
+  i18n: {
+    locales: [
+        { code: 'fr', iso: 'fr-FR', file: 'fr.js' },
+        { code: 'en', iso: 'en-EN', file: 'en.js' }
+    ],
+    langDir: '/translations/',
+    defaultLocale: 'fr',
+    lazy: true
+  },
   env: {
     API_URL: process.env.NUXT_ENV_API_URL
   },

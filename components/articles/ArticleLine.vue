@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link class="ArticleLine" :to="{ name: 'blog-slug', params: { slug, id } }">
+    <nuxt-link class="ArticleLine" :to="localePath({ name: 'blog-slug', params: { slug, id } })">
         <div class="ArticleLine_number">
             {{ rankingString }}
         </div>

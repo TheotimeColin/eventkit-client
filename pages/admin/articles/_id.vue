@@ -271,7 +271,7 @@ export default {
             }
 
             if (this.$route.params.id === 'new') {
-                this.$router.push({ name: 'admin-articles-id', params: { id: response.id } })
+                this.$router.push(this.localePath({ name: 'admin-articles-id', params: { id: response.id } }))
             }
         },
         onLengthChange (words) {

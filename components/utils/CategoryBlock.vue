@@ -3,7 +3,7 @@
         :is="slug ? 'nuxt-link' : 'div'"
         class="CategoryBlock"
         :class="{ 'CategoryBlock--selectable': selectable, 'is-selected': selected, 'is-checked': checked, ...$modifiers }"
-        :to="{ name: 'blog-slug', params: { slug, id } }"
+        :to="localePath({ name: 'blog-slug', params: { slug, id } })"
     >
         <div class="CategoryBlock_image">
             <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail">

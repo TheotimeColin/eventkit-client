@@ -1,6 +1,6 @@
 <template>
     <nuxt-link
-        :to="{ name: 'blog-slug', params: { slug, id } }"
+        :to="localePath({ name: 'blog-slug', params: { slug, id } })"
         class="ArticleSummary"
         @mouseenter.native="state.hover = true"
         @mouseleave.native="state.hover = false"

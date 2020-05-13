@@ -123,8 +123,10 @@ export default {
         async onLogin () {
             let data = {}
             Object.keys(this.$data.login).forEach(k => data[k] = this.$data.login[k].value)
-            const response = await this.$auth.loginWith('local', { ...data, login: true })
-
+            const response = await this.$auth.loginWith('local', { 
+                data: { ...data, login: true }
+            })
+        
             if (response.data.status != 1) {
                 this.$data.loginErrors = response.data.errors
             } else {

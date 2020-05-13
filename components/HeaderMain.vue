@@ -2,12 +2,12 @@
     <header class="HeaderMain" :class="{'is-scroll': state.scroll, ...$modifiers }">
         <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
-                <nuxt-link to="/" class="HeaderMain_logo">
+                <nuxt-link :to="localePath('/')" class="HeaderMain_logo">
                     eventkit
                 </nuxt-link>
 
                 <nav class="HeaderMain_nav">
-                    <nuxt-link class="HeaderMain_item" v-for="item in navItems" :to="{ name: item.name }" :key="item.name">
+                    <nuxt-link class="HeaderMain_item" v-for="item in navItems" :to="localePath({ name: item.name })" :key="item.name">
                         {{ item.title }}
                     </nuxt-link>
 
