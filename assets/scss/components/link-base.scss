@@ -1,9 +1,11 @@
 .LinkBase {
     @extend .underline;
     display: inline-block;
+    font: var(--ft-s);
     font-weight: bold;
     transition: transform 150ms ease;
     color: var(--color-ft-strong);
+    
     cursor: pointer;
     
     &:hover {

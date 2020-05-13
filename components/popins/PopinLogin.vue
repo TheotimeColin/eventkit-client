@@ -1,91 +1,51 @@
 <template>
     <div class="PopinLogin">
-        <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v.type">
-            <div class="p-60">
-                <form class="Form" @submit="onLogin" v-show="state.current == 'login'">
-                    <p class="ft-title-xl mb-20">
-                        J'ai déjà un compte
-                    </p>
+        <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v.type" @close="onClose">
+            <div class="ph-60 pv-40 text-center">
+                <div v-show="state.current == 'login'">
+                    <p class="ft-title-xl mb-40"><b>Connexion</b></p>
+                    <base-form :form="login" :errors="loginErrors" @submit="onLogin">
+                         <template slot="footer">
+                            <div class="Form_row">
+                                <link-base @click.native="state.current = 'reset'">
+                                    J'ai oublié mon mot de passe
+                                </link-base>
+                            </div>
+                        </template>
+                    </base-form>
                     
-                    <div class="Form_row">
-                        <input type="text" name="email" placeholder="Adresse e-mail" v-model="login.email" required autocomplete>
-                    </div>
-                    <div class="Form_row">
-                        <input type="password" name="current-password" placeholder="Mot de passe" v-model="login.password" required autocomplete>
-                    </div>
-
-                    <div class="Form_row text-right">
-                        <link-base @click.native="state.current = 'reset'">J'ai oublié mon mot de passe</link-base>
-                    </div>
-
-                    <ul v-if="login.errors">
-                        <li v-for="(error, i) in login.errors" :key="i">{{ error }}</li>
-                    </ul>
-
-                    <div class="text-center mt-20">
-                        <button-base type="submit">Se connecter</button-base>
-                    </div>
-
-                    <hr class="mv-40">
+                    <hr class="mv-20">
 
                     <div class="text-center">
-                        <link-base @click.native="state.current = 'register'">Pas de compte ? Inscris-toi !</link-base>
+                        <button-base :modifiers="['secondary']" @click.native="state.current = 'register'">
+                            Pas de compte ? Inscris-toi !
+                        </button-base>
                     </div>
-                </form>
+                </div>
 
-                <form class="Form" @submit="onRegister" v-show="state.current == 'register'">
-                    <p class="ft-title-xl">
-                        Je m'inscris
-                    </p>
+                <div v-show="state.current == 'register'">
+                    <p class="ft-title-xl mb-40"><b>Inscription</b></p>
 
-                    <p class="mv-20 ft-l">Crée un compte <b>eventkit</b> pour sauvegarder tous tes projets, c'est gratuit !</p>
-                    
-                    <div class="Form_row">
-                        <input type="text" name="name" placeholder="Ton prénom" v-model="register.name" required>
-                    </div>
-
-                    <div class="Form_row">
-                        <input type="text" name="email" placeholder="Adresse e-mail" v-model="register.email" required>
-                    </div>
-
-                    <div class="Form_row">
-                        <input type="password" name="new-password" placeholder="Mot de passe" v-model="register.password" required>
-                    </div>
-
-                    <ul v-if="register.errors">
-                        <li v-for="(error, i) in register.errors" :key="i">{{ error }}</li>
-                    </ul>
-
-                    <div class="text-center mt-20">
-                        <button-base type="submit">S'inscrire</button-base>
-                    </div>
+                    <base-form :form="register" :errors="registerErrors" @submit="onRegister" />
 
                     <p class="text-center ft-xs mt-20">En continuant, vous acceptez les Conditions générales et Politique de confidentialité</p>
 
-                    <hr class="mv-40">
+                    <hr class="mv-20">
 
                     <div class="text-center">
-                        <link-base @click.native="state.current = 'login'">Tu as déjà un compte ?</link-base>
+                        <button-base :modifiers="['secondary']" @click.native="state.current = 'login'">
+                            Tu as déjà un compte ?
+                        </button-base>
                     </div>
-                </form>
+                </div>
 
-                <form class="Form" @submit="onReset" v-show="state.current == 'reset'">
-                    <p class="ft-title-xl mb-20">
-                        Réinitialiser mon mot de passe
-                    </p>
-                    
-                    <div class="Form_row">
-                        <input type="text" name="email" placeholder="Adresse e-mail" v-model="reset.email" required>
-                    </div>
+                <div v-show="state.current == 'reset'">
+                    <p class="ft-title-xl mb-40"><b>Réinitialisation du mot de passe</b></p>
 
-                    <ul v-if="reset.errors">
-                        <li v-for="(error, i) in reset.errors" :key="i">{{ error }}</li>
-                    </ul>
+                    <p class="mb-20">Un e-mail avec un lien pour réinitialiser ton mot de passe va t'être envoyé.</p>
 
-                    <div class="text-center mt-20">
-                        <button-base type="submit">Envoyer le lien</button-base>
-                    </div>
-                </form>
+                    <base-form :form="reset" :errors="resetErrors" @submit="onReset" />
+                </div>
             </div>
         </popin-generic>
     </div>
@@ -93,70 +53,129 @@
 
 <script>
 import PopinGeneric from '@/components/popins/PopinGeneric'
+import BaseForm from '@/components/form/BaseForm'
 
 export default {
     name: 'PopinLogin',
-    components: { PopinGeneric },
+    components: { PopinGeneric, BaseForm },
     data: () => ({
         state: {
             current: 'login'
         },
         login: {
-            errors: [],
-            email: '',
-            password: '',
-            login: true
+            email: {
+                id: 'email',
+                type: 'email',
+                label: 'Ton adresse e-mail',
+                required: true,
+                value: '',
+            },
+            password: {
+                id: 'password',
+                label: 'Ton mot de passe',
+                type: 'password',
+                required: true,
+                value: ''
+            }
         },
+        loginErrors: [],
         register: {
-            errors: [],
-            name: '',
-            email: '',
-            password: '',
-            register: true
+            name: {
+                id: 'name',
+                label: 'Ton prénom',
+                required: true,
+                value: ''
+            },
+            email: {
+                id: 'email',
+                type: 'email',
+                label: 'Ton adresse e-mail',
+                required: true,
+                value: '',
+            },
+            password: {
+                id: 'password',
+                component: 'input-text',
+                label: 'Ton mot de passe',
+                type: 'password',
+                required: true,
+                value: '',
+                validations: {
+                    minLength: { value: 6, error: 'Cette valeur doit faire au moins 5 caractères' },
+                    maxLength: { value: 16, error: 'Cette valeur ne devrait pas dépasser 16 caractères' },
+                    password: { error: 'Ton  mot de passe doit contenir au moins une majuscule et 1 chiffre ou caractère spécial' }
+                }
+            }
         },
+        registerErrors: [],
         reset: {
-            errors: [],
-            email: ''
-        }
+            email: {
+                id: 'email',
+                type: 'email',
+                label: 'Ton adresse e-mail',
+                required: true,
+                value: '',
+            }
+        },
+        resetErrors: []
     }),
     methods: {
-        async onLogin (e) {
-            e.preventDefault()
+        async onLogin () {
+            let data = {}
+            Object.keys(this.$data.login).forEach(k => data[k] = this.$data.login[k].value)
+            const response = await this.$auth.loginWith('local', { ...data, login: true })
 
-            let response = await this.$auth.loginWith('local', { data: this.$data.login })
             if (response.data.status != 1) {
-                this.$data.login.errors = response.data.errors
+                this.$data.loginErrors = response.data.errors
             } else {
                 this.$store.commit('popins/close', 'login')
-                
                 this.$store.commit('utils/addNotification', {
                     type: 'success',
                     text: `Bonjour, ${this.$store.state.auth.user.name} ! Ravi de te revoir.`
                 })
             }
         },
-        async onRegister (e) {
-            e.preventDefault()
-
-            let response = await this.$auth.loginWith('local', { data: {
-                ...this.$data.register,
+        async onRegister () {
+            let data = {}
+            Object.keys(this.$data.register).forEach(k => data[k] = this.$data.register[k].value)
+            const response = await this.$auth.loginWith('local', { data: {
+                ...data,
+                register: true,
                 userAnonymous: this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : undefined
             } })
 
             if (response.data.status != 1) {
-                this.$data.register.errors = response.data.errors
+                this.$data.registerErrors = response.data.errors
+            } else {
+                this.$store.commit('popins/close', 'login')
+                this.$store.commit('utils/addNotification', {
+                    type: 'success',
+                    text: `Bienvenue, ${data.name} !`
+                })
             }
         },
-        async onReset (e) {
-            e.preventDefault()
+        async onReset () {
+            let data = {}
+            Object.keys(this.$data.reset).forEach(k => data[k] = this.$data.reset[k].value)
 
             let response = await this.$store.dispatch('user/reset', {
-                query: { email: this.$data.reset.email }
+                query: { email: data.email }
             })
 
             if (response.status != 1) {
-                this.$data.reset.errors = response.errors
+                this.$data.resetErrors = response.errors
+            } else {
+                this.$store.commit('popins/close', 'login')
+                this.$store.commit('utils/addNotification', {
+                    type: 'success',
+                    text: `Un e-mail vient de t'être envoyé. À tout de suite !`
+                })
             }
+        },
+        onClose () {
+            this.$data.loginErrors = []
+            this.$data.registerErrors = []
+            this.$data.resetErrors = []
         }
     }
 }
