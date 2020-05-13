@@ -14,6 +14,10 @@
                         <input type="password" name="current-password" placeholder="Mot de passe" v-model="login.password" required autocomplete>
                     </div>
 
+                    <div class="Form_row text-right">
+                        <link-base @click.native="state.current = 'reset'">J'ai oublié mon mot de passe</link-base>
+                    </div>
+
                     <ul v-if="login.errors">
                         <li v-for="(error, i) in login.errors" :key="i">{{ error }}</li>
                     </ul>
@@ -64,6 +68,24 @@
                         <link-base @click.native="state.current = 'login'">Tu as déjà un compte ?</link-base>
                     </div>
                 </form>
+
+                <form class="Form" @submit="onReset" v-show="state.current == 'reset'">
+                    <p class="ft-title-xl mb-20">
+                        Réinitialiser mon mot de passe
+                    </p>
+                    
+                    <div class="Form_row">
+                        <input type="text" name="email" placeholder="Adresse e-mail" v-model="reset.email" required>
+                    </div>
+
+                    <ul v-if="reset.errors">
+                        <li v-for="(error, i) in reset.errors" :key="i">{{ error }}</li>
+                    </ul>
+
+                    <div class="text-center mt-20">
+                        <button-base type="submit">Envoyer le lien</button-base>
+                    </div>
+                </form>
             </div>
         </popin-generic>
     </div>
@@ -91,6 +113,10 @@ export default {
             email: '',
             password: '',
             register: true
+        },
+        reset: {
+            errors: [],
+            email: ''
         }
     }),
     methods: {
@@ -119,6 +145,17 @@ export default {
 
             if (response.data.status != 1) {
                 this.$data.register.errors = response.data.errors
+            }
+        },
+        async onReset (e) {
+            e.preventDefault()
+
+            let response = await this.$store.dispatch('user/reset', {
+                query: { email: this.$data.reset.email }
+            })
+
+            if (response.status != 1) {
+                this.$data.reset.errors = response.errors
             }
         }
     }

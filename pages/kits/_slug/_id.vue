@@ -31,9 +31,13 @@ export default {
         }
 
         if (this.$route.params.id) {
-            project = await this.$store.dispatch('kits/project/get', {
-                query: { id: this.$route.params.id }
-            })
+            let query = {
+                id: this.$route.params.id
+            }
+
+            if (this.$cookies.get('anonymous-id') && !this.user) query.userAnonymous = this.$cookies.get('anonymous-id')
+
+            project = await this.$store.dispatch('kits/project/get', { query })
         }
 
         this.state.loaded = true
@@ -45,6 +49,9 @@ export default {
         kit: null
     }),
     computed: {
+        user () {
+            return this.$store.state.auth.user
+        },
         project () {
             return this.$store.getters['kits/project/getProject']
         },

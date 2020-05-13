@@ -3,7 +3,7 @@
         <div class="Generator_header">
             <div>
                 <p class="ft-title-xl">
-                    <input type="text" class="Input--unstyled" :value="project.title" v-if="project" @change="onTitleChange">
+                    <input type="text" placeholder="Nom de mon projet" class="Input--unstyled" :value="project.title" v-if="project" @change="onTitleChange">
                 </p>
 
                 <p class="ft-m">

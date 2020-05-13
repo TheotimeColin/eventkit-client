@@ -3,8 +3,9 @@
 }
 
 .ChoiceButtons_option {
-    font: var(--ft-m);
-    color: var(--color-ft-weak);
+    font-family: var(--font, 'Open sans');
+    font-size: 16px;
+    color: var(--color-ft);
     height: 45px;
     display: inline-flex;
     align-items: center;
@@ -32,7 +33,7 @@
 
 .ChoiceButtons_content {
     transform: scale(0.95);
-    color: var(--color-ft-weak);
+    color: var(--color-ft);
     transition: all 150ms ease;
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <popin-generic class="PopinPremium" id="premium" :global="true" :is-active="true">
+    <popin-generic class="PopinPremium" id="premium" :global="true">
         <div class="PopinPremium_container">
             <div class="PopinPremium_slider" :style="{ '--step': state.step }">
                 <div class="PopinPremium_step">
@@ -105,7 +105,7 @@ export default {
     components: { PopinGeneric, PricingColumn },
     data: () => ({
         state: {
-            step: 1
+            step: 0
         },
         stripe: null,
         form: {
@@ -115,10 +115,15 @@ export default {
             cardInput: null
         },
         plan: { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
+        // plans: [
+        //     { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
+        //     { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '9.99', length: '3', highlight: true },
+        //     { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '29.99', length: '12' }
+        // ],
         plans: [
-            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
-            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '9.99', length: '3', highlight: true },
-            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '29.99', length: '12' }
+            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '5.99', length: '1' },
+            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '12.99', length: '3', highlight: true },
+            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.4', value: '39.99', length: '12' }
         ]
     }),
     watch: {

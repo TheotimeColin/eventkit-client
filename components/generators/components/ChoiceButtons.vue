@@ -7,6 +7,7 @@
                 'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
                 'is-premium': option.premium && !isPremium
             }"
+            :style="{ '--font': option.value.fontFamily ? option.value.fontFamily : undefined }"
             :key="option.id"
             @click="onSelect(option.value)"
         >

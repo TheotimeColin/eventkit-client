@@ -35,8 +35,7 @@ export default {
     },
     actions: {
         async fetch ({ commit }, params = { query: {} }) {
-            let query = getQuery(params.query)
-            const response = await this.$axios.$get(`/kits?${encodeURI(query)}`)
+            const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
 
             commit('refresh', response.kits)
 
@@ -52,8 +51,7 @@ export default {
             return response.kit
         },
         async get ({ state, commit }, params) {
-            let query = getQuery(params.query)
-            const response = await this.$axios.$get(`/kits?${encodeURI(query)}`)
+            const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
             
             let result = response.kits[0]
             if (!result) return false

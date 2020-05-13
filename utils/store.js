@@ -7,7 +7,7 @@ export {
 
 const getQuery = function (data) {
     if (!data) return ''
-    return Object.keys(data).map(key => `${key}=${data[key]}`).join('&')
+    return encodeURI(Object.keys(data).map(key => `${key}=${data[key]}`).join('&'))
 }
 
 const updateOne = function (stateItems, value) {
