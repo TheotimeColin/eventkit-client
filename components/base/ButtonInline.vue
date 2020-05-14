@@ -15,7 +15,7 @@
         
         <slot v-if="!href && !to"></slot>
         
-        <i class="ButtonInline_icon fa fa-arrow-right"></i>
+        <i class="ButtonInline_icon fal fa-arrow-right"></i>
     </div>
 </template>
 

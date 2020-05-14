@@ -8,7 +8,7 @@
         </div>
 
         <div class="Accordion_opener">
-            <i class="fa fa-angle-down"></i>
+            <i class="fal fa-angle-down"></i>
         </div>
     </div>
 </template>

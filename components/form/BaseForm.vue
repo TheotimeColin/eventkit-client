@@ -18,7 +18,7 @@
         </div>
 
         <ul class="Form_errors" v-if="errors && errors.length > 0">
-            <li v-for="(error, i) in errors" :key="i">{{ error }}</li>
+        <li v-for="(error, i) in errors" :key="i">{{ $t(`errors.${error}`) }}</li>
         </ul>
 
         <slot name="submit" v-if="$slots['submit']"></slot>

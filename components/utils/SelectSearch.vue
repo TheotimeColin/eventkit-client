@@ -11,7 +11,7 @@
                 ref="search"
             >
 
-            <i class="SelectSearch_chevron fa fa-chevron-down fa-xs"></i>
+            <i class="SelectSearch_chevron fal fa-chevron-down fa-xs"></i>
         </div>
 
         <div class="SelectSearch_results" ref="list">
@@ -33,7 +33,7 @@
                 @click="onSelectValue(searchOptions[option])"
                 :key="searchOptions[option].value"
             >
-                <p>{{ searchOptions[option].label }}</p> <i class="fa fa-check"></i>
+                <p>{{ searchOptions[option].label }}</p> <i class="fal fa-check"></i>
             </div>
         </div>
     </div>

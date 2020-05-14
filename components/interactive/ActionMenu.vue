@@ -4,7 +4,7 @@
         :class="{ 'is-active': state.active }"
     >
         <div class="ActionMenu_trigger" @click="state.active = !state.active">
-            <i class="fa fa-ellipsis-h"></i>
+            <i class="fal fa-ellipsis-h"></i>
         </div>
 
         <div class="ActionMenu_list">
@@ -16,7 +16,7 @@
                 @click="() => onClick(item)"
                 :key="i"
             >
-                <i class="fa fa-sm" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
+                <i class="fal fa-sm" :class="{ ['fa-' + item.fal ]: true }" v-if="item.fa"></i>
                 <p v-if="item.label">{{ item.label }}</p>
             </component>
         </div>

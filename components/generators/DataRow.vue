@@ -10,12 +10,12 @@
         }"
     >
         <template v-if="newRow">
-            <i class="pl-10 color-ft-xweak fa fa-plus fa-xs"></i>
+            <i class="pl-10 color-ft-xweak fal fa-plus fa-xs"></i>
             <p class="DataRow_input color-ft-xweak">Ajouter</p>
         </template>
 
         <template v-else-if="localData">
-            <i class="fa fa-align-justify handle DataRow_handle" v-if="!selectable"></i>
+            <i class="fal fa-grip-lines handle DataRow_handle" v-if="!selectable"></i>
             
             <p class="color-ft-xweak">{{ value.disabled ? ' ' : value.position }}</p>
 

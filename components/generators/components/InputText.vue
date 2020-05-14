@@ -3,7 +3,7 @@
         <input type="text" :value="value" @keyup="onSelect">
 
         <div class="InputText_undo" v-show="value != defaultValue" @click="reset">
-            <i class="fa fa-undo"></i>
+            <i class="fal fa-undo"></i>
         </div>
     </div>
 </template>

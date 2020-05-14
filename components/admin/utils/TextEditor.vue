@@ -17,53 +17,53 @@
                 
                 <div class="TextEditor_first">
                     <button class="TextEditor_button" type="button" @click="commands.undo">
-                        <i class="fa fa-undo-alt"></i>
+                        <i class="fal fa-undo-alt"></i>
                     </button>
 
                     <button class="TextEditor_button" type="button" @click="commands.redo">
-                        <i class="fa fa-redo-alt"></i>
+                        <i class="fal fa-redo-alt"></i>
                     </button>
 
                     <div class="TextEditor_separator"></div>
 
                     <button class="TextEditor_button" type="button" @click="commands.bold">
-                        <i class="fa fa-bold"></i>
+                        <i class="fal fa-bold"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.italic">
-                        <i class="fa fa-italic"></i>
+                        <i class="fal fa-italic"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.heading({ level: 2 })">
-                        <i class="fa fa-heading"></i><span class="ft-2xs">2</span>
+                        <i class="fal fa-heading"></i><span class="ft-2xs">2</span>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.heading({ level: 3 })">
-                        <i class="fa fa-heading"></i><span class="ft-2xs">3</span>
+                        <i class="fal fa-heading"></i><span class="ft-2xs">3</span>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.blockquote()">
-                        <i class="fa fa-quote-right"></i>
+                        <i class="fal fa-quote-right"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.bullet_list()">
-                        <i class="fa fa-list-ul"></i>
+                        <i class="fal fa-list-ul"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.ordered_list()">
-                        <i class="fa fa-list-ol"></i>
+                        <i class="fal fa-list-ol"></i>
                     </button>
 
                     <div class="TextEditor_separator"></div>
 
                     <button class="TextEditor_button" type="button" @click="commands.accordion()">
-                        <i class="fa fa-times"></i>
+                        <i class="fal fa-times"></i>
                     </button>
                     
                     <div class="TextEditor_separator"></div>
 
                     <button class="TextEditor_button" type="button" @click="state.fileSelect = true">
-                        <i class="fa fa-image"></i>
+                        <i class="fal fa-image"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="state.linkSelect = !state.linkSelect">
-                        <i class="fa fa-link"></i>
+                        <i class="fal fa-link"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="state.internalSelect = true">
-                        <i class="fa fa-external-link-alt"></i>
+                        <i class="fal fa-external-link-alt"></i>
                     </button>
                 </div>
                 <div class="TextEditor_second">

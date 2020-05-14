@@ -1,7 +1,7 @@
 <template>
     <div class="SimpleUploader" :class="{ 'is-loaded': queue.length > 0 }">
         <label :for="id" class="SimpleUploader_area" v-show="queue.length <= 0">
-            <i class="SimpleUploader_icon fa fa-cloud"></i>
+            <i class="SimpleUploader_icon fal fa-cloud"></i>
             <p class="SimpleUploader_title">Choisissez les fichiers à uploader.</p>
         </label>
 
@@ -25,14 +25,14 @@
                     </div>
                 </div>
                 
-                <i class="SimpleUploader_remove fa fa-times" @click="onRemove(item.id)"></i>
+                <i class="SimpleUploader_remove fal fa-times" @click="onRemove(item.id)"></i>
             </div>
         </div>
 
         <div class="text-right" v-if="queue.length > 0">
             <button-base :modifiers="['xs']" type="button">
                 <label :for="id">
-                    <i class="fa fa-plus"></i>
+                    <i class="fal fa-plus"></i>
                 </label>
             </button-base>
             <button-base type="button" @click="onUpload">
