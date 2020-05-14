@@ -15,7 +15,19 @@
 
     &::before {
         content: "";
+        display: block;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        background-color: var(--color-premium-strong);
+    }
+    
+    &::after {
+        content: "";
         @include absolute-fill;
+        z-index: 1;
         transform-origin: top;
         transition: all 200ms ease-out;
         height: var(--height);
@@ -26,6 +38,7 @@
 .HeaderMain_container {
     min-height: var(--height);
     position: relative;
+    z-index: 2;
 }
 
 .HeaderMain_logo {
@@ -33,7 +46,7 @@
     top: 0;
     left: 0;
     z-index: 1;
-    width: 150px;
+    max-width: 500px;
     font: var(--ft-title-xl);
     color: var(--color-ft);
     font-weight: bold;
@@ -44,6 +57,12 @@
 
     &:hover {
         color: var(--color-ft-strong);
+    }
+
+    span {
+        font: var(--ft-xs);
+        color: var(--color-premium-strong);
+        font-weight: bold;
     }
 }
 
@@ -97,7 +116,7 @@
     .HeaderMain_logo,
     .HeaderMain_baseline {
         transition: all 150ms ease-in;
-        color: var(--color-ft-strong);
+        // color: var(--color-ft-strong);
     }
 
     .HeaderMain_baseline {

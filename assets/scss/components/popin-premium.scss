@@ -7,13 +7,21 @@
 }
 
 .PopinPremium_slider {
-    width: 200%;
+    width: calc(100% * var(--max-steps));
     display: flex;
     transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-    transform: translateX(calc(-50% * var(--step)));
+    transform: translateX(calc(calc(-100% / var(--max-steps)) * var(--step)));
 }
 
 .PopinPremium_step {
     padding: 40px;
-    width: 50%;
+    width: calc(100% / var(--max-steps));
+}
+
+.PopinPremium_success {
+    height: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }

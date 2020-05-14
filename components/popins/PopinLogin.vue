@@ -102,7 +102,7 @@ export default {
                 value: '',
                 validations: {
                     minLength: { value: 6, error: 'Cette valeur doit faire au moins 5 caractères' },
-                    maxLength: { value: 16, error: 'Cette valeur ne devrait pas dépasser 16 caractères' },
+                    maxLength: { value: 20, error: 'Cette valeur ne devrait pas dépasser 20 caractères' },
                     password: { error: 'Ton  mot de passe doit contenir au moins une majuscule et 1 chiffre ou caractère spécial' }
                 }
             }

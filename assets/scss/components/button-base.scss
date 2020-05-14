@@ -1,5 +1,6 @@
 .ButtonBase {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: 13px 20px;
     border-radius: 4px;
     overflow: hidden;
@@ -31,6 +32,10 @@
     }
 }
 
+.ButtonBase_icon {
+    margin-right: 10px
+}
+
 .ButtonBase:disabled,
 .ButtonBase.is-disable {
     pointer-events: none;
@@ -39,6 +44,11 @@
     background-color: transparent;
     border: 1px solid var(--color-border);
     box-shadow: none;
+}
+
+.ButtonBase.is-loading {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 /* MODIFIERS */
@@ -108,20 +118,22 @@
     }
 }
 
+.ButtonBase--round {
+    border-radius: 40px;
+}
+
 .ButtonBase--save {
     background-color: var(--color-confirm);
     color: var(--color-ft-light);
 }
 
 .ButtonBase--premium {
-    color: var(--color-premium-strong);
-    border: 1px solid var(--color-premium-strong);
-    font-weight: 600;
-    border-radius: 40px;
+    color: var(--color-ft-light);
+    background-color: var(--color-premium-strong);
+    box-shadow: 0 2px 2px 0 rgba(236, 0, 107, 0.3);
     
     &:hover {
-        color: var(--color-ft-light);
-        background-color: var(--color-premium-strong);
-        border-color: var(--color-premium-strong);
+        background-color: var(--color-premium);
+        box-shadow: 0 4px 8px 0 rgba(236, 0, 107, 0.4);
     }
 }

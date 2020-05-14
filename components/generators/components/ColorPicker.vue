@@ -1,76 +1,107 @@
 <template>
     <div class="ColorPicker">
-        <label class="d-block mb-20 ft-s">
-            <input type="checkbox" v-model="state.custom"> Afficher sélecteur de couleurs
-        </label>
         <div class="ColorPicker_container">
-            <div class="ColorPicker_picker" v-show="state.custom">
-                <div ref="custom"></div>
+            <div class="ColorPicker_picker">
+                <div class="ColorPicker_sticky">
+
+                    <nav-bar :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="Object.keys(options).map(key => ({
+                        id: key, color: value[key], label: options[key].label, onClick: () => state.current = key
+                    }))" />
+                    
+                    <div ref="custom"></div>
+                </div>
             </div>
             
             <div class="ColorPicker_colors">
-                <div
-                    v-for="option in options"
-                    class="ColorPicker_option"
-                    :class="{
-                        'is-premium': option.premium,
-                        'is-selected': value == option.value,
-                        'is-active': state.custom
-                    }"
-                    :style="{ '--background': option.thumb ? option.thumb : option.value }"
-                    @click="onSelect(option.value)"
-                    ref="color"
-                    :key="option.id"
-                ></div>
+                <div class="row-xs fx-wrap">
+                    <div class="col-6 mb-10" v-for="(palette, i) in palettes" :key="i">
+                        <div
+                            class="ColorPicker_palette"
+                            :style="{
+                                '--background-color': palette.values.backgroundColor,
+                                '--color': palette.values.color,
+                                '--pattern': patternUrl(palette.values.patternColor),
+                                '--font': theme.font.fontFamily
+                            }"
+                            @click="onSelectPalette(palette.values)"
+                        >
+                            {{ palette.label }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import palettes from '@/config/kits/common/palettes'
+import patterns from '@/config/patterns'
+
+import NavBar from '@/components/generators/NavBar'
 const AColorPicker = require('a-color-picker')
 
 export default {
     name: 'ColorPicker',
+    components: { NavBar },
     props: {
         value: {},
-        options: { type: Array }
+        theme: {},
+        options: { type: Object }
     },
     data: () => ({
         state: {
-            custom: false
+            custom: false,
+            current: ''
         },
         localValue: '',
         colorPicker: null,
+        palettes: palettes
     }),
     watch: {
         value: {
             immediate: true,
             handler (v) {
                 this.$data.localValue = v
-                if (this.$data.colorPicker && v.includes('#')) this.$data.colorPicker.color = v
+                if (this.$data.colorPicker) this.$data.colorPicker.color = this.$props.value[this.$data.state.current]
             }
+        },
+        ['state.current'] (v) {
+            this.$data.colorPicker.color = this.$props.value[v]
         }
     },
     mounted () {
+        this.$data.state.current = Object.keys(this.$props.options)[0]
+
         if (this.$refs.custom) {
             this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom, {
-                showHSL: false
+                showHSL: false,
+                showRGB: false
             })
 
-            this.$data.colorPicker.color = this.$data.localValue
-
             this.$data.colorPicker.on('change', (e) => {
-                this.$data.localValue = e.color
+                this.$data.localValue[this.$data.state.current] = e.color
                 this.onSelect()
             })
         }
     },
     methods: {
-        onSelect (value) {
-            if (value) this.$data.localValue = value
-
+        onSelectPalette (v) {
+            this.$data.localValue = v
+            this.onSelect()
+        },
+        onSelect () {
             this.$emit('input', this.$data.localValue)
+        },
+        patternUrl (color) {
+            let value = ''
+            let pattern = patterns[this.$props.theme.pattern.patternUrl]
+
+            if (pattern) value = pattern(
+                color.replace('#', ''), 1, 1
+            )
+
+            return `url("${value}")`
         }
     }
 }

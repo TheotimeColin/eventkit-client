@@ -27,8 +27,16 @@
     }
 }
 
-.NavBar_fa + .NavBar_label {
+.NavBar_fa + .NavBar_label,
+.NavBar_color + .NavBar_label {
     margin-left: 10px;
+}
+
+.NavBar_color {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
 }
 
 .NavBar_count {
@@ -68,6 +76,43 @@
         height: 80px;
         border: none;
         border-bottom: 1px solid var(--color-border);
+    }
+}
+
+.NavBar--s {
+
+    .NavBar_item {
+        height: 50px;
+        font: var(--ft-s);
+        border: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+}
+
+.NavBar--selector {
+
+    .NavBar_item {
+        border: 1px solid var(--color-border);
+        margin-right: 5px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &::after {
+            display: none;
+        }
+
+        &:hover, &.is-active {
+            border-color: var(--color-blue);
+        }
+    }
+
+    &.NavBar--vertical {
+
+        .NavBar_item {
+            margin: 0;
+        }
     }
 }
 

@@ -17,6 +17,8 @@
             />
         </div>
 
+        <slot name="form"></slot>
+
         <ul class="Form_errors" v-if="errors && errors.length > 0">
         <li v-for="(error, i) in errors" :key="i">{{ $t(`errors.${error}`) }}</li>
         </ul>
@@ -24,7 +26,9 @@
         <slot name="submit" v-if="$slots['submit']"></slot>
         
         <div class="Form_row text-center" v-else>
-            <button-base type="submit" :disabled="isError">Valider</button-base>
+            <button-base type="submit" :disabled="isError" :loading="loading">
+                {{ submit && submit.label ? submit.label : 'Valider' }}
+            </button-base>
         </div>
 
         <slot name="footer"></slot>
@@ -39,7 +43,9 @@ export default {
     components: { InputText },
     props: {
         form: { type: Object },
-        errors: { type: Array }
+        errors: { type: Array },
+        loading: { type: Boolean, default: false },
+        submit: { type: Object }
     },
     data: () => ({
         inputErrors: {}

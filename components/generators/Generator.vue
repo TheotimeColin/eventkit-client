@@ -16,11 +16,14 @@
             </div>
 
             <div class="Generator_premiumAlert" v-if="isPremium && !hasPremium">
-                <button-base @click="onPremium" :modifiers="['premium', 'secondary', 's']" class="fx-no-shrink">
+                <button-base @click="onPremium" :modifiers="['premium', 'round', 's']" class="fx-no-shrink">
                     Devenir Créateur
                 </button-base>
 
-                <p class="ml-20">Tu as le sens du détail ? Toutes les options à partir de <span class="ft-m"><b>1.49€</b></span> <span class="text-through">2.50€</span> avec notre <b>offre de lancement limitée</b> ! </p>
+                <p class="ml-20">
+                    De <span class="ft-m"><b>30% à 40%</b></span> de réduction sur nos abonnements !
+                    <b>Offre limitée aux 100 premiers inscrits</b>
+                </p>
             </div>
 
             <div class="d-flex fx-align-center">
@@ -133,34 +136,34 @@ export default {
             return this.$data.steps[Object.keys(this.$data.steps)[this.$data.step]]
         },
         isPremium () {
-            let isPremium = false 
+            let isPremium = true 
 
             if (this.$props.project) {
-                Object.keys(this.$props.project.theme).forEach(key => {
-                    let config = this.$props.initTheme[key]
-                    let value = this.$props.project.theme[key]
+                // Object.keys(this.$props.project.theme).forEach(key => {
+                //     let config = this.$props.initTheme[key]
+                //     let value = this.$props.project.theme[key]
 
-                    if (config.options) {
-                        let valueFound = true
+                //     if (config && config.options) {
+                //         let valueFound = true
 
-                        config.options.forEach(option => {
-                            let optionValue = config.defining ? value[config.defining] : value
-                            let optionConfig = config.defining ? option.value[config.defining] : option.value
+                //         config.options.forEach(option => {
+                //             let optionValue = config.defining ? value[config.defining] : value
+                //             let optionConfig = config.defining ? option.value[config.defining] : option.value
 
-                            if (JSON.stringify(optionValue) == JSON.stringify(optionConfig)) {
-                                valueFound = true
+                //             if (JSON.stringify(optionValue) == JSON.stringify(optionConfig)) {
+                //                 valueFound = true
 
-                                if (option.premium && JSON.stringify(value) !== JSON.stringify(config.defaultValue)) {
-                                    isPremium = true
-                                }
-                            }
-                        })
+                //                 if (option.premium && JSON.stringify(value) !== JSON.stringify(config.defaultValue)) {
+                //                     isPremium = true
+                //                 }
+                //             }
+                //         })
                         
-                        if (config.custom && !valueFound) isPremium = true
-                    }
+                //         if (config.custom && !valueFound) isPremium = true
+                //     }
 
-                    if (config.premium && value !== config.defaultValue) isPremium = true
-                })
+                //     if (config && config.premium && value !== config.defaultValue) isPremium = true
+                // })
             }
 
             return isPremium

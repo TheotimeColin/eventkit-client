@@ -41,7 +41,7 @@
                     </div>
 
                     <button-base
-                        :modifiers="['premium', 's', 'secondary']"
+                        :modifiers="price.highlight ? ['s', 'round', 'premium'] : ['s', 'round']"
                         @click="$emit('select', price)"
                     >
                         Devenir créateur

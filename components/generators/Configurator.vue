@@ -3,20 +3,21 @@
         <div class="Configurator_theme">
             <nav-bar class="Configurator_nav" :modifiers="['secondary']" :items="nav" :current="state.active" />
             
-            <div class="p-20">
+            <div class="p-40">
                 <div class="Configurator_group" v-for="(group, key) in availableOptions" :key="key" v-show="state.active == key">
                     <div
                         class="Configurator_row"
                         v-for="(item, key) in group"
                         :key="key"
                     >
-                        <p class="mb-10"><b>{{ item.label }}</b></p>
+                        <p class="mb-10" v-if="item.label"><b>{{ item.label }}</b></p>
 
                         <component
                             :is="item.type"
                             :premium="item.premium"
                             :is-premium="hasPremium"
                             :options="item.options"
+                            :theme="theme"
                             :default-value="item.defaultValue"
                             v-model="theme[key]"
                             @input="$store.commit('kits/project/updateTheme', theme)"
@@ -37,8 +38,8 @@ import InputText from '@/components/generators/components/InputText'
 import Range from '@/components/generators/components/Range'
 
 const GROUPS = {
-    main: { position: 1, label: 'Fond', fa: 'chess-board' },
-    font: { position: 2, label: 'Polices', fa: 'text-height' },
+    pattern: { position: 2, label: 'Motif', fa: 'chess-board' },
+    colors: { position: 1, label: 'Couleurs', fa: 'fill-drip' },
     format: { position: 4, label: 'Format', fa: 'ruler' },
     text: { position: 3, label: 'Textes', fa: 'paragraph' },
 }
@@ -98,6 +99,10 @@ export default {
     .Configurator_row {
         padding: 20px 0;
         border-bottom: 1px solid var(--color-border);
+
+        &:first-child {
+            padding-top: 0;
+        }
     }
 
     .Configurator_nav {

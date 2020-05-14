@@ -6,46 +6,20 @@ export default {
         static: true,
         value: 'conversation-starter'
     },
-    background: {
-        id: 'background',
-        group: 'main',
-        label: `Couleur fond`,
-        defaultValue: '#ef476f',
+    colors: {
+        id: 'colors',
+        group: 'colors',
         type: 'color-picker',
-        var: 'background-color',
-        custom: true,
-        options: colors
-    },
-    color: {
-        id: 'color',
-        group: 'font',
-        label: `Couleur de police`,
-        defaultValue: '#000000',
-        type: 'color-picker',
-        var: 'color',
-        custom: true,
-        options: [
-            { value: '#000000' },
-            { value: '#ffffff' },
-            { value: '#2a9d8f' },
-            { value: '#ffcdb2' },
-            { value: '#4eb7ff' },
-            { value: '#a8dadc' },
-            { value: '#f1faee' },
-            { value: '#028090' },
-            { value: '#ff0054' },
-            { value: '#9e0059' },
-            { value: '#f0a6ca' },
-            { value: '#f0e6ef' },
-            { value: '#c6dabf' },
-            { value: '#390099' },
-            { value: '#1a936f' }
-        ]
+        valueGroup: true,
+        options: {
+            color: { fa: 'text', label: 'Police' },
+            backgroundColor: { fa: 'draw-square', label: 'Fond' },
+            patternColor: { fa: 'chess-board', label: 'Motif' },
+        }
     },
     pattern: {
         id: 'pattern',
-        group: 'main',
-        label: `Motif de fond`,
+        group: 'pattern',
         defaultValue: '',
         type: 'pattern-picker',
         varGroup: true,
@@ -54,7 +28,7 @@ export default {
     },
     font: {
         id: 'font',
-        group: 'font',
+        group: 'text',
         label: `Police d'écriture`,
         defaultValue: { fontFamily: '"Lato"' },
         type: 'choice-buttons',
@@ -198,7 +172,7 @@ export default {
     },
     theme: {
         id: 'theme',
-        group: 'font',
+        group: 'text',
         label: `Disposition`,
         type: 'choice-buttons',
         default: 'default',
@@ -210,7 +184,7 @@ export default {
     },
     elementScale: {
         id: 'element-scale',
-        group: 'font',
+        group: 'text',
         label: `Taille éléments`,
         defaultValue: 1,
         type: 'range',

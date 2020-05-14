@@ -67,6 +67,18 @@ export default {
                         ...group
                     }
                 }
+                if (choice.valueGroup) {
+                    let group = {}
+
+                    Object.keys(choice.options).forEach(key => {
+                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = value[key]
+                    })
+
+                    style = {
+                        ...style,
+                        ...group
+                    }
+                }
             })
 
             style['--width'] = this.$props.theme.size.x + 'mm'
@@ -80,7 +92,7 @@ export default {
             let pattern = patterns[this.$props.theme.pattern.patternUrl]
 
             if (pattern) value = pattern(
-                this.$props.theme.pattern.patternColor.replace('#', ''),
+                this.$props.theme.colors.patternColor.replace('#', ''),
                 (this.$props.theme.pattern.patternScale) * this.$props.scale,
                 this.$props.theme.pattern.patternOpacity
             )

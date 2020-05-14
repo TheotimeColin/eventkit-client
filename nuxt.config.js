@@ -94,7 +94,9 @@ export default {
   auth: {
     redirect: {
         logout: '/',
-        home: '/'
+        login: false,
+        home: false,
+        callback: false
     },
     strategies: {
       local: {

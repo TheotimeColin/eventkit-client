@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <button-base @click="create" :disabled="selectedTheme ? false : true">
+            <button-base @click="create" :disabled="selectedTheme ? false : false">
                 Créer mon projet
             </button-base>
         </div>
@@ -65,6 +65,9 @@ export default {
     computed: {
         theme () {
             return KITS[this.$props.kit.slug].theme
+        },
+        defaultTheme () {
+            return KITS[this.$props.kit.slug].default
         }
     },
     methods: {
@@ -79,6 +82,9 @@ export default {
                 pack: { ...this.$data.ideaPack, ideas: [] },
                 new: true
             })) : []
+            
+
+            if (!this.$data.selectedTheme) this.$data.selectedTheme = this.defaultTheme
 
             await this.$store.dispatch('kits/project/create', {
                 title: this.$data.title,

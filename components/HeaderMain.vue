@@ -3,7 +3,7 @@
         <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
                 <nuxt-link :to="localePath('/')" class="HeaderMain_logo">
-                    eventkit
+                    eventkit <span v-if="user && user.plan">créateur</span>
                 </nuxt-link>
 
                 <nav class="HeaderMain_nav">
@@ -12,8 +12,6 @@
                     </nuxt-link>
 
                     <div class="d-flex fx-align-center">
-                        <div class="HeaderMain_premium mr-10" v-if="user && user.plan">Créateur</div>
-
                         <button-base
                             class="mr-5"
                             :modifiers="['s', 'secondary']"

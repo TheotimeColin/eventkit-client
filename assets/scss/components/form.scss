@@ -47,6 +47,7 @@
 
 .Form_errors {
     font: var(--ft-s);
+    text-align: left;
     margin: 20px 0;
     background-color: var(--color-error-weak);
     color: var(--color-error);
@@ -83,6 +84,7 @@
     position: absolute;
     top: 15px;
     right: 0;
+    text-align: left;
     z-index: 2;
     font: var(--ft-xs);
     background-color: var(--color-bg-light);
