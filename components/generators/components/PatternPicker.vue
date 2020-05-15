@@ -5,12 +5,12 @@
                 <div class="ColorPicker_sticky">
                     <div class="ColorPicker_range">
                         <p>Taille</p>
-                        <range-slider min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
+                        <range-slider class="RangeSlider" min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
                     </div>
 
                     <div class="ColorPicker_range">
                         <p>Transparence</p>
-                        <range-slider min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
+                        <range-slider class="RangeSlider" min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
                     </div>
                 </div>
             </div>

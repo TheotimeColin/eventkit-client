@@ -2,17 +2,21 @@
     <div class="Range">
         <div v-for="(option, i) in options" :key="i">
             <div class="d-flex fx-align-center">
-                <p class="pr-10">{{ option.label }}</p>
-                <input class="fx-grow" type="range" min="1" max="200" :value="localValue * 100" @input="onUpdate">
-                <p class="pl-10">{{ Math.round(value * 100) }}%</p>
+                <p class="pr-10" v-if="option.label">{{ option.label }}</p>
+                <range-slider
+                    class="RangeSlider fx-grow"
+                    type="range" min="1" max="200" :value="value * 100" @input="onUpdate" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import RangeSlider from 'vue-range-slider'
+
 export default {
     name: 'Range',
+    components: { RangeSlider },
     props: {
         value: {},
         options: { type: Array }
@@ -28,8 +32,8 @@ export default {
         }
     },
     methods: {
-        onUpdate (e) {
-            this.$data.localValue = e.target.value
+        onUpdate (v) {
+            this.$data.localValue = v
             this.$emit('input', (this.$data.localValue / 100).toFixed(2))
         }
     }

@@ -1,7 +1,3 @@
-.ColorPicker {
-    
-}
-
 .ColorPicker_container {
     display: flex;
 }
@@ -14,7 +10,6 @@
 .ColorPicker_picker {
     flex-shrink: 0;
     margin-right: 40px;
-
 }
 
 .ColorPicker_sticky {
@@ -23,87 +18,19 @@
     min-width: 230px;
 }
 
-.ColorPicker_option {
-    display: inline-flex;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: 1px solid var(--color-border);
-    border-left: none;
-    cursor: pointer;
-    position: relative;
-    background: var(--background, linear-gradient(45deg, rgba(253,29,90,1) 0%, rgba(253,229,38,1) 33%, rgba(78,251,255,1) 66%, rgba(69,76,252,1) 100%));
-    margin: 3px;
-
-    &::after {
-        content: "✔️";
-        font-size: 15px;
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        opacity: 0;
-        transform: translate3d(-50%, -50%, 0) scale(0.8);
-        transition: all 150ms ease;
-    }
-
-    &:first-child {
-        border: 1px solid var(--color-border);
-    }
-}
-
-.ColorPicker_premium {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    font-size: 12px;
-}
-
-.ColorPicker_option.is-selected {
-    
-    &::after {
-        opacity: 1;
-        transform: translate3d(-50%, -50%, 0) scale(1);
-    }
-}
-
 .ColorPicker_range {
     margin-top: 20px;
     font: var(--ft-xs);
-    font-weight: bold;
-    
-    .range-slider {
-        width: 100%;
-        padding: 0;
-    }
-
-    .range-slider-fill {
-        background-color: var(--color-blue);
-    }
-}
-
-.ColorPicker_pattern {
-    display: block;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    border: 1px solid var(--color-border);
-    position: relative;
-    background: var(--background);
-    cursor: pointer;
-
-    &::after {
-        display: none;
-    }
+    font-weight: bold; 
 }
 
 .ColorPicker_palette {
-    height: 100px;
+    height: 75px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font);
-    font-size: 18px;
+    font-size: calc(18px * var(--font-normalize, 1));
     color: var(--color);
     background-color: var(--background-color);
     background-image: var(--pattern);
@@ -111,8 +38,8 @@
 
 .ColorPicker_palette--pattern {
     border: 1px solid var(--color-border);
+}
 
-    &.is-selected {
-        
-    }
+.ColorPicker_palette--font {
+    height: 50px;
 }

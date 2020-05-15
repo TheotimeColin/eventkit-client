@@ -2,6 +2,8 @@ export default [
     { label: 'Empty', value: { patternUrl: '', patternColor: '000000', patternOpacity: 1, patternScale: 1 } },
     { label: 'Stripes', value: { patternUrl: 'stripes', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
     { label: 'Bubbles', value: { patternUrl: 'bubbles', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
+    { label: 'Boxes', value: { patternUrl: 'boxes', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
+    { label: 'Rain', value: { patternUrl: 'rain', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
     { label: 'Triangles', value: { patternUrl: 'triangles', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
     { label: 'Wax', value: { patternUrl: 'bee', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },
     { label: 'Piano', value: { patternUrl: 'piano', patternColor: '00ff00', patternOpacity: 1, patternScale: 1 } },

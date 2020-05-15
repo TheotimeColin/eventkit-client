@@ -13,7 +13,7 @@
             
             <div class="ColorPicker_colors">
                 <div class="row-xs fx-wrap">
-                    <div v-for="(palette, i) in palettes" class="col-6 mb-10" :key="i">
+                    <div v-for="(palette, i) in palettes" class="col-6 mb-10 col-12@s" :key="i">
                         <div
                             class="ColorPicker_palette"
                             :style="{

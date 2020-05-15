@@ -34,6 +34,7 @@ import NavBar from '@/components/generators/NavBar'
 import ChoiceButtons from '@/components/generators/components/ChoiceButtons'
 import ColorPicker from '@/components/generators/components/ColorPicker'
 import PatternPicker from '@/components/generators/components/PatternPicker'
+import FontPicker from '@/components/generators/components/FontPicker' 
 import InputText from '@/components/generators/components/InputText'
 import Range from '@/components/generators/components/Range'
 
@@ -41,12 +42,12 @@ const GROUPS = {
     pattern: { position: 2, label: 'Motif', fa: 'chess-board' },
     colors: { position: 1, label: 'Couleurs', fa: 'fill-drip' },
     format: { position: 4, label: 'Format', fa: 'ruler' },
-    text: { position: 3, label: 'Textes', fa: 'paragraph' },
+    text: { position: 3, label: 'Textes', fa: 'text' },
 }
 
 export default {
     name: 'Configurator',
-    components: { NavBar, ChoiceButtons, PatternPicker, ColorPicker, InputText, Range },
+    components: { NavBar, ChoiceButtons, PatternPicker, ColorPicker, InputText, Range, FontPicker },
     props: {
         initTheme: { type: Object },
         project: { type: Object },
