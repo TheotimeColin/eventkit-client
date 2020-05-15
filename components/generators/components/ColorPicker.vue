@@ -3,7 +3,6 @@
         <div class="ColorPicker_container">
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
-
                     <nav-bar :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="Object.keys(options).map(key => ({
                         id: key, color: value[key], label: options[key].label, onClick: () => state.current = key
                     }))" />
@@ -14,7 +13,7 @@
             
             <div class="ColorPicker_colors">
                 <div class="row-xs fx-wrap">
-                    <div class="col-6 mb-10" v-for="(palette, i) in palettes" :key="i">
+                    <div v-for="(palette, i) in palettes" class="col-6 mb-10" :key="i">
                         <div
                             class="ColorPicker_palette"
                             :style="{

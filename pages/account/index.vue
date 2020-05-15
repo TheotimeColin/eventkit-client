@@ -1,7 +1,7 @@
 <template>
     <div class="AccountPage Page">
         <div class="Page_content">
-            <div class="AccountPage_banner premium pv-40">
+            <div class="AccountPage_banner pv-40" :class="{ 'premium': user.plan, 'offer': !user.plan }">
                 <div class="Wrapper">
                     <p class="ft-title-2xl">Bonjour, <b>{{ user.name }}</b>.</p>
                     <p v-if="user.plan">{{ $t(`subscriptions.${user.plan}.condensed`) }}</p>
@@ -57,12 +57,6 @@
                     </template>
 
                     <template v-if="state.current == 'subscription'">
-                        <div class="premium p-40 text-center">
-                            <p class="ft-xl">
-                                <b>{{ $t(`subscriptions.${user.plan}.full`) }}</b>
-                            </p>
-                        </div>
-
                         <link-base @click.native="onPortal" v-if="user.stripeId">Gérer mon abonnement</link-base>
                     </template>
                 </div>

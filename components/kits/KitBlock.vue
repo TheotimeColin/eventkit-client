@@ -19,10 +19,10 @@
             </div>
             
             <div class="KitBlock_actions">
-                <button-base :modifiers="['secondary']" :to="{ name: 'kits-slug', params: { slug } }">
+                <button-base :modifiers="['secondary', 's']" :to="{ name: 'kits-slug', params: { slug } }">
                     En savoir plus
                 </button-base>
-                <button-base :to="{ name: 'kits-slug-id', params: { slug, id: 'new' } }">
+                <button-base :modifiers="['s']" :to="{ name: 'kits-slug-id', params: { slug, id: 'new' } }">
                     Créer un kit personnalisé
                 </button-base>
             </div>

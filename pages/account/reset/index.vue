@@ -4,8 +4,8 @@
             <form class="Form max-width-xs m-auto mv-40 text-center" @submit="onSubmit">
                 <p class="ft-s">Remplis le champ ci-dessous pour réinitialiser ton mot de passe :</p>
 
-                <div class="Form_row mv-20">
-                    <input type="password" v-model="reset.password" placeholder="Nouveau mot de passe">
+                <div class="Form_row Input_container mv-20">
+                    <input class="Input_element" type="password" v-model="reset.password" placeholder="Nouveau mot de passe">
                 </div>
 
                 <ul v-if="reset.errors">

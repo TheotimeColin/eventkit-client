@@ -65,16 +65,16 @@ export default {
             let pattern = patterns[this.$props.theme.pattern.patternUrl]
             if (pattern) {
                 patternUrl = pattern(
-                    this.$props.theme.pattern.patternColor.replace('#', ''),
+                    this.$props.theme.colors.patternColor.replace('#', ''),
                     this.$props.theme.pattern.patternScale,
                     this.$props.theme.pattern.patternOpacity
                 )
             }
 
             return {
-                '--color': this.$props.theme.color,
+                '--color': this.$props.theme.colors.color,
                 '--font-family': this.$props.theme.font.fontFamily,
-                '--background-color': this.$props.theme.background,
+                '--background-color': this.$props.theme.colors.backgroundColor,
                 '--background-image': `url("${patternUrl}")`
             }
         }

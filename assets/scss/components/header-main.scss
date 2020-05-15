@@ -106,6 +106,13 @@
 
 /* STATES */
 
+.HeaderMain:not(.is-premium) {
+
+    &::before {
+        display: none;
+    }
+}
+
 .HeaderMain--fullpage,
 .HeaderMain.is-scroll {
     --height: 60px;

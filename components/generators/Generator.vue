@@ -40,7 +40,7 @@
 
         <div class="Generator_container">
             <nav-bar class="Generator_navBar" :modifiers="['vertical', 'l']" :current="state.step" :items="[
-                { id: 'config', fa: 'fill-drip', onClick: () => state.step = 'config' },
+                { id: 'config', fa: 'clone', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
                 { id: 'share', fa: 'heart', onClick: () => state.step = 'share' }

@@ -16,7 +16,7 @@
                 @click="() => onClick(item)"
                 :key="i"
             >
-                <i class="fal fa-sm" :class="{ ['fa-' + item.fal ]: true }" v-if="item.fa"></i>
+                <i class="fal fa-sm" :class="{ ['fa-' + item.fa ]: true }" v-if="item.fa"></i>
                 <p v-if="item.label">{{ item.label }}</p>
             </component>
         </div>

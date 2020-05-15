@@ -31,10 +31,10 @@
                     </div>
                 </div>
 
-                <div class="mt-40 mb-10">
+                <div class="mt-30 mb-10">
                     <div class="PricingColumn_total">
-                        <p>À régler :</p>
-                        <p>
+                        <p class="ft-2xs">À régler :</p>
+                        <p class="ft-xs">
                             <span class="text-through" v-if="price.coupon > 0">{{ price.value }}€</span>
                             {{ priceAfter(price.value, price.coupon) }}€
                         </p>

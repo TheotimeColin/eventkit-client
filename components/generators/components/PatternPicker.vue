@@ -3,16 +3,14 @@
         <div class="ColorPicker_container">
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
-                    <div class="ColorPicker_range" v-show="value.patternUrl && value.patternUrl != ''">
+                    <div class="ColorPicker_range">
                         <p>Taille</p>
-                        <input type="range" min="1" max="500" @input="onScale" ref="scale">
-                        <p>{{ Math.round(scale * 100) }}%</p>
+                        <range-slider min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
                     </div>
 
-                    <div class="ColorPicker_range" v-show="value.patternUrl && value.patternUrl != ''">
+                    <div class="ColorPicker_range">
                         <p>Transparence</p>
-                        <input type="range" min="1" max="100" @input="onOpacity" ref="opacity">
-                        <p>{{ Math.round(opacity * 100) }}%</p>
+                        <range-slider min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
                     </div>
                 </div>
             </div>
@@ -45,10 +43,14 @@
 
 <script>
 import patterns from '@/config/patterns'
+import RangeSlider from 'vue-range-slider'
+import 'vue-range-slider/dist/vue-range-slider.css'
+
 import { throttle } from 'throttle-debounce';
 
 export default {
     name: 'PatternPicker',
+    components: { RangeSlider },
     props: {
         value: {},
         options: { type: Array },
@@ -60,7 +62,7 @@ export default {
             custom: false
         },
         url: '',
-        opacity: 0.5,
+        opacity: 1,
         scale: 1,
     }),
     mounted () {
@@ -86,14 +88,12 @@ export default {
 
             this.update()
         },
-        onOpacity: throttle(50, function () {
-            this.$data.opacity = this.$refs.opacity.value / 100
-
+        onOpacity: throttle(50, function (e) {
+            this.$data.opacity = e / 100
             this.update()
         }),
-        onScale: throttle(100, function () {
-            this.$data.scale = this.$refs.scale.value / 100
-
+        onScale: throttle(100, function (e) {
+            this.$data.scale = e / 100
             this.update()
         }),
         update () {

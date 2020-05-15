@@ -84,7 +84,10 @@ export default {
                 id: 'name',
                 label: 'Ton prénom',
                 required: true,
-                value: ''
+                value: '',
+                validations: {
+                    minLength: { value: 1 }
+                }
             },
             email: {
                 id: 'email',

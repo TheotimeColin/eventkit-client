@@ -20,6 +20,7 @@
 .ColorPicker_sticky {
     position: sticky;
     top: 90px;
+    min-width: 230px;
 }
 
 .ColorPicker_option {
@@ -68,14 +69,16 @@
 
 .ColorPicker_range {
     margin-top: 20px;
-    display: flex;
-    align-items: center;
-    font: var(--ft-s);
+    font: var(--ft-xs);
     font-weight: bold;
     
-    input {
-        flex-grow: 1;
-        margin: 0 20px;
+    .range-slider {
+        width: 100%;
+        padding: 0;
+    }
+
+    .range-slider-fill {
+        background-color: var(--color-blue);
     }
 }
 
