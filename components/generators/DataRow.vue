@@ -46,6 +46,10 @@
                 v-if="editable"
             />
         </template>
+
+        <div class="DataRow_footer" v-if="$slots.footer">
+            <slot name="footer"></slot>
+        </div>
     </div>
 </template>
 

@@ -1,0 +1,19 @@
+.Printer {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.Printer_content {
+    flex-grow: 1;
+}
+
+.Printer_actions {
+    flex-grow: 0;
+    min-height: 75px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-border);
+}

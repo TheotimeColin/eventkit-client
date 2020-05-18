@@ -1,6 +1,6 @@
 <template>
     <component :is="to ? 'nuxt-link' : 'div'" class="Tag" :class="{ ...$modifiers }">
-        {{ title }}
+        <i class="fal fa-check" v-show="selected"></i> {{ title }}
     </component>
 </template>
 
@@ -13,6 +13,7 @@ export default {
     props: {
         id: { type: Number },
         title: { type: String },
+        selected: { type: Boolean, default: false },
         to: {}
     }
 }

@@ -21,3 +21,12 @@
     background-color: transparent;
     border: 1px solid var(--color-border);
 }
+
+.Tag--selectable {
+    cursor: pointer;
+}
+
+.Tag--blue {
+    color: var(--color-ft-light);
+    background-color: var(--color-blue);
+}

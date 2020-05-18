@@ -2,229 +2,223 @@
     <div class="Page Page--admin Admin">
         <div class="Page_content">
             <div class="Wrapper">
-                <button-base @click="state.new = true">
-                    Nouveau pack
-                </button-base>
+                <navbar :current="state.current" :items="Object.keys(kits).map(id => ({
+                    id: id,
+                    label: kits[id].title,
+                    onClick: () => state.current = id
+                }))" />
 
-                <idea-pack
-                    class="idea-pack"
-                    v-for="pack in packs"
-                    :pack="pack"
-                    :key="pack.id"
-                    :update-mode="true"
-                    :default-value="{ main: 'Nouveau' }"
-                    @edit="() => onEdit(pack)"
-                    @delete="() => onDelete(pack)"
-                />
+                
+
+                <div v-for="(kit, key) in kits" :key="key">
+                    <template v-if="state.current == key">
+                        <div>
+                            <tag
+                                v-for="tag in tags.filter(t => t.kit == kit._id && t.type == 'category')"
+                                :modifiers="['outline', 'selectable']"
+                                class="mv-10 mh-5"
+                                :key="tag._id"
+                                :title="tag.label"
+                                :selected="filters.categories.indexOf(tag._id) >= 0"
+                                @click.native="onFilter({ categories: { value: tag._id, push: true }})"
+                            />
+                        </div>
+
+                        <div>
+                            <tag
+                                v-for="tag in tags.filter(t => t.kit == kit._id && t.type == 'tag')"
+                                :modifiers="['outline', 'selectable']"
+                                class="mv-10 mh-5"
+                                :key="tag._id"
+                                :title="tag.label"
+                                :selected="filters.tags.indexOf(tag._id) >= 0"
+                                @click.native="onFilter({ tags: { value: tag._id, push: true }})"
+                            />
+                        </div>
+                        <div class="d-flex fx-align-stretch" v-for="value in filterIdeas(kit.ideas)" :key="value._id">
+                            <data-row
+                                class="fx-grow"
+                                :value="value"
+                                @input="onUpdateIdea"
+                                @submit="() => save(value._id)"
+                            >
+                                <template slot="footer">
+                                    <div class="p-3 text-right">
+                                        <tag
+                                            v-for="tag in value.tags.filter(t => t.type == 'category')"
+                                            :modifiers="['s', 'outline', 'blue']"
+                                            class="m-3"
+                                            :title="tag.label"
+                                            :key="tag._id"
+                                        />
+
+                                        <tag
+                                            v-for="tag in value.tags.filter(t => t.type == 'tag')"
+                                            :modifiers="['s', 'outline']"
+                                            class="m-3"
+                                            :title="tag.label"
+                                            :key="tag._id"
+                                        />
+                                    </div>
+                                </template>
+                            </data-row>
+
+                            <select-search
+                                action="kits/ideas/fetchTags"
+                                :modifiers="['left']"
+                                :create="true"
+                                :multiple="true"
+                                :unset="true"
+                                label-key="label"
+                                :params="{ query: { kit: kit._id, type: 'category' }, push: true }"
+                                :value="value.tags"
+                                @input="(v) => onUpdateTags(value, v, 'category')"
+                                @create="(v) => onCreateTag(v, kit._id, 'category')"
+                            />
+
+                            <select-search
+                                action="kits/ideas/fetchTags"
+                                :modifiers="['left']"
+                                :create="true"
+                                :multiple="true"
+                                :unset="true"
+                                label-key="label"
+                                :params="{ query: { kit: kit._id, type: 'tag' }, push: true }"
+                                :value="value.tags"
+                                @input="(v) => onUpdateTags(value, v, 'tag')"
+                                @create="(v) => onCreateTag(v, kit._id, 'tag')"
+                            />
+                        </div>
+
+                        <data-row
+                            :new-row="true"
+                            @click.native="() => onAddIdea(key)"
+                        />
+                    </template>
+                </div>
             </div>
         </div>
-
-        <popin-generic :global="false" @close="onReset" :modifiers="['s']" :is-active="state.edit || state.new">
-            <template slot="header">
-                <p class="ft-m p-10">
-                    <b v-if="state.edit">Modification de "{{ pack.title }}"</b>
-                    <b v-if="state.new">Nouvelle catégorie</b>
-                </p>
-            </template>
-            
-            <div class="Form p-40">
-                <div class="cover" :style="cover">
-                    <input type="text" class="Input--unstyled" placeholder="Titre" v-model="pack.title">
-                </div>
-
-                <div class="Form_row">
-                    <input type="text" placeholder="Description" v-model="pack.description">
-                </div>
-
-                <color-picker
-                    :value="pack.color2"
-                    :options="colorOptions"
-                    @input="(v) => pack.color2 = v"
-                />
-
-                <color-picker
-                    :value="pack.color1"
-                    :options="colorOptions"
-                    @input="(v) => pack.color1 = v"
-                />
-
-                <pattern-picker
-                    :value="pack.pattern"
-                    :options="patternOptions"
-                    @input="(v) => pack.pattern = v"
-                />
-
-                <select-search
-                    action="kits/fetch"
-                    :multiple="true"
-                    :params="{ refresh: true }"
-                    v-model="pack.kits"
-                />
-
-                <div class="Form_row">
-                    <input type="checkbox" placeholder="Color 2" v-model="pack.default"> Is default
-                </div>
-            </div>
-
-            <template slot="footer">
-                <div>
-                    <button-base class="ml-10" :modifiers="['xs']" @click="$store.commit('utils/confirmPrompt', {
-                        active: true,
-                        onConfirm: () => onDelete(),
-                        confirmText: 'Supprimer'
-                    })" v-if="!state.new">
-                        Supprimer
-                    </button-base>
-                </div>
-
-                <div class="d-flex fx-align-center">
-                    
-                    <p class="mr-10 color-ft-weak" @click="onReset">Annuler</p>
-                    <button-base @click="onSubmit">
-                        {{ state.new ? 'Créer pack' : 'Modifier pack'}}
-                    </button-base>
-                </div>
-            </template>
-        </popin-generic>
     </div>
 </template>
 
 <script>
-import patternOptions from '@/config/kits/common/patterns'
-import colorOptions from '@/config/kits/common/colors'
-
-import patterns from '@/config/patterns'
-
-import IdeaPack from '@/components/interactive/IdeaPack'
-import PopinGeneric from '@/components/popins/PopinGeneric'
 import SelectSearch from '@/components/utils/SelectSearch'
-import PatternPicker from '@/components/generators/components/PatternPicker'
-import ColorPicker from '@/components/generators/components/ColorPicker'
+import Navbar from '@/components/generators/NavBar'
+import DataRow from '@/components/generators/DataRow'
+import Tag from '@/components/utils/Tag'
 
 export default {
     name: 'HomePage',
     layout: 'admin',
-    components: { PopinGeneric, IdeaPack, SelectSearch, PatternPicker, ColorPicker },
+    components: { SelectSearch, Navbar, DataRow, Tag },
     async fetch () {
-        await this.$store.dispatch('kits/packs/fetch', {
+        await this.$store.dispatch('kits/ideas/fetch', {
             query: {}
         })
+
+        this.$data.tags = await this.$store.dispatch('kits/ideas/fetchTags')
     },
     data: () => ({
-        patternOptions, colorOptions,
-        state: {
-            new: false,
-            edit: false,
-            thumbnail: false
+        kits: {},
+        tags: [],
+        filters: {
+            tags: [],
+            categories: []
         },
-        pack: {
-            title: '',
-            description: '',
-            color1: '',
-            color2: '',
-            default: false,
-            kits: [],
-            pattern: {
-                patternUrl: 'default',
-                patternOpacity: 1,
-                patternColor: '#ff00ff',
-                patternScale: 1
-            }
+        state: {
+            current: ''
         }
     }),
     computed: {
-        packs () {
-            return this.$store.state.kits.packs.collection
-        },
-        cover () {
-            if (!this.$data.pack.pattern) return {}
+        ideas () {
+            return this.$store.state.kits.ideas.collection
+        }
+    },
+    watch: {
+        ideas: {
+            deep: true,
+            immediate: true,
+            async handler (ideas) {
+                let kits = {}
 
-            let patternUrl = ''
-            let pattern = patterns[this.$data.pack.pattern.patternUrl]
+                await Promise.all(ideas.map(idea => {
+                    if (!idea.kit) return
 
-            if (pattern) {
-                patternUrl = pattern(
-                    this.$data.pack.pattern.patternColor.replace('#', ''),
-                    this.$data.pack.pattern.patternScale,
-                    this.$data.pack.pattern.patternOpacity
-                )
-            }
-            
-            return {
-                color: this.$data.pack.color2,
-                backgroundColor: this.$data.pack.color1,
-                backgroundImage: `url("${patternUrl}")`
+                    if (kits[idea.kit._id]) {
+                        kits[idea.kit._id].ideas.push(idea)
+                    } else {
+                        kits[idea.kit._id] = { ...idea.kit, ideas: [ idea ] }
+                    }
+
+                    return true
+                }))
+
+                this.$data.kits = JSON.parse(JSON.stringify(kits))
             }
         }
     },
     methods: {
-        async onDelete (pack) {
-            await this.$store.dispatch('kits/packs/delete', {
-                data: { id: pack.id }
+        async onAddIdea (kitId) {
+
+        },
+        onUpdateIdea (idea) {
+            this.$store.commit('kits/ideas/update', idea)
+        },
+        onUpdateTags (idea, tags, type) {
+            this.$store.commit('kits/ideas/update', {
+                ...idea,
+                tags: [
+                    ...tags,
+                    ...idea.tags.filter(tag => tag.type != type)
+                ]
             })
 
-            this.onReset()
-
-            await this.$store.dispatch('kits/packs/fetch')
+            this.save(idea._id)
         },
-        onEdit (pack) {
-            this.$data.state.edit = true
-            this.$data.pack = {
-                ...this.$data.pack,
-                ...JSON.parse(JSON.stringify(pack))
-            }
-        },
-        async onSubmit () {
-            const response = await this.$store.dispatch('kits/packs/post', {
-                data: this.$data.pack
+        async onCreateTag (value, kit, type) {
+            let tag = await this.$store.dispatch('kits/ideas/postTag', {
+                data: { label: value, type, kit }
             })
-
-            this.onReset()
-
-            await this.$store.dispatch('kits/packs/fetch')
         },
-        onReset () {
-            this.$data.state.edit = false
-            this.$data.state.new = false
+        async save (ideaId) {
+            await this.$store.dispatch('kits/ideas/save', { id: ideaId })
+        },
+        onFilter (query) {
+            Object.keys(query).forEach(key => {
+                let value = query[key].value
 
-            this.$data.pack = {
-                title: '',
-                description: '',
-                color1: '',
-                color2: '',
-                default: false,
-                kits: [],
-                pattern: {
-                    patternUrl: 'default',
-                    patternOpacity: 1,
-                    patternColor: '#ff00ff',
-                    patternScale: 1
+                if (query[key].push) {
+                    let exists = this.$data.filters[key] ? this.$data.filters[key].indexOf(value) : null
+
+                    if (this.$data.filters[key]) {
+                        if (exists >= 0) {
+                            this.$data.filters[key].splice(exists, 1)
+                        } else {
+                            this.$data.filters[key].push(value)
+                        }
+                    } else {
+                        this.$data.filters[key] = [ value ]
+                    }
                 }
+            })
+        },
+        filterIdeas (items) {
+            let result = items 
+
+            if (this.$data.filters.categories) {
+                result = result.filter(i => this.$data.filters.categories.length <= 0 || i.tags.filter(t => this.$data.filters.categories.indexOf(t._id) >= 0).length > 0)
             }
+
+            if (this.$data.filters.tags) {
+                result = result.filter(i => this.$data.filters.tags.length <= 0 || i.tags.filter(t => this.$data.filters.tags.indexOf(t._id) >= 0).length > 0)
+            }
+
+            return result
         }
-    }
+    } 
 }
 </script>
 
 <style lang="scss" scoped>
-    .idea-pack {
-        margin-bottom: 20px;
-    }
-    
-    .cover {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        height: 100px;
-        background-color: grey;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
 
-        input {
-            text-align: center;
-            font-size: 25px;
-        }
-    }
 </style>

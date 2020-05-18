@@ -1,13 +1,12 @@
 <template>
     <div class="CreativeCenter">
         <div class="">
-            <idea-pack
-                class="CreativeCenter_pack"
-                v-for="pack in packs"
-                :pack="pack"
-                :values="project.ideas"
-                :key="pack.id"
-                @select="(v) => onSelect(pack, v)"
+            <data-row
+                v-for="idea in ideas"
+                :value="idea"
+                :key="idea._id"
+                :selectable="true"
+                @select="onSelect"
                 @deselect="onDeselect"
             />
         </div>
@@ -16,35 +15,30 @@
 
 <script>
 import shortid from 'shortid'
-
-import IdeaPack from '@/components/interactive/IdeaPack'
+import DataRow from '@/components/generators/DataRow'
 
 export default {
     name: 'CreativeCenter',
-    components: { IdeaPack },
+    components: { DataRow },
     props: {
         project: { type: Object }
     },
-    data: () => ({
-        packs: null
-    }),
     async mounted () {
-        if (!this.$store.state.kits.packs.fetched) {
-            await this.$store.dispatch('kits/packs/fetch')
+        await this.$store.dispatch('kits/ideas/fetch', {
+            query: { kit: this.$props.project.kit._id }
+        })
+    },
+    computed: {
+        ideas () {
+            return this.$store.state.kits.ideas.collection.filter(v => v.content)
         }
-        
-        this.$data.packs = this.$store.state.kits.packs.collection
     },
     methods: {
-        onSelect (pack, v) {
+        onSelect (v) {
             this.$store.commit('kits/project/addData', {
                 ...v,
                 original: v,
                 _id: shortid.generate(),
-                pack: {
-                    ...pack,
-                    ideas: []
-                },
                 new: true
             })
         },

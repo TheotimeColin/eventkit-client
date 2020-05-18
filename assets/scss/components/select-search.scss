@@ -1,10 +1,13 @@
 .SelectSearch {
     position: relative;
+    display: flex;
 }
 
 .Form .SelectSearch_search,
 .SelectSearch_search {
     border: none;
+    padding: 0 10px;
+    outline: none;
     
     &::placeholder {
         color: var(--color-ft);
@@ -15,7 +18,7 @@
     display: flex;
     align-items: center;
     background-color: var(--color-bg-light);
-    font: var(--ft-m);
+    font: var(--ft-s);
     border: 1px solid var(--color-border);
     padding-right: 10px;
 }
@@ -80,6 +83,16 @@
         i { 
             display: block;
         }
+    }
+}
+
+/* MODIFIERS */
+
+.SelectSearch--left {
+    
+    .SelectSearch_results {
+        left: auto;
+        right: 0;
     }
 }
 

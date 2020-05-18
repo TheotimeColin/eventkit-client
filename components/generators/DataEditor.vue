@@ -5,7 +5,7 @@
             { id: 'idea', label: 'Packs idées', fa: 'lightbulb', onClick: () => state.current = 'idea' }
         ]" />
 
-        <div class="p-20">
+        <div class="p-40">
             <template v-if="state.current == 'data'">
                 <data-row
                     class="DataEditor_row"

@@ -63,8 +63,9 @@ export default {
         }
     }),
     mounted () {
-        this.$data.values.fontFamily = this.$props.theme.font.fontFamily
-        this.$data.values.elementScale = this.$props.theme.font.elementScale
+        this.$data.values = {
+            ...this.$props.theme.font
+        }
     },
     computed: {
         patternUrl () {
@@ -84,14 +85,13 @@ export default {
             this.update()
         },
         onFontSelect (v) {
-            this.$data.values = {
-                ...v
-            }
-
+            this.$data.values = { ...v }
             this.update()
         },
         update () {
-            this.$emit('input', this.$data.values)
+            this.$emit('input', { 
+                ...this.$data.values
+            })
         }
     }
 }

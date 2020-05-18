@@ -15,7 +15,7 @@
                 </p>
             </div>
 
-            <div class="Generator_premiumAlert" v-if="isPremium && !hasPremium">
+            <div class="Generator_premiumAlert" v-if="!hasPremium">
                 <button-base @click="onPremium" :modifiers="['premium', 'round', 's']" class="fx-no-shrink">
                     Devenir Créateur
                 </button-base>
@@ -63,6 +63,13 @@
                         v-if="project && state.step == 'data'"
                     />
 
+                    <printer
+                        class="Generator_printer"
+                        @print="onPrint"
+                        :is-loading="state.printing"
+                        v-if="project && state.step == 'print'"
+                    />
+
                     <sharer
                         :project="project"
                         :init-theme="initTheme"
@@ -84,6 +91,7 @@
                     :selected="selected"
                     :print="state.print"
                     v-if="project"
+                    ref="previewer"
                 />
             </div>
         </div>
@@ -97,12 +105,13 @@ import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
+import Printer from '@/components/generators/Printer'
 import Sharer from '@/components/generators/Sharer'
 import PopinGeneric from '@/components/popins/PopinGeneric'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric },
+    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric, Printer },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -117,6 +126,7 @@ export default {
             step: 'config',
             setPremium: false,
             print: false,
+            printing: false
         },
         steps: {
             config: {
@@ -126,7 +136,7 @@ export default {
             data: {
                 id: 'data',
                 active: false
-            }
+            },
         },
         step: 0,
         selected: 'default'
@@ -134,39 +144,6 @@ export default {
     computed: {
         currentStep () {
             return this.$data.steps[Object.keys(this.$data.steps)[this.$data.step]]
-        },
-        isPremium () {
-            let isPremium = true 
-
-            if (this.$props.project) {
-                // Object.keys(this.$props.project.theme).forEach(key => {
-                //     let config = this.$props.initTheme[key]
-                //     let value = this.$props.project.theme[key]
-
-                //     if (config && config.options) {
-                //         let valueFound = true
-
-                //         config.options.forEach(option => {
-                //             let optionValue = config.defining ? value[config.defining] : value
-                //             let optionConfig = config.defining ? option.value[config.defining] : option.value
-
-                //             if (JSON.stringify(optionValue) == JSON.stringify(optionConfig)) {
-                //                 valueFound = true
-
-                //                 if (option.premium && JSON.stringify(value) !== JSON.stringify(config.defaultValue)) {
-                //                     isPremium = true
-                //                 }
-                //             }
-                //         })
-                        
-                //         if (config.custom && !valueFound) isPremium = true
-                //     }
-
-                //     if (config && config.premium && value !== config.defaultValue) isPremium = true
-                // })
-            }
-
-            return isPremium
         },
         hasPremium () {
             return this.$store.state.auth.user && this.$store.state.auth.user.plan ? true : false
@@ -198,6 +175,11 @@ export default {
             this.$store.commit('kits/project/updateProject', {
                 template: e.target.checked
             })
+        },
+        async onPrint (e) {
+            this.$data.state.printing = true 
+            await this.$refs.previewer.onExport(e)
+            this.$data.state.printing = false
         }
     }
 }

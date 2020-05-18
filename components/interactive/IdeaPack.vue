@@ -5,11 +5,9 @@
         :style="{ '--color-1': localPack.color1, '--color-2': localPack.color2 }"
     >
         <div class="IdeaPack_cover" @click="state.active = !state.active" :style="cover">
-            
-
             <div class="IdeaPack_coverContainer">
                 <p class="IdeaPack_previewLength">{{ ideas.length }}</p>
-                <p class="fx-shrink">{{ localPack.description }}</p>
+                <p class="ml-10 fx-shrink">{{ localPack.description }}</p>
             </div>
 
             <p class="IdeaPack_coverTitle">{{ localPack.title }}</p>
@@ -23,7 +21,7 @@
         <div class="IdeaPack_ideas">
             <data-row
                 class="IdeaPack_idea"
-                v-for="value in localPack.ideas"
+                v-for="value in displayedIdeas"
                 :value="value"
                 @input="(v) => value = v"
                 @select="(v) => $emit('select', v)"
@@ -73,6 +71,9 @@ export default {
         },
         ideas () {
             return this.$data.localPack.ideas.filter(idea => idea.content)
+        },
+        displayedIdeas () {
+            return this.ideas.slice(0, 2)
         },
         cover () {
             if (!this.$props.pack.pattern) return {}

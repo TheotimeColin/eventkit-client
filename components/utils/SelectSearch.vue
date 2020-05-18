@@ -1,5 +1,5 @@
 <template> 
-    <div class="SelectSearch" :class="{ 'is-show-list': state.showList }">
+    <div class="SelectSearch" :class="{ 'is-show-list': state.showList, ...$modifiers }">
         <div class="SelectSearch_input">
             <input 
                 class="SelectSearch_search"
@@ -8,6 +8,7 @@
                 @keyup="onChange"
                 @focus="showList(true)"
                 @blur="showList(false)"
+                @keyup.enter="onCreate"
                 ref="search"
             >
 
@@ -15,13 +16,6 @@
         </div>
 
         <div class="SelectSearch_results" ref="list">
-            <div
-                class="SelectSearch_result"
-                @click="onSelectValue({ value: '', full: null })"
-                v-if="unset"
-            >
-                Supprimer la sélection
-            </div>
             <div
                 class="SelectSearch_result"
                 v-for="option in Object.keys(searchOptions)"
@@ -35,23 +29,34 @@
             >
                 <p>{{ searchOptions[option].label }}</p> <i class="fal fa-check"></i>
             </div>
+            <div
+                class="SelectSearch_result"
+                @click="onSelectValue({ value: '', full: null })"
+                v-if="unset"
+            >
+                Supprimer la sélection
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'SelectSearch',
+    mixins: [ base ],
     props: {
         value: {},
         valueFull: { type: Boolean, default: false },
         unset: { type: Boolean, default: false },
         action: { type: String, default: '' },
+        create: { type: Boolean, default: false },
         params: { type: Object, default: () => ({}) },
         multiple: { type: Boolean, default: false },
         placeholder: { type: String, default: '' },
-        valueKey: { type: String, default: 'value' },
-        labelKey: { type: String, default: 'label' },
+        valueKey: { type: String, default: '_id' },
+        labelKey: { type: String, default: 'title' },
         noResults: { default: null },
         noResultsSubmit: { default: true }
     },
@@ -61,14 +66,15 @@ export default {
         state: {
             showList: false,
             loading: false,
+            fetched: false
         },
         values: []
     }),
     watch: {
         value: {
             immediate: true,
-            handler () {
-                this.fetchOptions()
+            handler (v) {
+                if (!this.$data.state.fetched) this.fetchOptions()
             }
         }
     },
@@ -88,10 +94,11 @@ export default {
                 this.$data.values = []
 
                 this.$props.value.forEach(value => {
-                    let found = Object.keys(this.$data.activeOptions).filter(key => value == this.$data.activeOptions[key].value)
+                    let found = Object.keys(this.$data.activeOptions).filter(key => value[this.$props.valueKey] == this.$data.activeOptions[key].value)
                     if (found[0]) this.$data.values.push(this.$data.activeOptions[found[0]])
                 })
 
+                
                 result = {
                     label: this.$data.values.map(v => v.label).join(', ')
                 }
@@ -119,12 +126,13 @@ export default {
             results.forEach(result => {
                 options[result._id] = {
                     value: result._id,
-                    label: result.title,
+                    label: result[this.$props.labelKey],
                     full: result
                 }
             })
 
             this.$data.activeOptions = options
+            this.$data.state.fetched = true
         },
         onChange () {
             this.$data.search = this.$refs.search.value
@@ -158,6 +166,10 @@ export default {
             } else {
                 this.$emit('input', this.$props.valueFull ? option.full : option.value)
             }
+        },
+        onCreate () {
+            if (!this.$props.create) return
+            this.$emit('create', this.$data.search)
         }
     }
 }

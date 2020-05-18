@@ -1,5 +1,5 @@
 <template>
-    <header class="HeaderMain" :class="{'is-scroll': state.scroll, 'is-premium': user.plan, ...$modifiers }">
+    <header class="HeaderMain" :class="{'is-scroll': state.scroll, 'is-premium': user && user.plan, ...$modifiers }">
         <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
                 <nuxt-link :to="localePath('/')" class="HeaderMain_logo">

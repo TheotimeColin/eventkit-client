@@ -1,6 +1,6 @@
 <template>
     <div class="Previewer" :class="{ 'is-print': print, 'is-export': state.export }">
-        <div class="Previewer_component" ref="component" v-if="!print">
+        <div class="Previewer_component" ref="component" v-if="!print && !state.export">
             <component
                 :is="initTheme.component.value"
                 :theme="project.theme"
@@ -11,10 +11,10 @@
                 v-if="activeItem"
             />
         </div>
-        <div class="Previewer_print" v-if="print" @click="onExport">
+        <div class="Previewer_print" v-if="print || state.export">
             <page-generator
                 class="Previewer_page"
-                :scale="style['--page-scale'] * (state.export ? 3 : 1)"
+                :scale="style['--page-scale'] * (state.export ? 2 : 1)"
                 v-for="(batch, i) in batches"
                 :key="i"
                 ref="page"
@@ -27,7 +27,7 @@
                     :init-theme="initTheme"
                     :data="item"
                     :key="i"
-                    :scale="style['--scale'] * (state.export ? 3 : 1)"
+                    :scale="style['--scale'] * (state.export ? 2 : 1)"
                 />
             </page-generator>
         </div>
@@ -51,7 +51,8 @@ export default {
     },
     data: () => ({
         state: {
-            export: false
+            export: false,
+            test: false
         },
         style: {
             '--scale': 1
@@ -65,7 +66,8 @@ export default {
     },
     computed: {
         activeItems () {
-            return this.$props.project.ideas.filter(idea => !idea.disabled)
+            let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
+            return this.state.test ? activeItems.slice(0, 1) : activeItems
         },
         activeItem () {
             let selected = this.activeItems.filter(i => i._id == this.$props.selected)
@@ -153,24 +155,34 @@ export default {
                 '--scale': 1
             }
         },
-        async onExport () {
-            this.$data.state.export = true
-            this.$data.export = new this.jsPDF()
+        onExport ({ test = false }) {
+            return new Promise(resolve => {
+                this.$data.state.export = true
+                this.$data.state.test = test
 
-            let pages = await Promise.all(this.$refs.page.map(page => {
-                return page.screenshot()
-            }))
+                this.$data.export = new this.jsPDF()
 
-            let width = this.$data.export.internal.pageSize.getWidth()
-            let height = this.$data.export.internal.pageSize.getHeight()
+                setTimeout(async () => {
+                    let pages = await Promise.all(this.$refs.page.map(page => {
+                        return page.screenshot()
+                    }))
 
-            pages.forEach((page, i) => {
-                this.$data.export.addImage(page, 0, 0, width, height)
-                if (i < pages.length - 1) this.$data.export.addPage()
+                    let width = this.$data.export.internal.pageSize.getWidth()
+                    let height = this.$data.export.internal.pageSize.getHeight()
+
+                    pages.forEach((page, i) => {
+                        this.$data.export.addImage(page, 0, 0, width, height)
+                        if (i < pages.length - 1) this.$data.export.addPage()
+                    })
+
+                    this.$data.state.export = false
+                    this.$data.state.test = false
+                    // this.$data.export.save('test.pdf')
+                    window.open(this.$data.export.output('bloburl'), '_blank')
+
+                    resolve()
+                }, 500)
             })
-
-            this.$data.state.export = false
-            this.$data.export.save('test.pdf')
         }
     }
 }

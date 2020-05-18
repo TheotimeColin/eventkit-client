@@ -18,7 +18,7 @@
             </button-base>
 
             <button-base :to="{ name: 'admin-generators-ideas' }">
-                Packs d'idées
+                Idées
             </button-base>
         </div>
     </div>
