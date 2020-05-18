@@ -5,14 +5,27 @@
             { id: 'idea', label: 'Packs idées', fa: 'lightbulb', onClick: () => state.current = 'idea' }
         ]" />
 
-        <div class="p-40">
-            <template v-if="state.current == 'data'">
-                <data-row
-                    class="DataEditor_row"
-                    :new-row="true"
-                    @click.native="onAddRow"
-                    v-if="canAdd"
-                />
+        <template v-if="state.current == 'data'">
+            <div class="p-20">
+                <div class="mb-20 d-flex fx-align-center fx-justify-between">
+                    <button-base
+                        fa="plus"
+                        :modifiers="['s']"
+                        @click.native="onAddRow"
+                    >Ajouter</button-base>
+
+                    <button-base
+                        fa="times"
+                        :modifiers="['xs', 'secondary']"
+                        @click.native="$store.commit('utils/confirmPrompt', {
+                            active: true,
+                            onConfirm: onDeleteAll,
+                            confirmText: 'Supprimer'
+                        })"
+                    >
+                        Supprimer tout
+                    </button-base>
+                </div>
 
                 <draggable v-model="localData" handle=".handle" @start="state.drag = true" @end="() => { update(); state.drag = false; }">
                     <transition-group type="transition">
@@ -29,14 +42,14 @@
                         />
                     </transition-group>
                 </draggable>
-            </template>
-            <template v-if="state.current == 'idea'">
-                <creative-center
-                    :project="project"
-                    @select="(v) => selected = v"
-                />
-            </template> 
-        </div>
+            </div>
+        </template>
+        <template v-if="state.current == 'idea'">
+            <creative-center
+                :project="project"
+                @select="(v) => $emit('select', v)"
+            />
+        </template>
     </div>
 </template>
 
@@ -62,10 +75,6 @@ export default {
         localData: null
     }),
     computed: {
-        canAdd () {
-            let last = this.$data.localData[this.$data.localData.length - 1]
-            return last ? last.content || last.disabled : true
-        },
         reversed () {
             return this.$data.localData.reverse()
         }
@@ -98,6 +107,11 @@ export default {
         },
         onDeleteValue (id) {
             this.$data.localData = this.$data.localData.filter(data => data._id != id)
+
+            this.update()
+        },
+        onDeleteAll () {
+            this.$data.localData = []
 
             this.update()
         },

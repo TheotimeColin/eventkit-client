@@ -7,6 +7,7 @@
 
         <popin-premium />
         <popin-login />
+        <confirm-popin />
     </div>
 </template>
 
@@ -17,10 +18,11 @@ import Notifications from '@/components/utils/Notifications'
 
 import PopinLogin from '@/components/popins/PopinLogin'
 import PopinPremium from '@/components/popins/PopinPremium'
+import ConfirmPopin from '@/components/utils/ConfirmPopin'
 
 export default {
     name: 'LayoutDashboard',
-    components: { HeaderMain, ContextInfo, Notifications, PopinLogin, PopinPremium },
+    components: { HeaderMain, ContextInfo, Notifications, PopinLogin, PopinPremium, ConfirmPopin },
     watch: {
         ['$route'] () {
             this.$store.commit('context/set', null)

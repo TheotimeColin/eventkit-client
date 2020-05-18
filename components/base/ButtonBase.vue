@@ -8,6 +8,8 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
+        <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa"></i>
+
         <nuxt-link :to="localePath(to)" v-if="to" >
             <i class="ButtonBase_icon fal fa-spinner-third spin" v-show="loading"></i>
 
@@ -22,6 +24,7 @@
 
         <span v-if="!href && !to">
             <i class="ButtonBase_icon fal fa-spinner-third spin" v-show="loading"></i>
+
             <slot></slot>
         </span>
     </component>
@@ -37,6 +40,7 @@ export default {
     props: {
         href: { default: false },
         to: { default: false },
+        fa: { default: '' },
         context: { default: false },
         loading: { default: false },
         type: { default: false }

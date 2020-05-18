@@ -53,8 +53,6 @@ export default {
                 let choice = this.$props.initTheme[key]
                 let value = this.$props.theme[key]
 
-                console.log(value)
-
                 if (choice.var) style[`--${choice.var}`] = value
                 if (choice.varGroup) {
                     let group = {}

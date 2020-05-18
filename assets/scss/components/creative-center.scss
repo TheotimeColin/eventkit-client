@@ -10,6 +10,24 @@
     color: var(--color-ft-strong);
 }
 
-.CreativeCenter_pack {
-    margin: 0 0 10px 0;
+.CreativeCenter_tagGroup {
+    font-size: 0;
+    margin: -3px;
+}
+
+.CreativeCenter_tag {
+    margin: 3px;
+}
+
+.CreativeCenter_filters {
+    display: flex;
+    padding: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.CreativeCenter_pagination {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

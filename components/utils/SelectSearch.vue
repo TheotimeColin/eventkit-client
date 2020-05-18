@@ -8,7 +8,7 @@
                 @keyup="onChange"
                 @focus="showList(true)"
                 @blur="showList(false)"
-                @keyup.enter="onCreate"
+                @keyup.enter="onSelectValue(searchOptions[Object.keys(searchOptions)[0]])"
                 ref="search"
             >
 
@@ -27,14 +27,25 @@
                 @click="onSelectValue(searchOptions[option])"
                 :key="searchOptions[option].value"
             >
-                <p>{{ searchOptions[option].label }}</p> <i class="fal fa-check"></i>
+                <p>{{ searchOptions[option].label }}</p> <i class="SelectSearch_result_check fal fa-check"></i>
+            </div>
+            <div
+                class="SelectSearch_result"
+                @click="onCreate()"
+                v-if="create"
+            >
+                <p>
+                    <i class="fal fa-plus mr-5"></i> Créer
+                </p>
             </div>
             <div
                 class="SelectSearch_result"
                 @click="onSelectValue({ value: '', full: null })"
                 v-if="unset"
             >
-                Supprimer la sélection
+                <p>
+                    <i class="fal fa-times mr-5"></i> Réinitialiser
+                </p>
             </div>
         </div>
     </div>

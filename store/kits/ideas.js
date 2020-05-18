@@ -10,7 +10,11 @@ export default {
     state: () => ({
         fetched: false,
         items: {},
-        collection: []
+        collection: [],
+        tags: {
+            items: {},
+            collection: []
+        }
     }),
     mutations: {
         refresh (state, value) {
@@ -25,6 +29,12 @@ export default {
 
             state.collection = collection
             state.items = items
+        },
+        updateTags (state, value) {
+            let { collection, items } = refreshCollection(value)
+
+            state.tags.collection = collection
+            state.tags.items = items
         }
     },
     actions: {
@@ -73,6 +83,8 @@ export default {
         async fetchTags ({ commit }, params = { query: {} }) {
             try {
                 const response = await this.$axios.$get(`/kits/ideas/tags?${getQuery(params.query)}`)
+
+                commit('updateTags', response.tags)
                 return response.tags
             } catch (e) { console.warn(e) }
         },

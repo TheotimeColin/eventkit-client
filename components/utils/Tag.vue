@@ -1,6 +1,6 @@
 <template>
     <component :is="to ? 'nuxt-link' : 'div'" class="Tag" :class="{ ...$modifiers }">
-        <i class="fal fa-check" v-show="selected"></i> {{ title }}
+        <i class="fal fa-check mr-5" v-show="selected"></i> {{ title }}
     </component>
 </template>
 

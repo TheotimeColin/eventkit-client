@@ -57,7 +57,7 @@
     justify-content: space-between;
     align-items: center;
 
-    i {
+    .SelectSearch_result_check {
         display: none;
     }
 
@@ -80,7 +80,7 @@
 
     &.is-checked {
 
-        i { 
+        .SelectSearch_result_check { 
             display: block;
         }
     }

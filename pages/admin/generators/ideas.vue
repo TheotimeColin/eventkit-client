@@ -8,8 +8,6 @@
                     onClick: () => state.current = id
                 }))" />
 
-                
-
                 <div v-for="(kit, key) in kits" :key="key">
                     <template v-if="state.current == key">
                         <div>
@@ -34,6 +32,16 @@
                                 :selected="filters.tags.indexOf(tag._id) >= 0"
                                 @click.native="onFilter({ tags: { value: tag._id, push: true }})"
                             />
+                        </div>
+
+                        <div class="text-right">
+                            <button-base
+                                fa="plus"
+                                :modifiers="['s']"
+                                @click.native="() => onAddIdea(kit)"
+                            >
+                                Ajouter
+                            </button-base>
                         </div>
                         <div class="d-flex fx-align-stretch" v-for="value in filterIdeas(kit.ideas)" :key="value._id">
                             <data-row
@@ -89,11 +97,6 @@
                                 @create="(v) => onCreateTag(v, kit._id, 'tag')"
                             />
                         </div>
-
-                        <data-row
-                            :new-row="true"
-                            @click.native="() => onAddIdea(key)"
-                        />
                     </template>
                 </div>
             </div>
@@ -102,6 +105,8 @@
 </template>
 
 <script>
+import shortid from 'shortid'
+
 import SelectSearch from '@/components/utils/SelectSearch'
 import Navbar from '@/components/generators/NavBar'
 import DataRow from '@/components/generators/DataRow'
@@ -158,8 +163,17 @@ export default {
         }
     },
     methods: {
-        async onAddIdea (kitId) {
-
+        async onAddIdea (kit) {
+            this.$store.dispatch('kits/ideas/post', { data: {
+                id: shortid.generate(),
+                new: true,
+                content: {},
+                tags: [
+                    ...this.$data.filters.tags,
+                    ...this.$data.filters.categories
+                ],
+                kit: kit._id
+            }})
         },
         onUpdateIdea (idea) {
             this.$store.commit('kits/ideas/update', idea)
@@ -213,7 +227,7 @@ export default {
                 result = result.filter(i => this.$data.filters.tags.length <= 0 || i.tags.filter(t => this.$data.filters.tags.indexOf(t._id) >= 0).length > 0)
             }
 
-            return result
+            return result.reverse()
         }
     } 
 }
