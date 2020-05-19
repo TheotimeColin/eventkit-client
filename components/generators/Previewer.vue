@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { throttle } from 'throttle-debounce';
+import { throttle } from 'throttle-debounce'
 
 import ConversationStarter from '@/components/generators/ConversationStarter'
 import PageGenerator from '@/components/generators/PageGenerator'

@@ -1,55 +1,53 @@
 <template>
     <div class="DataEditor" :class="{ 'is-dragging': state.drag }" v-if="localData">
         <nav-bar class="DataEditor_nav" :modifiers="['secondary']" :current="state.current" :items="[
-            { id: 'data', label: 'Cartes', count: localData.length, onClick: () => state.current = 'data' },
-            { id: 'idea', label: 'Packs idées', fa: 'lightbulb', onClick: () => state.current = 'idea' }
+            { id: 'data', label: 'Tes idées', count: localData.length, onClick: () => state.current = 'data' },
+            { id: 'idea', label: 'Nos idées à piquer', fa: 'lightbulb', onClick: () => state.current = 'idea' }
         ]" />
+        
+        <div class="p-20" v-show="state.current == 'data'">
+            <div class="mb-20 d-flex fx-align-center fx-justify-between">
+                <button-base
+                    fa="plus"
+                    :modifiers="['s']"
+                    @click.native="onAddRow"
+                >Ajouter</button-base>
 
-        <template v-if="state.current == 'data'">
-            <div class="p-20">
-                <div class="mb-20 d-flex fx-align-center fx-justify-between">
-                    <button-base
-                        fa="plus"
-                        :modifiers="['s']"
-                        @click.native="onAddRow"
-                    >Ajouter</button-base>
-
-                    <button-base
-                        fa="times"
-                        :modifiers="['xs', 'secondary']"
-                        @click.native="$store.commit('utils/confirmPrompt', {
-                            active: true,
-                            onConfirm: onDeleteAll,
-                            confirmText: 'Supprimer'
-                        })"
-                    >
-                        Supprimer tout
-                    </button-base>
-                </div>
-
-                <draggable v-model="localData" handle=".handle" @start="state.drag = true" @end="() => { update(); state.drag = false; }">
-                    <transition-group type="transition">
-                        <data-row
-                            class="DataEditor_row"
-                            v-for="value in reversed"
-                            :value="value"
-                            :editable="true"
-                            @input="onUpdateValue"
-                            @select="(v) => $emit('select', v)"
-                            @delete="onDeleteValue"
-                            @submit="onAddRow"
-                            :key="value._id"
-                        />
-                    </transition-group>
-                </draggable>
+                <button-base
+                    fa="times"
+                    :modifiers="['xs', 'secondary']"
+                    @click.native="$store.commit('utils/confirmPrompt', {
+                        active: true,
+                        onConfirm: onDeleteAll,
+                        confirmText: 'Supprimer'
+                    })"
+                >
+                    Supprimer tout
+                </button-base>
             </div>
-        </template>
-        <template v-if="state.current == 'idea'">
-            <creative-center
-                :project="project"
-                @select="(v) => $emit('select', v)"
-            />
-        </template>
+
+            <draggable v-model="localData" handle=".handle" @start="state.drag = true" @end="() => { update(); state.drag = false; }">
+                <transition-group type="transition">
+                    <data-row
+                        class="DataEditor_row"
+                        v-for="value in reversed"
+                        :value="value"
+                        :editable="true"
+                        @input="onUpdateValue"
+                        @select="(v) => $emit('select', v)"
+                        @delete="onDeleteValue"
+                        @submit="onAddRow"
+                        :key="value._id"
+                    />
+                </transition-group>
+            </draggable>
+        </div>
+        
+        <creative-center
+            :project="project"
+            @select="(v) => $emit('select', v)"
+            v-show="state.current == 'idea'"
+        />
     </div>
 </template>
 

@@ -3,7 +3,7 @@
     font-family: var(--font-family);
     background: var(--background-color);
     color: var(--color);
-    border-radius: calc(5mm * var(--scale));
+    border-radius: calc(var(--border-radius) * 100%);
     overflow: hidden;
 
     height: calc(var(--height) * var(--scale));
@@ -36,23 +36,16 @@
     position: relative;
     overflow: hidden;
     z-index: 2;
-    padding: calc(var(--margin, 7.5mm) * var(--scale));
+    padding: calc(calc(var(--padding, 1) * 1mm) * var(--scale));
     @include absolute-fill;
 }
 
 .ConversationStarter_main {
     font-size: calc(calc((calc(16px * var(--font-normalize, 1))) * var(--element-scale, 1)) * var(--scale));
     line-height: var(--line-height, 1.4);
+    text-align: center;
     width: 100%;
     letter-spacing: normal;
-}
-
-.ConversationStarter_id {
-    font-size: calc(calc(var(--id-font-size, 24px) * var(--element-scale, 1)) * var(--scale));
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    transform: translateY(-50%);
 }
 
 .ConversationStarter_name {
@@ -74,23 +67,17 @@
 
 /* THEMES */
 
-.ConversationStarter.theme-default {
-    
+.ConversationStarter.id-hide {
+
     .ConversationStarter_id {
-        letter-spacing: calc(-5px * var(--scale));
-        text-indent: calc(-5px * var(--scale));
-        text-align: center;
+        display: none !important;
     }
+}
+
+.ConversationStarter.theme-default {
     
     .ConversationStarter_name {
         letter-spacing: 1px;
-    }
-
-    &.colors-monochrome {
-
-        .ConversationStarter_id {
-            opacity: 0.25;
-        }
     }
 }
 
@@ -103,16 +90,7 @@
     .ConversationStarter_main {
         text-align: left;
     }
-    
-    .ConversationStarter_id {
-        display: inline-block;
-        vertical-align: middle;
-        width: auto;
-        font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
-        opacity: 1;
-        position: relative;
-    }
-    
+
     .ConversationStarter_name {
         display: inline-block;
         vertical-align: middle;

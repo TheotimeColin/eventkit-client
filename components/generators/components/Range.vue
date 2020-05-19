@@ -5,13 +5,15 @@
                 <p class="pr-10" v-if="option.label">{{ option.label }}</p>
                 <range-slider
                     class="RangeSlider fx-grow"
-                    type="range" min="1" max="200" :value="value * 100" @input="onUpdate" />
+                    type="range" :min="option.min" :max="option.max" :step="option.step" :value="value" @input="onUpdate" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { throttle } from 'throttle-debounce';
+
 import RangeSlider from 'vue-range-slider'
 
 export default {
@@ -19,9 +21,11 @@ export default {
     components: { RangeSlider },
     props: {
         value: {},
+        defaultValue: { type: Number, default: 1 },
         options: { type: Array }
     },
     data: () => ({
+        throttle,
         localValue: null
     }),
     watch: {
@@ -32,10 +36,10 @@ export default {
         }
     },
     methods: {
-        onUpdate (v) {
+        onUpdate: throttle(50, function (v) {
             this.$data.localValue = v
-            this.$emit('input', (this.$data.localValue / 100).toFixed(2))
-        }
+            this.$emit('input', this.$data.localValue.toFixed(2))
+        })
     }
 }
 </script>

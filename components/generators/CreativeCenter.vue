@@ -100,7 +100,7 @@ export default {
             }
 
             this.$store.commit('kits/project/addData', idea)
-            this.$emit('select', idea)
+            this.$emit('select', idea._id)
         },
         onDeselect (v) {
             let toRemove = this.$props.project.ideas.filter(idea => idea.content && idea.content.main == v.content.main)

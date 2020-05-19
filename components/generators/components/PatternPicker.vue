@@ -16,8 +16,8 @@
             </div>
             
             <div class="ColorPicker_colors">
-                <div class="row-xs fx-wrap">
-                    <div class="col-12 mb-10" v-for="option in patterns" :key="option.id">
+                <div class="row-2xs fx-wrap">
+                    <div class="col-12 mb-3" v-for="option in patterns" :key="option.id">
                         <div
                             class="ColorPicker_palette ColorPicker_palette--pattern"
                             :class="{
@@ -77,7 +77,7 @@ export default {
                 
                 return {
                     ...p,
-                    background: pattern ? `url("${pattern(this.$props.theme.colors.patternColor.replace('#', ''), 1, 1)}")` : ''
+                    background: pattern ? `url("${pattern(this.$props.theme.colors.patternColor.replace('#', ''), 0.75, 1)}")` : ''
                 }
             })
         }

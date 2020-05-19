@@ -11,8 +11,8 @@
             </div>
             
             <div class="ColorPicker_colors">
-                <div class="row-xs fx-wrap">
-                    <div class="col-6 mb-10" v-for="(option, i) in fonts" :key="i">
+                <div class="row-2xs fx-wrap">
+                    <div class="col-6 mb-3" v-for="(option, i) in fonts" :key="i">
                         <div
                             class="ColorPicker_palette ColorPicker_palette--font"
                             :class="{
@@ -73,7 +73,7 @@ export default {
             let pattern = patterns[this.$props.theme.pattern.patternUrl]
 
             if (pattern) value = pattern(
-                this.$props.theme.colors.patternColor.replace('#', ''), 1, 1
+                this.$props.theme.colors.patternColor.replace('#', ''), 0.5, 1
             )
 
             return `url("${value}")`

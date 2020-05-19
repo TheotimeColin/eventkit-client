@@ -30,6 +30,7 @@
                 rows="1"
                 :value="localData.content ? localData.content.main : ''"
                 @focus="select"
+                @blur="$emit('blur')"
                 @input="onInput"
                 @keydown.enter="(e) => { e.preventDefault(); $emit('submit') }"
                 ref="input"

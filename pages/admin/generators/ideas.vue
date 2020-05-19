@@ -48,6 +48,7 @@
                                 class="fx-grow"
                                 :value="value"
                                 @input="onUpdateIdea"
+                                @blur="() => save(value._id)"
                                 @submit="() => save(value._id)"
                             >
                                 <template slot="footer">
@@ -55,7 +56,6 @@
                                         <tag
                                             v-for="tag in value.tags.filter(t => t.type == 'category')"
                                             :modifiers="['s', 'outline', 'blue']"
-                                            class="m-3"
                                             :title="tag.label"
                                             :key="tag._id"
                                         />
@@ -63,7 +63,6 @@
                                         <tag
                                             v-for="tag in value.tags.filter(t => t.type == 'tag')"
                                             :modifiers="['s', 'outline']"
-                                            class="m-3"
                                             :title="tag.label"
                                             :key="tag._id"
                                         />
@@ -73,12 +72,13 @@
 
                             <select-search
                                 action="kits/ideas/fetchTags"
+                                :params="{ query: { kit: kit._id, type: 'category' }, push: true }"
+                                :options="tags.filter(t => t.kit == kit._id && t.type =='category')"
                                 :modifiers="['left']"
                                 :create="true"
                                 :multiple="true"
                                 :unset="true"
                                 label-key="label"
-                                :params="{ query: { kit: kit._id, type: 'category' }, push: true }"
                                 :value="value.tags"
                                 @input="(v) => onUpdateTags(value, v, 'category')"
                                 @create="(v) => onCreateTag(v, kit._id, 'category')"
@@ -86,12 +86,13 @@
 
                             <select-search
                                 action="kits/ideas/fetchTags"
+                                :params="{ query: { kit: kit._id, type: 'tag' }, push: true }"
+                                :options="tags.filter(t => t.kit == kit._id && t.type =='tag')"
                                 :modifiers="['left']"
                                 :create="true"
                                 :multiple="true"
                                 :unset="true"
                                 label-key="label"
-                                :params="{ query: { kit: kit._id, type: 'tag' }, push: true }"
                                 :value="value.tags"
                                 @input="(v) => onUpdateTags(value, v, 'tag')"
                                 @create="(v) => onCreateTag(v, kit._id, 'tag')"
@@ -117,15 +118,12 @@ export default {
     layout: 'admin',
     components: { SelectSearch, Navbar, DataRow, Tag },
     async fetch () {
-        await this.$store.dispatch('kits/ideas/fetch', {
-            query: {}
-        })
+        let kits = await this.$store.dispatch('kits/ideas/fetch')
 
-        this.$data.tags = await this.$store.dispatch('kits/ideas/fetchTags')
+        await this.$store.dispatch('kits/ideas/fetchTags')
     },
     data: () => ({
         kits: {},
-        tags: [],
         filters: {
             tags: [],
             categories: []
@@ -137,6 +135,9 @@ export default {
     computed: {
         ideas () {
             return this.$store.state.kits.ideas.collection
+        },
+        tags () {
+            return this.$store.state.kits.ideas.tags.collection
         }
     },
     watch: {
@@ -157,6 +158,8 @@ export default {
 
                     return true
                 }))
+
+                if (this.$data.state.current == '') this.$data.state.current = kits[Object.keys(kits)[0]]._id
 
                 this.$data.kits = JSON.parse(JSON.stringify(kits))
             }

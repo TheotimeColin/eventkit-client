@@ -60,6 +60,7 @@ export default {
     props: {
         value: {},
         valueFull: { type: Boolean, default: false },
+        options: { type: Array },
         unset: { type: Boolean, default: false },
         action: { type: String, default: '' },
         create: { type: Boolean, default: false },
@@ -87,6 +88,14 @@ export default {
             handler (v) {
                 if (!this.$data.state.fetched) this.fetchOptions()
             }
+        },
+        options: {
+            deep: true,
+            handler (v) {
+                this.$refs.search.value = ''
+                this.onChange()
+                this.fetchOptions()
+            }   
         }
     },
     computed: {
@@ -131,7 +140,7 @@ export default {
     },
     methods: {
         async fetchOptions () {
-            let results = await this.$store.dispatch(this.$props.action, this.$props.params)
+            let results = this.$props.options ? this.$props.options : await this.$store.dispatch(this.$props.action, this.$props.params)
 
             let options = {}
             results.forEach(result => {
@@ -179,7 +188,7 @@ export default {
             }
         },
         onCreate () {
-            if (!this.$props.create) return
+            if (!this.$props.create || this.$data.search == '') return
             this.$emit('create', this.$data.search)
         }
     }

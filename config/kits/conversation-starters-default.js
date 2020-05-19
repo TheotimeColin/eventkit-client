@@ -11,5 +11,8 @@ export default {
     theme: 'default',
     elementScale: 1,
     title: 'Starter n°',
-    footer: 'Créé sur eventkit.social'
+    footer: 'Créé sur eventkit.social',
+    radius: 1,
+    padding: 7.5,
+    id: true
 }

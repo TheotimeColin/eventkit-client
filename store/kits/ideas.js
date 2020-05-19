@@ -30,6 +30,12 @@ export default {
             state.collection = collection
             state.items = items
         },
+        updateTag (state, value) {
+            let { collection, items } = updateOne(state.tags.items, value)
+
+            state.tags.collection = collection
+            state.tags.items = items
+        },
         updateTags (state, value) {
             let { collection, items } = refreshCollection(value)
 
@@ -91,6 +97,8 @@ export default {
         async postTag ({ commit }, params) {
             try {
                 const response = await this.$axios.$post(`/kits/ideas/tags`, params.data)
+
+                commit('updateTag', response.tag)
                 return response.tag
             } catch (e) { console.warn(e) }
         }

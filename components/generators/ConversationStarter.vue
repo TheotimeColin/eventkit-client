@@ -7,12 +7,14 @@
         
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
-                <p class="ConversationStarter_name">{{ theme.title }}{{ data.position ? data.position : '0' }}</p>
-                <!-- <p class="ConversationStarter_id" style="opacity: 0.45"></p> -->
+                <p class="ConversationStarter_name">
+                    {{ theme.title }}
+                    <span class="ConversationStarter_id">{{ data.position ? data.position : '0' }}</span>
+                </p>
             </div>
 
             <p class="ConversationStarter_main" :class="{ 'is-empty': !data.content }">
-                {{ data.content ? data.content.main : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
+                {{ data.content ? unwrapPunctuation(data.content.main) : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
             </p>
             
             <p class="ConversationStarter_copyright">
@@ -98,6 +100,15 @@ export default {
             )
 
             return `url("${value}")`
+        }
+    },
+    methods: {
+        unwrapPunctuation (string) {
+            string = string.replace(' ?', ' ?')
+            string = string.replace(' !', ' !')
+            string = string.replace(' :', ' :')
+
+            return string
         }
     }
 }

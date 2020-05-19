@@ -44,13 +44,13 @@
 .NavBar_count {
     font: var(--ft-2xs);
     font-weight: bold;
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
 }
 
 .NavBar_item:hover,
@@ -58,14 +58,12 @@
     color: var(--color-ft-strong);
     background-color: var(--color-bg);
 
-    .NavBar_count {
-        background-color: var(--color-bg-light);
-    }
-
     &::after {
         transform: scale(1);
     }
 }
+
+
 
 .NavBar--vertical {
     flex-direction: column;
@@ -120,13 +118,9 @@
 
 .NavBar--secondary {
 
-    .NavBar_count {
-        background-color: var(--color-bg-weak);
-    }
-
     .NavBar_item:hover,
     .NavBar_item.is-active {
-        color: var(--color-ft);
+        color: var(--color-ft-strong);
         background-color: var(--color-bg-light);
     }
 }
