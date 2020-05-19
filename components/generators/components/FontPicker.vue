@@ -73,7 +73,7 @@ export default {
             let pattern = patterns[this.$props.theme.pattern.patternUrl]
 
             if (pattern) value = pattern(
-                this.$props.theme.colors.patternColor.replace('#', ''), 0.5, 1
+                this.$props.theme.colors.patternColor.replace('#', ''), 0.75, 1
             )
 
             return `url("${value}")`

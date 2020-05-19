@@ -14,10 +14,10 @@ export default {
                             this.$data.filters[key].push(value)
                         }
                     } else {
-                        this.$data.filters[key] = [ value ]
+                        this.$data.filters[key] = value
                     }
                 } else {
-                    this.$data.filters[key] = [ value ]
+                    this.$data.filters[key] = value
                 }
             })
         },

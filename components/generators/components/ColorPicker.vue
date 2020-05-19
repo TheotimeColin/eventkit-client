@@ -3,7 +3,7 @@
         <div class="ColorPicker_container">
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
-                    <nav-bar :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="Object.keys(options).map(key => ({
+                    <nav-bar class="mb-20" :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="Object.keys(options).map(key => ({
                         id: key, color: value[key], label: options[key].label, onClick: () => state.current = key
                     }))" />
                     
@@ -14,15 +14,24 @@
             <div class="ColorPicker_colors">
                 <div class="ColorPicker_filters">
                     <tag
+                        :modifiers="['outline', 'selectable']"
+                        class="m-3"
+                        :title="'All'"
+                        :selected="filters.theme.length <= 0"
+                        @click.native="$onFilter({ theme: { value: [] }})"
+                    />
+
+                    <tag
                         v-for="(filter, i) in filterOptions"
                         :modifiers="['outline', 'selectable']"
+                        class="m-3"
                         :key="i"
                         :title="filter"
                         :selected="filters.theme.indexOf(filter) >= 0"
                         @click.native="$onFilter({ theme: { value: filter }})"
                     />
                 </div>
-                <div class="row-2xs fx-wrap">
+                <div class="row-2xs fx-wrap mt-20">
                     <div v-for="(palette, i) in $filter(palettes, 'theme')" class="col-6 mb-3 col-12@s" :key="i">
                         <div
                             class="ColorPicker_palette"
@@ -114,7 +123,7 @@ export default {
             let value = ''
             let pattern = patterns[this.$props.theme.pattern.patternUrl]
 
-            if (pattern) value = pattern(color.replace('#', ''), 0.5, 1)
+            if (pattern) value = pattern(color.replace('#', ''), 0.75, 1)
 
             return `url("${value}")`
         }

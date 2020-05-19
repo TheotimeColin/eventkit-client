@@ -48,8 +48,8 @@ export default {
                 query: { template: true, kit: this.$props.kit._id }
             })
 
-            this.$data.ideaPack = await this.$store.dispatch('kits/packs/get', {
-                query: { default: true, kit: this.$props.kit._id  }
+            this.$data.ideaPack = await this.$store.dispatch('kits/ideas/fetch', {
+                query: { kickstarter: true, kit: this.$props.kit._id }
             })
         } catch (e) { console.warn(e) }
     },
@@ -75,11 +75,10 @@ export default {
             this.$data.selectedTheme = this.$data.selectedTheme && this.$data.selectedTheme == theme ? null : theme
         },
         async create () {
-            let randomIdeas = this.$data.ideaPack ? this.$data.ideaPack.ideas.slice().sort(v => Math.random() - 0.5).slice(0, 5).map(v => ({
+            let randomIdeas = this.$data.ideaPack ? this.$data.ideaPack.slice().sort(v => Math.random() - 0.5).slice(0, 10).map(v => ({
                 ...v,
                 original: v,
                 _id: shortid.generate(),
-                pack: { ...this.$data.ideaPack, ideas: [] },
                 new: true
             })) : []
             

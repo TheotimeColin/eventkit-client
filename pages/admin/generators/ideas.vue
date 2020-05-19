@@ -70,6 +70,12 @@
                                 </template>
                             </data-row>
 
+                            <input
+                                type="checkbox"
+                                :checked="value.kickstarter"
+                                @change="(v) => onUpdateIdea({ ...value, kickstarter: true })"
+                            />
+
                             <select-search
                                 action="kits/ideas/fetchTags"
                                 :params="{ query: { kit: kit._id, type: 'category' }, push: true }"
@@ -171,6 +177,7 @@ export default {
                 id: shortid.generate(),
                 new: true,
                 content: {},
+                default: false,
                 tags: [
                     ...this.$data.filters.tags,
                     ...this.$data.filters.categories
