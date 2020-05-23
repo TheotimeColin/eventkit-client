@@ -2,7 +2,7 @@
     <div class="Page Page--admin Admin">
         <div class="Page_content">
             <div class="Wrapper">
-                <button-base :to="{ name: 'admin-kits-id', params: { id: 'new' } }">
+                <button-base :to="localePath({ name: 'admin-kits-id', params: { id: 'new' } })">
                     Nouveau kit
                 </button-base>
 
@@ -17,7 +17,6 @@
                             :editable="true"
                             :excerpt="kit.excerpt"
                             :thumbnail="kit.thumbnail"
-                            :to="{ name: 'admin-kits-id', params: { id: kit._id } }"
                         />
                     </div>
                 </div>

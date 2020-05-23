@@ -14,7 +14,7 @@
                     <div class="d-flex fx-align-center">
                         <button-base
                             class="mr-5"
-                            :modifiers="['s', 'secondary']"
+                            :modifiers="['s', 'secondary', 'pink']"
                             @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'login' } })"
                             v-if="!user"
                         >
@@ -22,14 +22,14 @@
                         </button-base>
 
                         <button-base
-                            :modifiers="['s']"
+                            :modifiers="['s', 'pink']"
                             @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'register' } })"
                             v-if="!user"
                         >
                             M'inscrire
                         </button-base>
 
-                        <button-base :to="{ name: 'account' }" :modifiers="['s']" v-if="user">
+                        <button-base :to="{ name: 'account' }" :modifiers="['s', 'pink']" v-if="user">
                             Mon compte
                         </button-base>
                     </div>

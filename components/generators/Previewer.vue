@@ -14,6 +14,7 @@
         <div class="Previewer_print" v-if="print || state.export">
             <page-generator
                 class="Previewer_page"
+                :style="styleConfig"
                 :scale="style['--page-scale'] * (state.export ? 2 : 1)"
                 v-for="(batch, i) in batches"
                 :key="i"
@@ -65,6 +66,16 @@ export default {
         window.addEventListener('resize', throttle(1000, () => this.fit()))
     },
     computed: {
+        styleConfig () {
+            let style = {}
+
+            if (this.$props.project.theme.page) {
+                style['--margins'] = this.$props.project.theme.page.margins
+                style['--spacing'] = this.$props.project.theme.page.spacing
+            }
+
+            return style
+        },
         activeItems () {
             let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
             return this.state.test ? activeItems.slice(0, 1) : activeItems
@@ -76,10 +87,12 @@ export default {
         batches () {
             let pageWidth = 210
             let pageHeight = 297
-            let pageMargins = (15 * 2)
+            let spacing = parseInt(this.$props.project.theme.page.spacing)
+            let margins = parseInt(this.$props.project.theme.page.margins)
+            let pageMargins = margins * 2
 
-            let componentWidth = this.$props.project.theme.size.x
-            let componentHeight = this.$props.project.theme.size.y
+            let componentWidth = this.$props.project.theme.size.x + (spacing * 2)
+            let componentHeight = this.$props.project.theme.size.y + (spacing * 2)
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
@@ -135,11 +148,11 @@ export default {
     
                 if (!component) return
 
-                let containerWidth = Math.min(this.$el.offsetWidth * 0.8, this.$props.print ? 9999 : maxSize.x)
+                let containerWidth = Math.min(this.$el.offsetWidth * (this.$props.print ? 0.85 : 0.6), this.$props.print ? 9999 : maxSize.x)
                 let componentWidth = component.offsetWidth
                 let componentWidthScale = (containerWidth / componentWidth).toFixed(1)
 
-                let containerHeight = Math.min(this.$el.offsetHeight * 0.8, this.$props.print ? 9999 : maxSize.y)
+                let containerHeight = Math.min(this.$el.offsetHeight * (this.$props.print ? 0.85 : 0.6), this.$props.print ? 9999 : maxSize.y)
                 let componentHeight = component.offsetHeight
                 let componentHeightScale = (containerHeight / componentHeight).toFixed(1)
 

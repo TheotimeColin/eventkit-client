@@ -16,6 +16,8 @@
     background-image: var(--background-image);
     font-family: var(--font-family);
     color: var(--color);
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .ProjectBlock_actions {

@@ -15,7 +15,7 @@
 .TextEditor_menu {
     position: sticky;
     z-index: 5;
-    top: 0;
+    top: var(--height-scrolled);
 }
 
 .TextEditor_first,
@@ -49,4 +49,17 @@
     height: 20px;
     margin: 0 10px;
     background-color: var(--color-border);
+}
+
+/* MODIFIERS */
+
+.TextEditor--compact {
+
+    .TextEditor_content {
+        
+        & > div {
+            padding: 20px;
+            min-height: 0;
+        }
+    }
 }

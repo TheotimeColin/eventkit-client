@@ -42,11 +42,15 @@
 }
 
 @mixin box-shadow-s {
-    box-shadow: 0 2px 2px 0 rgba(30, 102, 255, 0.3);
+    box-shadow: 0 4px 4px 0 ;
 }
 
-@mixin box-shadow {
-    box-shadow: 0 3px 6px 0 rgba(30, 102, 255, 0.4);
+@mixin box-shadow($color: "cyan") {
+    box-shadow: 0 3px 6px 0 rgba(var(--color-#{$color}-shadow), 0.4);
+}
+
+@mixin box-shadow-s {
+    box-shadow: 0 2px 2px 0 rgba(30, 102, 255, 0.3);
 }
 
 @mixin box-shadow-l {

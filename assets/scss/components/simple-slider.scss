@@ -41,3 +41,10 @@
         transition: transform 500ms cubic-bezier(0, 1.54, 0.57, 0.97);
     }
 }
+
+.SimpleSlider.is-short-transition {
+
+    .SimpleSlider_rail {
+        transition: transform 250ms ease-in-out;
+    }
+}

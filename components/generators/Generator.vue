@@ -1,9 +1,9 @@
 <template>
     <div class="Generator">
-        <div class="Generator_header">
+        <div class="Generator_header" :style="{ '--pattern': pattern }">
             <div>
                 <p class="ft-title-xl">
-                    <input type="text" placeholder="Nom de mon projet" class="Input--unstyled" :value="project.title" v-if="project" @change="onTitleChange">
+                    <input type="text" placeholder="Nom de mon projet" class="Input--unstyled ft-bold" :value="project.title" v-if="project" @change="onTitleChange">
                 </p>
 
                 <p class="ft-m">
@@ -15,24 +15,35 @@
                 </p>
             </div>
 
-            <div class="Generator_premiumAlert" v-if="!hasPremium">
-                <button-base @click="onPremium" :modifiers="['premium', 'round', 's']" class="fx-no-shrink">
+            <div class="Generator_premiumAlert StyledBlock StyledBlock--no-border StyledBlock--gold p-relative" v-if="!hasPremium && sale">
+                <button-base @click="onPremium" :modifiers="['gold', 'round', 's']" class="fx-no-shrink">
                     Devenir Créateur
                 </button-base>
 
                 <p class="ml-20">
-                    De <span class="ft-m"><b>30% à 40%</b></span> de réduction sur nos abonnements !
-                    <b>Offre limitée aux 100 premiers inscrits</b>
+                    Jusqu'à <span class="ft-m"><b>-40%</b></span> sur ton abonnement, <span class="ft-m"><b>pour toujours</b></span> !
+                    <b>Offre limitée aux 100 premiers inscrits.</b>
                 </p>
+
+                <loading-bar :modifiers="['absolute', 'gold']" :max="100" :value="sale.times_redeemed" />
             </div>
 
             <div class="d-flex fx-align-center">
-                <p class="ft-s text-right mr-10">
+                <div class="ft-s text-right mr-10" v-if="!project.temporary && !project.premium || project.premium && user.plan">
                     Dernière sauvegarde :<br>
                     <b>{{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}</b>
-                </p>
+                </div>
 
-                <button-base class="ml-10" :modifiers="['save']" @click="$store.dispatch('kits/project/save')">
+                <div class="ft-s text-right mr-10" v-if="project.temporary && user || project.premium && !user.plan">
+                    Limite de projets atteinte.<br>Supprime un ancien ou
+                    <link-base @click.native="onPremium">deviens Créateur</link-base> !
+                </div>
+
+                <div class="ft-s text-right mr-10" v-if="!user">
+                    Pour sauvegarder ton projet, <link-base @click.native="$store.commit('popins/open', { id: 'login' })">crée un compte</link-base>, <br>c'est gratuit.
+                </div>
+
+                <button-base class="ml-10" :modifiers="['blue']" @click="$store.dispatch('kits/project/save')" :disabled="project.temporary || project.premium && !user.plan">
                     Sauvegarder
                 </button-base>
             </div>
@@ -50,10 +61,10 @@
                 <div class="Generator_overflow">
                     <configurator
                         class="Generator_configurator"
-                        :has-premium="hasPremium"
-                        :project="project"
-                        :initTheme="initTheme"
+                        :theme="project.theme"
+                        :init-theme="initTheme"
                         v-if="project && state.step == 'config'"
+                        @update="(v) => $store.commit('kits/project/updateTheme', v)"
                     />
 
                     <data-editor
@@ -66,6 +77,7 @@
                     <printer
                         class="Generator_printer"
                         @print="onPrint"
+                        :project="project"
                         :is-loading="state.printing"
                         v-if="project && state.step == 'print'"
                     />
@@ -95,11 +107,30 @@
                 />
             </div>
         </div>
+
+        <popin-generic :modifiers="['s']" :is-active="state.wait" v-if="project.temporary && user && !user.plan">
+            <template slot="header">
+                <div class="ph-40 pv-20">
+                    <p class="ft-title-l"><b>Limite de projets atteinte</b></p>
+                </div>
+            </template>
+            
+            <div class="p-40">
+                <p>Tu as atteint la limite de projets pour un compte gratuit. Tu ne pourras pas sauvegarder ou imprimer ce projet.<p>
+                <p>Supprime un ancien projet ou Deviens Créateur pour débloquer toutes les options et créer des projets en illimité !</p>
+                
+                <div class="mt-40 d-flex">
+                    <button-base :modifiers="['secondary']" @click="state.wait = false">Ok, je veux juste tester</button-base>
+                    <button-base :modifiers="['premium']">Devenir Créateur</button-base>
+                </div>
+            </div>
+        </popin-generic>
     </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
+import patterns from '@/config/patterns'
 
 import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
@@ -108,14 +139,19 @@ import DataEditor from '@/components/generators/DataEditor'
 import Printer from '@/components/generators/Printer'
 import Sharer from '@/components/generators/Sharer'
 import PopinGeneric from '@/components/popins/PopinGeneric'
+import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric, Printer },
+    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
         }
+    },
+    async fetch () {
+        await this.$auth.fetchUser()
+        this.$cookies.set('project-id', this.$props.project._id)
     },
     props: {
         project: { type: Object },
@@ -123,28 +159,15 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'config',
+            step: 'print',
             setPremium: false,
             print: false,
-            printing: false
+            printing: false,
+            wait: true
         },
-        steps: {
-            config: {
-                id: 'config',
-                active: true
-            },
-            data: {
-                id: 'data',
-                active: false
-            },
-        },
-        step: 0,
         selected: 'default'
     }),
     computed: {
-        currentStep () {
-            return this.$data.steps[Object.keys(this.$data.steps)[this.$data.step]]
-        },
         hasPremium () {
             return this.$store.state.auth.user && this.$store.state.auth.user.plan ? true : false
         },
@@ -158,6 +181,29 @@ export default {
         },
         user () {
             return this.$store.state.auth.user
+        },
+        loggedIn () {
+            return this.$store.state.auth.loggedIn
+        },
+        pattern () {
+            if (!this.$props.project.theme) return
+
+            let patternUrl = ''
+            let pattern = patterns[this.$props.project.theme.pattern.patternUrl]
+            if (pattern) patternUrl = pattern('EFFCFF', 0.75, 1)
+
+            return `url("${patternUrl}")`
+        },
+        sale () {
+            return this.$store.state.premium.information.early
+        }
+    },
+    watch: {
+        ['state.step'] (v) {
+            this.$data.state.print = v == 'print'
+        },
+        loggedIn (v) {
+            if (v) this.$store.dispatch('kits/project/save')
         }
     },
     methods: {

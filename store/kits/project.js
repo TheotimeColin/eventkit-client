@@ -94,9 +94,7 @@ export default {
         async create ({ dispatch }, { theme, ideas = [], kit, title, user }) {
             if (!user) {
                 let id = shortid.generate()
-                user = this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : id
-
-                this.$cookies.set('anonymous-id', user) 
+                user = id
             }
 
             return await dispatch('post', {

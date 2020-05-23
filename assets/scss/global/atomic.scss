@@ -68,7 +68,8 @@
 
     .ft-bold#{$name} { font-weight: bold; }
     .ft-bolder#{$name} { font-weight: 900; }
-
+    .line-1#{$name} { line-height: 1; }
+    
     /* COLORS */
     @each $colorName, $color in $colors {
         .color-#{$colorName}#{$name} { color: var(--color-#{$colorName}); }

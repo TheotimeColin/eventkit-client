@@ -9,6 +9,7 @@
         display: block;
         @include absolute-fill;
         z-index: 5;
+        pointer-events: none;
         background-color: rgba(255, 255, 255, 0);
     }
 }
@@ -21,10 +22,10 @@
 }
 
 .Previewer_page {
-    margin: 40px auto;
+    margin: 20px auto;
     width: calc(210mm * var(--page-scale, 1));
     height: calc(297mm * var(--page-scale, 1));
-    padding: calc(15mm * var(--page-scale, 1));
+    padding: calc(var(--margins, 15mm) * var(--page-scale, 1));
     background-color: var(--color-bg-light);
     overflow: hidden;
     font-size: 0;
@@ -33,7 +34,7 @@
     & > * {
         --scale: var(--page-scale) !important;
         display: inline-block;
-        margin: 1px;
+        margin: calc(var(--spacing, 0mm) * var(--page-scale, 1));
         opacity: 1;
         position: relative;
     }
@@ -51,6 +52,7 @@
     }
 
     &::before {
+        pointer-events: all;
         background-color: rgba(255, 255, 255, 0.75);
     }
 }

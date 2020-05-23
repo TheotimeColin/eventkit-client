@@ -24,6 +24,8 @@ export default {
     async fetch () {
         let project = null
 
+        await this.$auth.fetchUser()
+
         if (this.$route.params.slug) {
             this.$data.kit = await this.$store.dispatch('kits/get', {
                 query: { slug: this.$route.params.slug }
@@ -31,13 +33,9 @@ export default {
         }
 
         if (this.$route.params.id) {
-            let query = {
-                id: this.$route.params.id
-            }
-
-            if (this.$cookies.get('anonymous-id') && !this.user) query.userAnonymous = this.$cookies.get('anonymous-id')
-
-            project = await this.$store.dispatch('kits/project/get', { query })
+            await this.$store.dispatch('kits/project/get', {
+                query: { id: this.$route.params.id }
+            })
         }
 
         this.state.loaded = true

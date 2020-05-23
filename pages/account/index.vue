@@ -1,7 +1,7 @@
 <template>
     <div class="AccountPage Page">
         <div class="Page_content">
-            <div class="AccountPage_banner pv-40" :class="{ 'premium': user.plan, 'offer': !user.plan }">
+            <div class="AccountPage_banner StyledBlock pv-40" :class="{ 'StyledBlock--gold': user.plan }">
                 <div class="Wrapper">
                     <p class="ft-title-2xl">Bonjour, <b>{{ user.name }}</b>.</p>
                     <p v-if="user.plan">{{ $t(`subscriptions.${user.plan}.condensed`) }}</p>
@@ -11,9 +11,7 @@
             <div class="AccountPage_nav">
                 <div class="Wrapper AccountPage_navContainer">
                     <nav-bar :current="state.current" :items="[
-                        { id: 'home', label: 'Dashboard', onClick: () => state.current = 'home' },
-                        { id: 'account', label: 'Mon compte', onClick: () => state.current = 'account' },
-                        { id: 'subscription', label: 'Gérer mon abonnement', onClick: () => state.current = 'subscription' }
+                        { id: 'home', label: 'Dashboard', onClick: () => state.current = 'home' }
                     ]" />
 
                     <button-base :to="{ name: 'account-logout' }" :modifiers="['secondary', 's']">
@@ -23,41 +21,34 @@
             </div>
 
             <div class="Wrapper">
-                <div class="pv-60">
+                <div class="pv-40">
                     <template v-if="state.current == 'home'">
-                        <form class="Form">
-                            <div class="Form_row">
-                                <label>Nom</label>
-                                <input type="text" :value="user.name">
-                            </div>
-                        </form>
-                    </template>
+                        <div class="p-20 offer text-center p-relative mb-40" v-if="!user.plan && sale">
+                            <p class="ft-xs"><b>Offre de lancement limitée</b></p>
+                            <p class="ft-xs">Uniquement pour les 100 premiers inscrits : vous êtes déjà {{ sale.times_redeemed }} à avoir profité de cette offre !</p>
+                            <p class="ft-l mt-10"><b>Le même prix exceptionnel pour toujours</b>, où jusqu'à la résiliation.</p>
+                            
+                            <button-base class="mt-20" :modifiers="['offer', 'round']" @click="$store.commit('popins/open', { id: 'premium' })">
+                                J'en profite
+                            </button-base>
 
-                    <template v-if="state.current == 'account'">
-                        <form class="Form" autocomplete="off">
-                            <div class="Form_row">
-                                <label>Email</label>
-                                <input type="email" :value="user.email">
-                            </div>
+                            <loading-bar :modifiers="['absolute']" :max="100" :value="sale.times_redeemed" ref="loadingBar" />
+                        </div>
 
-                            <div class="Form_row">
-                                <label>Nouveau mot de passe</label>
-                                <input type="password" placeholder="Laisser vide si pas de changement" autocomplete="new-password">
-                            </div>
+                        <link-base class="mb-40" @click.native="onPortal" v-if="user.stripeId">
+                            Gérer mon abonnement
+                        </link-base>
 
-                            <div class="Form_row">
-                                <label>Mot de passe actuel</label>
-                                <input type="password" autocomplete="new-password">
-                            </div>
 
-                            <div class="Form_row">
-                                <button-base type="submit">Modifier</button-base>
-                            </div>
-                        </form>
-                    </template>
-
-                    <template v-if="state.current == 'subscription'">
-                        <link-base @click.native="onPortal" v-if="user.stripeId">Gérer mon abonnement</link-base>
+                        <div>
+                            <button-base :modifiers="['s', 'secondary']" @click.native="$store.commit('utils/confirmPrompt', {
+                                onConfirm: () => onDelete(),
+                                active: true,
+                                confirmText: 'Supprimer mon compte'
+                            })">
+                                Supprimer mon compte
+                            </button-base>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -69,25 +60,23 @@
 import dayjs from 'dayjs'
 
 import NavBar from '@/components/generators/NavBar'
+import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'AccountPage',
     middleware: 'user',
-    components: { NavBar },
+    components: { NavBar, LoadingBar },
     data: () => ({
         state: {
-            current: 'subscription'
+            current: 'home'
         }
     }),
     computed: {
         user () {
             return this.$store.state.auth.user
         },
-        renewal () {
-            if (!Number.isInteger(this.user.premiumProjects) || !this.user.planRenewal) return false
-
-            let date = dayjs(this.user.planRenewal)
-            return `${date.fromNow()} (${date.format('D MMM YYYY')})`
+        sale () {
+            return this.$store.state.premium.information.early
         }
     },
     methods: {
@@ -97,6 +86,10 @@ export default {
             })
 
             window.open(response.portal.url, '_blank')
+        },
+        async onDelete () {
+            const response = await this.$store.dispatch('user/delete')
+            this.$auth.logout()
         }
     }
 }

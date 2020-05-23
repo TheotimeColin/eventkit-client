@@ -58,7 +58,15 @@
         margin: 10px 0 20px 0;
 
         li {
-            margin: 5px 0 5px 40px;
+            margin: 3px 0 3px 40px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
         }
     }
 
@@ -68,5 +76,50 @@
     
     .Accordion {
         margin: 40px 0;
+    }
+
+    .StyledBlock {
+        margin: 40px 0;
+    }
+}
+
+.TextBody--s {
+    font: var(--ft-m);
+    color: var(--color-ft);
+
+    h2 {
+        font: var(--ft-l);
+        font-weight: bold;
+        color: var(--color-ft);
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    h3 {
+        font: var(--ft-m);
+        color: var(--color-ft);
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    p + p {
+        margin-top: 10px;
+    }
+
+    ul, ol {
+        margin: 10px 0 20px 0;
+
+        li {
+            margin: 5px 0 5px 40px;
+        }
     }
 }

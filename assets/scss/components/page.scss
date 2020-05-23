@@ -1,13 +1,10 @@
 .Page {
-    position: relative;
     min-height: 105vh;
     background-color: var(--color-bg-light); 
 }
 
 .Page_content {
     padding-top: 68px;
-    position: relative;
-    z-index: 1;
     padding-bottom: calc(68px + var(--bottom-bar, 0px));
 }
 
@@ -17,12 +14,5 @@
     .Page_content {
         padding-top: 60px;
         padding-bottom: 0;
-    }
-}
-
-.Page--admin {
-
-    &::before {
-        display: none;
     }
 }

@@ -1,12 +1,14 @@
 <template>
     <div class="Range">
-        <div v-for="(option, i) in options" :key="i">
-            <div class="d-flex fx-align-center">
-                <p class="pr-10" v-if="option.label">{{ option.label }}</p>
-                <range-slider
-                    class="RangeSlider fx-grow"
-                    type="range" :min="option.min" :max="option.max" :step="option.step" :value="value" @input="onUpdate" />
-            </div>
+        <div>
+            <p class="mb-5 ft-s">
+                <span v-if="options.label"><b>{{ options.label }}</b></span>
+                <span v-if="options.display">{{ localValue }}</span>
+                <span v-if="options.unit">{{ options.unit }}</span>
+            </p>
+            <range-slider
+                class="RangeSlider fx-grow"
+                type="range" :min="options.min" :max="options.max" :step="options.step" :value="localValue" @input="onUpdate" />
         </div>
     </div>
 </template>
@@ -22,7 +24,7 @@ export default {
     props: {
         value: {},
         defaultValue: { type: Number, default: 1 },
-        options: { type: Array }
+        options: { type: Object }
     },
     data: () => ({
         throttle,
@@ -32,13 +34,16 @@ export default {
         value: {
             immediate: true,
             deep: true,
-            handler (v) { this.$data.localValue = v }
+            handler (v) {
+                this.$data.localValue = parseFloat(v).toFixed(1)
+            }
         }
     },
     methods: {
         onUpdate: throttle(50, function (v) {
-            this.$data.localValue = v
-            this.$emit('input', this.$data.localValue.toFixed(2))
+            if (this.$props.options.unit) v += this.$props.options.unit
+
+            this.$emit('input', v)
         })
     }
 }

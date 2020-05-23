@@ -1,22 +1,37 @@
 .PopinGeneric {
     position: fixed;
-    z-index: 100;
+    top: -9999px;
+    left: -9999px;
+    width: 100%;
+    height: 100%;
+    z-index: 400;
+    
+    &::before {
+        content: "";
+        position: fixed;
+        z-index: 399;
+        @include absolute-fill;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.PopinGeneric_body {
+    position: absolute;
+    z-index: 400;
     max-width: 1000px;
     width: 90%;
     max-height: 90vh;
-    top: -9999px;
-    left: -9999px;
+    top: 50%;
+    left: 0;
     right: 0;
     margin: 0 auto;
     border-radius: 6px;
     background-color: var(--color-bg-light);
-    box-shadow: 0 0 0 5000px rgba(0, 0, 0, 0.5);
     transform: translateY(calc(-50% + 10px));
     display: flex;
     flex-direction: column;
     opacity: 0;
-
-    transition: opacity 250ms ease, transform 250ms ease;
+    transition: all 250ms ease;
 }
 
 .PopinGeneric_content {
@@ -39,21 +54,33 @@
 /* STATES */
 
 .PopinGeneric.is-active {
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 1;
     left: 0;
+    top: 0;
+
+    .PopinGeneric_body {
+        transform: translateY(-50%);
+        opacity: 1;
+    }
 }
 
 /* MODIFIERS */
 
 .PopinGeneric--top {
-    top: 10vh;
-    transform: none;
+
+}
+
+.PopinGeneric--s {
+
+    .PopinGeneric_body {
+        width: 700px;
+    }
 }
 
 .PopinGeneric--xs {
-    width: 500px;
+    
+    .PopinGeneric_body {
+        width: 500px;
+    }
 }
 
 .PopinGeneric--overflow {
@@ -64,8 +91,11 @@
 }
 
 .PopinGeneric--confirm {
-    width: 300px;
-    text-align: center;
+
+    .PopinGeneric_body {
+        width: 300px;
+        text-align: center;
+    }
 
     &.active {
         display: inline-flex;

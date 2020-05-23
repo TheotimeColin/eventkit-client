@@ -1,9 +1,18 @@
 <template>
     <div
         class="SimpleSlider"
-        :class="{ 'is-panning': state.panning, 'is-transition': state.transition }"
+        :class="{ 'is-panning': state.panning, 'is-transition': state.transition, 'is-short-transition': state.shortTransition }"
         :style="{ '--gutter': gutter + 'px' }"
     >
+        <div class="d-flex fx-align-end fx-justify-between mb-30">
+            <div>
+                <slot name="title"></slot>
+            </div>
+            <div>
+                <button-base @click="prev" :modifiers="['s', 'secondary']" fa="chevron-left" :disabled="passedElements <= 0" />
+                <button-base @click="next" :modifiers="['s', 'secondary']" fa="chevron-right" :disabled="passedElements >= (this.$data.itemsCount - itemsFit)" />
+            </div>
+        </div>
         <div class="SimpleSlider_rail" :style="{ transform: `translate3d(${state.transition ? position : panPosition}px, 0, 0)` }" ref="rail">
             <slot></slot>
         </div>
@@ -20,7 +29,8 @@ export default {
         state: {
             started: false,
             panning: false,
-            transition: false
+            transition: false,
+            shortTransition: false
         },
         hammer: null,
         position: 0,
@@ -28,7 +38,8 @@ export default {
         sliderWidth: 0,
         elementWidth: 0,
         itemsCount: 0,
-        itemsFit: 0
+        itemsFit: 0,
+        passedElements: 0
     }),
     mounted () {
         this.$data.itemsCount = this.$el.querySelectorAll('.SimpleSlider_rail > *').length
@@ -38,7 +49,7 @@ export default {
         this.$data.hammer = new this.hammer(this.$refs.rail)
 
         this.$data.elementWidth = this.$el.querySelector('.SimpleSlider_rail > *').offsetWidth + this.$props.gutter
-        this.$data.itemsFit = Math.ceil(this.$refs.rail.offsetWidth / this.elementWidth)
+        this.$data.itemsFit = Math.floor(this.$refs.rail.offsetWidth / this.elementWidth)
         this.$data.itemsFit -= Math.max(0, this.$data.itemsFit - this.$data.itemsCount)
 
         this.$data.hammer.on('panstart', (e) => this.onPanStart(e))
@@ -57,7 +68,6 @@ export default {
         onPan (e) {
             this.$data.panPosition = this.$data.position + e.deltaX
             
-
             if (e.isFinal) this.onPanEnd()
         },
         onPanEnd () {
@@ -75,6 +85,7 @@ export default {
             endPosition = -passedElements * this.$data.elementWidth
 
             this.$data.state.transition = true
+            this.$data.passedElements = passedElements
 
             this.$nextTick(() => {
                 this.$data.position = endPosition
@@ -86,7 +97,21 @@ export default {
                         this.$data.state.transition = false
                     }
                 }, 500)
+
+                setTimeout(() => {
+                    this.$data.state.shortTransition = false
+                }, 250)
             })
+        },
+        next () {
+            this.$data.panPosition = (this.$data.position - this.$data.elementWidth)
+            this.$data.state.shortTransition = true
+            this.onPanEnd()
+        },
+        prev () {
+            this.$data.panPosition = (this.$data.position + this.$data.elementWidth)
+            this.$data.state.shortTransition = true
+            this.onPanEnd()
         }
     }
 }

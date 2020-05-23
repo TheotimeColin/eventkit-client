@@ -1,6 +1,6 @@
 <template>
     <div class="PopinLogin">
-        <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v.type" @close="onClose">
+        <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v ? v.type : 'register'" @close="onClose">
             <div class="ph-60 pv-40 text-center">
                 <div v-show="state.current == 'login'">
                     <p class="ft-title-xl mb-40"><b>Connexion</b></p>
@@ -146,7 +146,7 @@ export default {
             const response = await this.$auth.loginWith('local', { data: {
                 ...data,
                 register: true,
-                userAnonymous: this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : undefined
+                lastProject: this.$cookies.get('project-id') ? this.$cookies.get('project-id') : undefined
             } })
 
             if (response.data.status != 1) {

@@ -8,17 +8,17 @@
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">
-                    {{ theme.title }}
-                    <span class="ConversationStarter_id">{{ data.position ? data.position : '0' }}</span>
+                    {{ mergeTheme.title }}
+                    <span class="ConversationStarter_id">{{ data && data.position ? data.position : '0' }}</span>
                 </p>
             </div>
 
-            <p class="ConversationStarter_main" :class="{ 'is-empty': !data.content }">
-                {{ data.content ? unwrapPunctuation(data.content.main) : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
+            <p class="ConversationStarter_main" :class="{ 'is-empty': !data || !data.content }">
+                {{ data && data.content ? unwrapPunctuation(data.content.main) : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
             </p>
             
             <p class="ConversationStarter_copyright">
-                {{ theme.footer }}
+                {{ mergeTheme.footer }}
             </p>
         </div>
     </div>
@@ -26,22 +26,29 @@
 
 <script>
 import patterns from '@/config/patterns'
+import initTheme from '@/config/kits/conversation-starters'
+import defaultTheme from '@/config/kits/defaults/conversation-starters-default'
 
 export default {
     name: 'ConversationStarter',
     props: {
-        initTheme: {},
-        theme: {},
+        theme: { default: () => ({}) },
         data: {},
         scale: { type: Number, default: 1 }
     },
     computed: {
+        mergeTheme () {
+            return {
+                ...defaultTheme,
+                ...this.$props.theme,
+            }
+        },
         classes () {
             let classes = {}
 
-            Object.keys(this.$props.initTheme).forEach(key => {
-                let choice = this.$props.initTheme[key]
-                let value = this.$props.theme[key]
+            Object.keys(initTheme).forEach(key => {
+                let choice = initTheme[key]
+                let value = this.mergeTheme[key]
                 
                 if (choice.isClass) classes[`${choice.id}-${value}`] = true
             })
@@ -51,9 +58,11 @@ export default {
         style () {
             let style = {}
 
-            Object.keys(this.$props.initTheme).forEach(key => {
-                let choice = this.$props.initTheme[key]
-                let value = this.$props.theme[key]
+            Object.keys(initTheme).forEach(key => {
+                let choice = initTheme[key]
+                let value = this.mergeTheme[key]
+
+                if (!value) return
 
                 if (choice.var) style[`--${choice.var}`] = value
                 if (choice.varGroup) {
@@ -83,20 +92,21 @@ export default {
                 }
             })
 
-            style['--width'] = this.$props.theme.size.x + 'mm'
-            style['--height'] = this.$props.theme.size.y + 'mm'
-            style['--margin'] = this.$props.theme.size.margin + 'mm'
+            style['--width'] = this.mergeTheme.size.x + 'mm'
+            style['--height'] = this.mergeTheme.size.y + 'mm'
+            style['--margin'] = this.mergeTheme.size.margin + 'mm'
+            style['--scale'] = this.$props.scale
 
             return style 
         },
         patternUrl () {
             let value = ''
-            let pattern = patterns[this.$props.theme.pattern.patternUrl]
+            let pattern = patterns[this.mergeTheme.pattern.patternUrl]
 
             if (pattern) value = pattern(
-                this.$props.theme.colors.patternColor.replace('#', ''),
-                (this.$props.theme.pattern.patternScale) * this.$props.scale,
-                this.$props.theme.pattern.patternOpacity
+                this.mergeTheme.colors.patternColor.replace('#', ''),
+                (this.mergeTheme.pattern.patternScale) * this.$props.scale,
+                this.mergeTheme.pattern.patternOpacity
             )
 
             return `url("${value}")`

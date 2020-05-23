@@ -37,14 +37,14 @@
         border: 1px solid var(--color-border);
 
         .PricingColumn_offer {
-            background-color: var(--color-premium-strong);
+            background-color: var(--color-gold-strong);
         }
     }
 }
 
 .PricingColumn_highlight {
     font: var(--ft-xs);
-    color: var(--color-premium-strong);
+    color: var(--color-gold-strong);
     margin-bottom: 10px;
     font-weight: 600;
     text-transform: uppercase;

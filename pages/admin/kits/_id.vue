@@ -1,46 +1,61 @@
 <template>
     <div class="Page Page--admin Admin AdminArticleEdit">
         <div class="Page_content" v-if="!state.loading">
-            <file-loader
-                id="kit-cover"
-                :is-active="state.selectCover"
-                @done="state.selectCover = false"
-                :value="kit.cover ? kit.cover._id : undefined"
-                @input="(v) => kit.cover = v"
-            />
-
-            <file-loader
-                id="kit-thumbnail"
-                :is-active="state.selectThumbnail"
-                @done="state.selectThumbnail = false"
-                :value="kit.thumbnail ? kit.thumbnail._id : undefined"
-                @input="(v) => kit.thumbnail = v"
-            />
+            <div class="kit-cover" :style="{
+                backgroundColor: kit.theme.colors.backgroundColor,
+                backgroundImage: $pattern({ ...kit.theme.pattern, color: kit.theme.colors.patternColor })
+            }" @click="editTheme = { ...defaultTheme, ...kit.theme }" v-if="kit.theme"></div>
 
             <div class="Wrapper">
-                <form id="mainForm" class="Form row-s" @submit="onSubmit" ref="form">
-                    <div class="col-8 mt-20">
-                        <div class="Form_row cover" :style="{ 'backgroundImage': `url(${kit.cover.src})` }">
-                            <div class="text-right">
-                                <button-base type="button" @click="state.selectCover = true">
-                                    Sélectionner image de couverture
-                                </button-base><br>
-                                <button-base class="mt-5" type="button" @click="state.selectThumbnail = true">
-                                    Sélectionner miniature
-                                </button-base>
-                            </div>
+                <form id="mainForm" class="Form row-s" @submit.prevent="onSubmit" ref="form">
+                    <div class="col-8 mt-20">                        
+                        <div class="Form_row Input_container">
+                            <textarea class="Input_element ft-title-xl ft-bold" rows="1" placeholder="Titre" v-model="kit.title"></textarea>
                         </div>
                         
-                        <div class="Form_row">
-                            <textarea class="ft-title-2xl ft-bold" placeholder="Titre" v-model="kit.title"></textarea>
+                        <div class="Form_row Input_container">
+                            <textarea class="Input_element ft-title-2xl ft-bold" placeholder="Sous-titre" v-model="kit.subtitle"></textarea>
                         </div>
+                        
 
-                        <div class="Form_row">
-                            <textarea placeholder="Excerpt" v-model="kit.excerpt"></textarea>
+                        <div class="Form_row Input_container">
+                            <textarea class="Input_element" placeholder="Excerpt" v-model="kit.excerpt"></textarea>
                         </div>
                         
                         <div class="Form_row">
                             <text-editor v-model="kit.content" />
+                        </div>
+
+                        <div>
+                            <div class="d-flex fx-justify-between mt-40">
+                                <p class="ft-title-l"><b>Variantes</b></p>
+
+                                <button-base type="button" :modifiers="['s']" fa="plus" @click="addVariant">
+                                    Ajouter
+                                </button-base>
+                            </div>
+
+                            <div class="row-xs mv-20" v-for="(variant, i) in kit.variants" :key="i">
+                                <div class="col-4 text-center">
+                                    <component
+                                        class="p-relative m-auto"
+                                        :is="kit.theme.component"
+                                        :theme="variant.theme"
+                                        :scale="0.75"
+                                        @click.native="editTheme = { ...defaultTheme, ...variant.theme, _id: variant._id }"
+                                    />
+
+                                    <button-base type="button" class="mt-10" :modifiers="['xs', 'secondary']" @click="() => deleteVariant(variant._id)">
+                                        Supprimer
+                                    </button-base>
+                                </div>
+                                <div class="col-8">
+                                    <div class="Form_row Input_container mb-20">
+                                        <input class="Input_element" type="text" v-model="variant.title">
+                                    </div>
+                                    <text-editor :compact="true" v-model="variant.content" />
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -48,8 +63,15 @@
                         <div class="form-sticky">
                             <div class="form-secondary">
                                 <div class="Form_row">
-                                    <p v-if="kit.id">Publication : <b>{{ publishedDate }}</b></p>
-                                    <p v-if="kit.id">Mis à jour : <b>{{ modifiedDate }}</b></p>
+                                    <component
+                                        class="p-relative m-auto"
+                                        :is="kit.theme.component"
+                                        :theme="kit.theme"
+                                        v-if="kit.theme"
+                                    />
+
+                                    <p v-if="kit._id">Publication : <b>{{ publishedDate }}</b></p>
+                                    <p v-if="kit._id">Mis à jour : <b>{{ modifiedDate }}</b></p>
                                 </div>
                             </div>
                         </div>
@@ -57,10 +79,14 @@
                 </form>
             </div>
 
+            <popin-generic :is-active="editTheme ? true : false" @close="editTheme = null" v-if="kit.theme">
+                <configurator :init-theme="initTheme" :theme="editTheme" @update="onVariantUpdate" />
+            </popin-generic>
+
             <div class="bottom-bar">
                 <input type="checkbox" v-model="kit.published">
                 <button-base type="submit" form="mainForm">
-                    {{ kit.id ? 'Sauvegarder' : 'Créer' }}
+                    {{ kit._id ? 'Sauvegarder' : 'Créer' }}
                 </button-base>
             </div>
         </div>
@@ -69,31 +95,40 @@
 
 <script>
 import dayjs from 'dayjs'
+import kits from '@/config/kits'
+import pattern from '@/utils/pattern-mixin'
 
 import TextEditor from '@/components/admin/utils/TextEditor'
-import FileLoader from '@/components/admin/utils/FileLoader'
 import SelectSearch from '@/components/utils/SelectSearch'
+import ConversationStarter from '@/components/generators/ConversationStarter'
+import Configurator from '@/components/generators/Configurator'
+import PopinGeneric from '@/components/popins/PopinGeneric'
 
 export default {
     name: 'ArticlePageAdmin',
     layout: 'admin',
-    components: { TextEditor, FileLoader, SelectSearch },
+    mixins: [ pattern ],
+    components: { TextEditor, SelectSearch, ConversationStarter, Configurator, PopinGeneric },
     async fetch () {
-        if (this.$route.params.id && this.$route.params.id !== 'new') {
-            const search = await this.$store.dispatch('kits/get', {
-                refetch: true,
-                query: { _id: this.$route.params.id, published: false }
-            })
-            
-            this.$data.kit = {
-                ...this.$data.kit,
-                ...search
+        try {
+            if (this.$route.params.id && this.$route.params.id !== 'new') {
+                let search = await this.$store.dispatch('kits/get', {
+                    refetch: true,
+                    query: { _id: this.$route.params.id, published: false }
+                })
+
+                search = JSON.parse(JSON.stringify(search))
+                
+                this.$data.kit = {
+                    ...this.$data.kit,
+                    ...search,
+                    theme: { ...kits[search.slug].default, ...search.theme }
+                }
             }
-        }
-        
-        this.$data.state.loading = false
+            
+            this.$data.state.loading = false
+        } catch (e) { console.warn(e) }
     },
-    
     head () {
         return {
             title: 'Admin - ' + (this.$data.kit.title ? this.$data.kit.title : 'Nouveau kit') 
@@ -101,9 +136,7 @@ export default {
     },
     data: () => ({
         state: {
-            loading: true,
-            selectCover: false,
-            selectThumbnail: false
+            loading: true
         },
         stats: {
             words: 0,
@@ -111,16 +144,24 @@ export default {
         },
         kit: {
             title: '',
+            subtitle: '',
             slug: '',
             content: '',
             excerpt: '',
-            cover: { _id: '', src: '' },
-            thumbnail: { _id: '', src: '' },
+            theme: null,
+            variants: [],
             publishedDate: null,
             modifiedDate: null
-        }
+        },
+        editTheme: null
     }),
     computed: {
+        initTheme () {
+            return kits[this.$data.kit.slug].theme
+        },
+        defaultTheme () {
+            return kits[this.$data.kit.slug].default
+        },
         publishedDate () {
             let date = dayjs(this.$data.kit.publishedDate)
             return `${date.format('D MMM YYYY')} (${date.fromNow()})`
@@ -131,14 +172,10 @@ export default {
         }
     },
     methods: {
-        async onSubmit (e) {
-            e.preventDefault()
-
+        async onSubmit () {
             const response = await this.$store.dispatch('kits/post', {
                 data: {
-                    ...this.$data.kit,
-                    cover: this.$data.kit.cover._id,
-                    thumbnail: this.$data.kit.thumbnail._id
+                    ...this.$data.kit
                 }
             })
 
@@ -151,8 +188,29 @@ export default {
                 this.$router.push(this.localePath({ name: 'admin-kits-id', params: { id: response._id } }))
             }
         },
-        onCoverSelect () {
-            this.$data.state.selectCover = true
+        addVariant () {
+            this.$data.kit.variants.push({
+                title: '',
+                content: '',
+                theme: this.defaultTheme
+            })
+
+            this.onSubmit()
+        },
+        deleteVariant (id) {
+            this.$data.kit.variants = this.$data.kit.variants.filter(v => v._id != id)
+
+            this.onSubmit()
+        },
+        onVariantUpdate (theme) {
+            if (theme._id) {
+                this.$data.kit.variants = this.$data.kit.variants.map(variant => ({
+                    ...variant,
+                    theme: theme._id == variant._id ? theme : variant.theme
+                }))
+            } else {
+                this.$data.kit.theme = theme
+            }
         }
     }
 }
@@ -166,21 +224,9 @@ export default {
     .AdminArticleEdit {
         .form-sticky {
             margin: 20px 0 0 10px;
-            padding: 20px;
-            background: var(--color-bg-weak);
+            padding: 10px;
             border-radius: 5px;
-            border: 1px solid var(--color-border);
-        }
-
-        .cover {
-            height: 400px;
-            display: flex;
-            justify-content: flex-end;
-            padding: 20px;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-color: var(--color-bg-weak);
+            border: 1px solid var(--color-border-weak);
         }
 
         .bottom-bar {
@@ -195,6 +241,10 @@ export default {
             padding: 0 20px;
             background-color: var(--color-bg-light);
             border-top: 1px solid var(--color-border-strong);
+        }
+
+        .kit-cover {
+            height: 20px;
         }
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="ShareTemplate" :class="{ ...$modifiers }" :style="{ '--image-scale': scale }">
-        <div class="ShareTemplate_container">
+        <div class="ShareTemplate_container" @click="screen">
             <component
                 class="ShareTemplate_item"
                 v-for="item in activeItems"
@@ -40,7 +40,6 @@ export default {
     }),
     mounted () {
         this.html2canvas = require('html2canvas')
-        console.log('mounted')
         
     },
     computed: {
@@ -54,6 +53,7 @@ export default {
     methods: {
         screen () {
             this.$data.scale = 2
+            console.log('screen')
             
             setTimeout(() => {
                 this.html2canvas(this.$el).then(canvas => {

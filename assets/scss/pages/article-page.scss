@@ -8,7 +8,7 @@
 .ArticlePage_cover {
     position: relative;
     width: 45vw;
-    min-height: 600px;
+    min-height: 400px;
     overflow: hidden;
 
     img {
@@ -68,5 +68,5 @@
 .ArticlePage_title {
     font: var(--ft-title-3xl);
     font-weight: bold;
-    color: var(--color-ft-strong);
+    color: var(--color-ft-xstrong);
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="Configurator" v-if="theme">
+    <div class="Configurator" v-if="localTheme">
         <div class="Configurator_theme">
             <nav-bar class="Configurator_nav" :modifiers="['secondary']" :items="nav" :current="state.active" />
             
@@ -14,13 +14,11 @@
 
                         <component
                             :is="item.type"
-                            :premium="item.premium"
-                            :is-premium="hasPremium"
                             :options="item.options"
-                            :theme="theme"
+                            :theme="localTheme"
                             :default-value="item.defaultValue"
-                            v-model="theme[key]"
-                            @input="$store.commit('kits/project/updateTheme', theme)"
+                            v-model="localTheme[key]"
+                            @input="$emit('update', localTheme)"
                         />
                     </div>
                 </div>
@@ -50,14 +48,13 @@ export default {
     components: { NavBar, ChoiceButtons, PatternPicker, ColorPicker, InputText, Range, FontPicker },
     props: {
         initTheme: { type: Object },
-        project: { type: Object },
-        hasPremium: { type: Boolean, default: false }
+        theme: { type: Object }
     },
     data: () => ({
         state: {
             active: ''
         },
-        theme: null
+        localTheme: null
     }),
     computed: {
         availableOptions () {
@@ -82,11 +79,11 @@ export default {
         }
     },
     watch: {
-        project: {
+        theme: {
             immediate: true,
             deep: true,
             handler (v) {
-                this.$data.theme = JSON.parse(JSON.stringify(v.theme))
+                if (v) this.$data.localTheme = JSON.parse(JSON.stringify(v))
             }
         }
     },
@@ -111,8 +108,6 @@ export default {
         top: 0;
         z-index: 8;
         width: 100%;
-        background-color: var(--color-bg-light);
-        border-bottom: 1px solid var(--color-border);
     }
 
     .Configurator_row.is-disabled {

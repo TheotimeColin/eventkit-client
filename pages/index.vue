@@ -25,38 +25,50 @@
                 </div>
             </section>
 
-            <div class="pv-100 bg-bg">
+            <div class="pv-60 bg-bg-light o-hidden">
                 <div class="Wrapper">
-                    <div class="row">
-                        <div class="col-4">
+                   <simple-slider>
+                       <template slot="title">
+                            <div class="d-flex fx-align-end">
+                                <nuxt-link class="ft-title-xl mr-20 line-1" :to="localePath({ name: 'kits' })">
+                                    <b>Jeux & icebreakers</b>
+                                </nuxt-link>
 
-                        </div>
-                        <div class="col-6">
-                            <h2 class="ft-title-2xl">
-                                <b>À quoi ça sert un icebreaker ?</b>
-                            </h2>
+                                <button-inline :to="localePath({ name: 'kits' })">
+                                    Voir tout
+                                </button-inline>
+                            </div>
+                        </template>
 
-                            <p class="mt-40 ft-l">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce turpis erat, pretium nec erat nec. Consectetur adipiscing elit. Fusce turpis erat, pretium nec erat nec.
-                            </p>
+                        <div class="width-kit-block" v-for="kit in kits" :key="kit._id">
+                            <kit-block
+                                :id="kit._id"
+                                :slug="kit.slug"
+                                :title="kit.title"
+                                :compact="true"
+                                :excerpt="kit.excerpt"
+                                :thumbnail="kit.thumbnail"
+                            />
                         </div>
-                    </div>
+                    </simple-slider>
                 </div>
             </div>
 
             <div class="pv-20 bg-bg-weak o-hidden">
                 <div class="Wrapper">
                     <div class="mv-40" v-for="category in categories" :key="category.id">
-                        <div class="d-flex fx-align-center fx-justify-between">
-                            <nuxt-link class="ft-title-l mr-20 mb-5" :to="localePath({ name: 'blog', query: { category: category.slug } })">
-                                <b>{{ category.subtitle }}</b>
-                            </nuxt-link>
-                            <button-inline :to="localePath({ name: 'blog', query: { category: category.slug } })">
-                                Plus d'articles
-                            </button-inline>
-                        </div>
-
                         <simple-slider>
+                            <template slot="title">
+                                <div class="d-flex fx-align-end">
+                                    <nuxt-link class="ft-title-xl mr-20 line-1" :to="localePath({ name: 'blog', query: { category: category.slug } })">
+                                        <b>{{ category.subtitle }}</b>
+                                    </nuxt-link>
+
+                                    <button-inline :to="localePath({ name: 'blog', query: { category: category.slug } })">
+                                        Plus d'articles
+                                    </button-inline>
+                                </div>
+                            </template>
                             <div class="width-article-block" v-for="article in category.articles" :key="article.id">
                                 <article-block
                                     :title="article.title"
@@ -66,7 +78,6 @@
                                     :read-time="article.readTime"
                                     :excerpt="article.excerpt"
                                     :thumbnail="article.thumbnail"
-                                    class="article-block"
                                 />
                             </div>
                         </simple-slider>
@@ -80,6 +91,7 @@
 <script>
 import ArticleBlock from '@/components/articles/ArticleBlock'
 import SimpleSlider from '@/components/interactive/SimpleSlider'
+import KitBlock from '@/components/kits/KitBlock'
 
 import pink1 from '@/assets/img/cards/pink-1.gif'
 import blue1 from '@/assets/img/cards/blue-1.gif'
@@ -88,10 +100,11 @@ import yellow1 from '@/assets/img/cards/yellow-1.gif'
 
 export default {
     name: 'HomePage',
-    components: { SimpleSlider, ArticleBlock },
+    components: { SimpleSlider, ArticleBlock, KitBlock },
     async fetch () {
         await this.$store.dispatch('articles/fetch')
         await this.$store.dispatch('article-categories/fetch')
+        await this.$store.dispatch('kits/fetch')
     },
     data: () => ({
         assets: { pink1 },
@@ -127,6 +140,9 @@ export default {
         articles () {
             return this.$store.state.articles.collection
         },
+        kits () {
+            return this.$store.state.kits.collection
+        },
         categories () {
             return this.$store.state['article-categories'].collection.map(category => ({
                 ...category,
@@ -144,9 +160,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-    .article-block {
-        margin: 20px 0;
-    }
-</style>

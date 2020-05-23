@@ -3,26 +3,26 @@
     align-items: center;
     padding: 13px 20px;
     border-radius: 4px;
+    border-radius: 40px;
     overflow: hidden;
     font: var(--ft-s);
-    background-color: var(--background, var(--color-blue));
+    background-color: var(--background, var(--color-cyan));
     color: var(--color-ft-light);
-    @include box-shadow-s;
     transform: translateY(0);
     transition: all 200ms ease-in;
     border: 1px solid transparent;
     cursor: pointer;
 
     &:hover {
-        background-color: var(--color-blue-strong);
+        background-color: var(--color-cyan-strong);
         transform: translateY(-1px);
-        @include box-shadow-l;
+        @include box-shadow("cyan")
     }
 
     &:active {
-        background-color: var(--color-blue-strong);
+        background-color: var(--color-cyan-strong);
         transform: translateY(2px);
-        @include box-shadow-s;
+        @include box-shadow("cyan")
     }
 
     a {
@@ -33,16 +33,21 @@
 }
 
 .ButtonBase_icon {
-    margin-right: 10px
+    margin-right: 10px;
+
+    &:only-child {
+        margin: 0;
+    }
 }
 
 .ButtonBase:disabled,
 .ButtonBase.is-disable {
     pointer-events: none;
     cursor: default;
-    color: var(--color-ft-xweak);
+    color: var(--color-ft-weak);
     background-color: transparent;
     border: 1px solid var(--color-border);
+    opacity: 0.75;
     box-shadow: none;
 }
 
@@ -103,37 +108,60 @@
     }
 }
 
+.ButtonBase--round {
+    border-radius: 40px;
+}
+
+.ButtonBase--pink {
+    --main-color: var(--color-pink);
+    --strong-color: var(--color-pink-strong);
+
+    color: var(--color-ft-light);
+    background-color: var(--color-pink);
+    
+    &:hover {
+        background-color: var(--color-pink-strong);
+        @include box-shadow("pink")
+    }
+}
+
+.ButtonBase--gold {
+    --main-color: var(--color-gold);
+    --strong-color: var(--color-gold-strong);
+
+    color: var(--color-ft-light);
+    background-color: var(--color-gold);
+    
+    &:hover {
+        background-color: var(--color-gold-strong);
+        @include box-shadow("gold")
+    }
+}
+
+.ButtonBase--blue {
+    --main-color: var(--color-blue);
+    --strong-color: var(--color-blue-strong);
+
+    color: var(--color-ft-light);
+    background-color: var(--color-blue);
+    
+    &:hover {
+        background-color: var(--color-blue-strong);
+        @include box-shadow("blue")
+    }
+}
+
 .ButtonBase--secondary {
     background-color: transparent;
-    color: var(--color-blue);
-    border: 1px solid var(--color-blue);
+    color: var(--main-color, var(--color-cyan));
+    border: 1px solid var(--main-color, var(--color-cyan));
     box-shadow: none;
     transform: none;
 
     &:hover {
         color: var(--color-ft-light);
-        background-color: var(--color-blue-strong);
+        background-color: var(--strong-color, var(--color-cyan));
         box-shadow: none;
         transform: none;
-    }
-}
-
-.ButtonBase--round {
-    border-radius: 40px;
-}
-
-.ButtonBase--save {
-    background-color: var(--color-confirm);
-    color: var(--color-ft-light);
-}
-
-.ButtonBase--premium {
-    color: var(--color-ft-light);
-    background-color: var(--color-premium-strong);
-    box-shadow: 0 2px 2px 0 rgba(236, 0, 107, 0.3);
-    
-    &:hover {
-        background-color: var(--color-premium);
-        box-shadow: 0 4px 8px 0 rgba(236, 0, 107, 0.4);
     }
 }

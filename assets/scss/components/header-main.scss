@@ -1,5 +1,6 @@
 :root {
     --height: 68px;
+    --height-scrolled: 60px;
     --height-2: 34px;
 }
 
@@ -21,7 +22,7 @@
         position: absolute;
         z-index: 2;
         top: 0;
-        background-color: var(--color-premium-strong);
+        background-color: var(--color-gold-weak);
     }
     
     &::after {
@@ -56,12 +57,12 @@
     transition: all 150ms ease-out;
 
     &:hover {
-        color: var(--color-ft-strong);
+        color: var(--color-pink);
     }
 
     span {
         font: var(--ft-xs);
-        color: var(--color-premium-strong);
+        color: var(--color-gold);
         font-weight: bold;
     }
 }
@@ -94,22 +95,19 @@
     }
 }
 
-.HeaderMain_premium {
-    padding: 10px 20px;
-    font: var(--ft-s);
-    color: var(--color-premium);
-    background-color: var(--color-premium-weak);
-    border-radius: 35px;
-    background-image: url("../img/background/premium.svg");
-    background-position: center;
-}
-
 /* STATES */
 
 .HeaderMain:not(.is-premium) {
 
     &::before {
         display: none;
+    }
+}
+
+.HeaderMain.is-premium {
+
+    .HeaderMain_logo:hover {
+        color: var(--color-gold-strong);
     }
 }
 

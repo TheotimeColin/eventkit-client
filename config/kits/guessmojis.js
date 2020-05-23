@@ -1,51 +1,26 @@
 import patterns from '@/config/kits/common/patterns'
 import colors from '@/config/kits/common/colors'
+import fonts from '@/config/kits/common/fonts'
 
 export default {
     component: {
         static: true,
         value: 'conversation-starter'
     },
-    background: {
-        id: 'background',
-        group: 'main',
-        label: `Couleur fond`,
-        defaultValue: '#ef476f',
+    colors: {
+        id: 'colors',
+        group: 'colors',
         type: 'color-picker',
-        var: 'background-color',
-        custom: true,
-        options: colors
-    },
-    color: {
-        id: 'color',
-        group: 'font',
-        label: `Couleur de police`,
-        defaultValue: '#000000',
-        type: 'color-picker',
-        var: 'color',
-        custom: true,
-        options: [
-            { value: '#000000' },
-            { value: '#ffffff' },
-            { value: '#2a9d8f' },
-            { value: '#ffcdb2' },
-            { value: '#4eb7ff' },
-            { value: '#a8dadc' },
-            { value: '#f1faee' },
-            { value: '#028090' },
-            { value: '#ff0054' },
-            { value: '#9e0059' },
-            { value: '#f0a6ca' },
-            { value: '#f0e6ef' },
-            { value: '#c6dabf' },
-            { value: '#390099' },
-            { value: '#1a936f' }
-        ]
+        valueGroup: true,
+        options: {
+            color: { fa: 'text', label: 'Texte' },
+            backgroundColor: { fa: 'draw-square', label: 'Fond' },
+            patternColor: { fa: 'chess-board', label: 'Motif' },
+        }
     },
     pattern: {
         id: 'pattern',
-        group: 'main',
-        label: `Motif de fond`,
+        group: 'pattern',
         defaultValue: '',
         type: 'pattern-picker',
         varGroup: true,
@@ -54,151 +29,15 @@ export default {
     },
     font: {
         id: 'font',
-        group: 'font',
-        label: `Police d'écriture`,
+        group: 'text',
         defaultValue: { fontFamily: '"Lato"' },
-        type: 'choice-buttons',
+        type: 'font-picker',
         varGroup: true,
-        options: [
-            {
-                value: {
-                    fontFamily: '"Lato"'
-                },
-                label: 'Lato'
-            },
-            {
-                value: {
-                    fontFamily: '"Tinos"',
-                    lineHeight: '1.2'
-                },
-                label: `Tinos`
-            },
-            {
-                value: {
-                    fontFamily: '"Chewy"',
-                    fontSize: '18px'
-                },
-                label: `Chewy`
-            },
-            {
-                value: {
-                    fontFamily: '"Bebas Neue"',
-                    fontSize: '20px',
-                    lineHeight: '1.2'
-                },
-                label: `Bebas Neue`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Dancing Script"',
-                    fontSize: '22px',
-                    lineHeight: '1'
-                },
-                label: `Dancing Script`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Parisienne"',
-                    fontSize: '22px',
-                    lineHeight: '1'
-                },
-                label: `Parisienne`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Balsamiq Sans"',
-                    fontSize: '18px',
-                    lineHeight: '1.2'
-                },
-                label: `Balsamiq Sans`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Amatic SC"',
-                    fontSize: '22px',
-                    lineHeight: '1.2'
-                },
-                label: `Amatic SC`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Playfair display"'
-                },
-                label: `Playfair display`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Patua One"',
-                    fontSize: '15px',
-                    lineHeight: '1.35'
-                },
-                label: `Patua One`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Satisfy"',
-                    fontSize: '19px',
-                    lineHeight: '1.2'
-                },
-                label: `Satisfy`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Kalam"',
-                    lineHeight: '1.3'
-                },
-                label: `Kalam`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"Cookie"',
-                    fontSize: '22px',
-                    lineHeight: '0.95'
-                },
-                label: `Cookie`,
-                premium: true
-            },
-            {
-                value: {
-                    fontFamily: '"VT323"',
-                    fontSize: '19px',
-                    lineHeight: '1'
-                },
-                label: `VT323`,
-                premium: true
-            }
-        ]
-    },
-    size: {
-        id: 'size',
-        group: 'format',
-        label: `Format d'impression`,
-        type: 'choice-buttons',
-        isSize: true,
-        options: [
-            { value: { x: 65, y: 65, margin: 7.5 }, label: 'Carré' },
-            { value: { x: 84, y: 55, margin: 7.5 }, label: 'Paysage' },
-            { value: { x: 55, y: 84, margin: 7.5 }, label: 'Portrait' },
-            { value: { x: 75, y: 75, margin: 7.5 },
-                custom: {
-                    x: { label: 'Largeur (mm)', type: 'input' },
-                    y: { label: 'Hauteur (mm)', type: 'input'},
-                    margin: { label: 'Marges (mm)', type: 'input'}
-            } },
-        ]
+        options: fonts
     },
     theme: {
         id: 'theme',
-        group: 'font',
+        group: 'text',
         label: `Disposition`,
         type: 'choice-buttons',
         default: 'default',
@@ -206,20 +45,6 @@ export default {
         options: [
             { value: 'default', label: `Centré` },
             { value: 'simple', label: `Aligné à gauche` }
-        ]
-    },
-    elementScale: {
-        id: 'element-scale',
-        group: 'font',
-        label: `Taille éléments`,
-        defaultValue: 1,
-        type: 'range',
-        var: 'element-scale',
-        options: [
-            {
-                value: 1,
-                label: 'Taille'
-            }
         ]
     },
     title: {
@@ -239,5 +64,61 @@ export default {
         type: 'input-text',
         isText: true,
         premium: true
+    },
+    id: {
+        id: 'id',
+        group: 'text',
+        label: 'Afficher le numéro',
+        type: 'choice-buttons',
+        isClass: true,
+        options: [
+            { value: 'show', label: `Montrer` },
+            { value: 'hide', label: `Cacher` }
+        ]
+    },
+    radius: {
+        id: 'radius',
+        group: 'format',
+        label: `Arrondi bordures`,
+        type: 'range',
+        defaultValue: 1,
+        var: 'border-radius',
+        options: { value: 0.1, min: 0, max: 0.5, step: 0.01 }
+    },
+    padding: {
+        id: 'padding',
+        group: 'format',
+        label: `Marges intérieures`,
+        type: 'range',
+        defaultValue: 7.5,
+        var: 'padding',
+        options: { value: 1, min: 0, max: 20, step: 0.1 }
+    },
+    size: {
+        id: 'size',
+        group: 'format',
+        label: `Format d'impression`,
+        type: 'choice-buttons',
+        isSize: true,
+        options: [
+            { value: { x: 65, y: 65, margin: 7.5 }, label: 'Carré' },
+            { value: { x: 84, y: 55, margin: 7.5 }, label: 'Paysage' },
+            { value: { x: 55, y: 84, margin: 7.5 }, label: 'Portrait' },
+            { value: { x: 75, y: 75, margin: 7.5 },
+                custom: {
+                    x: { label: 'Largeur (mm)', type: 'input' },
+                    y: { label: 'Hauteur (mm)', type: 'input'},
+                    margin: { label: 'Marges (mm)', type: 'input'}
+            } },
+        ]
+    },
+    page: {
+        id: 'page',
+        static: true,
+        page: true,
+        options: {
+            margins: {},
+            spacing: {}
+        }
     }
 }

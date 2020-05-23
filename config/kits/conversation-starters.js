@@ -83,9 +83,7 @@ export default {
         type: 'range',
         defaultValue: 1,
         var: 'border-radius',
-        options: [
-            { value: 0.1, min: 0, max: 0.5, step: 0.01 }
-        ]
+        options: { value: 0.1, min: 0, max: 0.5, step: 0.01 }
     },
     padding: {
         id: 'padding',
@@ -94,9 +92,7 @@ export default {
         type: 'range',
         defaultValue: 7.5,
         var: 'padding',
-        options: [
-            { value: 1, min: 0, max: 20, step: 0.1 }
-        ]
+        options: { value: 1, min: 0, max: 20, step: 0.1 }
     },
     size: {
         id: 'size',
@@ -116,4 +112,13 @@ export default {
             } },
         ]
     },
+    page: {
+        id: 'page',
+        static: true,
+        page: true,
+        options: {
+            margins: {},
+            spacing: {}
+        }
+    }
 }

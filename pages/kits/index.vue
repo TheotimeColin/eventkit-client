@@ -1,10 +1,12 @@
 <template>
     <div class="Page">
         <div class="Page_content">
-            <div class="pv-40 bg-bg o-hidden" v-if="projects.length > 0">
+            <div class="pv-40 bg-blue-xweak o-hidden" v-if="projects.length > 0">
                 <div class="Wrapper">
-                    <p class="ft-title-xl mb-20"><b>Mes derniers projets</b></p>
                     <simple-slider>
+                        <template slot="title">
+                            <p class="ft-title-xl"><b>Mes derniers projets</b></p>
+                        </template>
                         <div class="width-project-block" v-for="project in projects" :key="project.id">
                             <project-block
                                 :title="project.title ? project.title : project.id"
@@ -63,18 +65,10 @@ export default {
     },
     methods: {
         getProjects () {
-            return new Promise(async resolve => {
-                let query = {}
+            if (!this.$store.state.auth.user) return []
 
-                if (this.$store.state.auth.user) {
-                    query.user = this.$store.state.auth.user._id
-                } else if (this.$cookies.get('anonymous-id')) {
-                    query.userAnonymous = this.$cookies.get('anonymous-id')
-                }
-                
-                if (query.user || query.userAnonymous) {
-                    this.$data.projects = await this.$store.dispatch('kits/project/getUserProjects', { query })
-                }
+            return new Promise(async resolve => {
+                this.$data.projects = await this.$store.dispatch('kits/project/getUserProjects', { query: {} })
 
                 resolve()
             })

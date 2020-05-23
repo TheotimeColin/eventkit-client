@@ -5,14 +5,20 @@
 }
 
 .KitBlock_image {
-    width: 200px;
+    width: 230px;
     margin-right: 40px;
     flex-shrink: 0;
     font-size: 0;
     
     img {
         width: 100%;
+        -webkit-user-drag: none;
+        user-drag: none;
     }
+}
+
+.KitBlock_title {
+    font: var(--ft-title-xl);
 }
 
 .KitBlock_content {
@@ -29,9 +35,22 @@
 
 
 .KitBlock_tags {
-    margin: 24px -4px;
+    margin: 0 -4px;
 }
 
 .KitBlock_tag {
     margin: 4px;
+}
+
+/* MODIFIERS */
+
+.KitBlock--compact {
+
+    .KitBlock_title {
+        font: var(--ft-title-l);
+    }
+
+    .KitBlock_image {
+        margin-right: 20px;
+    }
 }

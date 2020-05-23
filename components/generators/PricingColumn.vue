@@ -1,9 +1,9 @@
 <template>
     <div class="PricingColumn" :class="{ ...$modifiers }">
         <div class="PricingColumn_container premium-secondary">
-            <p class="mv-5">❤️ Nos jeux & icebreakers actuels et à venir en illimité</p>
-            <p class="mv-5">✨ Toutes les options de personnalisation débloquées</p>
-            <p class="mv-5">💡 Accès à des centaines d'idées et thèmes ajoutés tous les mois</p>
+            <p class="mv-5">✨ Projets illimités & <b>toutes les options de personnalisation débloquées.</b></p>
+            <p class="mv-5">❤️ De nouveaux jeux ajoutés régulièrement et <b>disponibles en avant-première.</b></p>
+            <p class="mv-5">💡 Jamais à court d'imagination avec des <b>centaines de nouvelles idées ajoutées tous les mois</b></p>
         </div>
 
         <div class="PricingColumn_cols">
@@ -19,7 +19,7 @@
                     {{ price.emoji }} {{ price.length }} mois
                 </div>
 
-            <div class="PricingColumn_price" :class="{ 'premium': price.highlight, 'offer': !price.highlight }">
+                <div class="PricingColumn_price StyledBlock StyledBlock--no-border" :class="{ 'StyledBlock--gold ': price.highlight, 'StyledBlock--blue': !price.highlight }">
                     <div>
                         <template v-if="price.coupon > 0">
                             <p class="PricingColumn_offer">Offre de lancement -{{ price.coupon * 100 }}%</p>
@@ -41,7 +41,7 @@
                     </div>
 
                     <button-base
-                        :modifiers="price.highlight ? ['s', 'round', 'premium'] : ['s', 'round']"
+                        :modifiers="price.highlight ? ['s', 'round', 'gold'] : ['s', 'round', 'blue']"
                         @click="$emit('select', price)"
                     >
                         Devenir créateur

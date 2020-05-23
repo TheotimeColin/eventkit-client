@@ -3,11 +3,11 @@
     font-family: var(--font-family);
     background: var(--background-color);
     color: var(--color);
-    border-radius: calc(var(--border-radius) * 100%);
+    border-radius: calc(var(--border-radius, 0.08) * 100%);
     overflow: hidden;
 
-    height: calc(var(--height) * var(--scale));
-    width: calc(var(--width) * var(--scale));
+    height: calc(var(--height) * var(--scale, 0.75));
+    width: calc(var(--width) * var(--scale, 0.75));
 
     --footer-font-size: calc(0.6 * calc(16px * var(--font-normalize, 1)));
     --id-font-size: calc(2.5 * calc(16px * var(--font-normalize, 1)));
@@ -36,7 +36,7 @@
     position: relative;
     overflow: hidden;
     z-index: 2;
-    padding: calc(calc(var(--padding, 1) * 1mm) * var(--scale));
+    padding: calc(calc(var(--padding, 7.5) * 1mm) * var(--scale));
     @include absolute-fill;
 }
 

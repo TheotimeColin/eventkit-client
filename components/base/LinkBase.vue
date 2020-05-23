@@ -4,11 +4,11 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
-        <nuxt-link :to="localePath(to)" v-if="to">
+        <nuxt-link :to="localePath(to)" v-if="to" :target="target">
             <slot></slot>
         </nuxt-link>
 
-        <a :href="href || node && node.attrs.href" v-if="!to">
+        <a :href="href || node && node.attrs.href" v-if="!to" :target="target">
             <span ref="content"></span>
             <slot></slot>
         </a>
@@ -25,7 +25,8 @@ export default {
         href: { default: false },
         to: { default: false },
         context: { default: false },
-        node: { default: false }
+        node: { default: false },
+        target: { default: '_self' }
     },
     methods: {
         onHover (v) {

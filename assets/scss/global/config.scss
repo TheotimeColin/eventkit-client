@@ -8,6 +8,8 @@ $breakpoints: (
 $block-widths: (
     "project-block": 250,
     "article-block": 380,
+    "kit-block": 500,
+    "2xs": 300,
     "xs": 450,
     "s": 720,
     "m": 1000
@@ -27,6 +29,7 @@ $spacings: (
 );
 
 $gutters: (
+    "xl": 60,
     "l": 30,
     "m": 20,
     "s": 10,
@@ -36,25 +39,46 @@ $gutters: (
 );
 
 $colors: (
-    "ft": #000000,
+    "ft": #292929,
     "ft-weak": #848484,
     "ft-xweak": #cdd3da,
-    "ft-strong": #2e46ef,
+    "ft-strong": #1AC8D4,
+    "ft-xstrong": #0900FF,
     "ft-light": #ffffff,
 
-    "bg": #e8e4ff,
+    "bg": #E7FFFF,
     "bg-light": #ffffff,
-    "bg-weak": #deebff,
-    "bg-xweak": #f5eef3,
+    "bg-weak": #E2E7FF,
+    "bg-xweak": #FFECF8,
+    "bg-2xweak": #EBEEFF,
+
+    "pink-shadow": "247, 85, 138",
+    "pink-xweak": #FFF7FE,
+    "pink-weak": #FFECF8,
+    "pink": #FF4390,
+    "pink-strong": #EE016F,
+
+    "cyan-shadow": "34, 176, 227",
+    "cyan-xweak": #F8FDFF,
+    "cyan-weak": #e8faff,
+    "cyan": #36AFF6,
+    "cyan-strong": #0088F1,
+
+    "gold-shadow": "232, 144, 56",
+    "gold-xweak": #FFFBF0,
+    "gold-weak": #FFF6D9,
+    "gold": #FFBC1E,
+    "gold-strong": #FEAA3A,
+
+    "blue-shadow": "135, 131, 245",
+    "blue-xweak": #EBEEFF,
+    "blue-weak": #E2E7FF,
+    "blue": #4249ff,
+    "blue-strong": #0900FF,
 
     "border": #cdd3da,
     "border-strong": #bdbdbd,
-
-    "blue": #2e46ef,
-    "blue-strong": #3a13d8,
-
-    "highlight": #fbff00,
-
+    
     "disabled": #d3d4dc,
 
     "error": #FF2D42,
@@ -62,19 +86,7 @@ $colors: (
     "error-strong": #B90D40,
 
     "confirm": #10c773,
-    "confirm-strong": #1ca04c,
-
-    "success": #fffae8,
-    "success-strong": #ff9438,
-
-    "premium": #ff79bd,
-    "premium-strong": #ff4186,
-    "premium-weak": #ffd7ef,
-    "premium-xweak": #fff3fa,
-
-    "offer": #e1daff,
-    "offer-strong": #2841ef,
-    "offer-weak": #e1daff
+    "confirm-strong": #1ca04c
 );
 
 $fonts: (
@@ -84,11 +96,11 @@ $fonts: (
             "2xs": "10px/1.5",
             "xs": "13px/1.4",
             "s": "14px/1.5",
-            "m": "16px/1.6",
-            "l": "19px/1.7",
+            "m": "15px/1.6",
+            "l": "17px/1.7",
             "xl": "24px/1.4",
             "2xl": "32px/1.5",
-            "3xl": "40px/1.5"
+            "3xl": "35px/1.5"
         )
     ),
     "ft-title": (
@@ -100,7 +112,7 @@ $fonts: (
             "l": "18px/1.6",
             "xl": "22px/1.8",
             "2xl": "30px/1.4",
-            "3xl": "42px/1.35",
+            "3xl": "35px/1.35",
             "4xl": "56px/1.35"
         )
     )

@@ -135,8 +135,6 @@ export default {
         top: 0;
         z-index: 8;
         width: 100%;
-        background-color: var(--color-bg-light);
-        border-bottom: 1px solid var(--color-border);
     }
 
     .DataEditor.is-dragging {

@@ -10,7 +10,7 @@ export default {
     'redirect-ssl'
  ],
   head: {
-    title: `eventKit, le blog des créateurs de lien social`,
+    title: `eventKit, jeux personnalisables à imprimer chez soi gratuitement`,
     meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

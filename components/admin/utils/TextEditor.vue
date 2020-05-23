@@ -1,6 +1,6 @@
 <template>
-    <div class="TextEditor">
-        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands }">
+    <div class="TextEditor" :class="{ 'TextEditor--compact': compact }">
+        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands }" v-if="editable">
             <div>
                 <file-loader
                     id="image-select"
@@ -16,11 +16,11 @@
                 />
                 
                 <div class="TextEditor_first">
-                    <button class="TextEditor_button" type="button" @click="commands.undo">
+                    <button class="TextEditor_button" type="button" @click="commands.undo" v-if="!compact">
                         <i class="fal fa-undo-alt"></i>
                     </button>
 
-                    <button class="TextEditor_button" type="button" @click="commands.redo">
+                    <button class="TextEditor_button" type="button" @click="commands.redo" v-if="!compact">
                         <i class="fal fa-redo-alt"></i>
                     </button>
 
@@ -38,7 +38,7 @@
                     <button class="TextEditor_button" type="button" @click="commands.heading({ level: 3 })">
                         <i class="fal fa-heading"></i><span class="ft-2xs">3</span>
                     </button>
-                    <button class="TextEditor_button" type="button" @click="commands.blockquote()">
+                    <button class="TextEditor_button" type="button" @click="commands.blockquote()" v-if="!compact">
                         <i class="fal fa-quote-right"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="commands.bullet_list()">
@@ -50,13 +50,17 @@
 
                     <div class="TextEditor_separator"></div>
 
-                    <button class="TextEditor_button" type="button" @click="commands.accordion()">
-                        <i class="fal fa-times"></i>
+                    <button class="TextEditor_button" type="button" @click="commands.accordion()" v-if="!compact">
+                        <i class="fal fa-window-maximize"></i>
+                    </button>
+
+                    <button class="TextEditor_button" type="button" @click="state.styleSelect = true">
+                        <i class="fal fa-lightbulb-on"></i>
                     </button>
                     
                     <div class="TextEditor_separator"></div>
 
-                    <button class="TextEditor_button" type="button" @click="state.fileSelect = true">
+                    <button class="TextEditor_button" type="button" @click="state.fileSelect = true" v-if="!compact">
                         <i class="fal fa-image"></i>
                     </button>
                     <button class="TextEditor_button" type="button" @click="state.linkSelect = !state.linkSelect">
@@ -74,11 +78,24 @@
                         </label>
                         <button type="button" class="Button" @click="onInsertLink(commands.link)">Insérer</button>
                     </div>
+
+                    <div class="d-flex" v-show="state.styleSelect">
+                        <select v-model="style.block">
+                            <option value="StyledBlock--pink">Pink</option>
+                            <option value="StyledBlock--cyan">Cyan</option>
+                            <option value="StyledBlock--blue">Blue</option>
+                            <option value="StyledBlock--gold">Gold</option>
+                        </select>
+                        <button type="button" class="Button" @click="commands.styledBlock({ block: style.block })">
+                            Insérer
+                        </button>
+                    </div>
                 </div>
             </div>
         </editor-menu-bar>
 
-        <editor-content class="TextEditor_content TextBody" :editor="editor" ref="text" />
+        <div class="TextBody" v-html="value" v-if="!editor"></div>
+        <editor-content class="TextEditor_content TextBody" :editor="editor" ref="text" v-if="editor" />
     </div>
 </template>
 
@@ -91,28 +108,36 @@ import { Heading, Bold, Blockquote, Image, History, Italic, OrderedList, BulletL
 import Internal from '@/plugins/tiptap/Internal'
 import Link from '@/plugins/tiptap/Link'
 import Accordion from '@/plugins/tiptap/Accordion'
+import StyledBlock from '@/plugins/tiptap/StyledBlock'
 
 export default {
     name: 'TextEditor',
-    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader },
+    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader, StyledBlock },
     props: {
         id: { type: String },
-        value: { type: String, default: '' }
+        value: { type: String, default: '' },
+        compact: { type: Boolean, default: false },
+        editable: { type: Boolean, default: true }
     },
     data: () => ({
         state: {
             fileSelect: false,
             internalSelect: false,
-            linkSelect: false
+            linkSelect: false,
+            styleSelect: false
         },
         editor: null,
         link: {
             href: '',
             blank: true
+        },
+        style: {
+            block: 'StyledBlock--pink'
         }
     }),
     async mounted () {
         this.$data.editor = new Editor({
+            editable: this.$props.editable,
             extensions: [
                 new Heading({ levels: [2, 3] }),
                 new Bold(), new Italic(),
@@ -121,7 +146,7 @@ export default {
                 new Blockquote(),
                 new Image(),
                 new History(),
-                new Link(), new Accordion()
+                new Link(), new Accordion(), new StyledBlock()
             ],
             content: this.$props.value,
         })

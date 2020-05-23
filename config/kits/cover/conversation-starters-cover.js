@@ -1,9 +1,9 @@
 export default {
     component: 'conversation-starter',
     colors: {
-        color: '#000000',
-        patternColor: '#dddddd',
-        backgroundColor: 'transparent'
+        color: '#363d6b',
+        patternColor: '#c4dfec',
+        backgroundColor: '#ceeff0'
     },
     pattern: { patternUrl: 'polka', patternOpacity: 1, patternScale: 1 },
     font: { fontFamily: '"Lato"' },

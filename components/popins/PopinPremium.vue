@@ -1,12 +1,14 @@
 <template>
-    <popin-generic class="PopinPremium" id="premium" :global="true">
+    <popin-generic class="PopinPremium" id="premium" :global="true" @open="onOpen">
         <div class="PopinPremium_container">
             <div class="PopinPremium_slider" :style="{ '--step': state.step, '--max-steps': 3 }">
                 <div class="PopinPremium_step">
-                    <div class="p-20 offer text-center">
+                    <div class="p-20 StyledBlock StyledBlock--no-border StyledBlock--blue text-center p-relative" v-if="sale">
                         <p class="ft-xs"><b>Offre de lancement limitée</b></p>
-                        <p class="ft-xs">Uniquement pour les 100 premiers inscrits : vous êtes déjà 52 à avoir profité de cette offre !</p>
-                        <p class="ft-l mt-10">Jusqu'à <b>40% offerts</b> sur tes premiers mois</p> 
+                        <p class="ft-s">Uniquement pour les 100 premiers inscrits : vous êtes déjà <b>{{ sale.times_redeemed }} à avoir profité de cette offre</b> !</p>
+                        <p class="ft-l mt-10"><b>Le même prix exceptionnel pour toujours</b>, où jusqu'à la résiliation.</p> 
+
+                        <loading-bar :modifiers="['absolute', 'premium']" :max="100" :value="sale.times_redeemed" ref="loadingBar" />
                     </div>
 
                     <div class="row mt-20 ft-s">
@@ -14,19 +16,19 @@
                             <div class="mb-30">
                                 <p><b>🍹 Soirées, mariages...</b></p>
                                 <p class="mb-10 color-ft-weak">Impressionne tes invités</p>
-                                Plus besoin de te ruiner en jeux de soirées, tu peux créer les tiens pour une fraction du prix.
+                                Économise grâce à une bibliothèque de jeux <b>renouvellable à l'infini</b>, la seule limite est ton imagination !
                             </div>
 
                             <div class="mb-30">
                                 <p><b>👋 Organisateurs & pros</b></p>
                                 <p class="mb-10 color-ft-weak">Démarre plus rapidement</p>
-                                Mets tout de suite à l'aise tes participants avec nos jeux aux couleurs de votre marque.
+                                Mets tout de suite à l'aise tes participants avec nos icebreakers <b>aux couleurs de votre marque</b>.
                             </div>
 
                             <div>
                                 <p><b>🎁 Bloggers, influenceurs</b></p>
                                 <p class="mb-10 color-ft-weak">Créer de la valeur à petit prix</p>
-                                Conçois de magnifiques cartes qui te ressemblent et offre-les à ta communauté, ils vont adorer.
+                                Conçois de magnifiques cartes qui te ressemblent et offre-les à ta communauté, <b>ils vont adorer.</b>
                             </div>
                         </div>
                         <div class="col-9">
@@ -36,7 +38,7 @@
                 </div>
 
                 <div class="PopinPremium_step">
-                    <div class="success text-center p-20 mb-40">
+                    <div class="StyledBlock StyledBlock--no-border StyledBlock--cyan text-center p-20 mb-40">
                         <p class="ft-l"><b>🎉 Génial !</b> On a hâte de te compter parmi nous.</p>
                         <p class="ft-s">Il ne reste plus qu'à procéder au paiement.</p>
                     </div>
@@ -46,11 +48,11 @@
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td class="premium"><b>{{ plan.label }}</b></td>
+                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--gold p-10"><b>{{ plan.label }}</b></td>
                                         <td class="text-center">{{ plan.value }}€</td>
                                     </tr>
                                     <tr>
-                                        <td class="offer"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
+                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--blue p-10"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
                                         <td class="text-center"><b>-{{ Math.floor((plan.value - (plan.value * (1 - plan.coupon))) * 100) / 100 }}€</b></td>
                                     </tr>
                                     <tr>
@@ -58,7 +60,7 @@
                                         <td class="text-center"><b>{{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€</b></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="color-ft-weak ft-xs">Puis {{ plan.value }}€ tous les {{ plan.length }} mois ensuite. Abonnement résiliable à tout moment.</td>
+                                        <td colspan="2" class="color-ft-weak ft-xs">Puis {{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€ tous les {{ plan.length }} mois ensuite. Abonnement résiliable à tout moment.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -95,12 +97,12 @@
                 </div>
 
                 <div class="PopinPremium_step">
-                    <div class="premium PopinPremium_success">
+                    <div class="StyledBlock StyledBlock--no-border StyledBlock--gold PopinPremium_success">
                         <div>
                             <p class="ft-2xl"><b>🎀 Incroyable 🎀</b></p>
                             <p class="mv-20 width-xs">Tu es maintenant Créateur. Découvre vite tout tes avantages ! Je te remercie pour ton support.</p>
 
-                            <button-base>Créer un kit</button-base>
+                            <button-base :modifiers="['gold']">Créer un kit</button-base>
                         </div>
                     </div>
                 </div>
@@ -113,26 +115,25 @@
 import PopinGeneric from '@/components/popins/PopinGeneric'
 import PricingColumn from '@/components/generators/PricingColumn'
 import BaseForm from '@/components/form/BaseForm'
+import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'PopinPremium',
-    components: { PopinGeneric, PricingColumn, BaseForm },
+    components: { PopinGeneric, PricingColumn, BaseForm, LoadingBar },
+    async fetch () {
+        await this.$store.dispatch('premium/getInfo')
+    },
     data: () => ({
         state: {
             step: 0,
             loading: false
         },
         stripe: null,
-        plan: { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
-        // plans: [
-        //     { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '4.99', length: '1' },
-        //     { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '9.99', length: '3', highlight: true },
-        //     { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '29.99', length: '12' }
-        // ],
+        plan: { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '5.99', length: '1' },
         plans: [
-            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '5.99', length: '1' },
-            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '12.99', length: '3', highlight: true },
-            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.4', value: '39.99', length: '12' }
+            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '7.99', length: '1' },
+            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '19.99', length: '3', highlight: true },
+            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '59.99', length: '12' }
         ],
         register: {
             name: {
@@ -171,6 +172,9 @@ export default {
     computed: {
         user () {
             return this.$store.state.auth.user
+        },
+        sale () {
+            return this.$store.state.premium.information.early
         }
     },
     watch: {
@@ -187,6 +191,9 @@ export default {
         }
     },
     methods: {
+        onOpen () {
+            if (this.$refs.loadingBar) this.$refs.loadingBar.reset()
+        },
         initStripe () {
             if (this.$data.stripe || process.server) return 
 
@@ -208,7 +215,7 @@ export default {
             Object.keys(this.$data.register).forEach(k => data[k] = this.$data.register[k].value)
             const response = await this.$auth.loginWith('local', { data: {
                 ...data, register: true,
-                userAnonymous: this.$cookies.get('anonymous-id') ? this.$cookies.get('anonymous-id') : undefined
+                lastProject: this.$cookies.get('project-id') ? this.$cookies.get('project-id') : undefined
             } })
 
             if (response.data.status != 1) {
