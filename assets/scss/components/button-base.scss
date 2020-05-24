@@ -1,5 +1,6 @@
 .ButtonBase {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
     padding: 13px 20px;
     border-radius: 4px;
@@ -67,7 +68,9 @@
 }
 
 .ButtonBase--full {
-    display: block;
+    display: flex;
+    
+    width: 100%;
 }
 
 .ButtonBase--static {

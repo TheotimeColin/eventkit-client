@@ -58,6 +58,51 @@ input {
     }
 }
 
+.element-loading {
+    background-color: var(--color-bg-light);
+    box-shadow: none;
+    opacity: 1;
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        content: "";
+        display: block;
+        @include absolute-fill;
+        right: 0;
+        left: auto;
+        width: 200%;
+        animation: loading-animation 1.25s linear 0s infinite forwards;
+        background: linear-gradient(to left, 
+            var(--color-blue-weak) 10%,
+            transparent 50%,
+            var(--color-blue-weak) 50%, 
+            transparent 100%
+        );
+    }
+}
+
+@keyframes loading-animation {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0.25;
+    }
+
+    50% {
+        transform: translateX(35%);
+        opacity: 0.25;
+    }
+
+    100% {
+        transform: translateX(50%);
+        opacity: 0;
+    }
+}
+
 table {
     width: 100%;
     border-spacing: 0;

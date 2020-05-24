@@ -1,12 +1,24 @@
 <template>
     <div class="Page">
         <div class="Page_content">
-            <div class="pv-40 bg-blue-xweak o-hidden" v-if="projects.length > 0">
+            <div class="pv-40 bg-blue-xweak o-hidden" v-if="user">
                 <div class="Wrapper">
-                    <simple-slider>
+                    <simple-slider v-if="!state.loaded">
                         <template slot="title">
                             <p class="ft-title-xl"><b>Mes derniers projets</b></p>
                         </template>
+
+                        <project-block
+                            class="width-project-block"
+                            v-for="i in 5" :key="i"
+                        />
+                    </simple-slider>
+
+                    <simple-slider v-if="state.loaded">
+                        <template slot="title">
+                            <p class="ft-title-xl"><b>Mes derniers projets</b></p>
+                        </template>
+                            
                         <div class="width-project-block" v-for="project in projects" :key="project.id">
                             <project-block
                                 :title="project.title ? project.title : project.id"
@@ -52,13 +64,23 @@ export default {
     components: { ProjectBlock, SimpleSlider, KitBlock },
     async fetch () {
         await this.$store.dispatch('kits/fetch')
-
         await this.getProjects()
+
+        setTimeout(() => this.$data.state.loaded = true, 500)
     },
     data: () => ({
+        state: {
+            loaded: false
+        },
         projects: []
     }),
+    mounted () {
+        setTimeout(() => this.$data.state.loaded = true, 500)
+    },
     computed: {
+        user () {
+            return this.$store.state.auth.user
+        },
         kits () {
             return this.$store.state.kits.collection
         }

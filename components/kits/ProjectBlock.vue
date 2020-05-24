@@ -1,14 +1,14 @@
 <template>
     <div
         class="ProjectBlock"
-        :class="{ ...$modifiers }"
+        :class="{ ...$modifiers, 'is-loading': !project }"
     >
 
-        <div class="ProjectBlock_image" :style="style">
+        <div class="ProjectBlock_image" :style="style" v-if="project">
             <img :src="thumbnail.src" :alt="thumbnail.alt" v-if="thumbnail" />
         </div>
 
-        <div class="ProjectBlock_content">
+        <div class="ProjectBlock_content" v-if="title && project && kit">
             <div>
                 <div class="ProjectBlock_title">
                     {{ title }}
@@ -34,6 +34,7 @@
             :items="[
                 { id: 0, label: 'Supprimer', onClick: () => onDelete() }
             ]"
+            v-if="project"
         />
     </div>
 </template>

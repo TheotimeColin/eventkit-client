@@ -1,77 +1,39 @@
 <template>
     <div class="TextEditor" :class="{ 'TextEditor--compact': compact }">
-        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands }" v-if="editable">
+        <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands, isActive }" v-if="editable">
             <div>
                 <file-loader
                     id="image-select"
-                    :is-active="state.fileSelect"
+                    :is-active="state.current == 'fileSelect'"
                     @input="(e) => onInsertImage(commands.image, e)"
-                    @done="state.fileSelect = false"
+                    @done="state.current = ''"
                 />
                 
                 <internal-loader
-                    :is-active="state.internalSelect"
+                    :is-active="state.current == 'internalSelect'"
                     @input="(v) => onInsertInternal(commands.internal, v)"
-                    @done="state.internalSelect = false"
+                    @done="state.current = ''"
                 />
                 
                 <div class="TextEditor_first">
-                    <button class="TextEditor_button" type="button" @click="commands.undo" v-if="!compact">
-                        <i class="fal fa-undo-alt"></i>
-                    </button>
+                    <div class="TextEditor_group" v-for="(group, i) in groups" :key="i">
+                        <button
+                            v-for="(command, i) in group"
+                            class="TextEditor_button"
+                            :class="{ 'is-active': isActive[command.id] ? isActive[command.id]() : false }"
+                            type="button"
+                            @click="command.onClick ? command.onClick() : commands[command.id]()"
+                            v-show="compact ? command.compact : true"
+                            :key="i"
+                        >
+                            <i class="fal" :class="{ ['fa-' + command.fa]: true }"></i>
+                        </button>
 
-                    <button class="TextEditor_button" type="button" @click="commands.redo" v-if="!compact">
-                        <i class="fal fa-redo-alt"></i>
-                    </button>
-
-                    <div class="TextEditor_separator"></div>
-
-                    <button class="TextEditor_button" type="button" @click="commands.bold">
-                        <i class="fal fa-bold"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.italic">
-                        <i class="fal fa-italic"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.heading({ level: 2 })">
-                        <i class="fal fa-heading"></i><span class="ft-2xs">2</span>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.heading({ level: 3 })">
-                        <i class="fal fa-heading"></i><span class="ft-2xs">3</span>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.blockquote()" v-if="!compact">
-                        <i class="fal fa-quote-right"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.bullet_list()">
-                        <i class="fal fa-list-ul"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="commands.ordered_list()">
-                        <i class="fal fa-list-ol"></i>
-                    </button>
-
-                    <div class="TextEditor_separator"></div>
-
-                    <button class="TextEditor_button" type="button" @click="commands.accordion()" v-if="!compact">
-                        <i class="fal fa-window-maximize"></i>
-                    </button>
-
-                    <button class="TextEditor_button" type="button" @click="state.styleSelect = true">
-                        <i class="fal fa-lightbulb-on"></i>
-                    </button>
-                    
-                    <div class="TextEditor_separator"></div>
-
-                    <button class="TextEditor_button" type="button" @click="state.fileSelect = true" v-if="!compact">
-                        <i class="fal fa-image"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="state.linkSelect = !state.linkSelect">
-                        <i class="fal fa-link"></i>
-                    </button>
-                    <button class="TextEditor_button" type="button" @click="state.internalSelect = true">
-                        <i class="fal fa-external-link-alt"></i>
-                    </button>
+                        <div class="TextEditor_separator"></div>
+                    </div>
                 </div>
                 <div class="TextEditor_second">
-                    <div class="d-flex" v-show="state.linkSelect">
+                    <div class="d-flex" v-show="state.current == 'linkSelect'">
                         <input type="text" placeholder="Lien" v-model="link.href">
                         <label class="fx-no-shrink">
                             <input type="checkbox" v-model="link.blank">Nouvel onglet
@@ -79,16 +41,32 @@
                         <button type="button" class="Button" @click="onInsertLink(commands.link)">Insérer</button>
                     </div>
 
-                    <div class="d-flex" v-show="state.styleSelect">
-                        <select v-model="style.block">
+                    <div class="d-flex" v-show="state.current == 'blockSelect'">
+                        <select v-model="block">
                             <option value="StyledBlock--pink">Pink</option>
                             <option value="StyledBlock--cyan">Cyan</option>
                             <option value="StyledBlock--blue">Blue</option>
                             <option value="StyledBlock--gold">Gold</option>
                         </select>
-                        <button type="button" class="Button" @click="commands.styledBlock({ block: style.block })">
+                        <button type="button" class="Button" @click="commands.styledBlock({ block: block })">
                             Insérer
                         </button>
+                    </div>
+
+                    <div class="d-flex" v-show="state.current == 'styleSelect'">
+                        <div class="TextEditor_group">
+                            <button
+                                v-for="(command, i) in style"
+                                class="TextEditor_button"
+                                :class="{ 'is-active': isActive[command.id] ? isActive[command.id]() : false }"
+                                type="button"
+                                @click="command.onClick ? command.onClick() : commands[command.id]()"
+                                v-show="compact ? command.compact : true"
+                                :key="i"
+                            >
+                                <i class="fal" :class="{ ['fa-' + command.fa]: true }"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,10 +87,11 @@ import Internal from '@/plugins/tiptap/Internal'
 import Link from '@/plugins/tiptap/Link'
 import Accordion from '@/plugins/tiptap/Accordion'
 import StyledBlock from '@/plugins/tiptap/StyledBlock'
+import SetClass from '@/plugins/tiptap/SetClass'
 
 export default {
     name: 'TextEditor',
-    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader, StyledBlock },
+    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader, StyledBlock, SetClass },
     props: {
         id: { type: String },
         value: { type: String, default: '' },
@@ -121,19 +100,16 @@ export default {
     },
     data: () => ({
         state: {
-            fileSelect: false,
-            internalSelect: false,
-            linkSelect: false,
-            styleSelect: false
+            current: 'styleSelect'
         },
         editor: null,
         link: {
             href: '',
             blank: true
         },
-        style: {
-            block: 'StyledBlock--pink'
-        }
+        style: [],
+        block: 'StyledBlock--pink',
+        groups: []
     }),
     async mounted () {
         this.$data.editor = new Editor({
@@ -146,10 +122,39 @@ export default {
                 new Blockquote(),
                 new Image(),
                 new History(),
-                new Link(), new Accordion(), new StyledBlock()
+                new Link(), new Accordion(), new StyledBlock(), new SetClass()
             ],
             content: this.$props.value,
         })
+
+        this.$data.groups = [
+            [
+                { id: 'undo', label: 'Annuler', fa: 'undo-alt', compact: true },
+                { id: 'redo', label: 'Rétablir', fa: 'redo-alt', compact: true }
+            ], [
+                { id: 'style', label: 'Style texte', fa: 'text-size', onClick: () => this.$data.state.current = 'styleSelect', compact: false },
+                { id: 'bold', label: 'Gras', fa: 'bold', compact: false },
+                { id: 'italic', label: 'Italique', fa: 'italic', compact: false },
+            ], [
+                { id: 'image', label: 'Image', fa: 'image', onClick: () => this.$data.state.current = 'fileSelect', compact: false },
+                { id: 'link', label: 'Lien', fa: 'link', onClick: () => this.$data.state.current = 'linkSelect', compact: false },
+                { id: 'internal', label: 'Lien interne', fa: 'comment-alt-lines', onClick: () => this.$data.state.current = 'internalSelect', compact: false },
+                { id: 'blockquote', label: 'Citation', fa: 'quote-right', compact: true },
+                { id: 'bullet_list', label: 'Liste', fa: 'list-ul', compact: false },
+                { id: 'ordered_list', label: 'Liste numérotée', fa: 'list-ol', compact: true },
+            ], [
+                { id: 'accordion', label: 'Accordéon', fa: 'window-maximize', compact: true },
+                { id: 'styledBlock', label: 'Bloc', fa: 'lightbulb-on', onClick: () => this.$data.state.current = 'blockSelect', compact: false },
+            ]
+        ]
+
+        this.$data.style = [
+            { id: 'h1', label: 'H1', fa: 'h1', onClick: () => this.$data.editor.commands.heading({ level: 1 }) },
+            { id: 'h2', label: 'H2', fa: 'h2', onClick: () => this.$data.editor.commands.heading({ level: 2 }) },
+            { id: 'h3', label: 'H3', fa: 'h3', onClick: () => this.$data.editor.commands.heading({ level: 3 }) },
+            { id: 'h4', label: 'H4', fa: 'h4', onClick: () => this.$data.editor.commands.heading({ level: 4 }) },
+            { id: 'node', label: 'H4', fa: 'h4', onClick: () => this.$data.editor.commands.set_class({ attrs: { ['class']: 'lol' } }) },
+        ]
 
         this.$data.editor.on('update', () => this.onUpdate())
         setTimeout(() => this.onUpdate(), 100)

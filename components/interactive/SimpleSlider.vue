@@ -1,10 +1,10 @@
 <template>
     <div
         class="SimpleSlider"
-        :class="{ 'is-panning': state.panning, 'is-transition': state.transition, 'is-short-transition': state.shortTransition }"
+        :class="{ 'is-panning': state.panning, 'is-transition': state.transition, 'is-short-transition': state.shortTransition, ...$modifiers }"
         :style="{ '--gutter': gutter + 'px' }"
     >
-        <div class="d-flex fx-align-end fx-justify-between mb-30">
+        <div class="SimpleSlider_header">
             <div>
                 <slot name="title"></slot>
             </div>
@@ -20,8 +20,11 @@
 </template>
 
 <script>
+import base from '@/utils/base'
+
 export default {
     name: 'SimpleSlider',
+    mixins: [ base ],
     props: {
         gutter: { type: Number, default: 20 }
     },

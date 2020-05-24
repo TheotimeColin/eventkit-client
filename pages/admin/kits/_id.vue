@@ -63,12 +63,23 @@
                         <div class="form-sticky">
                             <div class="form-secondary">
                                 <div class="Form_row">
-                                    <component
-                                        class="p-relative m-auto"
-                                        :is="kit.theme.component"
-                                        :theme="kit.theme"
-                                        v-if="kit.theme"
-                                    />
+                                    <div class="row-xs mb-20">
+                                        <div class="col-grow">
+                                            <component
+                                                class="p-relative m-auto"
+                                                :is="kit.theme.component"
+                                                :theme="kit.theme"
+                                                :scale="0.75"
+                                                v-if="kit.theme"
+                                            />
+                                        </div>
+                                        
+                                        <div class="col-grow fx-grow">
+                                            <rating v-model="kit.complexity" :editable="true" unit="🧠" />
+                                            <rating v-model="kit.material" :editable="true" unit="🧶" />
+                                            <rating v-model="kit.time" :editable="true" unit="⏱" />
+                                        </div>
+                                    </div>
 
                                     <p v-if="kit._id">Publication : <b>{{ publishedDate }}</b></p>
                                     <p v-if="kit._id">Mis à jour : <b>{{ modifiedDate }}</b></p>
@@ -103,12 +114,13 @@ import SelectSearch from '@/components/utils/SelectSearch'
 import ConversationStarter from '@/components/generators/ConversationStarter'
 import Configurator from '@/components/generators/Configurator'
 import PopinGeneric from '@/components/popins/PopinGeneric'
+import Rating from '@/components/interactive/Rating'
 
 export default {
     name: 'ArticlePageAdmin',
     layout: 'admin',
     mixins: [ pattern ],
-    components: { TextEditor, SelectSearch, ConversationStarter, Configurator, PopinGeneric },
+    components: { TextEditor, SelectSearch, ConversationStarter, Configurator, PopinGeneric, Rating },
     async fetch () {
         try {
             if (this.$route.params.id && this.$route.params.id !== 'new') {
@@ -145,6 +157,9 @@ export default {
         kit: {
             title: '',
             subtitle: '',
+            complexity: 1,
+            time: 1,
+            material: 1,
             slug: '',
             content: '',
             excerpt: '',
