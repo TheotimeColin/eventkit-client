@@ -17,6 +17,7 @@ export default {
     id: true,
     page: {
         margins: "7.5mm",
-        spacing: "0mm"
+        spacing: "0mm",
+        cardScale: 1
     }
 }

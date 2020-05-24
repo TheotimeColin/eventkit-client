@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         onUpdate: throttle(50, function (v) {
-            if (this.$props.options.unit) v += this.$props.options.unit
+            if (this.$props.options.unit && this.$props.options.unitValue) v += this.$props.options.unit
 
             this.$emit('input', v)
         })

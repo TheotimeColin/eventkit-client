@@ -53,7 +53,7 @@
                                 <p><b>Temps de jeu</b></p> <p>Flexible</p>
                             </div>
                             <div class="d-flex fx-justify-between mb-5">
-                                <p><b>Moment</b></p> <p>Début de soirée</p>
+                                <p><b>Quand ?</b></p> <p>Début de soirée</p>
                             </div>
 
                             <div class="d-flex fx-justify-between mb-5">
@@ -66,10 +66,10 @@
                                 <p><b>Préparation</b></p> <rating :value="kit.time" :max="5" unit="⏱" />
                             </div>
 
-                            <button-base class="mt-20" :modifiers="['s', 'full', 'secondary', 'pink']">
+                            <button-base class="mt-20" :modifiers="['s', 'full', 'secondary']">
                                 Kits prêt-à-imprimer
                             </button-base>
-                            <button-base class="mt-5" :modifiers="['s', 'full', 'pink']">
+                            <button-base class="mt-5" :modifiers="['s', 'full', 'blue']" :to="{ name: 'kits-slug-id', params: { slug: kit.slug, id: 'new' } }">
                                 Créer mon kit personnalisé
                             </button-base>
                         </div>
@@ -95,7 +95,7 @@
 
             <section class="Wrapper pv-60 max-width-m">
                 <div class="col-grow fx-grow">
-                    <h2 class="KitPage_subtitle">⚙️ Variantes</h2>
+                    <h2 class="KitPage_subtitle">Les variantes</h2>
 
                     <div class="KitPage_variant row" v-for="variant in kit.variants" :key="variant.id">
                         <div class="col-shrink">

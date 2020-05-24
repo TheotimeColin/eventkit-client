@@ -11,19 +11,19 @@
         <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa"></i>
 
         <nuxt-link :to="localePath(to)" v-if="to" >
-            <i class="ButtonBase_icon fal fa-spinner-third spin" v-show="loading"></i>
+            <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
 
             <slot></slot>
         </nuxt-link>
 
         <a :href="href" v-if="href">
-            <i class="ButtonBase_icon fal fa-spinner-third spin" v-show="loading"></i>
+            <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
 
             <slot></slot>
         </a>
 
-        <span v-if="!href && !to">
-            <i class="ButtonBase_icon fal fa-spinner-third spin" v-show="loading"></i>
+        <span v-if="!href && !to && $slots.default">
+            <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
 
             <slot></slot>
         </span>

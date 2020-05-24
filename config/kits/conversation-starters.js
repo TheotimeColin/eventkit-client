@@ -94,24 +94,24 @@ export default {
         var: 'padding',
         options: { value: 1, min: 0, max: 20, step: 0.1 }
     },
-    size: {
-        id: 'size',
-        group: 'format',
-        label: `Format d'impression`,
-        type: 'choice-buttons',
-        isSize: true,
-        options: [
-            { value: { x: 65, y: 65, margin: 7.5 }, label: 'Carré' },
-            { value: { x: 84, y: 55, margin: 7.5 }, label: 'Paysage' },
-            { value: { x: 55, y: 84, margin: 7.5 }, label: 'Portrait' },
-            { value: { x: 75, y: 75, margin: 7.5 },
-                custom: {
-                    x: { label: 'Largeur (mm)', type: 'input' },
-                    y: { label: 'Hauteur (mm)', type: 'input'},
-                    margin: { label: 'Marges (mm)', type: 'input'}
-            } },
-        ]
-    },
+    // size: {
+    //     id: 'size',
+    //     group: 'format',
+    //     label: `Format d'impression`,
+    //     type: 'choice-buttons',
+    //     isSize: true,
+    //     options: [
+    //         { value: { x: 65, y: 65, margin: 7.5 }, label: 'Carré' },
+    //         { value: { x: 84, y: 55, margin: 7.5 }, label: 'Paysage' },
+    //         { value: { x: 55, y: 84, margin: 7.5 }, label: 'Portrait' },
+    //         { value: { x: 75, y: 75, margin: 7.5 },
+    //             custom: {
+    //                 x: { label: 'Largeur (mm)', type: 'input' },
+    //                 y: { label: 'Hauteur (mm)', type: 'input'},
+    //                 margin: { label: 'Marges (mm)', type: 'input'}
+    //         } },
+    //     ]
+    // },
     page: {
         id: 'page',
         static: true,

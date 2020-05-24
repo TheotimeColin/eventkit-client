@@ -1,6 +1,6 @@
 <template>
     <div class="PricingColumn" :class="{ ...$modifiers }">
-        <div class="PricingColumn_container premium-secondary">
+        <div class="PricingColumn_container StyledBlock StyledBlock--pink ft-s">
             <p class="mv-5">✨ Projets illimités & <b>toutes les options de personnalisation débloquées.</b></p>
             <p class="mv-5">❤️ De nouveaux jeux ajoutés régulièrement et <b>disponibles en avant-première.</b></p>
             <p class="mv-5">💡 Jamais à court d'imagination avec des <b>centaines de nouvelles idées ajoutées tous les mois</b></p>
@@ -26,7 +26,9 @@
                             <p class="text-through ft-s mt-30">{{ (price.value / price.length).toFixed(2) }}€ / mois</p>
                         </template>
 
-                        <p>{{ Math.floor((priceAfter(price.value, price.coupon) / price.length) * 100) / 100 }}</p>
+                        <p class="ft-3xl">
+                            <b>{{ Math.floor((priceAfter(price.value, price.coupon) / price.length) * 100) / 100 }}</b>
+                        </p>
                         <p class="ft-xs">€ par mois</p>
                     </div>
                 </div>

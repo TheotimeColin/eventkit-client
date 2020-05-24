@@ -1,13 +1,12 @@
 .ConversationStarter {
-    --scale: 1;
     font-family: var(--font-family);
     background: var(--background-color);
     color: var(--color);
     border-radius: calc(var(--border-radius, 0.08) * 100%);
     overflow: hidden;
 
-    height: calc(var(--height) * var(--scale, 0.75));
-    width: calc(var(--width) * var(--scale, 0.75));
+    height: calc(var(--height) * var(--scale));
+    width: calc(var(--width) * var(--scale));
 
     --footer-font-size: calc(0.6 * calc(16px * var(--font-normalize, 1)));
     --id-font-size: calc(2.5 * calc(16px * var(--font-normalize, 1)));

@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="PopinPremium_step">
-                    <div class="StyledBlock StyledBlock--no-border StyledBlock--cyan text-center p-20 mb-40">
+                    <div class="StyledBlock StyledBlock--no-border StyledBlock--gold text-center p-20 mb-40">
                         <p class="ft-l"><b>🎉 Génial !</b> On a hâte de te compter parmi nous.</p>
                         <p class="ft-s">Il ne reste plus qu'à procéder au paiement.</p>
                     </div>
@@ -48,11 +48,11 @@
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--gold p-10"><b>{{ plan.label }}</b></td>
+                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--gold p-10 ft-xs"><b>{{ plan.label }}</b></td>
                                         <td class="text-center">{{ plan.value }}€</td>
                                     </tr>
                                     <tr>
-                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--blue p-10"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
+                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--blue p-10 ft-xs"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
                                         <td class="text-center"><b>-{{ Math.floor((plan.value - (plan.value * (1 - plan.coupon))) * 100) / 100 }}€</b></td>
                                     </tr>
                                     <tr>

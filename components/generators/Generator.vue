@@ -63,34 +63,33 @@
                         class="Generator_configurator"
                         :theme="project.theme"
                         :init-theme="initTheme"
-                        v-if="project && state.step == 'config'"
                         @update="(v) => $store.commit('kits/project/updateTheme', v)"
+                        v-show="state.step == 'config'"
                     />
 
                     <data-editor
                         class="Generator_dataEditor"
                         :project="project"
                         @select="(v) => selected = v"
-                        v-if="project && state.step == 'data'"
+                        v-show="state.step == 'data'"
                     />
 
                     <printer
                         class="Generator_printer"
-                        @print="onPrint"
                         :project="project"
-                        :is-loading="state.printing"
-                        v-if="project && state.step == 'print'"
+                        :theme="project.theme"
+                        v-show="state.step == 'print'"
                     />
 
                     <sharer
                         :project="project"
                         :init-theme="initTheme"
-                        v-if="project && state.step == 'share'"
+                        v-show="state.step == 'share'"
                     />
                 </div>
             </div>
 
-            <div class="Generator_previewer">
+            <div class="Generator_previewer" v-show="state.step != 'print'">
                 <div class="Generator_previewOptions" v-if="project">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}

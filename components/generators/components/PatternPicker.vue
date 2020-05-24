@@ -77,7 +77,7 @@ export default {
                 
                 return {
                     ...p,
-                    background: pattern ? `url("${pattern(this.$props.theme.colors.patternColor.replace('#', ''), 0.75, 1)}")` : ''
+                    background: pattern ? `url("${pattern(this.$props.theme.colors.patternColor.replace('#', ''), 0.5, 1)}")` : ''
                 }
             })
         }

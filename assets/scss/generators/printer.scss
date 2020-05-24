@@ -17,3 +17,46 @@
     justify-content: space-between;
     border-top: 1px solid var(--color-border);
 }
+
+.Printer_canvas {
+    position: absolute;
+    width: 1000px;
+    height: auto;
+    top: 0;
+    left: -9999px;
+    pointer-events: none;
+}
+
+.Printer_page {
+    width: calc(210mm * var(--page-scale, 1));
+    height: calc(297mm * var(--page-scale, 1));
+    padding: calc(var(--margins, 15mm) * var(--page-scale, 1));
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+    font-size: 0;
+
+    & > * {
+        --page-scale: var(--page-scale, 1);
+        display: inline-block;
+        margin: calc(var(--spacing, 0mm) * var(--page-scale, 1));
+        opacity: 1;
+        position: relative;
+    }
+}
+
+.Printer_pageImage {
+    padding: 10px;
+    background-color: var(--color-grey-2xweak);
+    border: 1px solid var(--color-bg-light);
+
+    &.is-loading {
+        @extend .element-loading;
+        background-color: var(--color-grey-2xweak);
+
+        &::after {
+            content: "";
+            display: block;
+            padding-bottom: 150%;
+        }
+    }
+}

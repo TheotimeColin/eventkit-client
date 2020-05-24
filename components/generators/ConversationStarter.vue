@@ -62,7 +62,7 @@ export default {
                 let choice = initTheme[key]
                 let value = this.mergeTheme[key]
 
-                if (!value) return
+                if (value == null) return
 
                 if (choice.var) style[`--${choice.var}`] = value
                 if (choice.varGroup) {

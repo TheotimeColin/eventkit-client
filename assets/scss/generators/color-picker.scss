@@ -25,12 +25,12 @@
 }
 
 .ColorPicker_palette {
-    height: 75px;
+    height: 50px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
     font-family: var(--font);
-    font-size: calc(18px * var(--font-normalize, 1));
+    font-size: calc(16px * var(--font-normalize, 1));
     color: var(--color);
     background-color: var(--background-color);
     background-image: var(--pattern);

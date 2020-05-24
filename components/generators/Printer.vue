@@ -1,110 +1,230 @@
 <template>
     <div class="Printer">
         <div class="Printer_content p-40">
-            <p class="ft-l">
-                <b>Configuration de la page</b>
-            </p>
+            <div class="row">
+                <div class="col-shrink">
+                    <component
+                        class="p-relative"
+                        :is="project.theme.component"
+                        :theme="project.theme"
+                        :data="activeItems[0]"
+                        :scale="1"
+                    />
+                </div>
+                <div class="col-grow fx-grow">
+                    <p class="ft-l">
+                        <b>Configuration de la page</b>
+                    </p>
 
-            <range
-                class="mv-20"
-                :options="{ label: 'Marges de la page', min: 0, max: 20, step: 0.5, unit: 'mm', display: true }"
-                v-model="theme.page.margins"
-                @input="$store.commit('kits/project/updateTheme', theme)"
-            />
+                    <div class="max-width-xs">
+                        <range
+                            class="mv-20"
+                            :options="{ label: 'Agrandissement cartes', min: 1, max: 2, step: 0.1, unit: 'x', display: true }"
+                            v-model="theme.page.cardScale"
+                            @input="$store.commit('kits/project/updateTheme', theme)"
+                        />
 
-            <range
-                class="mv-20"
-                :options="{ label: 'Espacement cartes', min: 0, max: 10, step: 0.1, unit: 'mm', display: true }"
-                v-model="theme.page.spacing"
-                @input="$store.commit('kits/project/updateTheme', theme)"
-            />
+                        <range
+                            class="mv-20"
+                            :options="{ label: 'Marges de la page', min: 0, max: 20, step: 0.5, unit: 'mm', unitValue: true, display: true }"
+                            v-model="theme.page.margins"
+                            @input="$store.commit('kits/project/updateTheme', theme)"
+                        />
 
-            <!-- <div class="mt-40">
-                <accordion class="mv-10" :modifiers="['s', 'simple']" title="😥 Les couleurs rendent différemment quand j'imprime, que faire ?">
-                    <div class="TextBody TextBody--s p-20">
-                        <h3>Vérifie tes niveaux d'encre</h3>
-                        <p>Si une seule des couleurs manque dans ton imprimante, il est possible que les couleurs soient altérées.</p>
-
-                        <h3>Tes réservoirs sont pleins ?</h3>
-                        <p>Malheureusement, sans entrer dans les détails techniques, les écrans et les imprimantes interprètent différemment les couleurs. Il y aura donc toujours une différence.</p>
-                        <p>Le plus simple est de tester différentes configurations avec la fonction <b>Page de test</b>, qui permet de n'imprimer qu'une seule carte et d'économiser de l'encre.</p>
+                        <range
+                            class="mv-20"
+                            :options="{ label: 'Espacement cartes', min: 0, max: 10, step: 0.1, unit: 'mm', unitValue: true, display: true }"
+                            v-model="theme.page.spacing"
+                            @input="$store.commit('kits/project/updateTheme', theme)"
+                        />
                     </div>
-                </accordion>
 
-                <accordion class="mv-10" :modifiers="['s', 'simple']" title="🎀 Comment rendre mes impressions plus jolies ?">
-                    <div class="row-xs">
-                        <div class="col-shrink pt-20 fx-no-grow">
-                            <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-eu.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=FR&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=eventkit-21&language=fr_FR&marketplace=amazon&region=FR&placement=B001ANX32I&asins=B001ANX32I&linkId=e9a0247fc933a0e7e9cd92b571bac3dd&show_border=true&link_opens_in_new_window=true"></iframe>
-                        </div>
-                        <div class="col-grow fx-grow">
-                            <div class="TextBody TextBody--s p-20">
-                                <h3>Investis dans du papier plus épais</h3>
-                                <p>C'est ce qui va faire toute la différence : plus ton papier est épais, plus il donnera l'impression d'être de qualité !</p>
-
-                                <p>Pour un papier au top, dirige-toi vers une valeur sûre comme ce <link-base href="https://amzn.to/2WL7StR" target="_blank">Bloc de 500 feuilles Clairefontaine (160g)</link-base>. Si tu as un plus petit budget, ces <link-base href="https://amzn.to/36ipgJM" target="_blank">feuilles de la marque Schneidersöhne </link-base> peuvent aussi faire l'affaire !
-
-                                <h3>Ajoute un peu de fantaisie</h3>
-                            </div>
-                        </div>
+                    <div class="d-flex fx-align-center">
+                        <button-base class="mt-10" :modifiers="['s', 'blue']" @click="onExport" :loading="state.loading">
+                            Générer le kit <span v-show="state.loading">(page {{ state.page }} sur {{ batches.length }})</span>
+                        </button-base>
+                        
+                        
+                        <p class="ml-10" v-show="state.outdated && !state.first">⚠️ Projet mis à jour, le kit doit être généré de nouveau.</p>
                     </div>
-                </accordion>
+                </div>
+            </div>
 
-                <accordion class="mv-10" :modifiers="['s', 'simple']" title="💸 Comment économiser de l'encre ?">
-                    <div class="TextBody TextBody--s p-20">
-                        <h3>Vérifie tes niveaux d'encre</h3>
-                        <p>Si une seule des couleurs manque dans ton imprimante, il est possible que les couleurs soient altérées.</p>
+            <hr class="mv-40">
 
-                        <h3>Tes réservoirs sont pleins ?</h3>
-                        <p>Malheureusement, sans entrer dans les détails techniques, les écrans et les imprimantes interprètent différemment les couleurs. Il y aura donc toujours une différence.</p>
-                        <p>Le plus simple est de tester différentes configurations avec la fonction <b>Page de test</b>, qui permet de n'imprimer qu'une seule carte et d'économiser de l'encre.</p>
-                    </div>
-                </accordion>
-            </div> -->
-        </div>
-
-        <div class="Printer_actions">
-            <div></div>
-            <div>
-                <button-base :modifiers="['secondary', 's']" @click="onPrint({ test: true })">
-                    Page de test
-                </button-base>
-                <button-base @click="onPrint" :loading="isLoading">
-                    Exporter le projet
+            <div class="text-center">
+                <button-base :modifiers="['s']" @click="downloadZip" :disabled="!files.zip || state.loading">
+                    Tout télécharger (.zip)
                 </button-base>
             </div>
+            <div class="row-none fx-wrap mt-40">
+                <div class="col-4" v-for="i in 3" :key="i + 'n'" v-show="state.loading">
+                    <div class="Printer_pageImage is-loading"></div>
+                </div>
+
+                <div class="col-4" v-for="(image, j) in images" :key="j" v-show="!state.loading">
+                    <div class="Printer_pageImage">
+                        <img class="width-100" :src="image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Printer_canvas">
+            <page-generator
+                class="Printer_page"
+                :style="styleConfig"
+                :scale="2"
+                v-for="(batch, i) in batches"
+                :key="i"
+                ref="page"
+            >
+                <component
+                    class="p-relative"
+                    v-for="(item, i) in batch"
+                    :is="project.theme.component"
+                    :theme="project.theme"
+                    :data="item"
+                    :key="i"
+                    :scale="(2 * project.theme.page.cardScale)"
+                />
+            </page-generator>
         </div>
     </div>
 </template>
 
 <script>
+import JSZip from 'jszip'
+import dayjs from 'dayjs'
+import { saveAs } from 'file-saver'
+import slugify from 'slugify'
+
 import Accordion from '@/components/interactive/Accordion'
 import Range from '@/components/generators/components/Range'
+import PageGenerator from '@/components/generators/PageGenerator'
+import ConversationStarter from '@/components/generators/ConversationStarter'
 
 export default {
     name: 'Printer',
-    components: { Accordion, Range },
+    components: { Accordion, Range, PageGenerator, ConversationStarter },
     props: {
-        project: { type: Object },
-        isLoading: { type: Boolean, default: false }
+        project: { type: Object }
     },
     data: () => ({
-        theme: {}
+        state: {
+            first: true,
+            test: false,
+            loading: false,
+            outdated: false,
+            page: 0
+        },
+        files: {
+            zip: null
+        },
+        theme: {},
+        images: []
     }),
+    computed: {
+        activeItems () {
+            let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
+            return this.$data.state.test ? activeItems.slice(0, 1) : activeItems
+        },
+        styleConfig () {
+            let style = {}
+
+            if (this.$props.project.theme.page) {
+                style['--margins'] = this.$props.project.theme.page.margins
+                style['--spacing'] = this.$props.project.theme.page.spacing
+            }
+
+            return style
+        },
+        batches () {
+            let pageWidth = 210
+            let pageHeight = 297
+            let spacing = parseInt(this.$props.project.theme.page.spacing)
+            let margins = parseInt(this.$props.project.theme.page.margins)
+            let pageMargins = margins * 2
+
+            let componentWidth = (this.$props.project.theme.page.cardScale * this.$props.project.theme.size.x) + (spacing * 2)
+            let componentHeight = (this.$props.project.theme.page.cardScale * this.$props.project.theme.size.y) + (spacing * 2)
+
+            let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
+            let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
+
+            let batchSize = fitWidth * fitHeight
+
+            let batches = []
+            let batch = []
+            let size = batchSize
+            let batchId = 0
+
+            this.activeItems.forEach(component => {
+                batch.push(component)
+                size--
+
+                batches[batchId] = batch
+
+                if (size == 0) {
+                    batchId++
+                    size = batchSize
+                    batch = []
+                }    
+            })
+
+            return batches
+        }
+    },
     watch: {
         project: {
             immediate: true,
             deep: true,
             handler (v) {
                 this.$data.theme = JSON.parse(JSON.stringify(v.theme))
-                if (!this.$data.theme.page) this.$data.theme.page = { margins: '0mm', spacing: '0mm' }
+                if (!this.$data.theme.page) this.$data.theme.page = { margins: '0mm', spacing: '0mm', cardScale: 1 }
+
+                this.$data.state.outdated = true
             }
         }
     },
     methods: {
-        onPrint (e) {
-            this.$emit('print', {
-                ...e
+        downloadZip () {
+            let date = dayjs(new Date()).format('MMDDTHH:mm:ss')
+            let name = `${slugify(this.$props.project.title)}-${date}.zip`
+            saveAs(this.$data.files.zip, name)
+        },
+        onExport () {
+            this.$data.state.outdated = false
+            this.$data.state.first = false
+            this.$data.state.loading = true
+
+            setTimeout(() => {
+                this.$data.images = []
+                this.$data.state.page = 0
+
+                let generate = this.$refs.page.reduce(async (previousPromise, page) => {
+                    await previousPromise
+
+                    this.$data.state.page++
+                    let screenshot = await page.screenshot()
+                    this.$data.images.push(screenshot)
+                    return screenshot
+                }, Promise.resolve())
+
+                generate.then(() => this.onDone())
+            }, 500)
+        },
+        async onDone () {
+            let zip = new JSZip()
+
+            this.$data.images.forEach((image, i) => {
+                zip.file(`page-${i + 1}.png`, image.replace('data:image/png;base64,', ''), { base64: true })
             })
+
+            this.$data.files.zip = await zip.generateAsync({ type: 'blob' })
+
+            this.$data.state.loading = false
+            this.$data.state.test = false
         }
     }
 }

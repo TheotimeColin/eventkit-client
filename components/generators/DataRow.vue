@@ -88,7 +88,7 @@ export default {
             }
         }
     },
-    mounted () {
+    ready () {
         this.setHeight()
     },
     methods: {

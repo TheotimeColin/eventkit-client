@@ -3,7 +3,7 @@
         class="ActionMenu"
         :class="{ 'is-active': state.active }"
     >
-        <div class="ActionMenu_trigger" @click="state.active = !state.active">
+        <div class="ActionMenu_trigger" @click.stop.prevent="state.active = !state.active">
             <i class="fal fa-ellipsis-h"></i>
         </div>
 

@@ -1,7 +1,8 @@
 <template>
-    <div
+    <nuxt-link
         class="ProjectBlock"
         :class="{ ...$modifiers, 'is-loading': !project }"
+        :to="project ? (to ? localePath(to) : localePath({ name: 'kits-slug-id', params: { slug: kit.slug, id: project.id }})) : {}"
     >
 
         <div class="ProjectBlock_image" :style="style" v-if="project">
@@ -9,24 +10,13 @@
         </div>
 
         <div class="ProjectBlock_content" v-if="title && project && kit">
-            <div>
-                <div class="ProjectBlock_title">
-                    {{ title }}
-                </div>
-
-                <p class="ProjectBlock_excerpt" v-if="project && project.ideas">
-                    {{ project.kit.title }} - {{ project.ideas.length }} questions
-                </p>
+            <div class="ProjectBlock_title">
+                {{ title }}
             </div>
 
-            <div class="ProjectBlock_cta">
-                <button-base
-                    :modifiers="['xs', 'secondary']"
-                    :to="to ? to : { name: 'kits-slug-id', params: { slug: kit.slug, id: project.id } }"
-                >
-                    Éditer
-                </button-base>
-            </div>
+            <p class="ProjectBlock_excerpt" v-if="project && project.ideas">
+                {{ project.kit.title }} - {{ project.ideas.length }} questions
+            </p> 
         </div>
 
         <action-menu
@@ -36,7 +26,7 @@
             ]"
             v-if="project"
         />
-    </div>
+    </nuxt-link>
 </template>
 
 <script>

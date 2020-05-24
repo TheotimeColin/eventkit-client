@@ -57,7 +57,8 @@ export default {
         },
         style: {
             '--scale': 1
-        }
+        },
+        images: []
     }),
     mounted () {
         this.jsPDF = require('jspdf')
@@ -167,35 +168,6 @@ export default {
                 '--page-scale': 1,
                 '--scale': 1
             }
-        },
-        onExport ({ test = false }) {
-            return new Promise(resolve => {
-                this.$data.state.export = true
-                this.$data.state.test = test
-
-                this.$data.export = new this.jsPDF()
-
-                setTimeout(async () => {
-                    let pages = await Promise.all(this.$refs.page.map(page => {
-                        return page.screenshot()
-                    }))
-
-                    let width = this.$data.export.internal.pageSize.getWidth()
-                    let height = this.$data.export.internal.pageSize.getHeight()
-
-                    pages.forEach((page, i) => {
-                        this.$data.export.addImage(page, 0, 0, width, height)
-                        if (i < pages.length - 1) this.$data.export.addPage()
-                    })
-
-                    this.$data.state.export = false
-                    this.$data.state.test = false
-                    // this.$data.export.save('test.pdf')
-                    window.open(this.$data.export.output('bloburl'), '_blank')
-
-                    resolve()
-                }, 500)
-            })
         }
     }
 }
