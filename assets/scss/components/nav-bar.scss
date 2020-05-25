@@ -37,6 +37,11 @@
         transform-origin: left;
         transform: scaleX(0);
     }
+
+    &.is-disabled {
+        pointer-events: none;
+        color: var(--color-disabled);
+    }
 }
 
 .NavBar_fa + .NavBar_label,

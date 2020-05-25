@@ -8,6 +8,7 @@
             </p>
             <range-slider
                 class="RangeSlider fx-grow"
+                :disabled="disabled"
                 type="range" :min="options.min" :max="options.max" :step="options.step" :value="localValue" @input="onUpdate" />
         </div>
     </div>
@@ -24,7 +25,8 @@ export default {
     props: {
         value: {},
         defaultValue: { type: Number, default: 1 },
-        options: { type: Object }
+        options: { type: Object },
+        disabled: { type: Boolean, default: false }
     },
     data: () => ({
         throttle,
@@ -35,7 +37,7 @@ export default {
             immediate: true,
             deep: true,
             handler (v) {
-                this.$data.localValue = parseFloat(v).toFixed(1)
+                this.$data.localValue = parseFloat(v)
             }
         }
     },

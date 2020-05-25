@@ -2,17 +2,17 @@
     <div class="Generator">
         <div class="Generator_header" :style="{ '--pattern': pattern }">
             <div>
-                <p class="ft-title-xl">
+                <div class="ft-title-xl">
                     <input type="text" placeholder="Nom de mon projet" class="Input--unstyled ft-bold" :value="project.title" v-if="project" @change="onTitleChange">
-                </p>
+                </div>
 
-                <p class="ft-m">
+                <div class="ft-m">
                     {{ project.kit.title }}
 
                     <label v-if="$store.state.auth.user && $store.state.auth.user.admin">
                         <input type="checkbox" @change="onTemplateChange" :checked="project.template"> Template
                     </label>
-                </p>
+                </div>
             </div>
 
             <div class="Generator_premiumAlert StyledBlock StyledBlock--no-border StyledBlock--gold p-relative" v-if="!hasPremium && sale">
@@ -54,7 +54,7 @@
                 { id: 'config', fa: 'clone', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
-                { id: 'share', fa: 'heart', onClick: () => state.step = 'share' }
+                { id: 'share', fa: 'share-square', disabled: !generatedKit, onClick: () => state.share = true }
             ]" />
 
             <div class="Generator_left">
@@ -78,18 +78,13 @@
                         class="Generator_printer"
                         :project="project"
                         :theme="project.theme"
+                        @generate="onGenerate"
                         v-show="state.step == 'print'"
-                    />
-
-                    <sharer
-                        :project="project"
-                        :init-theme="initTheme"
-                        v-show="state.step == 'share'"
                     />
                 </div>
             </div>
 
-            <div class="Generator_previewer" v-show="state.step != 'print'">
+            <div class="Generator_previewer" v-show="state.step != 'share'">
                 <div class="Generator_previewOptions" v-if="project">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}
@@ -124,6 +119,12 @@
                 </div>
             </div>
         </popin-generic>
+
+        <popin-project
+            :is-active="state.share"
+            @close="state.share = false" 
+            :project="project"
+        />
     </div>
 </template>
 
@@ -136,13 +137,13 @@ import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
 import Printer from '@/components/generators/Printer'
-import Sharer from '@/components/generators/Sharer'
 import PopinGeneric from '@/components/popins/PopinGeneric'
+import PopinProject from '@/components/popins/PopinProject'
 import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Sharer, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar },
+    components: { NavBar, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar, PopinProject },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -150,6 +151,7 @@ export default {
     },
     async fetch () {
         await this.$auth.fetchUser()
+        await this.$store.dispatch('premium/getInfo')
         this.$cookies.set('project-id', this.$props.project._id)
     },
     props: {
@@ -158,13 +160,15 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'print',
+            step: 'config',
             setPremium: false,
             print: false,
             printing: false,
-            wait: true
+            wait: true,
+            share: false
         },
-        selected: 'default'
+        selected: 'default',
+        generatedKit: null
     }),
     computed: {
         hasPremium () {
@@ -221,10 +225,8 @@ export default {
                 template: e.target.checked
             })
         },
-        async onPrint (e) {
-            this.$data.state.printing = true 
-            await this.$refs.previewer.onExport(e)
-            this.$data.state.printing = false
+        onGenerate (v) {
+            this.$data.generatedKit = v
         }
     }
 }

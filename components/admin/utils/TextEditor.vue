@@ -87,11 +87,10 @@ import Internal from '@/plugins/tiptap/Internal'
 import Link from '@/plugins/tiptap/Link'
 import Accordion from '@/plugins/tiptap/Accordion'
 import StyledBlock from '@/plugins/tiptap/StyledBlock'
-import SetClass from '@/plugins/tiptap/SetClass'
 
 export default {
     name: 'TextEditor',
-    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader, StyledBlock, SetClass },
+    components: { EditorContent, EditorMenuBar, FileLoader, InternalLoader, StyledBlock },
     props: {
         id: { type: String },
         value: { type: String, default: '' },
@@ -122,7 +121,7 @@ export default {
                 new Blockquote(),
                 new Image(),
                 new History(),
-                new Link(), new Accordion(), new StyledBlock(), new SetClass()
+                new Link(), new Accordion(), new StyledBlock()
             ],
             content: this.$props.value,
         })

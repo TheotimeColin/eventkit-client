@@ -7,6 +7,8 @@
     overflow: hidden;
     background-color: var(--color-bg-light);
     transition: all 250ms ease;
+    -webkit-user-drag: none;
+    user-drag: none;
     @include box-shadow;
 }
 

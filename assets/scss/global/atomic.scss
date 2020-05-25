@@ -68,6 +68,7 @@
 
     .ft-bold#{$name} { font-weight: bold; }
     .ft-bolder#{$name} { font-weight: 900; }
+    .ft-0#{$name} { font-size: 0; }
     .line-1#{$name} { line-height: 1; }
     
     /* COLORS */
@@ -88,6 +89,7 @@
     .height-100#{$name} { height: 100%; }
 
     /* BORDERS */
+    .b#{$name} { border: 1px solid var(--color-border); }
     .b-top#{$name} { border-top: 1px solid var(--color-border); }
 
     /* MARGINS, PADDINGS */

@@ -1,14 +1,20 @@
 <template>
     <div class="PopinGeneric" :class="{ 'is-active': state.visible, ...$modifiers }">
-        <div class="PopinGeneric_body">
-            <div class="PopinGeneric_header" v-if="$slots.header">
-                <slot name="header"></slot>
+        <div class="PopinGeneric_container">
+            <div class="PopinGeneric_close" @click="close">
+                <i class="fal fa-times"></i>
             </div>
-            <div class="PopinGeneric_content">
-                <slot></slot>
-            </div>
-            <div class="PopinGeneric_footer" v-if="$slots.footer">
-                <slot name="footer"></slot>
+            
+            <div class="PopinGeneric_body">
+                <div class="PopinGeneric_header" v-if="$slots.header">
+                    <slot name="header"></slot>
+                </div>
+                <div class="PopinGeneric_content">
+                    <slot></slot>
+                </div>
+                <div class="PopinGeneric_footer" v-if="$slots.footer">
+                    <slot name="footer"></slot>
+                </div>
             </div>
         </div>
     </div>

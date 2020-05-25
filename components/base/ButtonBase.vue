@@ -8,19 +8,21 @@
         @mouseenter="onHover(true)"
         @mouseleave="onHover(false)"
     >
-        <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa"></i>
-
         <nuxt-link :to="localePath(to)" v-if="to" >
+            <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa"></i>
             <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
 
             <slot></slot>
         </nuxt-link>
 
-        <a :href="href" v-if="href">
+        <a :href="href" v-if="href" :download="download">
+            <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa"></i>
             <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
 
             <slot></slot>
         </a>
+
+        <i class="ButtonBase_icon fal" :class="{ ['fa-' + fa]: true }" v-show="fa" v-if="!href && !to"></i>
 
         <span v-if="!href && !to && $slots.default">
             <i class="ButtonBase_icon fal fa-spinner-third spin" v-if="loading"></i>
@@ -41,6 +43,7 @@ export default {
         href: { default: false },
         to: { default: false },
         fa: { default: '' },
+        download: { default: '' },
         context: { default: false },
         loading: { default: false },
         type: { default: false }

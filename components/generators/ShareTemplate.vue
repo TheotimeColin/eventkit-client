@@ -4,9 +4,8 @@
             <component
                 class="ShareTemplate_item"
                 v-for="item in activeItems"
-                :is="initTheme.component.value"
+                :is="theme.component"
                 :theme="theme"
-                :init-theme="initTheme"
                 :data="item"
                 :style="{ '--scale': scale }"
                 :key="item._id"
@@ -27,7 +26,6 @@ export default {
     mixins: [ base ],
     components: { ConversationStarter },
     props: {
-        initTheme: { type: Object },
         theme: { type: Object },
         items: { type: Array }
     },
@@ -40,28 +38,25 @@ export default {
     }),
     mounted () {
         this.html2canvas = require('html2canvas')
-        
     },
     computed: {
         activeItems () {
             return this.$props.items.slice(0, 9)
         }
     },
-    watch: {
-
-    },
     methods: {
         screen () {
-            this.$data.scale = 2
-            console.log('screen')
-            
-            setTimeout(() => {
-                this.html2canvas(this.$el).then(canvas => {
-                    this.$data.screenshot = canvas.toDataURL()
-
-                    this.$data.scale = 0.75
-                })
-            }, 1000)
+            return new Promise(resolve => {
+                this.$data.scale = 2
+                
+                setTimeout(() => {
+                    this.html2canvas(this.$el).then(canvas => {
+                        this.$data.screenshot = canvas.toDataURL()
+                        this.$data.scale = 0.75
+                        resolve (this.$data.screenshot)
+                    })
+                }, 1000)
+            })
         }
     }
 }

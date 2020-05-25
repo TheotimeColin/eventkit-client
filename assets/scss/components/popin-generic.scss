@@ -15,7 +15,7 @@
     }
 }
 
-.PopinGeneric_body {
+.PopinGeneric_container {
     position: absolute;
     z-index: 400;
     max-width: 1000px;
@@ -25,13 +25,18 @@
     left: 0;
     right: 0;
     margin: 0 auto;
-    border-radius: 6px;
-    background-color: var(--color-bg-light);
     transform: translateY(calc(-50% + 10px));
-    display: flex;
-    flex-direction: column;
     opacity: 0;
     transition: all 250ms ease;
+}
+
+.PopinGeneric_body {
+    position: relative;
+    z-index: 2;
+    border-radius: 6px;
+    background-color: var(--color-bg-light);
+    display: flex;
+    flex-direction: column;
 }
 
 .PopinGeneric_content {
@@ -51,13 +56,26 @@
     border-bottom: 1px solid var(--color-border);
 }
 
+.PopinGeneric_close {
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: -10px;
+    transform: translateX(100%);
+    position: absolute;
+    color: var(--color-ft-light);
+    font-size: 18px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
 /* STATES */
 
 .PopinGeneric.is-active {
     left: 0;
     top: 0;
 
-    .PopinGeneric_body {
+    .PopinGeneric_container {
         transform: translateY(-50%);
         opacity: 1;
     }
@@ -71,14 +89,14 @@
 
 .PopinGeneric--s {
 
-    .PopinGeneric_body {
+    .PopinGeneric_container {
         width: 700px;
     }
 }
 
 .PopinGeneric--xs {
     
-    .PopinGeneric_body {
+    .PopinGeneric_container {
         width: 500px;
     }
 }
@@ -92,7 +110,7 @@
 
 .PopinGeneric--confirm {
 
-    .PopinGeneric_body {
+    .PopinGeneric_container {
         width: 300px;
         text-align: center;
     }

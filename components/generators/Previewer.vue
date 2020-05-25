@@ -1,6 +1,6 @@
 <template>
-    <div class="Previewer" :class="{ 'is-print': print, 'is-export': state.export }">
-        <div class="Previewer_component" ref="component" v-if="!print && !state.export">
+    <div class="Previewer" :class="{ 'is-print': print }">
+        <div class="Previewer_component" ref="component" v-if="!print">
             <component
                 :is="initTheme.component.value"
                 :theme="project.theme"
@@ -11,11 +11,11 @@
                 v-if="activeItem"
             />
         </div>
-        <div class="Previewer_print" v-if="print || state.export">
+        <div class="Previewer_print" v-if="print">
             <page-generator
                 class="Previewer_page"
                 :style="styleConfig"
-                :scale="style['--page-scale'] * (state.export ? 2 : 1)"
+                :scale="style['--page-scale']"
                 v-for="(batch, i) in batches"
                 :key="i"
                 ref="page"
@@ -25,10 +25,9 @@
                     v-for="(item, i) in batch"
                     :is="initTheme.component.value"
                     :theme="project.theme"
-                    :init-theme="initTheme"
                     :data="item"
                     :key="i"
-                    :scale="style['--scale'] * (state.export ? 2 : 1)"
+                    :scale="style['--page-scale'] * project.theme.page.cardScale"
                 />
             </page-generator>
         </div>
@@ -51,18 +50,12 @@ export default {
         selected: { type: String, default: 'default' }
     },
     data: () => ({
-        state: {
-            export: false,
-            test: false
-        },
         style: {
             '--scale': 1
         },
         images: []
     }),
     mounted () {
-        this.jsPDF = require('jspdf')
-
         this.fit()
         window.addEventListener('resize', throttle(1000, () => this.fit()))
     },
@@ -79,7 +72,7 @@ export default {
         },
         activeItems () {
             let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
-            return this.state.test ? activeItems.slice(0, 1) : activeItems
+            return activeItems
         },
         activeItem () {
             let selected = this.activeItems.filter(i => i._id == this.$props.selected)
@@ -92,8 +85,8 @@ export default {
             let margins = parseInt(this.$props.project.theme.page.margins)
             let pageMargins = margins * 2
 
-            let componentWidth = this.$props.project.theme.size.x + (spacing * 2)
-            let componentHeight = this.$props.project.theme.size.y + (spacing * 2)
+            let componentWidth = (this.$props.project.theme.size.x * this.$props.project.theme.page.cardScale) + (spacing * 2)
+            let componentHeight = (this.$props.project.theme.size.y * this.$props.project.theme.page.cardScale) + (spacing * 2)
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)

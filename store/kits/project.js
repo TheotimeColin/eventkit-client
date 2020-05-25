@@ -74,16 +74,22 @@ export default {
                 return null
             }
         },
-        async save ({ state, dispatch }) {
-            dispatch('post', {
-                data: {
-                    id: state.project.id,
-                    title: state.project.title,
-                    ideas: state.project.ideas,
-                    theme: state.project.theme,
-                    premium: state.project.premium,
-                    template: state.project.template
-                }
+        async save ({ state, dispatch }, params) {
+            let formData = new FormData()
+
+            if (params && params.zip) {
+                formData.append(`zip`, params.zip)
+            }
+
+            formData.append('id', state.project.id)
+            formData.append('title', state.project.title)
+            formData.append('description', state.project.description)
+            formData.append('ideas', JSON.stringify(state.project.ideas))
+            formData.append('theme', JSON.stringify(state.project.theme))
+            formData.append('template', state.project.template)
+
+            return await dispatch('post', {
+                data: formData
             })
         },
         async delete ({ commit }, params) {
