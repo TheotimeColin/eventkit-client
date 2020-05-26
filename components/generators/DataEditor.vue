@@ -5,7 +5,7 @@
             { id: 'idea', label: 'Nos idées à piquer', fa: 'lightbulb', onClick: () => state.current = 'idea' }
         ]" />
         
-        <div class="p-20" v-show="state.current == 'data'">
+        <div class="p-30" v-show="state.current == 'data'">
             <div class="mb-20 d-flex fx-align-center fx-justify-between">
                 <button-base
                     fa="plus"

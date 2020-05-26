@@ -12,7 +12,7 @@
             
             <div class="ColorPicker_colors">
                 <div class="row-2xs fx-wrap">
-                    <div class="col-6 mb-3" v-for="(option, i) in fonts" :key="i">
+                    <div class="col-12 mb-5" v-for="(option, i) in fonts" :key="i">
                         <div
                             class="ColorPicker_palette ColorPicker_palette--font"
                             :class="{

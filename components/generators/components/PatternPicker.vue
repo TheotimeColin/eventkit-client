@@ -17,7 +17,7 @@
             
             <div class="ColorPicker_colors">
                 <div class="row-2xs fx-wrap">
-                    <div class="col-12 mb-3" v-for="option in patterns" :key="option.id">
+                    <div class="col-12 mb-5" v-for="option in patterns" :key="option.id">
                         <div
                             class="ColorPicker_palette ColorPicker_palette--pattern"
                             :class="{

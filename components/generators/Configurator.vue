@@ -3,7 +3,7 @@
         <div class="Configurator_theme">
             <nav-bar class="Configurator_nav" :modifiers="['secondary']" :items="nav" :current="state.active" />
             
-            <div class="p-40">
+            <div class="p-30">
                 <div class="Configurator_group" v-for="(group, key) in availableOptions" :key="key" v-show="state.active == key">
                     <div
                         class="Configurator_row"

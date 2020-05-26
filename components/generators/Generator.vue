@@ -8,10 +8,6 @@
 
                 <div class="ft-m">
                     {{ project.kit.title }}
-
-                    <label v-if="$store.state.auth.user && $store.state.auth.user.admin">
-                        <input type="checkbox" @change="onTemplateChange" :checked="project.template"> Template
-                    </label>
                 </div>
             </div>
 
@@ -54,7 +50,7 @@
                 { id: 'config', fa: 'clone', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
-                { id: 'share', fa: 'share-square', disabled: !generatedKit, onClick: () => state.share = true }
+                { id: 'admin', fa: 'crown', onClick: () => state.step = 'admin', hidden: user.admin ? false : true }
             ]" />
 
             <div class="Generator_left">
@@ -80,6 +76,11 @@
                         :theme="project.theme"
                         @generate="onGenerate"
                         v-show="state.step == 'print'"
+                    />
+
+                    <template-creator
+                        :project="project"
+                        v-if="state.step == 'admin'"
                     />
                 </div>
             </div>
@@ -136,6 +137,7 @@ import NavBar from '@/components/generators/NavBar'
 import Configurator from '@/components/generators/Configurator'
 import Previewer from '@/components/generators/Previewer'
 import DataEditor from '@/components/generators/DataEditor'
+import TemplateCreator from '@/components/generators/TemplateCreator'
 import Printer from '@/components/generators/Printer'
 import PopinGeneric from '@/components/popins/PopinGeneric'
 import PopinProject from '@/components/popins/PopinProject'
@@ -143,7 +145,7 @@ import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar, PopinProject },
+    components: { NavBar, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar, PopinProject, TemplateCreator },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -160,7 +162,7 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'config',
+            step: 'admin',
             setPremium: false,
             print: false,
             printing: false,
@@ -216,13 +218,6 @@ export default {
         onTitleChange (e) {
             this.$store.commit('kits/project/updateProject', {
                 title: e.target.value
-            })
-        },
-        onTemplateChange (e) {
-            if (!this.$store.state.auth.user.admin) return 
-
-            this.$store.commit('kits/project/updateProject', {
-                template: e.target.checked
             })
         },
         onGenerate (v) {

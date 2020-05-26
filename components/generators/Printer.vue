@@ -3,10 +3,10 @@
         <nav-bar class="Printer_nav" :modifiers="['secondary']" :items="[
             { id: 'generate', label: 'Générer', fa: 'sync', onClick: () => state.current = 'generate' },
             { id: 'download', label: 'Télécharger', fa: 'arrow-to-bottom', onClick: () => state.current = 'download' },
-            { id: 'publish', label: 'Publier', fa: 'check-square', onClick: () => state.current = 'publish' }
+            { id: 'publish', label: 'Publier', fa: 'check-square', disabled: !user, onClick: () => state.current = 'publish' }
         ]" :current="state.current" />
 
-        <div class="Printer_content p-40">
+        <div class="Printer_content p-30">
             <div v-show="state.current == 'generate'">
                 <p class="ft-l">
                     <b>Configuration de la page</b>
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div v-show="state.current == 'publish'">
+            <div v-show="state.current == 'publish' && user">
                 <div class="">
                     Si tu souhaites partager ton kit, tu peux créer ici un lien de partage. <b>Ton kit ne sera visible que par les personnes qui possèdent ce lien.</b>
                 </div>
@@ -90,7 +90,7 @@
                 <div class="mt-20 b br-4 p-20">
                     <div class="d-flex fx-justify-between fx-align-center mb-20">
                         <p>kits/conversation-starters/-lEVUNEQ7</p>
-                        <button-base :modifiers="['s']">
+                        <button-base :modifiers="['s', 'secondary']">
                             Prévisualiser
                         </button-base>
                     </div>
@@ -230,6 +230,9 @@ export default {
         },
         lastPublication () {
             return this.$props.project.publishedDate ? dayjs(this.$props.project.publishedDate).fromNow() : false
+        },
+        user () {
+            return this.$store.state.auth.user
         }
     },
     watch: {

@@ -87,6 +87,7 @@ export default {
             formData.append('ideas', JSON.stringify(state.project.ideas))
             formData.append('theme', JSON.stringify(state.project.theme))
             formData.append('template', state.project.template)
+            formData.append('templateTags', state.project.templateTags)
 
             return await dispatch('post', {
                 data: formData
@@ -103,8 +104,16 @@ export default {
                 user = id
             }
 
+            let formData = new FormData()
+
+            formData.append('title', title)
+            formData.append('user', user)
+            formData.append('ideas', JSON.stringify(ideas))
+            formData.append('theme', JSON.stringify(theme))
+            formData.append('kit', kit)
+
             return await dispatch('post', {
-                data: { theme, ideas, kit, user, title }
+                data: formData
             })
         },
         async unlock ({ state, commit }) {

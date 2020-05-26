@@ -32,7 +32,7 @@
                     />
                 </div>
                 <div class="row-2xs fx-wrap mt-20">
-                    <div v-for="(palette, i) in $filter(palettes, 'theme')" class="col-6 mb-3 col-12@s" :key="i">
+                    <div v-for="(palette, i) in $filter(palettes, 'theme')" class="col-12 mb-5 col-12@s" :key="i">
                         <div
                             class="ColorPicker_palette"
                             :style="{

@@ -16,7 +16,7 @@
                             <div class="mb-30">
                                 <p><b>🍹 Soirées, mariages...</b></p>
                                 <p class="mb-10 color-ft-weak">Impressionne tes invités</p>
-                                Économise grâce à une bibliothèque de jeux <b>renouvellable à l'infini</b>, la seule limite est ton imagination !
+                                Économise grâce à une bibliothèque de jeux <b>renouvelable à l'infini</b>, la seule limite est ton imagination !
                             </div>
 
                             <div class="mb-30">

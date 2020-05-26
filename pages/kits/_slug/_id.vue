@@ -9,6 +9,10 @@
                 v-if="project && state.loaded"
             />
         </div>
+
+        <div v-if="!kit || !state.loaded">
+            Chargement en cours...
+        </div>
     </div>
 </template>
 

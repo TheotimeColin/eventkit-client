@@ -1,7 +1,7 @@
 <template>
     <div class="NavBar" :class="{ ...$modifiers }">
         <div
-            v-for="item in items"
+            v-for="item in availableItems"
             class="NavBar_item"
             :class="{ 'is-active': item.id == current, 'is-disabled': item.disabled }"
             @click="item.onClick"
@@ -24,6 +24,11 @@ export default {
     props: {
         items: { type: Array },
         current: { type: String }
+    },
+    computed: {
+        availableItems () {
+            return this.$props.items.filter(item => !item.hidden)
+        }
     }
 }
 </script>

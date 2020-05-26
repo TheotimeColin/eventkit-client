@@ -3,15 +3,6 @@
     overflow: auto;
     width: 100%;
     height: 100%;
-
-    &::before {
-        content: "";
-        display: block;
-        @include absolute-fill;
-        z-index: 5;
-        pointer-events: none;
-        background-color: rgba(255, 255, 255, 0);
-    }
 }
 
 .Previewer_component {
@@ -41,18 +32,5 @@
 }
 
 .Previewer.is-print {
-    background: lightgrey;
-}
-
-.Previewer.is-export {
-    background-color: white;
-
-    .Previewer_page {
-        box-shadow: none;
-    }
-
-    &::before {
-        pointer-events: all;
-        background-color: rgba(255, 255, 255, 0.75);
-    }
+    background: var(--color-grey-xweak);
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="PopinGeneric" :class="{ 'is-active': state.visible, ...$modifiers }">
+    <div class="PopinGeneric" :class="{ 'is-active': state.visible, ...$modifiers }" v-if="state.visible">
         <div class="PopinGeneric_container">
             <div class="PopinGeneric_close" @click="close">
                 <i class="fal fa-times"></i>
