@@ -162,7 +162,7 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'admin',
+            step: 'config',
             setPremium: false,
             print: false,
             printing: false,
