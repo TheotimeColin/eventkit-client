@@ -2,14 +2,14 @@
     <div class="Page Page--admin Admin">
         <div class="Page_content">
             <div class="Wrapper">
-                <navbar :current="state.current" :items="Object.keys(kits).map(id => ({
-                    id: id,
-                    label: kits[id].title,
-                    onClick: () => state.current = id
+                <navbar :current="state.current" :items="kits.map(kit => ({
+                    id: kit._id,
+                    label: kit.title,
+                    onClick: () => state.current = kit._id
                 }))" />
 
-                <div v-for="(kit, key) in kits" :key="key">
-                    <template v-if="state.current == key">
+                <div v-for="kit in kits" :key="kit._id">
+                    <template v-if="state.current == kit._id">
                         <div>
                             <tag
                                 v-for="tag in tags.filter(t => t.kit == kit._id && t.type == 'category')"
@@ -124,12 +124,12 @@ export default {
     layout: 'admin',
     components: { SelectSearch, Navbar, DataRow, Tag },
     async fetch () {
-        let kits = await this.$store.dispatch('kits/ideas/fetch')
-
+        await this.$store.dispatch('kits/fetch')
+        await this.$store.dispatch('kits/ideas/fetch')
         await this.$store.dispatch('kits/ideas/fetchTags')
     },
     data: () => ({
-        kits: {},
+        kits: [],
         filters: {
             tags: [],
             categories: []
@@ -139,6 +139,9 @@ export default {
         }
     }),
     computed: {
+        allKits () {
+            return this.$store.state.kits.collection
+        },
         ideas () {
             return this.$store.state.kits.ideas.collection
         },
@@ -151,23 +154,25 @@ export default {
             deep: true,
             immediate: true,
             async handler (ideas) {
-                let kits = {}
+                let kits = this.allKits.map(k => ({
+                    ...k, ideas: k.ideas ? k.ideas : []
+                }))
 
                 await Promise.all(ideas.map(idea => {
                     if (!idea.kit) return
 
-                    if (kits[idea.kit._id]) {
-                        kits[idea.kit._id].ideas.push(idea)
+                    let search = kits.find(k => k._id == idea.kit._id)
+                    if (search.ideas) {
+                        search.ideas.push(idea)
                     } else {
-                        kits[idea.kit._id] = { ...idea.kit, ideas: [ idea ] }
+                        search.ideas = [ idea ]
                     }
 
                     return true
                 }))
 
-                if (this.$data.state.current == '') this.$data.state.current = kits[Object.keys(kits)[0]]._id
-
-                this.$data.kits = JSON.parse(JSON.stringify(kits))
+                if (this.$data.state.current == '' && kits[0]) this.$data.state.current = kits[0]._id
+                this.$data.kits = kits.slice()
             }
         }
     },
