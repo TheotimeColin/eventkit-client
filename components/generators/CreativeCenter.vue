@@ -24,7 +24,7 @@
                         :modifiers="['outline', 'selectable', 's']"
                         class="CreativeCenter_tag"
                         :key="tag._id"
-                        :title="tag.label"
+                        :title="tag.emoji ? tag.emoji : tag.label"
                         :selected="filters.tags.indexOf(tag._id) >= 0"
                         @click.native="onFilter({ tags: { value: tag._id, push: true }})"
                     />
@@ -41,7 +41,17 @@
                 :selected="isSelected(idea)"
                 @select="onSelect"
                 @deselect="onDeselect"
-            />
+            >
+                <template slot="tags">
+                    <div class="mr-5 text-right fx-no-shrink">
+                        <span
+                            v-for="tag in idea.tags.filter(t => t.type == 'tag')"
+                            class="mr-5"
+                            :key="tag._id"
+                        >{{ tag.emoji ? tag.emoji : tag.label }}</span>
+                    </div>
+                </template>
+            </data-row>
         </div>
 
         <div class="CreativeCenter_pagination">

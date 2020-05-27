@@ -37,6 +37,8 @@
                 v-if="!selectable"
             ></textarea>
 
+            <slot name="tags"></slot>
+
             <action-menu
                 class="DataRow_actions"
                 :items="[

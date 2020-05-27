@@ -1,5 +1,5 @@
 <template>
-    <div class="Input_container InputText" :class="{ ...classes }">
+    <div class="Input_container InputText" :class="{ ...classes, ...$modifiers }">
         <label class="Input_label" v-if="label">{{ label }}</label>
         <input
             class="Input_element" type="text"
@@ -18,10 +18,10 @@
 <script>
 import FormHelpers from '@/components/form/FormHelpers'
 import InputMixin from '@/utils/input-mixin'
-
+import base from '@/utils/base'
 export default {
-    name: 'InputText',
-    mixins: [ InputMixin ],
+    name: 'Input',
+    mixins: [ InputMixin, base ],
     components: { FormHelpers },
     props: {
         id: { type: String },

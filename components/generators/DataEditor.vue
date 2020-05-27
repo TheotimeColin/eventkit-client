@@ -38,7 +38,17 @@
                         @delete="onDeleteValue"
                         @submit="onAddRow"
                         :key="value._id"
-                    />
+                    >
+                        <template slot="tags">
+                            <div class="mr-5 text-right fx-no-shrink">
+                                <span
+                                    v-for="tag in value.tags.filter(t => t.type == 'tag')"
+                                    class="mr-5"
+                                    :key="tag._id"
+                                >{{ tag.emoji ? tag.emoji : tag.label }}</span>
+                            </div>
+                        </template>
+                    </data-row>
                 </transition-group>
             </draggable>
         </div>

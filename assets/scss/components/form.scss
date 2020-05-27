@@ -28,7 +28,6 @@
     width: 100%;
     flex-grow: 1;
     border: none;
-    padding: 0;
     margin: 0;
     padding: 12px 15px;
     background-color: transparent;
@@ -133,5 +132,25 @@
     .Input_element {
         padding: 0;
         background: transparent;
+    }
+}
+
+.Input--s {
+
+    .Input_element {
+        font: var(--ft-s);
+        padding: 8px 12px;
+    }
+
+    .Input_label {
+        left: 2px;
+    }
+
+    &.is-focus,
+    &.is-value {
+        
+        .Input_label {
+            transform: translateY(-135%) scale(0.75);
+        }
     }
 }

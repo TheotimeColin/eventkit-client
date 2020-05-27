@@ -28,10 +28,20 @@
                                 :modifiers="['outline', 'selectable']"
                                 class="mv-10 mh-5"
                                 :key="tag._id"
-                                :title="tag.label"
+                                :title="(tag.emoji ? tag.emoji : '') + ' ' + tag.label"
                                 :selected="filters.tags.indexOf(tag._id) >= 0"
                                 @click.native="onFilter({ tags: { value: tag._id, push: true }})"
                             />
+                        </div>
+
+                        <div class="mv-10">
+                            <p>Créer tags</p>
+                            <form class="d-flex fx-align-center mt-10" @submit.prevent="onCreateTag(kit._id, 'tag')">
+                                <input-text class="mr-10" :modifiers="['s']" type="text" label="Label" v-model="forms.tag.label" />
+                                <input-text class="mr-10" :modifiers="['s']" type="text" label="Emoji" v-model="forms.tag.emoji" />
+
+                                <button-base :modifiers="['s', 'secondary']" type="submit">Créer</button-base>
+                            </form>
                         </div>
 
                         <div class="text-right">
@@ -63,7 +73,7 @@
                                         <tag
                                             v-for="tag in value.tags.filter(t => t.type == 'tag')"
                                             :modifiers="['s', 'outline']"
-                                            :title="tag.label"
+                                            :title="tag.emoji ? tag.emoji : tag.label"
                                             :key="tag._id"
                                         />
                                     </div>
@@ -95,13 +105,11 @@
                                 :params="{ query: { kit: kit._id, type: 'tag' }, push: true }"
                                 :options="tags.filter(t => t.kit == kit._id && t.type =='tag')"
                                 :modifiers="['left']"
-                                :create="true"
                                 :multiple="true"
                                 :unset="true"
                                 label-key="label"
                                 :value="value.tags"
                                 @input="(v) => onUpdateTags(value, v, 'tag')"
-                                @create="(v) => onCreateTag(v, kit._id, 'tag')"
                             />
                         </div>
                     </template>
@@ -118,11 +126,12 @@ import SelectSearch from '@/components/utils/SelectSearch'
 import Navbar from '@/components/generators/NavBar'
 import DataRow from '@/components/generators/DataRow'
 import Tag from '@/components/utils/Tag'
+import InputText from '@/components/form/InputText'
 
 export default {
     name: 'HomePage',
     layout: 'admin',
-    components: { SelectSearch, Navbar, DataRow, Tag },
+    components: { SelectSearch, Navbar, DataRow, Tag, InputText },
     async fetch () {
         await this.$store.dispatch('kits/fetch')
         await this.$store.dispatch('kits/ideas/fetch')
@@ -136,6 +145,12 @@ export default {
         },
         state: {
             current: ''
+        },
+        forms: {
+            tag: {
+                label: '',
+                emoji: ''
+            }
         }
     }),
     computed: {
@@ -204,9 +219,9 @@ export default {
 
             this.save(idea._id)
         },
-        async onCreateTag (value, kit, type) {
+        async onCreateTag (kit, type) {
             let tag = await this.$store.dispatch('kits/ideas/postTag', {
-                data: { label: value, type, kit }
+                data: { ...this.$data.forms[type], kit, type }
             })
         },
         async save (ideaId) {
