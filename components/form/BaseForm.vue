@@ -8,7 +8,7 @@
             <component
                 :id="input.id"
                 :is="input.component ? input.component : 'input-text'"
-                :label="input.label"
+                :label="$t(`forms.input.${input.id}`)"
                 :type="input.type"
                 :required="input.required"
                 :validations="input.validations"
@@ -20,14 +20,14 @@
         <slot name="form"></slot>
 
         <ul class="Form_errors" v-if="errors && errors.length > 0">
-        <li v-for="(error, i) in errors" :key="i">{{ $t(`errors.${error}`) }}</li>
+            <li v-for="(error, i) in errors" :key="i">{{ $t(`errors.${error}`) }}</li>
         </ul>
 
         <slot name="submit" v-if="$slots['submit']"></slot>
         
         <div class="Form_row text-center" v-else>
             <button-base type="submit" :disabled="isError" :loading="loading">
-                {{ submit && submit.label ? submit.label : 'Valider' }}
+                {{ submit && submit.label ? submit.label : $t('forms.submit.default') }}
             </button-base>
         </div>
 

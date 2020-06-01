@@ -1,8 +1,8 @@
 <template>
     <div class="DataEditor" :class="{ 'is-dragging': state.drag }" v-if="localData">
         <nav-bar class="DataEditor_nav" :modifiers="['secondary']" :current="state.current" :items="[
-            { id: 'data', label: 'Tes idées', count: localData.length, onClick: () => state.current = 'data' },
-            { id: 'idea', label: 'Nos idées à piquer', fa: 'lightbulb', onClick: () => state.current = 'idea' }
+            { id: 'data', label: $t('comp.dataEditor.nav.ideas'), count: localData.length, onClick: () => state.current = 'data' },
+            { id: 'idea', label: $t('comp.dataEditor.nav.creativeCenter'), fa: 'lightbulb', onClick: () => state.current = 'idea' }
         ]" />
         
         <div class="p-30" v-show="state.current == 'data'">
@@ -11,7 +11,7 @@
                     fa="plus"
                     :modifiers="['s']"
                     @click.native="onAddRow"
-                >Ajouter</button-base>
+                >{{ $t('comp.dataEditor.cta.add') }}</button-base>
 
                 <button-base
                     fa="times"
@@ -19,10 +19,10 @@
                     @click.native="$store.commit('utils/confirmPrompt', {
                         active: true,
                         onConfirm: onDeleteAll,
-                        confirmText: 'Supprimer'
+                        confirmText: $t('comp.dataEditor.cta.delete')
                     })"
                 >
-                    Supprimer tout
+                    {{ $t('comp.dataEditor.cta.deleteAll') }}
                 </button-base>
             </div>
 

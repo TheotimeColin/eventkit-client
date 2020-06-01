@@ -49,28 +49,28 @@
                     </div>
                     <div class="col-s">
                         <div class="KitPage_side ft-s">
-                            <div class="d-flex fx-justify-between mb-5">
-                                <p><b>Temps de jeu</b></p> <p>Flexible</p>
+                            <!-- <div class="d-flex fx-justify-between mb-5">
+                                <p><b>{{ $t('comp.kit.length') }}</b></p> <p>Flexible</p>
                             </div>
                             <div class="d-flex fx-justify-between mb-5">
                                 <p><b>Quand ?</b></p> <p>Début de soirée</p>
-                            </div>
+                            </div> -->
 
                             <div class="d-flex fx-justify-between mb-5">
-                                <p><b>Complexité</b></p> <rating :value="kit.complexity" :max="5" unit="🧠" />
+                                <p><b>{{ $t('comp.kit.complexity') }}</b></p> <rating :value="kit.complexity" :max="5" unit="🧠" />
                             </div>
                             <div class="d-flex fx-justify-between mb-5">
-                                <p><b>Matériel</b></p> <rating :value="kit.material" :max="5" unit="🧶" />
+                                <p><b>{{ $t('comp.kit.material') }}</b></p> <rating :value="kit.material" :max="5" unit="🧶" />
                             </div>
                             <div class="d-flex fx-justify-between mb-5">
-                                <p><b>Préparation</b></p> <rating :value="kit.time" :max="5" unit="⏱" />
+                                <p><b>{{ $t('comp.kit.preparation') }}</b></p> <rating :value="kit.time" :max="5" unit="⏱" />
                             </div>
 
                             <button-base class="mt-20" :modifiers="['s', 'full', 'secondary']">
-                                Kits prêt-à-imprimer
+                                {{ $t('pages.kit.cta.download') }}
                             </button-base>
                             <button-base class="mt-5" :modifiers="['s', 'full', 'blue']" :to="{ name: 'kits-slug-id', params: { slug: kit.slug, id: 'new' } }">
-                                Créer mon kit personnalisé
+                                {{ $t('pages.kit.cta.create') }}
                             </button-base>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
 
             <section class="Wrapper pv-60 max-width-m">
                 <div class="col-grow fx-grow">
-                    <h2 class="KitPage_subtitle">Les variantes</h2>
+                    <h2 class="KitPage_subtitle">{{ $t('pages.kit.variants') }}</h2>
 
                     <div class="KitPage_variant row" v-for="variant in kit.variants" :key="variant.id">
                         <div class="col-shrink">
@@ -135,9 +135,9 @@ export default {
     components: { TextEditor, LinkBase, Tag, SimpleSlider, ConversationStarter, Rating },
     async fetch () {
         const search = await this.$store.dispatch('kits/get', {
-            query: { slug: this.$route.params.slug }
+            query: { slug: this.$route.params.slug, lang: this.$i18n.locale }
         })
-
+        
         this.$data.kit = search
         this.$data.templates = await this.$store.dispatch('kits/project/fetch', {
             query: { template: true, kit: this.$data.kit._id }
@@ -155,13 +155,13 @@ export default {
             htmlAttrs: {
                 prefix: 'og: http://ogp.me/ns#'
             },
-            title: this.$data.kit.subtitle,
+            title: this.$data.kit.subtitle + this.$t('seo.titleEnd'),
             meta: [
                 { hid: 'description', name: 'description', content: this.$data.kit.excerpt },
                 { property: 'og:description', content: this.$data.kit.excerpt },
-                { property: 'og:image', content: this.$data.kit.thumbnail.src },
-                { property: 'og:image:width', content: this.$data.kit.thumbnail.width },
-                { property: 'og:image:height', content: this.$data.kit.thumbnail.height },
+                { property: 'og:image', content: this.$data.kit.thumbnail ? this.$data.kit.thumbnail.src : '' },
+                { property: 'og:image:width', content: this.$data.kit.thumbnail ? this.$data.kit.thumbnail.width : ''},
+                { property: 'og:image:height', content: this.$data.kit.thumbnail ? this.$data.kit.thumbnail.height : '' },
                 { property: 'og:type', content: 'article' },
                 { property: 'og:article:published_time', content: this.$data.kit.publishedDate },
                 { property: 'og:article:modified_time', content: this.$data.kit.modifiedDate },

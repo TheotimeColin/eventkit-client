@@ -2,10 +2,10 @@
     <div class="Page">
         <div class="Page_content">
             <form class="Form max-width-xs m-auto mv-40 text-center" @submit="onSubmit">
-                <p class="ft-s">Remplis le champ ci-dessous pour réinitialiser ton mot de passe :</p>
+                <p class="ft-s">{{ $t('pages.reset.new') }}</p>
 
                 <div class="Form_row Input_container mv-20">
-                    <input class="Input_element" type="password" v-model="reset.password" placeholder="Nouveau mot de passe">
+                    <input class="Input_element" type="password" v-model="reset.password" :placeholder="$t('forms.input.newPassword')">
                 </div>
 
                 <ul v-if="reset.errors">
@@ -13,7 +13,7 @@
                 </ul>
 
                 <div class="Form_row">
-                    <button-base>Réinitialiser mon mot de passe</button-base>
+                    <button-base>{{ $t('pages.reset.cta.reset') }}</button-base>
                 </div>
             </form>
         </div>

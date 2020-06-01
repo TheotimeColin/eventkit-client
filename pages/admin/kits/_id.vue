@@ -10,32 +10,54 @@
                 <form id="mainForm" class="Form row-s" @submit.prevent="onSubmit" ref="form">
                     <div class="col-8 mt-20">                        
                         <div class="Form_row Input_container">
-                            <textarea class="Input_element ft-title-xl ft-bold" rows="1" placeholder="Titre" v-model="kit.title"></textarea>
+                            <textarea
+                                class="Input_element ft-title-xl ft-bold"
+                                rows="1"
+                                placeholder="Titre"
+                                v-model="field['title']"
+                                v-for="(field, lang) in trans"
+                                v-show="state.lang == lang"
+                                :key="lang"
+                            ></textarea>
                         </div>
                         
                         <div class="Form_row Input_container">
-                            <textarea class="Input_element ft-title-2xl ft-bold" placeholder="Sous-titre" v-model="kit.subtitle"></textarea>
+                            <textarea
+                                class="Input_element ft-title-2xl ft-bold"
+                                placeholder="Sous-titre"
+                                v-model="field['subtitle']"
+                                v-for="(field, lang) in trans"
+                                v-show="state.lang == lang"
+                                :key="lang"
+                            ></textarea>
                         </div>
                         
 
                         <div class="Form_row Input_container">
-                            <textarea class="Input_element" placeholder="Excerpt" v-model="kit.excerpt"></textarea>
+                            <textarea
+                                class="Input_element"
+                                placeholder="Excerpt"
+                                v-model="field['excerpt']"
+                                v-for="(field, lang) in trans"
+                                v-show="state.lang == lang"
+                                :key="lang"
+                            ></textarea>
                         </div>
                         
                         <div class="Form_row">
                             <text-editor v-model="kit.content" />
                         </div>
 
-                        <div>
-                            <div class="d-flex fx-justify-between mt-40">
-                                <p class="ft-title-l"><b>Variantes</b></p>
+                        <div class="d-flex fx-justify-between mt-40">
+                            <p class="ft-title-l"><b>Variantes</b></p>
 
-                                <button-base type="button" :modifiers="['s']" fa="plus" @click="addVariant">
-                                    Ajouter
-                                </button-base>
-                            </div>
+                            <button-base type="button" :modifiers="['s']" fa="plus" @click="addVariant">
+                                Ajouter
+                            </button-base>
+                        </div>
 
-                            <div class="row-xs mv-20" v-for="(variant, i) in kit.variants" :key="i">
+                        <div v-for="(field, lang) in trans" v-show="state.lang == lang" :key="lang">
+                            <div class="row-xs mv-20" v-for="(variant, i) in field.variants" :key="i">
                                 <div class="col-4 text-center">
                                     <component
                                         class="p-relative m-auto"
@@ -95,10 +117,24 @@
             </popin-generic>
 
             <div class="bottom-bar">
-                <input type="checkbox" v-model="kit.published">
-                <button-base type="submit" form="mainForm">
-                    {{ kit._id ? 'Sauvegarder' : 'Créer' }}
-                </button-base>
+                <div class="Input_container">
+                    <select class="Input_element" v-model="state.lang">
+                        <option
+                            v-for="lang in LANGS"
+                            :key="lang.id"
+                            :value="lang.id"
+                        >
+                            {{ lang.label }}
+                        </option>
+                    </select>
+                </div>
+                
+                <div>
+                    <input type="checkbox" v-model="kit.published">
+                    <button-base type="submit" form="mainForm">
+                        {{ kit._id ? 'Sauvegarder' : 'Créer' }}
+                    </button-base>
+                </div>
             </div>
         </div>
     </div>
@@ -106,8 +142,10 @@
 
 <script>
 import dayjs from 'dayjs'
-import kits from '@/config/kits'
+import KITS from '@/config/kits'
 import pattern from '@/utils/pattern-mixin'
+
+const TRANSLATABLE = ['subtitle', 'title', 'excerpt', 'content', 'variants']
 
 import TextEditor from '@/components/admin/utils/TextEditor'
 import SelectSearch from '@/components/utils/SelectSearch'
@@ -132,9 +170,9 @@ export default {
                 search = JSON.parse(JSON.stringify(search))
                 
                 this.$data.kit = {
-                    ...this.$data.kit,
+                    ...this.$data.defaults,
                     ...search,
-                    theme: { ...kits[search.slug].default, ...search.theme }
+                    theme: { ...(KITS[search.slug] ? KITS[search.slug].default : {}), ...search.theme }
                 }
             }
             
@@ -148,34 +186,35 @@ export default {
     },
     data: () => ({
         state: {
+            lang: 'fr',
             loading: true
         },
-        stats: {
-            words: 0,
-            minutes: 0
-        },
-        kit: {
-            title: '',
-            subtitle: '',
+        kit: {},
+        defaults: {
             complexity: 1,
             time: 1,
             material: 1,
             slug: '',
+            theme: null,
+            publishedDate: null,
+            modifiedDate: null,
+        },
+        trans: {},
+        translatable: {
+            title: '',
+            subtitle: '',
             content: '',
             excerpt: '',
-            theme: null,
-            variants: [],
-            publishedDate: null,
-            modifiedDate: null
+            variants: []
         },
         editTheme: null
     }),
     computed: {
         initTheme () {
-            return kits[this.$data.kit.slug].theme
+            return KITS[this.$data.kit.slug].theme
         },
         defaultTheme () {
-            return kits[this.$data.kit.slug].default
+            return KITS[this.$data.kit.slug].default
         },
         publishedDate () {
             let date = dayjs(this.$data.kit.publishedDate)
@@ -186,11 +225,43 @@ export default {
             return `${date.fromNow()}`
         }
     },
+    watch: {
+        kit: {
+            deep: true,
+            immediate: true,
+            handler (v) {
+                this.$setTranslations(v)
+            }
+        }
+    },
     methods: {
+        $setTranslations (form) {
+            let translations = {}
+
+            this.LANGS.forEach(lang => {
+                if (!form.translations) return
+                
+                let current = form.translations.find(t => t.lang == lang.id)
+                
+                let test = Object.keys(form).filter(key => TRANSLATABLE.includes(key)).reduce((obj, key) => {
+                    obj[key] = form[key]
+                    return obj
+                }, {})
+
+                translations[lang.id] = { ...this.$data.translatable, ...test, ...(current ? current : {}) }
+            })
+
+            this.$data.trans = translations
+        },
         async onSubmit () {
+            let data = this.$data.trans
+            delete data.fr
+            
             const response = await this.$store.dispatch('kits/post', {
                 data: {
-                    ...this.$data.kit
+                    ...this.$data.kit,
+                    ...this.$data.trans.fr,
+                    translations: data
                 }
             })
 
@@ -204,7 +275,7 @@ export default {
             }
         },
         addVariant () {
-            this.$data.kit.variants.push({
+            this.$data.trans[this.$data.state.lang].variants.push({
                 title: '',
                 content: '',
                 theme: this.defaultTheme
@@ -249,10 +320,11 @@ export default {
             position: fixed;
             bottom: 0;
             left: 0;
+            z-index: 10;
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             padding: 0 20px;
             background-color: var(--color-bg-light);
             border-top: 1px solid var(--color-border-strong);

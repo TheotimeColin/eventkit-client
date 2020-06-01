@@ -6,6 +6,7 @@
         <div class="KitBlock_image" v-if="thumbnail">
             <img :src="thumbnail.src">
         </div>
+
         <div class="KitBlock_content">
             <div>
                 <p class="KitBlock_title">
@@ -18,21 +19,22 @@
 
                 <div class="mt-10 mb-30">
                     {{ shortExcerpt }}
+
                     <link-base :to="{ name: 'kits-slug', params: { slug } }">
-                        Lire la suite
+                        {{ $t('common.readMore') }}
                     </link-base>
                 </div>
             </div>
             
             <div class="KitBlock_actions">
                 <button-base :modifiers="['s', 'secondary']" :to="{ name: 'kits-slug-id', params: { slug, id: 'new' } }">
-                    Créer un kit personnalisé
+                    {{ $t('comp.kitBlock.create') }}
                 </button-base>
             </div>
 
             <action-menu class="KitBlock_options" :items="[
-                { label: 'Éditer', to: localePath({ name: 'admin-kits-id', params: { id } }) },
-                { label: 'Supprimer', to: localePath({ name: 'admin-kits-id', params: { id } }) }
+                { label: $t('common.edit'), to: localePath({ name: 'admin-kits-id', params: { id } }) },
+                { label: $t('common.delete'), to: localePath({ name: 'admin-kits-id', params: { id } }) }
             ]" v-if="editable" />
         </div>
     </div>

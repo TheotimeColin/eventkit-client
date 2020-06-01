@@ -12,6 +12,11 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/fr'
+import 'dayjs/locale/en'
+
 import HeaderMain from '@/components/HeaderMain'
 import ContextInfo from '@/components/utils/ContextInfo'
 import Notifications from '@/components/utils/Notifications'
@@ -27,6 +32,10 @@ export default {
         ['$route'] () {
             this.$store.commit('context/set', null)
         }
+    },
+    created () {
+        dayjs.extend(relativeTime)
+        dayjs.locale(this.$i18n.locale)
     }
 }
 </script>

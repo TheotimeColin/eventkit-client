@@ -3,7 +3,7 @@
         <div class="HeaderMain_wrapper Wrapper">
             <div class="HeaderMain_container">
                 <nuxt-link :to="localePath('/')" class="HeaderMain_logo">
-                    eventkit <span v-if="user && user.plan">créateur</span>
+                    {{ $t('seo.name') }} <span v-if="user && user.plan">{{ $t('premium.creator') }}</span>
                 </nuxt-link>
 
                 <nav class="HeaderMain_nav">
@@ -18,7 +18,7 @@
                             @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'login' } })"
                             v-if="!user"
                         >
-                            Me connecter
+                            {{ $t('common.login') }}
                         </button-base>
 
                         <button-base
@@ -26,11 +26,11 @@
                             @click.native="$store.commit('popins/open', { id: 'login', data: { type: 'register' } })"
                             v-if="!user"
                         >
-                            M'inscrire
+                            {{ $t('common.register') }}
                         </button-base>
 
                         <button-base :to="{ name: 'account' }" :modifiers="['s', 'pink']" v-if="user">
-                            Mon compte
+                            {{ $t('common.account') }}
                         </button-base>
                     </div>
                 </nav>
@@ -53,12 +53,9 @@ export default {
     computed: {
         navItems () {
             let items = [
-                { title: 'kits', name: 'kits', enabled: true },
-                { title: 'Blog', name: 'blog', enabled: true },
-                // { title: 'À propos', name: 'about', enabled: true },
-                // { title: 'Dashboard', name: 'dashboard', enabled: this.$store.state.auth.loggedIn },
-                { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin },
-                // { title: 'Se déconnecter', name: 'account-logout', enabled: this.$store.state.auth.loggedIn }
+                { title: this.$t('pages.kits.name'), name: 'kits', enabled: true },
+                { title: this.$t('pages.blog.name'), name: 'blog', enabled: true },
+                { title: 'Admin', name: 'admin', enabled: this.$store.state.auth.loggedIn && this.$store.state.auth.user.admin }
             ]
 
             return items.filter(item => item.enabled)

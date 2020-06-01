@@ -3,12 +3,13 @@
         <popin-generic id="login" :modifiers="['xs']" :global="true" @open="(v) => state.current = v ? v.type : 'register'" @close="onClose">
             <div class="ph-60 pv-40 text-center">
                 <div v-show="state.current == 'login'">
-                    <p class="ft-title-xl mb-40"><b>Connexion</b></p>
+                    <p class="ft-title-xl mb-40"><b>{{ $t('common.login') }}</b></p>
+
                     <base-form :form="login" :errors="loginErrors" @submit="onLogin">
                          <template slot="footer">
                             <div class="Form_row">
                                 <link-base @click.native="state.current = 'reset'">
-                                    J'ai oublié mon mot de passe
+                                    {{ $t('forms.forgot') }}
                                 </link-base>
                             </div>
                         </template>
@@ -18,31 +19,31 @@
 
                     <div class="text-center">
                         <button-base :modifiers="['secondary']" @click.native="state.current = 'register'">
-                            Pas de compte ? Inscris-toi !
+                            {{ $t('forms.register') }}
                         </button-base>
                     </div>
                 </div>
 
                 <div v-show="state.current == 'register'">
-                    <p class="ft-title-xl mb-40"><b>Inscription</b></p>
+                    <p class="ft-title-xl mb-40"><b>{{ $t('common.register') }}</b></p>
 
                     <base-form :form="register" :errors="registerErrors" @submit="onRegister" />
 
-                    <p class="text-center ft-xs mt-20">En continuant, vous acceptez les Conditions générales et Politique de confidentialité</p>
+                    <p class="text-center ft-xs mt-20">{{ $t('forms.conditions') }}</p>
 
                     <hr class="mv-20">
 
                     <div class="text-center">
                         <button-base :modifiers="['secondary']" @click.native="state.current = 'login'">
-                            Tu as déjà un compte ?
+                            {{ $t('forms.login') }}
                         </button-base>
                     </div>
                 </div>
 
                 <div v-show="state.current == 'reset'">
-                    <p class="ft-title-xl mb-40"><b>Réinitialisation du mot de passe</b></p>
+                    <p class="ft-title-xl mb-40"><b>{{ $t('pages.reset.title') }}</b></p>
 
-                    <p class="mb-20">Un e-mail avec un lien pour réinitialiser ton mot de passe va t'être envoyé.</p>
+                    <p class="mb-20">{{ $t('pages.reset.confirm') }}</p>
 
                     <base-form :form="reset" :errors="resetErrors" @submit="onReset" />
                 </div>
@@ -66,13 +67,11 @@ export default {
             email: {
                 id: 'email',
                 type: 'email',
-                label: 'Ton adresse e-mail',
                 required: true,
                 value: '',
             },
             password: {
                 id: 'password',
-                label: 'Ton mot de passe',
                 type: 'password',
                 required: true,
                 value: ''
@@ -82,7 +81,6 @@ export default {
         register: {
             name: {
                 id: 'name',
-                label: 'Ton prénom',
                 required: true,
                 value: '',
                 validations: {
@@ -92,14 +90,12 @@ export default {
             email: {
                 id: 'email',
                 type: 'email',
-                label: 'Ton adresse e-mail',
                 required: true,
                 value: '',
             },
             password: {
                 id: 'password',
                 component: 'input-text',
-                label: 'Ton mot de passe',
                 type: 'password',
                 required: true,
                 value: '',
@@ -115,7 +111,6 @@ export default {
             email: {
                 id: 'email',
                 type: 'email',
-                label: 'Ton adresse e-mail',
                 required: true,
                 value: '',
             }

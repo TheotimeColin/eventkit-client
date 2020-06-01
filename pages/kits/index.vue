@@ -5,7 +5,7 @@
                 <div class="Wrapper">
                     <simple-slider v-if="!state.loaded">
                         <template slot="title">
-                            <p class="ft-title-xl"><b>Mes derniers projets</b></p>
+                            <p class="ft-title-xl"><b>{{ $t('pages.kits.projects') }}</b></p>
                         </template>
 
                         <project-block
@@ -16,7 +16,7 @@
 
                     <simple-slider v-if="state.loaded">
                         <template slot="title">
-                            <p class="ft-title-xl"><b>Mes derniers projets</b></p>
+                            <p class="ft-title-xl"><b>{{ $t('pages.kits.projects') }}</b></p>
                         </template>
                             
                         <div class="width-project-block" v-for="project in projects" :key="project.id">
@@ -94,6 +94,16 @@ export default {
 
                 resolve()
             })
+        }
+    },
+    head () {
+        return {
+            htmlAttrs: { prefix: 'og: http://ogp.me/ns#' },
+            title: this.$t(`pages.kits.title`) + this.$t(`seo.titleEnd`),
+            meta: [
+                { hid: 'description', name: 'description', content: this.$t(`seo.description`) },
+                { property: 'og:description', content: this.$t(`seo.description`) }
+            ]
         }
     }
 }

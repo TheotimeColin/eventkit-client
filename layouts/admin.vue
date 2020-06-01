@@ -18,9 +18,7 @@ import Notifications from '@/components/utils/Notifications'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/fr'
-
-dayjs.extend(relativeTime)
-dayjs.locale('fr')
+import 'dayjs/locale/en'
 
 export default {
     name: 'LayoutAdmin',
@@ -30,6 +28,10 @@ export default {
         ['$route'] () {
             this.$store.commit('context/set', null)
         }
+    },
+    created () {
+        dayjs.extend(relativeTime)
+        dayjs.locale(this.$i18n.locale)
     }
 }
 </script>

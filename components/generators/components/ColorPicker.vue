@@ -3,8 +3,8 @@
         <div class="ColorPicker_container">
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
-                    <nav-bar class="mb-20" :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="Object.keys(options).map(key => ({
-                        id: key, color: value[key], label: options[key].label, onClick: () => state.current = key
+                    <nav-bar class="mb-20" :modifiers="['s', 'selector', 'vertical']" :current="state.current" :items="options.map(option => ({
+                        id: option, color: value[option], label: $t(`comp.colorPicker.nav.${option}`), onClick: () => state.current = option
                     }))" />
                     
                     <div ref="custom"></div>
@@ -16,7 +16,7 @@
                     <tag
                         :modifiers="['outline', 'selectable']"
                         class="m-3"
-                        :title="'All'"
+                        :title="$t('comp.colorPicker.filters.all')"
                         :selected="filters.theme.length <= 0"
                         @click.native="$onFilter({ theme: { value: [] }})"
                     />
@@ -26,7 +26,7 @@
                         :modifiers="['outline', 'selectable']"
                         class="m-3"
                         :key="i"
-                        :title="filter"
+                        :title="$t(`comp.colorPicker.filters.${filter}`)"
                         :selected="filters.theme.indexOf(filter) >= 0"
                         @click.native="$onFilter({ theme: { value: filter }})"
                     />
@@ -69,7 +69,7 @@ export default {
     props: {
         value: {},
         theme: {},
-        options: { type: Object }
+        options: { type: Array }
     },
     data: () => ({
         state: {
@@ -97,7 +97,7 @@ export default {
         }
     },
     mounted () {
-        this.$data.state.current = Object.keys(this.$props.options)[0]
+        this.$data.state.current = this.$props.options[0]
 
         if (this.$refs.custom) {
             this.$data.colorPicker = AColorPicker.createPicker(this.$refs.custom, {

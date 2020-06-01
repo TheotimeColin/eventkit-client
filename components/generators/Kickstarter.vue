@@ -16,8 +16,8 @@
                 </div>
             </header>
             <div class="Kickstarter_container Wrapper pv-40" :class="{ 'is-selected': selectedTheme }">
-                <h2 class="ft-title-2xl"><b>Choisis un design de départ</b></h2>
-                <p>Pas d'inquiétude, tout est configurable ensuite</p>
+                <h2 class="ft-title-2xl"><b>{{ $t('comp.kickstarter.title') }}</b></h2>
+                <p>{{ $t('comp.kickstarter.subtitle') }}</p>
 
                 <simple-slider v-for="(tag, id) in tags" class="mv-40" :modifiers="['s']" :gutter="10" :key="id">
                     <template slot="title">
@@ -47,10 +47,10 @@
             <div></div>
 
             <div class="d-flex fx-align-center">
-                <input-text type="text" v-model="title" label="Nomme ton projet" />
+                <input-text type="text" v-model="title" :label="$t('comp.kickstarter.name') " />
 
                 <button-base @click="create" class="ml-10" :modifiers="['blue', 's']" :disabled="selectedTheme ? false : false">
-                    Créer mon projet
+                    {{ $t('comp.kickstarter.cta.create')  }}
                 </button-base>
             </div>
         </div>
@@ -59,6 +59,7 @@
 
 <script>
 import KITS from '@/config/kits'
+import kitMixin from '@/utils/kit-mixin'
 import shortid from 'shortid'
 
 import ConversationStarter from '@/components/generators/ConversationStarter'
@@ -67,6 +68,7 @@ import InputText from '@/components/form/InputText'
 
 export default {
     name: 'Kickstarter',
+    mixins: [ kitMixin ],
     components: { ConversationStarter, SimpleSlider, InputText },
     async fetch () {
         try {    
@@ -74,7 +76,7 @@ export default {
                 query: { template: true, kit: this.$props.kit._id }
             })
 
-            this.$data.ideaPack = await this.$store.dispatch('kits/ideas/fetch', {
+            this.$data.defaultItdeas = await this.$store.dispatch('kits/ideas/fetch', {
                 query: { kickstarter: true, kit: this.$props.kit._id }
             })
         } catch (e) { console.warn(e) }
@@ -84,16 +86,13 @@ export default {
     },
     data: () => ({
         templates: [],
-        ideaPack: {},
+        defaultItdeas: {},
         title: '',
         selectedTheme: null
     }),
     computed: {
         theme () {
-            return KITS[this.$props.kit.slug].theme
-        },
-        defaultTheme () {
-            return KITS[this.$props.kit.slug].default
+            return KITS[this.$props.kit.slug]
         },
         tags () {
             let tags = {}
@@ -116,15 +115,14 @@ export default {
             this.$data.selectedTheme = this.$data.selectedTheme && this.$data.selectedTheme == theme ? null : theme
         },
         async create () {
-            let randomIdeas = this.$data.ideaPack ? this.$data.ideaPack.slice().sort(v => Math.random() - 0.5).slice(0, 10).map(v => ({
+            let randomIdeas = this.$data.defaultItdeas ? this.$data.defaultItdeas.slice().sort(v => Math.random() - 0.5).slice(0, 10).map(v => ({
                 ...v,
                 original: v,
                 _id: shortid.generate(),
                 new: true
             })) : []
             
-
-            if (!this.$data.selectedTheme) this.$data.selectedTheme = this.defaultTheme
+            if (!this.$data.selectedTheme) this.$data.selectedTheme = this.$getDefaultTheme(this.theme)
 
             await this.$store.dispatch('kits/project/create', {
                 title: this.$data.title,

@@ -1,5 +1,5 @@
 <template>
-    <div class="ConversationStarter" :class="{ ...classes }" :style="style">
+    <div class="ConversationStarter" :class="{ ...classes }" :style="{ ...style, '--scale': scale }">
         <div
             class="ConversationStarter_pattern"
             :style="{ backgroundImage: patternUrl }">
@@ -8,8 +8,8 @@
         <div class="ConversationStarter_container">
             <div class="ConversationStarter_footer">
                 <p class="ConversationStarter_name">
-                    {{ mergeTheme.title }}
-                    <span class="ConversationStarter_id">{{ data && data.position ? data.position : '0' }}</span>
+                    {{ mergeTheme.headerText }}
+                    <span class="ConversationStarter_id" v-show="mergeTheme.id">{{ data && data.position ? data.position : '0' }}</span>
                 </p>
             </div>
 
@@ -18,19 +18,20 @@
             </p>
             
             <p class="ConversationStarter_copyright">
-                {{ mergeTheme.footer }}
+                {{ mergeTheme.footerText }}
             </p>
         </div>
     </div>
 </template>
 
 <script>
-import patterns from '@/config/patterns'
 import initTheme from '@/config/kits/conversation-starters'
-import defaultTheme from '@/config/kits/defaults/conversation-starters-default'
+import kitMixin from '@/utils/kit-mixin'
+import patternMixin from '@/utils/pattern-mixin'
 
 export default {
     name: 'ConversationStarter',
+    mixins: [ kitMixin, patternMixin ],
     props: {
         theme: { default: () => ({}) },
         data: {},
@@ -39,77 +40,22 @@ export default {
     computed: {
         mergeTheme () {
             return {
-                ...defaultTheme,
+                ...this.$getDefaultTheme(initTheme),
                 ...this.$props.theme,
             }
         },
-        classes () {
-            let classes = {}
-
-            Object.keys(initTheme).forEach(key => {
-                let choice = initTheme[key]
-                let value = this.mergeTheme[key]
-                
-                if (choice.isClass) classes[`${choice.id}-${value}`] = true
-            })
-
-            return classes
+        classes () {        
+            return this.$themeToClass(this.mergeTheme, initTheme)
         },
         style () {
-            let style = {}
-
-            Object.keys(initTheme).forEach(key => {
-                let choice = initTheme[key]
-                let value = this.mergeTheme[key]
-
-                if (value == null) return
-
-                if (choice.var) style[`--${choice.var}`] = value
-                if (choice.varGroup) {
-                    let group = {}
-
-                    Object.keys(value).forEach(key => {
-                        let groupValue = value[key]
-                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = groupValue
-                    })
-
-                    style = {
-                        ...style,
-                        ...group
-                    }
-                }
-                if (choice.valueGroup) {
-                    let group = {}
-
-                    Object.keys(choice.options).forEach(key => {
-                        group[`--${key.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`] = value[key]
-                    })
-
-                    style = {
-                        ...style,
-                        ...group
-                    }
-                }
-            })
-
-            style['--width'] = this.mergeTheme.size.x + 'mm'
-            style['--height'] = this.mergeTheme.size.y + 'mm'
-            style['--margin'] = this.mergeTheme.size.margin + 'mm'
-            style['--scale'] = this.$props.scale
-
-            return style 
+            return this.$themeToStyle(this.mergeTheme, initTheme)
         },
         patternUrl () {
-            let value = ''
-            let pattern = patterns[this.mergeTheme.pattern.patternUrl]
-
-            if (pattern) value = pattern(
-                this.mergeTheme.colors.patternColor.replace('#', ''),
-                (this.mergeTheme.pattern.patternScale) * this.$props.scale,
-                this.mergeTheme.pattern.patternOpacity
-            )
-
-            return `url("${value}")`
+            return this.$pattern({
+                ...this.mergeTheme.pattern,
+                patternScale: (this.mergeTheme.pattern.patternScale) * this.$props.scale,
+                color: this.mergeTheme.colors.patternColor
+            })
         }
     },
     methods: {

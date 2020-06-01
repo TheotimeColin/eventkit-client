@@ -4,8 +4,8 @@
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
                     <div class="ColorPicker_range">
-                        <p>Taille</p>
-                        <range-slider class="RangeSlider" min="1" max="200" :value="value.elementScale * 100" @input="onScale" />
+                        <p class="mb-5">{{ $t(`comp.fontPicker.scale`) }}</p>
+                        <range-slider class="RangeSlider_input" min="1" max="200" :value="value.elementScale * 100" @input="onScale" />
                     </div>
                 </div>
             </div>

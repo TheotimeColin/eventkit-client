@@ -1,55 +1,81 @@
 <template>
     <div class="Printer">
         <nav-bar class="Printer_nav" :modifiers="['secondary']" :items="[
-            { id: 'generate', label: 'Générer', fa: 'sync', onClick: () => state.current = 'generate' },
-            { id: 'download', label: 'Télécharger', fa: 'arrow-to-bottom', onClick: () => state.current = 'download' },
-            { id: 'publish', label: 'Publier', fa: 'check-square', disabled: !user, onClick: () => state.current = 'publish' }
+            { id: 'generate', label: $t('comp.printer.nav.generate'), fa: 'sync', onClick: () => state.current = 'generate' },
+            { id: 'download', label: $t('comp.printer.nav.download'), fa: 'arrow-to-bottom', onClick: () => state.current = 'download' },
+            { id: 'publish', label: $t('comp.printer.nav.publish'), fa: 'check-square', disabled: !user, onClick: () => state.current = 'publish' }
         ]" :current="state.current" />
 
         <div class="Printer_content p-30">
             <div v-show="state.current == 'generate'">
                 <p class="ft-l">
-                    <b>Configuration de la page</b>
+                    <b>{{ $t('comp.printer.generate.title') }}</b>
                 </p>
 
-                <range
-                    class="mv-20"
-                    :options="{ label: 'Agrandissement cartes', min: 1, max: 2, step: 0.05, unit: 'x', display: true }"
-                    v-model="theme.page.cardScale"
-                    @input="$store.commit('kits/project/updateTheme', theme)"
-                    :disabled="state.loading"
-                />
+                <div class="mv-20">
+                    <range
+                        :label="$t(`comp.printer.generate.scale`)"
+                        :min="1"
+                        :max="2"
+                        :step="0.05"
+                        unit="x"
+                        :display="true"
+                        v-model="theme.page.componentScale"
+                        :options="['componentScale']"
+                        @input="$store.commit('kits/project/updateTheme', theme)"
+                        :disabled="state.loading"
+                    />
+                </div>
 
-                <range
-                    class="mv-20"
-                    :options="{ label: 'Marges de la page', min: 0, max: 20, step: 0.5, unit: 'mm', unitValue: true, display: true }"
-                    v-model="theme.page.margins"
-                    @input="$store.commit('kits/project/updateTheme', theme)"
-                    :disabled="state.loading"
-                />
+                <div class="mv-20">
+                    <range
+                        :label="$t(`comp.printer.generate.spacing`)"
+                        :min="0"
+                        :max="10"
+                        :step="0.1"
+                        unit="mm"
+                        :unit-value="true"
+                        :unit-display="true"
+                        :value-display="true"
+                        v-model="theme.page.spacing"
+                        :options="['spacing']"
+                        @input="$store.commit('kits/project/updateTheme', theme)"
+                        :disabled="state.loading"
+                    />
+                </div>
 
-                <range
-                    class="mv-20"
-                    :options="{ label: 'Espacement cartes', min: 0, max: 10, step: 0.1, unit: 'mm', unitValue: true, display: true }"
-                    v-model="theme.page.spacing"
-                    @input="$store.commit('kits/project/updateTheme', theme)"
-                    :disabled="state.loading"
-                />
+                <div class="mv-20">
+                    <range
+                        :label="$t(`comp.printer.generate.margins`)"
+                        :min="0"
+                        :max="20"
+                        :step="0.5"
+                        unit="mm"
+                        :unit-value="true"
+                        :unit-display="true"
+                        :value-display="true"
+                        v-model="theme.page.margins"
+                        :options="['margins']"
+                        @input="$store.commit('kits/project/updateTheme', theme)"
+                        :disabled="state.loading"
+                    />
+                </div>
 
                 <div class="d-flex fx-align-center">
                     <button-base class="mt-10" :modifiers="['s', 'blue']" @click="onExport" :loading="state.loading">
-                        Générer le kit <span v-show="state.loading">(page {{ state.page }} sur {{ batches.length }})</span>
+                        {{ $t(`comp.printer.generate.cta`) }} <span v-show="state.loading">{{ $t(`comp.printer.generate.loader`, { current: state.page, max: batches.length }) }}</span>
                     </button-base>
                     
-                    
-                    <p class="ml-10" v-show="state.outdated && !state.first">⚠️ Projet mis à jour, le kit doit être généré de nouveau.</p>
+                    <p class="ml-10" v-show="state.outdated && !state.first">
+                        {{ $t(`comp.printer.generate.updated`)}}
+                    </p>
                 </div>
             </div>
 
             <div v-show="state.current == 'download'">
                 <div>
                     <button-base :modifiers="['s', 'blue']" @click="downloadZip" :disabled="!mainZippedFile || state.loading">
-                        Tout télécharger (.zip)
+                        {{ $t('comp.printer.download.cta.all') }}
                     </button-base>
                 </div>
                 <div class="row-none fx-wrap mt-40">
@@ -61,7 +87,7 @@
                         <div class="Printer_pageImage">
                             <div class="Printer_pageDownload">
                                 <button-base :modifiers="['xs']" fa="arrow-to-bottom" :download="image.name" :href="image.src">
-                                    Télécharger la page
+                                    {{ $t('comp.printer.download.cta.page') }}
                                 </button-base>
                             </div>
 
@@ -72,39 +98,44 @@
             </div>
 
             <div v-show="state.current == 'publish' && user">
-                <div class="">
-                    Si tu souhaites partager ton kit, tu peux créer ici un lien de partage. <b>Ton kit ne sera visible que par les personnes qui possèdent ce lien.</b>
-                </div>
-
-                <div class="StyledBlock StyledBlock--cyan d-flex fx-justify-between fx-align-center mv-20 p-20">
-                    <div>
-                        <p>Pour mettre à jour le kit, génére d'abord un fichier</p>
-                        <p class="ft-xs color-ft-weak" v-if="lastPublication">Dernière publication : {{ lastPublication }}</p>
-                    </div>
-
-                    <button-base class="fx-no-shrink" :modifiers="['s', 'blue']" :disabled="!files.zip" :loading="state.uploading" @click="onPublish">
-                        Mettre à jour
-                    </button-base>
+                <div class="" v-html="$t('comp.printer.publish.sharing')">
                 </div>
                 
                 <div class="mt-20 b br-4 p-20">
-                    <div class="d-flex fx-justify-between fx-align-center mb-20">
-                        <p>kits/conversation-starters/-lEVUNEQ7</p>
-                        <button-base :modifiers="['s', 'secondary']">
-                            Prévisualiser
+                    <div class="StyledBlock StyledBlock--cyan d-flex fx-justify-between fx-align-center p-20">
+                        <button-base class="fx-no-shrink" :modifiers="['s', 'blue']" :disabled="!files.zip || !state.outpublished" :loading="state.uploading" @click="onPublish">
+                            {{ $t('comp.printer.publish.cta.update') }}
+                        </button-base>
+
+                        <div class="pl-20 fx-grow">
+                            <p v-show="!state.outpublished && files.zip">{{ $t('comp.printer.publish.allGood') }}</p>
+                            <p v-show="state.outpublished && !files.zip">{{ $t('comp.printer.publish.notGenerated') }}</p>
+                            <p v-show="state.outpublished && files.zip">{{ $t('comp.printer.publish.outdated') }}</p>
+
+                            <p class="ft-xs color-ft-weak" v-if="lastPublication">
+                                {{ $t('comp.printer.publish.lastPublished') }}
+                                {{ lastPublication }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex fx-justify-between fx-align-center mv-20">
+                        <copy-text class="fx-grow" :text="'kits/conversation-starters/-lEVUNEQ7kits/conversation-starters/-lEVUNEQ7kits/conversation-starters/-lEVUNEQ7'" />
+
+                        <button-base class="fx-no-shrink ml-10" :modifiers="['s', 'secondary']">
+                            {{ $t('comp.printer.publish.cta.preview') }}
                         </button-base>
                     </div>
 
-                    <div class="StyledBlock StyledBlock--gold d-flex fx-align-center">
+                    <div class="StyledBlock StyledBlock--gold d-flex fx-align-center" v-if="!user || !user.plan">
                         <button-base
                             class="fx-no-shrink"
                             :modifiers="['s', 'gold']"
                         >
-                            Devenir Créateur
+                            {{ $t('comp.printer.publish.cta.premium') }}
                         </button-base>
 
-                        <div class="pl-20">
-                            Avec un compte gratuit, si ton lien n'est pas visité pendant <b>plus d'un mois</b>, il sera automatiquement désactivé.
+                        <div class="pl-20" v-html="$t('comp.printer.publish.premium')">
                         </div>
                     </div>
                 </div>
@@ -127,7 +158,7 @@
                     :theme="project.theme"
                     :data="item"
                     :key="i"
-                    :scale="(2 * project.theme.page.cardScale)"
+                    :scale="(2 * project.theme.page.componentScale)"
                 />
             </page-generator>
         </div>
@@ -142,13 +173,14 @@ import slugify from 'slugify'
 
 import Accordion from '@/components/interactive/Accordion'
 import Range from '@/components/generators/components/Range'
+import CopyText from '@/components/utils/CopyText'
 import PageGenerator from '@/components/generators/PageGenerator'
 import ConversationStarter from '@/components/generators/ConversationStarter'
 import NavBar from '@/components/generators/NavBar'
 
 export default {
     name: 'Printer',
-    components: { Accordion, Range, PageGenerator, ConversationStarter, NavBar },
+    components: { Accordion, Range, PageGenerator, ConversationStarter, NavBar, CopyText },
     props: {
         project: { type: Object }
     },
@@ -159,6 +191,7 @@ export default {
             test: false,
             loading: false,
             outdated: false,
+            outpublished: false,
             uploading: false,
             page: 0
         },
@@ -241,9 +274,9 @@ export default {
             deep: true,
             handler (v) {
                 this.$data.theme = JSON.parse(JSON.stringify(v.theme))
-                if (!this.$data.theme.page) this.$data.theme.page = { margins: '0mm', spacing: '0mm', cardScale: 1 }
-
+                
                 this.$data.state.outdated = true
+                this.$data.state.outpublished = true
             }
         }
     },
@@ -263,6 +296,7 @@ export default {
             })
 
             this.$data.state.uploading = false
+            this.$data.state.outpublished = false
         },
         onExport () {
             this.$data.state.outdated = false

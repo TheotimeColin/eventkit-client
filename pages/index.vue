@@ -3,8 +3,8 @@
         <div class="Page_content">
             <section class="HomePage_heading" :style="{ '--background': activePage.background }">
                 <div class="Wrapper HomePage_titles">
-                    <h1 class="ft-title-4xl"><b>{{ $t('pages.home.main') }}</b></h1>
-                    <p class="ft-l width-xs mv-40">{{ $t('pages.home.subtitle') }}</p>
+                    <h1 class="ft-title-4xl max-width-s"><b>{{ $t('pages.home.main') }}</b></h1>
+                    <p class="ft-l width-xs mt-20 mb-40" v-html="$t('pages.home.subtitle')"></p>
 
                     <button-base to="kits" :style="{'--background': activePage.accent }">
                         {{ $t('pages.home.cta') }}
@@ -31,11 +31,11 @@
                        <template slot="title">
                             <div class="d-flex fx-align-end">
                                 <nuxt-link class="ft-title-xl mr-20 line-1" :to="localePath({ name: 'kits' })">
-                                    <b>Jeux & icebreakers</b>
+                                    <b>{{ $t('pages.home.kits') }}</b>
                                 </nuxt-link>
 
                                 <button-inline :to="localePath({ name: 'kits' })">
-                                    Voir tout
+                                    {{ $t('common.seeAll') }}
                                 </button-inline>
                             </div>
                         </template>
@@ -65,7 +65,7 @@
                                     </nuxt-link>
 
                                     <button-inline :to="localePath({ name: 'blog', query: { category: category.slug } })">
-                                        Plus d'articles
+                                        {{ $t('pages.home.articles') }}
                                     </button-inline>
                                 </div>
                             </template>
@@ -157,6 +157,16 @@ export default {
 
             setTimeout(() => this.$data.previous = null, 2000)
         }, 5000)
+    },
+    head () {
+        return {
+            htmlAttrs: { prefix: 'og: http://ogp.me/ns#' },
+            title: this.$t(`pages.home.title`),
+            meta: [
+                { hid: 'description', name: 'description', content: this.$t(`seo.description`) },
+                { property: 'og:description', content: this.$t(`pages.home.subtitle`) }
+            ]
+        }
     }
 }
 </script>

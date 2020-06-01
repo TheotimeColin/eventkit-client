@@ -1,16 +1,16 @@
 <template>
-    <div class="Range">
-        <div>
-            <p class="mb-5 ft-s">
-                <span v-if="options.label"><b>{{ options.label }}</b></span>
-                <span v-if="options.display">{{ localValue }}</span>
-                <span v-if="options.unit">{{ options.unit }}</span>
-            </p>
-            <range-slider
-                class="RangeSlider fx-grow"
-                :disabled="disabled"
-                type="range" :min="options.min" :max="options.max" :step="options.step" :value="localValue" @input="onUpdate" />
-        </div>
+    <div class="RangeSlider">
+        <p class="RangeSlider_label ft-s">
+            <b v-if="label">{{ label }}</b>
+            <span v-if="valueDisplay">{{ localValue }}</span>
+            <span v-if="unitDisplay">{{ unit }}</span>
+        </p>
+        
+        <range-slider
+            class="RangeSlider_input fx-grow"
+            :disabled="disabled"
+            type="range" :min="min" :max="max" :step="step" :value="localValue" @input="(v) => onUpdate(v)"
+        />
     </div>
 </template>
 
@@ -24,8 +24,15 @@ export default {
     components: { RangeSlider },
     props: {
         value: {},
+        valueDisplay: { type: Boolean, default: false },
         defaultValue: { type: Number, default: 1 },
-        options: { type: Object },
+        label: { type: String },
+        unit: { type: String },
+        unitValue: { type: Boolean, default: false },
+        unitDisplay: { type: Boolean, default: false },
+        min: { type: Number },
+        max: { type: Number },
+        step: { type: Number },
         disabled: { type: Boolean, default: false }
     },
     data: () => ({
@@ -43,7 +50,7 @@ export default {
     },
     methods: {
         onUpdate: throttle(50, function (v) {
-            if (this.$props.options.unit && this.$props.options.unitValue) v += this.$props.options.unit
+            if (this.$props.unit && this.$props.unitValue) v += this.$props.unit
 
             this.$emit('input', v)
         })

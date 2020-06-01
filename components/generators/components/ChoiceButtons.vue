@@ -2,34 +2,16 @@
     <div class="ChoiceButtons">
         <div
             class="ChoiceButtons_option"
-            v-for="option in fixedOptions"
+            v-for="(option, name) in options"
             :class="{
-                'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
-                'is-premium': option.premium && !isPremium
+                'is-selected': localValue == option
             }"
-            :style="{ '--font': option.value.fontFamily ? option.value.fontFamily : undefined }"
-            :key="option.id"
-            @click="onSelect(option.value)"
+            :key="name"
+            @click="onSelect(option)"
         >
             <p class="ChoiceButtons_content">
-                {{ option.label }}
+                {{ name }}
             </p>
-        </div>
-
-        <div
-            class="ChoiceButtons_custom"
-            v-for="option in customOptions"
-            :class="{
-                'is-selected': JSON.stringify(localValue) === JSON.stringify(option.value),
-                'is-premium': option.premium
-            }"
-            :key="option.id"
-        >
-            <div class="d-flex fx-align-center mr-10" v-for="(custom, key) in option.custom" :key="key">
-                <p class="mr-10">{{ custom.label }}</p>
-
-                <input class="ChoiceButtons_customInput" type="number" step="0.5" v-model="localValue[key]" @change="update" v-if="custom.type == 'input'">
-            </div>
         </div>
     </div>
 </template>
@@ -39,8 +21,7 @@ export default {
     name: 'ChoiceButtons',
     props: {
         value: {},
-        options: { type: Array },
-        isPremium: { type: Boolean, default: false }
+        options: { type: Object }
     },
     data: () => ({
         localValue: null
@@ -52,17 +33,10 @@ export default {
             handler (v) { this.$data.localValue = v }
         }
     },
-    computed: {
-        fixedOptions () {
-            return this.$props.options.filter(v => !v.custom)
-        },
-        customOptions () {
-            return this.$props.options.filter(v => v.custom)
-        }
-    },
     methods: {
         onSelect (value) {
             this.$data.localValue = value
+            
             this.update()
         },
         update () {

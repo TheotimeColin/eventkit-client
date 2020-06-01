@@ -4,19 +4,22 @@
             <nav-bar class="Configurator_nav" :modifiers="['secondary']" :items="nav" :current="state.active" />
             
             <div class="p-30">
-                <div class="Configurator_group" v-for="(group, key) in availableOptions" :key="key" v-show="state.active == key">
+                <div class="Configurator_group" v-for="(group, key) in configurators" :key="key" v-show="state.active == key">
                     <div
                         class="Configurator_row"
-                        v-for="(item, key) in group"
+                        v-for="(component, key) in group"
                         :key="key"
                     >
-                        <p class="mb-10" v-if="item.label"><b>{{ item.label }}</b></p>
+                        <p class="ft-xs" v-if="component.displayLabel">
+                            <b>{{ $t(`comp.configurator.components.${key}`) }}</b>
+                        </p>
 
                         <component
-                            :is="item.type"
-                            :options="item.options"
+                            :is="component.type"
+                            :options="component.options"
+                            :default-value="component.value"
                             :theme="localTheme"
-                            :default-value="item.defaultValue"
+                            v-bind="{ ...(component.props ? component.props : {}) }"
                             v-model="localTheme[key]"
                             @input="$emit('update', localTheme)"
                         />
@@ -37,10 +40,10 @@ import InputText from '@/components/generators/components/InputText'
 import Range from '@/components/generators/components/Range'
 
 const GROUPS = {
-    pattern: { position: 2, label: 'Motif', fa: 'chess-board' },
-    colors: { position: 1, label: 'Couleurs', fa: 'fill-drip' },
-    format: { position: 4, label: 'Format', fa: 'ruler' },
-    text: { position: 3, label: 'Textes', fa: 'text' },
+    pattern: { position: 2, fa: 'chess-board' },
+    colors: { position: 1, fa: 'fill-drip' },
+    format: { position: 4, fa: 'ruler' },
+    text: { position: 3, fa: 'text' },
 }
 
 export default {
@@ -57,23 +60,25 @@ export default {
         localTheme: null
     }),
     computed: {
-        availableOptions () {
-            let theme = {}
+        configurators () {
+            let configurators = {}
 
-            Object.keys(this.$props.initTheme).forEach(key => {
-                let value = this.$props.initTheme[key]
-                if (!value.static) {
-                    if (!theme[value.group]) theme[value.group] = {}
-                    theme[value.group][key] = value
+            Object.keys(this.$props.initTheme.options).forEach(optionId => {
+                let option = this.$props.initTheme.options[optionId]
+
+                if (option.type) {
+                    if (!configurators[option.group]) configurators[option.group] = {}
+                    configurators[option.group][optionId] = option
                 }
             })
 
-            return theme
+            return configurators
         },
         nav () {
-            return Object.keys(this.availableOptions).map(key => ({
+            return Object.keys(this.configurators).map(key => ({
                 ...GROUPS[key],
                 id: key,
+                label: this.$t(`comp.configurator.nav.${key}`),
                 onClick: () => this.$data.state.active = key
             })).sort((a, b) => a.position - b.position)
         }

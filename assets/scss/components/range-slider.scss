@@ -1,4 +1,4 @@
-.RangeSlider {
+.RangeSlider_input {
     width: 100% !important;
     padding: 0 !important;
     
@@ -9,4 +9,8 @@
     .range-slider-rail {
         background-color: var(--color-blue-xweak);
     }
+}
+
+.RangeSlider_label {
+    margin-bottom: 5px;
 }

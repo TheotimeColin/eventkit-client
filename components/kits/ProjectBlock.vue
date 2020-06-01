@@ -22,7 +22,7 @@
         <action-menu
             class="ProjectBlock_actions"
             :items="[
-                { id: 0, label: 'Supprimer', onClick: () => onDelete() }
+                { id: 0, label: $t('common.delete'), onClick: () => onDelete() }
             ]"
             v-if="project"
         />

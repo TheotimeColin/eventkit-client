@@ -43,6 +43,11 @@ export default {
                 Object.keys(this.$props.validations).forEach(key => {
                     let data = this.$props.validations[key]
 
+                    data.label = this.$t(`forms.validators.${key}`, {
+                        value1: data.value ? data.value : 0,
+                        value2: data.value2 ? data.value2 : 0,
+                    })
+
                     switch (key) {
                         case 'minLength':
                             if (this.$props.value.length < data.value) errors['minLength'] = data

@@ -1,124 +1,107 @@
-import patterns from '@/config/kits/common/patterns'
-import colors from '@/config/kits/common/colors'
-import fonts from '@/config/kits/common/fonts'
-
 export default {
-    component: {
-        static: true,
-        value: 'conversation-starter'
-    },
-    colors: {
-        id: 'colors',
-        group: 'colors',
-        type: 'color-picker',
-        valueGroup: true,
-        options: {
-            color: { fa: 'text', label: 'Texte' },
-            backgroundColor: { fa: 'draw-square', label: 'Fond' },
-            patternColor: { fa: 'chess-board', label: 'Motif' },
+    component: 'conversation-starter',
+    options: {
+        colors: {
+            group: 'colors',
+            type: 'color-picker',
+            isStyle: true,
+            values: {
+                color: { default: '#000000' },
+                backgroundColor: { default: '#ffffff' },
+                patternColor: { default: '#dddddd' },
+            },
+            options: ['color', 'backgroundColor', 'patternColor']
+        },
+        pattern: {
+            group: 'pattern',
+            type: 'pattern-picker',
+            isStyle: true,
+            values: {
+                patternUrl: { default: 'polka' },
+                patternOpacity: { default: '1' },
+                patternScale: { default: '1' }
+            }
+        },
+        font: {
+            group: 'text',
+            type: 'font-picker',
+            isStyle: true,
+            values: {
+                fontFamily: { default: `"Lato"`}
+            }
+        },
+        theme: {
+            group: 'text',
+            type: 'choice-buttons',
+            isClass: true,
+            value: 'default',
+            options: {
+                centered: 'default',
+                right: 'simple' 
+            }
+        },
+        headerText: {
+            group: 'text',
+            type: 'input-text',
+            displayLabel: true,
+            isText: true,
+            value: 'Starter n°'
+        },
+        footerText: {
+            group: 'text',
+            type: 'input-text',
+            displayLabel: true,
+            isText: true,
+            value: 'Créé sur eventkit.social'
+        },
+        id: {
+            group: 'text',
+            type: 'choice-buttons',
+            displayLabel: true,
+            value: true,
+            options: {
+                show: true,
+                hide: false
+            }
+        },
+        borderRadius: {
+            group: 'format',
+            type: 'range',
+            displayLabel: true,
+            isStyle: true,
+            value: 0.05,
+            props: {
+                min: 0,
+                max: 0.5,
+                step: 0.01
+            }
+        },
+        padding: {
+            group: 'format',
+            type: 'range',
+            displayLabel: true,
+            isStyle: true,
+            value: 7.5,
+            props: {
+                min: 0,
+                max: 20,
+                step: 0.1
+            }
+        },
+        size: {
+            group: 'format',
+            isStyle: true,
+            values: {
+                width: { default: '65mm' },
+                height: { default: '65mm' }
+            }
+        },
+        page: {
+            values: {
+                margins: { default: '7.5mm' },
+                spacing: { default: '0mm' },
+                componentScale: { default: 1 },
+            }
         }
     },
-    pattern: {
-        id: 'pattern',
-        group: 'pattern',
-        defaultValue: '',
-        type: 'pattern-picker',
-        varGroup: true,
-        defining: 'patternUrl',
-        options: patterns
-    },
-    font: {
-        id: 'font',
-        group: 'text',
-        defaultValue: { fontFamily: '"Lato"' },
-        type: 'font-picker',
-        varGroup: true,
-        options: fonts
-    },
-    theme: {
-        id: 'theme',
-        group: 'text',
-        label: `Disposition`,
-        type: 'choice-buttons',
-        default: 'default',
-        isClass: true,
-        options: [
-            { value: 'default', label: `Centré` },
-            { value: 'simple', label: `Aligné à gauche` }
-        ]
-    },
-    title: {
-        id: 'title',
-        group: 'text',
-        label: 'Texte de titre',
-        defaultValue: 'Starter n°',
-        type: 'input-text',
-        isText: true,
-        premium: true
-    },
-    footer: {
-        id: 'footer',
-        group: 'text',
-        label: 'Texte de footer',
-        defaultValue: 'Créé sur eventkit.social',
-        type: 'input-text',
-        isText: true,
-        premium: true
-    },
-    id: {
-        id: 'id',
-        group: 'text',
-        label: 'Afficher le numéro',
-        type: 'choice-buttons',
-        isClass: true,
-        options: [
-            { value: 'show', label: `Montrer` },
-            { value: 'hide', label: `Cacher` }
-        ]
-    },
-    radius: {
-        id: 'radius',
-        group: 'format',
-        label: `Arrondi bordures`,
-        type: 'range',
-        defaultValue: 1,
-        var: 'border-radius',
-        options: { value: 0.1, min: 0, max: 0.5, step: 0.01 }
-    },
-    padding: {
-        id: 'padding',
-        group: 'format',
-        label: `Marges intérieures`,
-        type: 'range',
-        defaultValue: 7.5,
-        var: 'padding',
-        options: { value: 1, min: 0, max: 20, step: 0.1 }
-    },
-    // size: {
-    //     id: 'size',
-    //     group: 'format',
-    //     label: `Format d'impression`,
-    //     type: 'choice-buttons',
-    //     isSize: true,
-    //     options: [
-    //         { value: { x: 65, y: 65, margin: 7.5 }, label: 'Carré' },
-    //         { value: { x: 84, y: 55, margin: 7.5 }, label: 'Paysage' },
-    //         { value: { x: 55, y: 84, margin: 7.5 }, label: 'Portrait' },
-    //         { value: { x: 75, y: 75, margin: 7.5 },
-    //             custom: {
-    //                 x: { label: 'Largeur (mm)', type: 'input' },
-    //                 y: { label: 'Hauteur (mm)', type: 'input'},
-    //                 margin: { label: 'Marges (mm)', type: 'input'}
-    //         } },
-    //     ]
-    // },
-    page: {
-        id: 'page',
-        static: true,
-        page: true,
-        options: {
-            margins: {},
-            spacing: {}
-        }
-    }
 }

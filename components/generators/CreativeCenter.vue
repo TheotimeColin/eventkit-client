@@ -2,7 +2,7 @@
     <div class="CreativeCenter">
         <div class="CreativeCenter_filters">
             <div class="col-4">
-                <p class="ft-s mb-5"><b>Catégories</b></p>
+                <p class="ft-s mb-5"><b>{{ $t('comp.creativeCenter.categories') }}</b></p>
                 <div class="CreativeCenter_tagGroup">
                     <tag
                         v-for="tag in tags.filter(t => t.type == 'category')"
@@ -17,14 +17,14 @@
             </div>
 
             <div class="col-8">
-                <p class="ft-s mb-5"><b>Tags</b></p>
+                <p class="ft-s mb-5"><b>{{ $t('comp.creativeCenter.tags') }}</b></p>
                 <div class="CreativeCenter_tagGroup">
                     <tag
                         v-for="tag in tags.filter(t => t.type == 'tag')"
                         :modifiers="['outline', 'selectable', 's']"
                         class="CreativeCenter_tag"
                         :key="tag._id"
-                        :title="tag.emoji ? tag.emoji : tag.label"
+                        :title="tag.emoji + ' ' + tag.label"
                         :selected="filters.tags.indexOf(tag._id) >= 0"
                         @click.native="onFilter({ tags: { value: tag._id, push: true }})"
                     />
@@ -54,12 +54,16 @@
             </data-row>
         </div>
 
-        <div class="CreativeCenter_pagination">
-            <button-base :modifiers="['xs', 'secondary']" :disabled="page == 0" @click="page--">Précédent</button-base>
+        <div class="CreativeCenter_pagination mb-60">
+            <button-base :modifiers="['xs', 'secondary']" :disabled="page == 0" @click="page--">
+                {{ $t('common.previous') }}
+            </button-base>
 
-            <div class="ft-s ft-weak">Page {{ page + 1 }} / {{ maxPage }}</div>
+            <div class="ft-s ft-weak">{{ $t('common.page') }} {{ page + 1 }} / {{ maxPage }}</div>
 
-            <button-base :modifiers="['s']" @click="page++" :disabled="(page + 1) == maxPage">Suivant</button-base>
+            <button-base :modifiers="['s']" @click="page++" :disabled="(page + 1) == maxPage">
+                {{ $t('common.next') }}    
+            </button-base>
         </div>
     </div>
 </template>

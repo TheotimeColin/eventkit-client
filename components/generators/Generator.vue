@@ -3,7 +3,7 @@
         <div class="Generator_header" :style="{ '--pattern': pattern }">
             <div>
                 <div class="ft-title-xl">
-                    <input type="text" placeholder="Nom de mon projet" class="Input--unstyled ft-bold" :value="project.title" v-if="project" @change="onTitleChange">
+                    <input type="text" :placeholder="$t(`comp.generator.header.project`)" class="Input--unstyled ft-bold" :value="project.title" v-if="project" @change="onTitleChange">
                 </div>
 
                 <div class="ft-m">
@@ -13,34 +13,30 @@
 
             <div class="Generator_premiumAlert StyledBlock StyledBlock--no-border StyledBlock--gold p-relative" v-if="!hasPremium && sale">
                 <button-base @click="onPremium" :modifiers="['gold', 'round', 's']" class="fx-no-shrink">
-                    Devenir Créateur
+                    {{ $t(`premium.offers.earlyBird.cta`) }}
                 </button-base>
 
-                <p class="ml-20">
-                    Jusqu'à <span class="ft-m"><b>-40%</b></span> sur ton abonnement, <span class="ft-m"><b>pour toujours</b></span> !
-                    <b>Offre limitée aux 100 premiers inscrits.</b>
-                </p>
+                <p class="ml-20" v-html="$t(`premium.offers.earlyBird.excerpt`)"></p>
 
                 <loading-bar :modifiers="['absolute', 'gold']" :max="100" :value="sale.times_redeemed" />
             </div>
 
-            <div class="d-flex fx-align-center">
+            <div class="d-flex fx-align-center width-2xs">
                 <div class="ft-s text-right mr-10" v-if="!project.temporary && !project.premium || project.premium && user.plan">
-                    Dernière sauvegarde :<br>
+                    {{ $t(`comp.generator.lastSave`) }} :<br>
                     <b>{{ saveWarning ? '⚠️ ' : '' }}{{ lastSaved }}</b>
                 </div>
 
                 <div class="ft-s text-right mr-10" v-if="project.temporary && user || project.premium && !user.plan">
-                    Limite de projets atteinte.<br>Supprime un ancien ou
-                    <link-base @click.native="onPremium">deviens Créateur</link-base> !
+                    {{ $t(`comp.generator.limit`) }} <link-base @click.native="onPremium">{{ $t(`comp.generator.cta.premium`) }}</link-base>
                 </div>
 
                 <div class="ft-s text-right mr-10" v-if="!user">
-                    Pour sauvegarder ton projet, <link-base @click.native="$store.commit('popins/open', { id: 'login' })">crée un compte</link-base>, <br>c'est gratuit.
+                    {{ $t(`comp.generator.toSave`) }} <link-base @click.native="$store.commit('popins/open', { id: 'login' })">{{ $t(`comp.generator.cta.create`) }}</link-base>{{ $t(`comp.generator.free`) }}
                 </div>
 
-                <button-base class="ml-10" :modifiers="['blue']" @click="$store.dispatch('kits/project/save')" :disabled="project.temporary || project.premium && !user.plan">
-                    Sauvegarder
+                <button-base class="ml-10 fx-no-shrink" :modifiers="['blue']" @click="$store.dispatch('kits/project/save')" :disabled="project.temporary || project.premium && !user.plan">
+                    {{ $t(`comp.generator.cta.save`) }}
                 </button-base>
             </div>
         </div>
@@ -50,7 +46,7 @@
                 { id: 'config', fa: 'clone', onClick: () => state.step = 'config' },
                 { id: 'data', fa: 'list-ol', onClick: () => state.step = 'data' },
                 { id: 'print', fa: 'print', onClick: () => state.step = 'print' },
-                { id: 'admin', fa: 'crown', onClick: () => state.step = 'admin', hidden: user.admin ? false : true }
+                { id: 'admin', fa: 'crown', onClick: () => state.step = 'admin', hidden: user && user.admin ? false : true }
             ]" />
 
             <div class="Generator_left">
@@ -86,15 +82,14 @@
             </div>
 
             <div class="Generator_previewer" v-show="state.step != 'share'">
-                <div class="Generator_previewOptions" v-if="project">
+                <!-- <div class="Generator_previewOptions" v-if="project">
                     <button-base @click="state.print = !state.print">
                         {{ state.print ? 'Mode individuel' : 'Mode page' }}
                     </button-base>
-                </div>
+                </div> -->
                 
                 <previewer
                     :project="project"
-                    :init-theme="initTheme"
                     :selected="selected"
                     :print="state.print"
                     v-if="project"
@@ -103,22 +98,37 @@
             </div>
         </div>
 
-        <popin-generic :modifiers="['s']" :is-active="state.wait" v-if="project.temporary && user && !user.plan">
+        <popin-generic :modifiers="['s']" :is-active="state.wait" v-if="project.temporary && user && !user.plan" @close="state.wait = false">
             <template slot="header">
-                <div class="ph-40 pv-20">
-                    <p class="ft-title-l"><b>Limite de projets atteinte</b></p>
+                <div class="ph-30 pv-20">
+                    <p class="ft-title-l"><b>{{ $t('comp.generator.limitedPopin.title') }}</b></p>
                 </div>
             </template>
             
-            <div class="p-40">
-                <p>Tu as atteint la limite de projets pour un compte gratuit. Tu ne pourras pas sauvegarder ou imprimer ce projet.<p>
-                <p>Supprime un ancien projet ou Deviens Créateur pour débloquer toutes les options et créer des projets en illimité !</p>
-                
-                <div class="mt-40 d-flex">
-                    <button-base :modifiers="['secondary']" @click="state.wait = false">Ok, je veux juste tester</button-base>
-                    <button-base :modifiers="['premium']">Devenir Créateur</button-base>
+            <div class="p-30">
+                <p v-html="$t('comp.generator.limitedPopin.content')"><p>
+
+                <div class="StyledBlock StyledBlock--gold mt-20 d-flex fx-align-center">
+                    <button-base
+                        class="fx-no-shrink mr-20"
+                        :modifiers="['gold', 's']"
+                        @click="() => { onPremium(); state.wait = false; }"
+                    >
+                        {{ $t('comp.generator.limitedPopin.cta') }}
+                    </button-base>
+                    <p v-html="$t('comp.generator.limitedPopin.premium')"></p>
                 </div>
             </div>
+
+            <template slot="footer">
+                <button-base :to="{ name: 'kits' }" :modifiers="['secondary', 's']">
+                    {{ $t('comp.generator.limitedPopin.cancel') }}
+                </button-base>
+
+                <button-base :modifiers="['s']" @click="state.wait = false">
+                    {{ $t('comp.generator.limitedPopin.confirm') }}
+                </button-base>
+            </template>
         </popin-generic>
 
         <popin-project
@@ -162,7 +172,7 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'config',
+            step: 'print',
             setPremium: false,
             print: false,
             printing: false,

@@ -32,7 +32,7 @@ export default {
 
         if (this.$route.params.slug) {
             this.$data.kit = await this.$store.dispatch('kits/get', {
-                query: { slug: this.$route.params.slug }
+                query: { slug: this.$route.params.slug, lang: this.$i18n.locale }
             })
         }
 
@@ -58,7 +58,7 @@ export default {
             return this.$store.getters['kits/project/getProject']
         },
         initTheme () {
-            return this.project ? KITS[this.project.kit.slug].theme : {}
+            return this.project ? KITS[this.project.kit.slug] : {}
         },
         slug () {
             return this.$route.params.slug

@@ -4,9 +4,9 @@
             <div class="PopinPremium_slider" :style="{ '--step': state.step, '--max-steps': 3 }">
                 <div class="PopinPremium_step">
                     <div class="p-20 StyledBlock StyledBlock--no-border StyledBlock--blue text-center p-relative" v-if="sale">
-                        <p class="ft-xs"><b>Offre de lancement limitée</b></p>
-                        <p class="ft-s">Uniquement pour les 100 premiers inscrits : vous êtes déjà <b>{{ sale.times_redeemed }} à avoir profité de cette offre</b> !</p>
-                        <p class="ft-l mt-10"><b>Le même prix exceptionnel pour toujours</b>, où jusqu'à la résiliation.</p> 
+                        <p class="ft-xs"><b>{{ $t('premium.offers.earlyBird.title') }}</b></p>
+                        <p class="ft-s" v-html="$t('premium.offers.earlyBird.subtitle', { times: sale.times_redeemed })"></p>
+                        <p class="ft-l mt-10" v-html="$t('premium.offers.earlyBird.highlight')"></p> 
 
                         <loading-bar :modifiers="['absolute', 'premium']" :max="100" :value="sale.times_redeemed" ref="loadingBar" />
                     </div>
@@ -14,21 +14,21 @@
                     <div class="row mt-20 ft-s">
                         <div class="col-3">
                             <div class="mb-30">
-                                <p><b>🍹 Soirées, mariages...</b></p>
-                                <p class="mb-10 color-ft-weak">Impressionne tes invités</p>
-                                Économise grâce à une bibliothèque de jeux <b>renouvelable à l'infini</b>, la seule limite est ton imagination !
+                                <p><b>{{ $t('premium.personas.organizers.title') }}</b></p>
+                                <p class="mb-10 color-ft-weak">{{ $t('premium.personas.organizers.subtitle') }}</p>
+                                <p v-html="$t('premium.personas.organizers.description')"></p>
                             </div>
 
                             <div class="mb-30">
-                                <p><b>👋 Organisateurs & pros</b></p>
-                                <p class="mb-10 color-ft-weak">Démarre plus rapidement</p>
-                                Mets tout de suite à l'aise tes participants avec nos icebreakers <b>aux couleurs de votre marque</b>.
+                                <p><b>{{ $t('premium.personas.pros.title') }}</b></p>
+                                <p class="mb-10 color-ft-weak">{{ $t('premium.personas.pros.subtitle') }}</p>
+                                <p v-html="$t('premium.personas.pros.description')"></p>
                             </div>
 
                             <div>
-                                <p><b>🎁 Bloggers, influenceurs</b></p>
-                                <p class="mb-10 color-ft-weak">Créer de la valeur à petit prix</p>
-                                Conçois de magnifiques cartes qui te ressemblent et offre-les à ta communauté, <b>ils vont adorer.</b>
+                                <p><b>{{ $t('premium.personas.bloggers.title') }}</b></p>
+                                <p class="mb-10 color-ft-weak">{{ $t('premium.personas.bloggers.subtitle') }}</p>
+                                <p v-html="$t('premium.personas.bloggers.description')"></p>
                             </div>
                         </div>
                         <div class="col-9">
@@ -39,8 +39,8 @@
 
                 <div class="PopinPremium_step">
                     <div class="StyledBlock StyledBlock--no-border StyledBlock--gold text-center p-20 mb-40">
-                        <p class="ft-l"><b>🎉 Génial !</b> On a hâte de te compter parmi nous.</p>
-                        <p class="ft-s">Il ne reste plus qu'à procéder au paiement.</p>
+                        <p class="ft-l" v-html="$t('pages.premium.payment.title')"></p>
+                        <p class="ft-s" v-html="$t('pages.premium.payment.subtitle')"></p>
                     </div>
 
                     <div class="row" v-if="plan">
@@ -52,45 +52,50 @@
                                         <td class="text-center">{{ plan.value }}€</td>
                                     </tr>
                                     <tr>
-                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--blue p-10 ft-xs"><b>Offre de lancement -{{ plan.coupon * 100 }}%</b></td>
+                                        <td class="StyledBlock StyledBlock--no-border StyledBlock--blue p-10 ft-xs"><b>{{ $t('premium.offers.earlyBird.shortTitle') }} -{{ plan.coupon * 100 }}%</b></td>
                                         <td class="text-center"><b>-{{ Math.floor((plan.value - (plan.value * (1 - plan.coupon))) * 100) / 100 }}€</b></td>
                                     </tr>
                                     <tr>
-                                        <td>Total aujourd'hui</td>
+                                        <td>{{ $t('pages.premium.total') }}</td>
                                         <td class="text-center"><b>{{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€</b></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="color-ft-weak ft-xs">Puis {{ Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100 }}€ tous les {{ plan.length }} mois ensuite. Abonnement résiliable à tout moment.</td>
+                                        <td colspan="2" class="color-ft-weak ft-xs">
+                                            {{ $t('pages.premium.subscription', {
+                                                price: Math.floor((plan.value * (1 - plan.coupon)) * 100) / 100,
+                                                frequency: plan.length
+                                            }) }} {{ $t('pages.premium.resiliation') }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
 
                             <button-base :modifiers="['xs', 'secondary']" class="mt-20" @click="state.step = 0">
-                                Choisir une autre option
+                                {{ $t('pages.premium.cta.back') }}
                             </button-base>
                         </div>
 
                         <div class="col-6">
                             <div class="mb-20" v-if="!user">
-                                <p class="ft-l mb-20"><b>Première étape, créer un compte !</b></p>
+                                <p class="ft-l mb-20"><b>
+                                    {{ $t('pages.premium.payment.createAccount') }}
+                                </b></p>
+
                                 <base-form :form="register" :errors="registerErrors" @submit="onRegister" />
                             </div>
                             
                             <div v-if="user">
-                                <p class="ft-m mb-20">
-                                    <b>{{ user.name }}</b>, plus qu'une étape pour devenir Créateur !
-                                </p>
+                                <p class="ft-m mb-20" v-html="$t('pages.premium.payment.oneMore', {
+                                    name: user.name
+                                })"></p>
 
-                                <base-form :errors="formErrors" @submit="onSubmit" :loading="state.loading" :submit="{ label: 'Confirmer mon paiement' }">
+                                <base-form :errors="formErrors" @submit="onSubmit" :loading="state.loading" :submit="{ label: $t('pages.premium.payment.confirm') }">
                                     <template slot="form">
                                         <div class="Form_row">
                                             <div class="Input Input--card" ref="cardInput"></div>
                                         </div>
                                     </template>
                                 </base-form>
-
-                                <!-- <button-base type="button" :modifiers="['xs', 'secondary']" @click.native="state.step = 0">Retour</button-base> -->
-
                             </div>
                         </div>
                     </div>
@@ -99,10 +104,12 @@
                 <div class="PopinPremium_step">
                     <div class="StyledBlock StyledBlock--no-border StyledBlock--gold PopinPremium_success">
                         <div>
-                            <p class="ft-2xl"><b>🎀 Incroyable 🎀</b></p>
-                            <p class="mv-20 width-xs">Tu es maintenant Créateur. Découvre vite tout tes avantages ! Je te remercie pour ton support.</p>
+                            <p class="ft-2xl" v-html="$t('pages.premium.confirm.title')"></p>
+                            <p class="mv-20 width-xs" v-html="$t('pages.premium.confirm.subtitle')"></p>
 
-                            <button-base :modifiers="['gold']">Créer un kit</button-base>
+                            <button-base :modifiers="['gold']">
+                                {{ $t('pages.premium.confirm.continue') }}
+                            </button-base>
                         </div>
                     </div>
                 </div>
@@ -129,37 +136,30 @@ export default {
             loading: false
         },
         stripe: null,
-        plan: { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '5.99', length: '1' },
-        plans: [
-            { id: 'creator-1', label: 'Abonnement Créateur 1 mois', emoji: '🌱', coupon: '0.3', value: '7.99', length: '1' },
-            { id: 'creator-3', label: 'Abonnement Créateur 3 mois', emoji: '🌟', coupon: '0.4', value: '19.99', length: '3', highlight: true },
-            { id: 'creator-12', label: 'Abonnement Créateur 12 mois', emoji: '💖', coupon: '0.3', value: '59.99', length: '12' }
-        ],
+        plan: null,
+        plans: [],
         register: {
             name: {
                 id: 'name',
-                label: 'Ton prénom',
                 required: true,
                 value: ''
             },
             email: {
                 id: 'email',
                 type: 'email',
-                label: 'Ton adresse e-mail',
                 required: true,
                 value: '',
             },
             password: {
                 id: 'password',
                 component: 'input-text',
-                label: 'Ton mot de passe',
                 type: 'password',
                 required: true,
                 value: '',
                 validations: {
-                    minLength: { value: 6, error: 'Cette valeur doit faire au moins 5 caractères' },
-                    maxLength: { value: 16, error: 'Cette valeur ne devrait pas dépasser 16 caractères' },
-                    password: { error: 'Ton  mot de passe doit contenir au moins une majuscule et 1 chiffre ou caractère spécial' }
+                    minLength: { value: 6 },
+                    maxLength: { value: 16 },
+                    password: {}
                 }
             }
         },
@@ -169,6 +169,15 @@ export default {
         },
         formErrors: []
     }),
+    mounted () {
+        this.$data.plans = [
+            { id: 'creator-1', label: this.$t('premium.plans.creator1.full'), emoji: '🌱', coupon: '0.3', value: '7.99', length: '1' },
+            { id: 'creator-3', label: this.$t('premium.plans.creator3.full'), emoji: '🌟', coupon: '0.4', value: '19.99', length: '3', highlight: true },
+            { id: 'creator-12', label: this.$t('premium.plans.creator12.full'), emoji: '💖', coupon: '0.3', value: '59.99', length: '12' }
+        ]
+
+        this.$data.plan = this.$data.plans[0]
+    },
     computed: {
         user () {
             return this.$store.state.auth.user

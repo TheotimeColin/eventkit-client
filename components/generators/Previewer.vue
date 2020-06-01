@@ -2,9 +2,8 @@
     <div class="Previewer" :class="{ 'is-print': print }">
         <div class="Previewer_component" ref="component" v-if="!print">
             <component
-                :is="initTheme.component.value"
+                :is="project.theme.component"
                 :theme="project.theme"
-                :init-theme="initTheme"
                 :data="activeItem"
                 :style="style"
                 :scale="style['--scale']"
@@ -23,11 +22,11 @@
                 <component
                     class="p-relative"
                     v-for="(item, i) in batch"
-                    :is="initTheme.component.value"
+                    :is="project.theme.component"
                     :theme="project.theme"
                     :data="item"
                     :key="i"
-                    :scale="style['--page-scale'] * project.theme.page.cardScale"
+                    :scale="style['--page-scale'] * theme.page.componentScale"
                 />
             </page-generator>
         </div>
@@ -36,15 +35,16 @@
 
 <script>
 import { throttle } from 'throttle-debounce'
+import kitMixin from '@/utils/kit-mixin'
 
 import ConversationStarter from '@/components/generators/ConversationStarter'
 import PageGenerator from '@/components/generators/PageGenerator'
 
 export default {
     name: 'Previewer',
+    mixins: [ kitMixin ],
     components: { ConversationStarter, PageGenerator },
     props: {
-        initTheme: { type: Object },
         project: { type: Object },
         print: { type: Boolean, default: false },
         selected: { type: String, default: 'default' }
@@ -60,6 +60,9 @@ export default {
         window.addEventListener('resize', throttle(1000, () => this.fit()))
     },
     computed: {
+        theme () {
+            return this.$props.project.theme
+        },
         styleConfig () {
             let style = {}
 
@@ -81,12 +84,12 @@ export default {
         batches () {
             let pageWidth = 210
             let pageHeight = 297
-            let spacing = parseInt(this.$props.project.theme.page.spacing)
-            let margins = parseInt(this.$props.project.theme.page.margins)
+            let spacing = parseFloat(this.theme.page.spacing)
+            let margins = parseFloat(this.theme.page.margins)
             let pageMargins = margins * 2
 
-            let componentWidth = (this.$props.project.theme.size.x * this.$props.project.theme.page.cardScale) + (spacing * 2)
-            let componentHeight = (this.$props.project.theme.size.y * this.$props.project.theme.page.cardScale) + (spacing * 2)
+            let componentWidth = (parseFloat(this.theme.size.width) * this.theme.page.componentScale) + (spacing * 2)
+            let componentHeight = (parseFloat(this.theme.size.height) * this.theme.page.componentScale) + (spacing * 2)
 
             let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
             let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)

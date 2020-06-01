@@ -4,35 +4,34 @@
             <div class="ColorPicker_picker">
                 <div class="ColorPicker_sticky">
                     <div class="ColorPicker_range">
-                        <p>Taille</p>
-                        <range-slider class="RangeSlider" min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
+                        <p class="mb-5">{{ $t(`comp.patternPicker.scale`) }}</p>
+                        <range-slider class="RangeSlider_input" min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
                     </div>
 
                     <div class="ColorPicker_range">
-                        <p>Transparence</p>
-                        <range-slider class="RangeSlider" min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
+                        <p class="mb-5">{{ $t(`comp.patternPicker.opacity`) }}</p>
+                        <range-slider class="RangeSlider_input" min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
                     </div>
                 </div>
             </div>
             
             <div class="ColorPicker_colors">
                 <div class="row-2xs fx-wrap">
-                    <div class="col-12 mb-5" v-for="option in patterns" :key="option.id">
+                    <div class="col-12 mb-5" v-for="(pattern, name) in patterns" :key="name">
                         <div
                             class="ColorPicker_palette ColorPicker_palette--pattern"
                             :class="{
-                                'is-selected': value.patternUrl == option.value.patternUrl,
-                                'is-premium': option.premium && !isPremium
+                                'is-selected': value.patternUrl == name
                             }"
                             :style="{
-                                '--pattern': option.background,
+                                '--pattern': pattern,
                                 '--background-color': theme.colors.backgroundColor,
                                 '--color': theme.colors.color,
                                 '--font': theme.font.fontFamily
                             }"
-                            @click="onSelect(option.value.patternUrl)"
+                            @click="onSelect(name)"
                         >
-                            {{ option.label }}
+                            {{ name }}
                         </div>
                     </div>
                 </div>
@@ -42,7 +41,8 @@
 </template>
 
 <script>
-import patterns from '@/config/patterns'
+import PATTERNS from '@/config/patterns'
+import patternMixin from '@/utils/pattern-mixin'
 import RangeSlider from 'vue-range-slider'
 import 'vue-range-slider/dist/vue-range-slider.css'
 
@@ -50,10 +50,10 @@ import { throttle } from 'throttle-debounce';
 
 export default {
     name: 'PatternPicker',
+    mixins: [ patternMixin ],
     components: { RangeSlider },
     props: {
         value: {},
-        options: { type: Array },
         theme: {},
         isPremium: { type: Boolean, default: false }
     },
@@ -72,14 +72,18 @@ export default {
     },
     computed: {
         patterns () {
-            return this.options.map(p => {
-                let pattern = patterns[p.value.patternUrl]
-                
-                return {
-                    ...p,
-                    background: pattern ? `url("${pattern(this.$props.theme.colors.patternColor.replace('#', ''), 0.5, 1)}")` : ''
-                }
+            let patterns = {}
+
+            Object.keys(PATTERNS).map(patternId => {
+                patterns[patternId] = this.$pattern({
+                    patternUrl: patternId,
+                    patternOpacity: 1,
+                    patternScale: 0.5,
+                    color: this.$props.theme.colors.patternColor
+                })
             })
+
+            return patterns
         }
     },
     methods: {
