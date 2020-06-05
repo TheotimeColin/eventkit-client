@@ -3,7 +3,7 @@
         <nav-bar class="Printer_nav" :modifiers="['secondary']" :items="[
             { id: 'generate', label: $t('comp.printer.nav.generate'), fa: 'sync', onClick: () => state.current = 'generate' },
             { id: 'download', label: $t('comp.printer.nav.download'), fa: 'arrow-to-bottom', onClick: () => state.current = 'download' },
-            { id: 'publish', label: $t('comp.printer.nav.publish'), fa: 'check-square', disabled: !user, onClick: () => state.current = 'publish' }
+            { id: 'publish', label: $t('comp.printer.nav.share'), fa: 'share-alt', disabled: !user, onClick: () => state.current = 'publish', hidden: true }
         ]" :current="state.current" />
 
         <div class="Printer_content p-30">
@@ -98,53 +98,61 @@
             </div>
 
             <div v-show="state.current == 'publish' && user">
-                <div class="" v-html="$t('comp.printer.publish.sharing')">
+                <!-- <div class="StyledBlock StyledBlock--cyan d-flex fx-justify-between fx-align-center p-20">
+                    <button-base class="fx-no-shrink" :modifiers="['s', 'blue']" :disabled="!files.zip || !state.outpublished" :loading="state.uploading" @click="onPublish">
+                        {{ $t('comp.printer.publish.cta.update') }}
+                    </button-base>
+
+                    <div class="pl-20 fx-grow">
+                        <div v-html="$t('comp.printer.publish.sharing')"></div>
+                    </div>
                 </div>
                 
                 <div class="mt-20 b br-4 p-20">
-                    <div class="StyledBlock StyledBlock--cyan d-flex fx-justify-between fx-align-center p-20">
-                        <button-base class="fx-no-shrink" :modifiers="['s', 'blue']" :disabled="!files.zip || !state.outpublished" :loading="state.uploading" @click="onPublish">
-                            {{ $t('comp.printer.publish.cta.update') }}
-                        </button-base>
-
-                        <div class="pl-20 fx-grow">
-                            <p v-show="!state.outpublished && files.zip">{{ $t('comp.printer.publish.allGood') }}</p>
-                            <p v-show="state.outpublished && !files.zip">{{ $t('comp.printer.publish.notGenerated') }}</p>
-                            <p v-show="state.outpublished && files.zip">{{ $t('comp.printer.publish.outdated') }}</p>
-
-                            <p class="ft-xs color-ft-weak" v-if="lastPublication">
-                                {{ $t('comp.printer.publish.lastPublished') }}
-                                {{ lastPublication }}
-                            </p>
-                        </div>
-                    </div>
-                    
                     <div class="d-flex fx-justify-between fx-align-center mv-20">
                         <copy-text class="fx-grow" :text="'kits/conversation-starters/-lEVUNEQ7kits/conversation-starters/-lEVUNEQ7kits/conversation-starters/-lEVUNEQ7'" />
 
-                        <button-base class="fx-no-shrink ml-10" :modifiers="['s', 'secondary']">
+                        <button-base class="fx-no-shrink ml-10" :modifiers="['s', 'secondary']" @click="state.preview = true">
                             {{ $t('comp.printer.publish.cta.preview') }}
                         </button-base>
                     </div>
+                </div> -->
 
-                    <div class="StyledBlock StyledBlock--gold d-flex fx-align-center" v-if="!user || !user.plan">
-                        <button-base
-                            class="fx-no-shrink"
-                            :modifiers="['s', 'gold']"
-                        >
-                            {{ $t('comp.printer.publish.cta.premium') }}
-                        </button-base>
-
-                        <div class="pl-20" v-html="$t('comp.printer.publish.premium')">
+                <div class="mb-40 o-hidden" v-if="theme.templates">
+                    <simple-slider :modifiers="['s']">
+                        <div
+                            v-for="template in templates"
+                            :key="template.name"
+                        >   
+                            <share-template
+                                :modifiers="[template.name]"
+                                :scale="0.5"
+                                :theme="project.theme"
+                                :background-color="theme.templates.backgroundColor"
+                                :items="project.ideas"
+                                ref="template"
+                            />
                         </div>
-                    </div>
+                    </simple-slider>
+
+                    <color-picker
+                        class="mt-20"
+                        v-model="theme.templates.backgroundColor"
+                        @input="$store.commit('kits/project/updateTheme', theme)"
+                    />
                 </div>
             </div>
         </div>
 
+        <!-- <popin-project
+            :is-active="state.preview"
+            @close="state.preview = false" 
+            :project="project"
+        /> -->
+
         <div class="Printer_canvas">
             <page-generator
-                class="Printer_page"
+                class="Previewer_page"
                 :style="styleConfig"
                 :scale="2"
                 v-for="(batch, i) in batches"
@@ -158,7 +166,7 @@
                     :theme="project.theme"
                     :data="item"
                     :key="i"
-                    :scale="(2 * project.theme.page.componentScale)"
+                    :scale="2 * theme.page.componentScale"
                 />
             </page-generator>
         </div>
@@ -170,17 +178,23 @@ import JSZip from 'jszip'
 import dayjs from 'dayjs'
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
+import allKits from '@/utils/all-kits-mixin'
+import batchesMixin from '@/utils/batches-mixin'
 
 import Accordion from '@/components/interactive/Accordion'
 import Range from '@/components/generators/components/Range'
 import CopyText from '@/components/utils/CopyText'
 import PageGenerator from '@/components/generators/PageGenerator'
-import ConversationStarter from '@/components/generators/ConversationStarter'
 import NavBar from '@/components/generators/NavBar'
+import ShareTemplate from '@/components/generators/ShareTemplate'
+import ColorPicker from '@/components/generators/components/ColorPicker'
+import SimpleSlider from '@/components/interactive/SimpleSlider'
+import PopinProject from '@/components/popins/PopinProject'
 
 export default {
     name: 'Printer',
-    components: { Accordion, Range, PageGenerator, ConversationStarter, NavBar, CopyText },
+    mixins: [ allKits, batchesMixin ],
+    components: { Accordion, Range, PageGenerator, NavBar, CopyText, ShareTemplate, ColorPicker, SimpleSlider, PopinProject },
     props: {
         project: { type: Object }
     },
@@ -193,13 +207,15 @@ export default {
             outdated: false,
             outpublished: false,
             uploading: false,
+            preview: false,
             page: 0
         },
         files: {
             zip: null
         },
         theme: {},
-        images: []
+        images: [],
+        templates: []
     }),
     computed: {
         activeItems () {
@@ -217,39 +233,7 @@ export default {
             return style
         },
         batches () {
-            let pageWidth = 210
-            let pageHeight = 297
-            let spacing = parseInt(this.$props.project.theme.page.spacing)
-            let margins = parseInt(this.$props.project.theme.page.margins)
-            let pageMargins = margins * 2
-
-            let componentWidth = (this.$props.project.theme.page.cardScale * this.$props.project.theme.size.x) + (spacing * 2)
-            let componentHeight = (this.$props.project.theme.page.cardScale * this.$props.project.theme.size.y) + (spacing * 2)
-
-            let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
-            let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
-
-            let batchSize = fitWidth * fitHeight
-
-            let batches = []
-            let batch = []
-            let size = batchSize
-            let batchId = 0
-
-            this.activeItems.forEach(component => {
-                batch.push(component)
-                size--
-
-                batches[batchId] = batch
-
-                if (size == 0) {
-                    batchId++
-                    size = batchSize
-                    batch = []
-                }    
-            })
-
-            return batches
+            return this.$batches({ theme: this.$data.theme })
         },
         projectSlug () {
             let date = dayjs(new Date()).format('MMDDTHH:mm:ss')
@@ -279,6 +263,14 @@ export default {
                 this.$data.state.outpublished = true
             }
         }
+    },
+    mounted () {
+        this.$data.templates = [
+            { name: 'falling-down', backgroundColor: '#ffffff' },
+            { name: 'simple-stack', backgroundColor: '#ffffff' },
+            { name: 'messy', backgroundColor: '#ffffff' },
+            { name: 'ordered', backgroundColor: '#ffffff' }
+        ]
     },
     methods: {
         downloadZip () {

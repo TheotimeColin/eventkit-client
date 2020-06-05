@@ -30,7 +30,10 @@ export default {
             state.project.theme = theme
         },
         updateData (state, data) {
-            state.project.ideas = data
+            let project = JSON.parse(JSON.stringify(state.project))
+            project.ideas = data
+
+            state.project = project
         },
         destroyProject (state) {
             state.project = null

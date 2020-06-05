@@ -1,0 +1,49 @@
+.PalettePicker_container {
+    display: flex;
+}
+
+.PalettePicker_colors {
+    margin: -3px;
+    flex-grow: 1;
+}
+
+.PalettePicker_picker {
+    flex-shrink: 0;
+    margin-right: 40px;
+}
+
+.PalettePicker_sticky {
+    position: sticky;
+    top: 90px;
+    min-width: 230px;
+}
+
+.PalettePicker_range {
+    margin-top: 20px;
+    font: var(--ft-xs);
+    font-weight: bold; 
+}
+
+.PalettePicker_palette {
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    font-family: var(--font);
+    font-size: calc(16px * var(--font-normalize, 1));
+    color: var(--color);
+    background-color: var(--background-color);
+    background-image: var(--pattern);
+    text-transform: capitalize;
+}
+
+.PalettePicker_filters {
+    margin: -3px;
+}
+
+.PalettePicker_palette--font {
+    height: 60px;
+    text-align: left;
+    padding: 0 20px;
+    justify-content: flex-start;
+}

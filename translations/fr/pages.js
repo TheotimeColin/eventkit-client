@@ -53,5 +53,18 @@ export default {
             buy: `Devenir Créateur`,
             back: `Choisir une autre option`
         }
+    },
+    account: {
+        title: `Bonjour, <b>{name}</b>.`,
+        dashboard: {
+            title: `Mon compte`
+        },
+        subscription: {
+            title: `Mon abonnement`,
+            manage: `Gérer mon abonnement`
+        },
+        cta: {
+            deleteAccount: `Supprimer mon compte`
+        }
     }
 }

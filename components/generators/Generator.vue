@@ -62,6 +62,7 @@
                     <data-editor
                         class="Generator_dataEditor"
                         :project="project"
+                        :selected="selected"
                         @select="(v) => selected = v"
                         v-show="state.step == 'data'"
                     />
@@ -130,12 +131,6 @@
                 </button-base>
             </template>
         </popin-generic>
-
-        <popin-project
-            :is-active="state.share"
-            @close="state.share = false" 
-            :project="project"
-        />
     </div>
 </template>
 
@@ -150,12 +145,11 @@ import DataEditor from '@/components/generators/DataEditor'
 import TemplateCreator from '@/components/generators/TemplateCreator'
 import Printer from '@/components/generators/Printer'
 import PopinGeneric from '@/components/popins/PopinGeneric'
-import PopinProject from '@/components/popins/PopinProject'
 import LoadingBar from '@/components/interactive/LoadingBar'
 
 export default {
     name: 'Generator',
-    components: { NavBar, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar, PopinProject, TemplateCreator },
+    components: { NavBar, Configurator, Previewer, DataEditor, PopinGeneric, Printer, LoadingBar, TemplateCreator },
     head () {
         return {
             title: this.$props.project ? `${this.$props.project.kit.title} à imprimer` : undefined
@@ -172,7 +166,7 @@ export default {
     },
     data: () => ({
         state: {
-            step: 'print',
+            step: 'config',
             setPremium: false,
             print: false,
             printing: false,

@@ -36,14 +36,15 @@
 <script>
 import { throttle } from 'throttle-debounce'
 import kitMixin from '@/utils/kit-mixin'
+import allKits from '@/utils/all-kits-mixin'
+import batchesMixin from '@/utils/batches-mixin'
 
-import ConversationStarter from '@/components/generators/ConversationStarter'
 import PageGenerator from '@/components/generators/PageGenerator'
 
 export default {
     name: 'Previewer',
-    mixins: [ kitMixin ],
-    components: { ConversationStarter, PageGenerator },
+    mixins: [ kitMixin, allKits, batchesMixin ],
+    components: { PageGenerator },
     props: {
         project: { type: Object },
         print: { type: Boolean, default: false },
@@ -82,39 +83,7 @@ export default {
             return selected[0] ? selected[0] : this.activeItems[this.activeItems.length - 1]
         },
         batches () {
-            let pageWidth = 210
-            let pageHeight = 297
-            let spacing = parseFloat(this.theme.page.spacing)
-            let margins = parseFloat(this.theme.page.margins)
-            let pageMargins = margins * 2
-
-            let componentWidth = (parseFloat(this.theme.size.width) * this.theme.page.componentScale) + (spacing * 2)
-            let componentHeight = (parseFloat(this.theme.size.height) * this.theme.page.componentScale) + (spacing * 2)
-
-            let fitWidth = Math.floor((pageWidth - pageMargins) / componentWidth)
-            let fitHeight = Math.floor((pageHeight - pageMargins) / componentHeight)
-
-            let batchSize = fitWidth * fitHeight
-
-            let batches = []
-            let batch = []
-            let size = batchSize
-            let batchId = 0
-
-            this.activeItems.forEach(component => {
-                batch.push(component)
-                size--
-
-                batches[batchId] = batch
-
-                if (size == 0) {
-                    batchId++
-                    size = batchSize
-                    batch = []
-                }    
-            })
-
-            return batches
+            return this.$batches({ theme: this.theme })
         }
     },
     watch: {

@@ -1,25 +1,25 @@
 <template>
-    <div class="ColorPicker">
-        <div class="ColorPicker_container">
-            <div class="ColorPicker_picker">
-                <div class="ColorPicker_sticky">
-                    <div class="ColorPicker_range">
+    <div class="PalettePicker">
+        <div class="PalettePicker_container">
+            <div class="PalettePicker_picker">
+                <div class="PalettePicker_sticky">
+                    <div class="PalettePicker_range">
                         <p class="mb-5">{{ $t(`comp.patternPicker.scale`) }}</p>
                         <range-slider class="RangeSlider_input" min="1" max="500" :value="value.patternScale * 100" @input="onScale" />
                     </div>
 
-                    <div class="ColorPicker_range">
+                    <div class="PalettePicker_range">
                         <p class="mb-5">{{ $t(`comp.patternPicker.opacity`) }}</p>
                         <range-slider class="RangeSlider_input" min="1" max="100" :value="value.patternOpacity * 100" @input="onOpacity" />
                     </div>
                 </div>
             </div>
             
-            <div class="ColorPicker_colors">
+            <div class="PalettePicker_colors">
                 <div class="row-2xs fx-wrap">
                     <div class="col-12 mb-5" v-for="(pattern, name) in patterns" :key="name">
                         <div
-                            class="ColorPicker_palette ColorPicker_palette--pattern"
+                            class="PalettePicker_palette PalettePicker_palette--pattern"
                             :class="{
                                 'is-selected': value.patternUrl == name
                             }"

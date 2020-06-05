@@ -3,19 +3,19 @@
         <div class="Page_content">
             <div class="AccountPage_banner StyledBlock pv-40" :class="{ 'StyledBlock--gold': user.plan }">
                 <div class="Wrapper">
-                    <p class="ft-title-2xl">Bonjour, <b>{{ user.name }}</b>.</p>
-                    <p v-if="user.plan">{{ $t(`subscriptions.${user.plan}.condensed`) }}</p>
+                    <p class="ft-title-2xl" v-html="$t('pages.account.title', { name: user.name })"></p>
+                    <p v-if="user.plan">{{ $t(`premium.plans.${user.plan.replace('-', '')}.condensed`) }}</p>
                 </div>
             </div>
 
             <div class="AccountPage_nav">
                 <div class="Wrapper AccountPage_navContainer">
                     <nav-bar :current="state.current" :items="[
-                        { id: 'home', label: 'Dashboard', onClick: () => state.current = 'home' }
+                        { id: 'home', label: $t(`pages.account.dashboard.title`), onClick: () => state.current = 'home' }
                     ]" />
 
                     <button-base :to="{ name: 'account-logout' }" :modifiers="['secondary', 's']">
-                        Me déconnecter
+                        {{ $t(`common.logout`) }}
                     </button-base>
                 </div>
             </div>
@@ -23,30 +23,25 @@
             <div class="Wrapper">
                 <div class="pv-40">
                     <template v-if="state.current == 'home'">
-                        <div class="p-20 offer text-center p-relative mb-40" v-if="!user.plan && sale">
-                            <p class="ft-xs"><b>Offre de lancement limitée</b></p>
-                            <p class="ft-xs">Uniquement pour les 100 premiers inscrits : vous êtes déjà {{ sale.times_redeemed }} à avoir profité de cette offre !</p>
-                            <p class="ft-l mt-10"><b>Le même prix exceptionnel pour toujours</b>, où jusqu'à la résiliation.</p>
-                            
-                            <button-base class="mt-20" :modifiers="['offer', 'round']" @click="$store.commit('popins/open', { id: 'premium' })">
-                                J'en profite
-                            </button-base>
+                        <offer
+                            class="mb-40"
+                            offer="earlyBird"
+                            :max="100"
+                            :redeemed="sale.times_redeemed"
+                            v-if="!user.plan && sale"
+                        />
 
-                            <loading-bar :modifiers="['absolute']" :max="100" :value="sale.times_redeemed" ref="loadingBar" />
-                        </div>
-
-                        <link-base class="mb-40" @click.native="onPortal" v-if="user.stripeId">
-                            Gérer mon abonnement
+                        <link-base class="m-40" @click.native="onPortal" v-if="user.stripeId">
+                            {{ $t(`account.subscription.manage`) }}
                         </link-base>
-
 
                         <div>
                             <button-base :modifiers="['s', 'secondary']" @click.native="$store.commit('utils/confirmPrompt', {
                                 onConfirm: () => onDelete(),
                                 active: true,
-                                confirmText: 'Supprimer mon compte'
+                                confirmText: $t(`pages.account.cta.deleteAccount`)
                             })">
-                                Supprimer mon compte
+                                {{ $t(`pages.account.cta.deleteAccount`) }}
                             </button-base>
                         </div>
                     </template>
@@ -60,12 +55,12 @@
 import dayjs from 'dayjs'
 
 import NavBar from '@/components/generators/NavBar'
-import LoadingBar from '@/components/interactive/LoadingBar'
+import Offer from '@/components/utils/Offer'
 
 export default {
     name: 'AccountPage',
     middleware: 'user',
-    components: { NavBar, LoadingBar },
+    components: { NavBar, Offer },
     data: () => ({
         state: {
             current: 'home'

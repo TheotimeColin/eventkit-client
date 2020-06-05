@@ -1,4 +1,4 @@
-.ConversationStarter {
+.BasicSquare {
     font-family: var(--font-family);
     background: var(--background-color);
     color: var(--color);
@@ -15,7 +15,7 @@
 }
 
 
-.ConversationStarter_pattern {
+.BasicSquare_pattern {
     content: "";
     display: block;
     @include absolute-fill;
@@ -26,7 +26,7 @@
     position: static;
 }
 
-.ConversationStarter_container {
+.BasicSquare_container {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -39,7 +39,7 @@
     @include absolute-fill;
 }
 
-.ConversationStarter_main {
+.BasicSquare_main {
     font-size: calc(calc((calc(16px * var(--font-normalize, 1))) * var(--element-scale, 1)) * var(--scale));
     line-height: var(--line-height, 1.4);
     text-align: center;
@@ -47,57 +47,57 @@
     letter-spacing: normal;
 }
 
-.ConversationStarter_name {
+.BasicSquare_name {
     font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
     position: relative;
     z-index: 1;
     width: 100%;
 }
 
-.ConversationStarter_footer {
+.BasicSquare_footer {
     position: relative;
     width: 100%;
 }
 
-.ConversationStarter_copyright {
+.BasicSquare_copyright {
     font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
     width: 100%;
 }
 
 /* THEMES */
 
-.ConversationStarter.id-hide {
+.BasicSquare.id-hide {
 
-    .ConversationStarter_id {
+    .BasicSquare_id {
         display: none !important;
     }
 }
 
-.ConversationStarter.theme-default {
+.BasicSquare.theme-default {
     
-    .ConversationStarter_name {
+    .BasicSquare_name {
         letter-spacing: 1px;
     }
 }
 
-.ConversationStarter.theme-simple {
+.BasicSquare.theme-simple {
 
-    .ConversationStarter_footer {
+    .BasicSquare_footer {
         text-align: left;
     }
     
-    .ConversationStarter_main {
+    .BasicSquare_main {
         text-align: left;
     }
 
-    .ConversationStarter_name {
+    .BasicSquare_name {
         display: inline-block;
         vertical-align: middle;
         width: auto;
         letter-spacing: normal;
     }
     
-    .ConversationStarter_copyright {
+    .BasicSquare_copyright {
         text-align: left;
     }
 }

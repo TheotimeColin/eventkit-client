@@ -22,7 +22,7 @@ import Generator from '@/components/generators/Generator'
 import KITS from '@/config/kits'
 
 export default {
-    name: 'ConversationStarters',
+    name: 'KitGenerator',
     layout: 'fullpage',
     components: { Generator, Kickstarter },
     async fetch () {

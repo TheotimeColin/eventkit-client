@@ -1,23 +1,25 @@
 <template>
-    <div class="ConversationStarter" :class="{ ...classes }" :style="{ ...style, '--scale': scale }">
+    <div class="ExquisiteCorpse BasicSquare" :class="{ ...classes }" :style="{ ...style, '--scale': scale }">
         <div
-            class="ConversationStarter_pattern"
+            class="BasicSquare_pattern"
             :style="{ backgroundImage: patternUrl }">
         </div>
         
-        <div class="ConversationStarter_container">
-            <div class="ConversationStarter_footer">
-                <p class="ConversationStarter_name">
+        <div class="BasicSquare_container">
+            <div class="BasicSquare_footer">
+                <p class="BasicSquare_name">
                     {{ mergeTheme.headerText }}
-                    <span class="ConversationStarter_id" v-show="mergeTheme.id">{{ data && data.position ? data.position : '0' }}</span>
+                    <span class="BasicSquare_id" v-show="mergeTheme.id">{{ data && data.position ? data.position : '0' }}</span>
                 </p>
             </div>
 
-            <p class="ConversationStarter_main" :class="{ 'is-empty': !data || !data.content }">
-                {{ data && data.content ? unwrapPunctuation(data.content.main) : 'Voyez ce koala fou qui mange des journaux et des photos dans un bungalow' }}
-            </p>
+            <div class="BasicSquare_main"
+                :class="{ 'is-empty': !data || !data.content }"
+                v-html="unwrapPunctuation(data.content.main)"
+                v-if="data && data.content"
+            ></div>
             
-            <p class="ConversationStarter_copyright">
+            <p class="BasicSquare_copyright">
                 {{ mergeTheme.footerText }}
             </p>
         </div>
@@ -30,7 +32,7 @@ import kitMixin from '@/utils/kit-mixin'
 import patternMixin from '@/utils/pattern-mixin'
 
 export default {
-    name: 'ConversationStarter',
+    name: 'ExquisiteCorpse',
     mixins: [ kitMixin, patternMixin ],
     props: {
         theme: { default: () => ({}) },
@@ -60,6 +62,7 @@ export default {
     },
     methods: {
         unwrapPunctuation (string) {
+            string = string.replace(/_/g, '<nobr><span class="ExquisiteCorpse_replace"></span></nobr>')
             string = string.replace(' ?', ' ?')
             string = string.replace(' !', ' !')
             string = string.replace(' :', ' :')

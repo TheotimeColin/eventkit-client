@@ -1,5 +1,5 @@
 export default {
-    component: 'conversation-starter',
+    component: 'exquisite-corpse',
     options: {
         colors: {
             group: 'colors',

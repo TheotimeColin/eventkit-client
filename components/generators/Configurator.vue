@@ -33,7 +33,7 @@
 <script>
 import NavBar from '@/components/generators/NavBar'
 import ChoiceButtons from '@/components/generators/components/ChoiceButtons'
-import ColorPicker from '@/components/generators/components/ColorPicker'
+import PalettePicker from '@/components/generators/components/PalettePicker'
 import PatternPicker from '@/components/generators/components/PatternPicker'
 import FontPicker from '@/components/generators/components/FontPicker' 
 import InputText from '@/components/generators/components/InputText'
@@ -48,7 +48,7 @@ const GROUPS = {
 
 export default {
     name: 'Configurator',
-    components: { NavBar, ChoiceButtons, PatternPicker, ColorPicker, InputText, Range, FontPicker },
+    components: { NavBar, ChoiceButtons, PatternPicker, PalettePicker, InputText, Range, FontPicker },
     props: {
         initTheme: { type: Object },
         theme: { type: Object }

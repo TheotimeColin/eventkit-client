@@ -1,20 +1,20 @@
 <template>
-    <div class="ColorPicker">
-        <div class="ColorPicker_container">
-            <div class="ColorPicker_picker">
-                <div class="ColorPicker_sticky">
-                    <div class="ColorPicker_range">
+    <div class="PalettePicker">
+        <div class="PalettePicker_container">
+            <div class="PalettePicker_picker">
+                <div class="PalettePicker_sticky">
+                    <div class="PalettePicker_range">
                         <p class="mb-5">{{ $t(`comp.fontPicker.scale`) }}</p>
                         <range-slider class="RangeSlider_input" min="1" max="200" :value="value.elementScale * 100" @input="onScale" />
                     </div>
                 </div>
             </div>
             
-            <div class="ColorPicker_colors">
+            <div class="PalettePicker_colors">
                 <div class="row-2xs fx-wrap">
                     <div class="col-12 mb-5" v-for="(option, i) in fonts" :key="i">
                         <div
-                            class="ColorPicker_palette ColorPicker_palette--font"
+                            class="PalettePicker_palette PalettePicker_palette--font"
                             :class="{
                                 'is-selected': option.value.fontFamily == value.fontFamily,
                                 'is-premium': option.premium

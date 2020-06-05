@@ -96,7 +96,8 @@ export default {
         nav: {
             generate: `Générer`,
             download: `Télécharger`,
-            publish: `Publier`
+            publish: `Publier`,
+            share: `Partager`
         },
         generate: {
             title: `Configuration de la page`,

@@ -4,7 +4,7 @@
             <div class="kit-cover" :style="{
                 backgroundColor: kit.theme.colors.backgroundColor,
                 backgroundImage: $pattern({ ...kit.theme.pattern, color: kit.theme.colors.patternColor })
-            }" @click="editTheme = { ...defaultTheme, ...kit.theme }" v-if="kit.theme"></div>
+            }" @click="editTheme = { ...defaultTheme, ...kit.theme }" v-if="kit.theme && kit.theme.colors"></div>
 
             <div class="Wrapper">
                 <form id="mainForm" class="Form row-s" @submit.prevent="onSubmit" ref="form">
@@ -37,15 +37,20 @@
                             <textarea
                                 class="Input_element"
                                 placeholder="Excerpt"
-                                v-model="field['excerpt']"
                                 v-for="(field, lang) in trans"
+                                v-model="field['excerpt']"
                                 v-show="state.lang == lang"
                                 :key="lang"
                             ></textarea>
                         </div>
                         
                         <div class="Form_row">
-                            <text-editor v-model="kit.content" />
+                            <text-editor
+                                v-for="(field, lang) in trans"
+                                v-model="field['content']"
+                                v-show="state.lang == lang"
+                                :key="lang"
+                            />
                         </div>
 
                         <div class="d-flex fx-justify-between mt-40">
@@ -144,12 +149,12 @@
 import dayjs from 'dayjs'
 import KITS from '@/config/kits'
 import pattern from '@/utils/pattern-mixin'
+import allKits from '@/utils/all-kits-mixin'
 
 const TRANSLATABLE = ['subtitle', 'title', 'excerpt', 'content', 'variants']
 
 import TextEditor from '@/components/admin/utils/TextEditor'
 import SelectSearch from '@/components/utils/SelectSearch'
-import ConversationStarter from '@/components/generators/ConversationStarter'
 import Configurator from '@/components/generators/Configurator'
 import PopinGeneric from '@/components/popins/PopinGeneric'
 import Rating from '@/components/interactive/Rating'
@@ -157,8 +162,8 @@ import Rating from '@/components/interactive/Rating'
 export default {
     name: 'ArticlePageAdmin',
     layout: 'admin',
-    mixins: [ pattern ],
-    components: { TextEditor, SelectSearch, ConversationStarter, Configurator, PopinGeneric, Rating },
+    mixins: [ allKits, pattern ],
+    components: { TextEditor, SelectSearch, Configurator, PopinGeneric, Rating },
     async fetch () {
         try {
             if (this.$route.params.id && this.$route.params.id !== 'new') {
@@ -173,6 +178,14 @@ export default {
                     ...this.$data.defaults,
                     ...search,
                     theme: { ...(KITS[search.slug] ? KITS[search.slug].default : {}), ...search.theme }
+                }
+            } else {
+                this.$data.kit = {
+                    ...this.$data.defaults,
+                    translations: this.LANGS.map(lang => ({
+                        ...this.$data.translatable,
+                        lang: lang.id
+                    }))
                 }
             }
             
@@ -254,7 +267,7 @@ export default {
             this.$data.trans = translations
         },
         async onSubmit () {
-            let data = this.$data.trans
+            let data = JSON.parse(JSON.stringify(this.$data.trans))
             delete data.fr
             
             const response = await this.$store.dispatch('kits/post', {

@@ -44,25 +44,36 @@ export default {
         itemsFit: 0,
         passedElements: 0
     }),
+    ready () {
+        this.init()
+    },
     mounted () {
-        this.$data.itemsCount = this.$el.querySelectorAll('.SimpleSlider_rail > *').length
-        if (this.$data.itemsCount <= 0) return
-
-        this.hammer = require('hammerjs')
-        this.$data.hammer = new this.hammer(this.$refs.rail)
-
-        this.$data.elementWidth = this.$el.querySelector('.SimpleSlider_rail > *').offsetWidth + this.$props.gutter
-        this.$data.itemsFit = Math.floor(this.$refs.rail.offsetWidth / this.elementWidth)
-        this.$data.itemsFit -= Math.max(0, this.$data.itemsFit - this.$data.itemsCount)
-
-        this.$data.hammer.on('panstart', (e) => this.onPanStart(e))
-        this.$data.hammer.on('panend', (e) => this.onPanEnd(e))
-        this.$data.hammer.on('panmove', (e) => this.onPan(e))
-        this.$data.hammer.get('pan').set({
-            direction: Hammer.DIRECTION_HORIZONTAL
-        })
+        this.init()
     },
     methods: {
+        init () {
+            this.$data.itemsCount = this.$el.querySelectorAll('.SimpleSlider_rail > *').length
+
+            console.log(this.$data.itemsCount)
+
+            if (this.$data.itemsCount <= 0) return
+            
+            this.$data.elementWidth = this.$el.querySelector('.SimpleSlider_rail > *').offsetWidth + this.$props.gutter
+            this.$data.itemsFit = Math.floor(this.$refs.rail.offsetWidth / this.elementWidth)
+            this.$data.itemsFit -= Math.max(0, this.$data.itemsFit - this.$data.itemsCount)
+
+            if (this.hammer) return
+
+            this.hammer = require('hammerjs')
+            this.$data.hammer = new this.hammer(this.$refs.rail)
+
+            this.$data.hammer.on('panstart', (e) => this.onPanStart(e))
+            this.$data.hammer.on('panend', (e) => this.onPanEnd(e))
+            this.$data.hammer.on('panmove', (e) => this.onPan(e))
+            this.$data.hammer.get('pan').set({
+                direction: Hammer.DIRECTION_HORIZONTAL
+            })
+        },
         onPanStart (e) {
             this.$data.state.panning = true
             this.$data.state.started = true

@@ -1,49 +1,14 @@
-.ColorPicker_container {
-    display: flex;
+.ColorPicker {
+    font-size: 0;
+    margin: -2px;
 }
 
-.ColorPicker_colors {
-    margin: -3px;
-    flex-grow: 1;
-}
-
-.ColorPicker_picker {
-    flex-shrink: 0;
-    margin-right: 40px;
-}
-
-.ColorPicker_sticky {
-    position: sticky;
-    top: 90px;
-    min-width: 230px;
-}
-
-.ColorPicker_range {
-    margin-top: 20px;
-    font: var(--ft-xs);
-    font-weight: bold; 
-}
-
-.ColorPicker_palette {
-    height: 50px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    font-family: var(--font);
-    font-size: calc(16px * var(--font-normalize, 1));
-    color: var(--color);
+.ColorPicker_color {
+    display: inline-block;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin: 2px;
     background-color: var(--background-color);
-    background-image: var(--pattern);
-    text-transform: capitalize;
-}
-
-.ColorPicker_filters {
-    margin: -3px;
-}
-
-.ColorPicker_palette--font {
-    height: 60px;
-    text-align: left;
-    padding: 0 20px;
-    justify-content: flex-start;
 }

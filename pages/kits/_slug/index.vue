@@ -125,14 +125,14 @@ import Tag from '@/components/utils/Tag'
 import TextEditor from '@/components/admin/utils/TextEditor'
 import SimpleSlider from '@/components/interactive/SimpleSlider'
 import Rating from '@/components/interactive/Rating'
-import ConversationStarter from '@/components/generators/ConversationStarter'
+import allKits from '@/utils/all-kits-mixin'
 
 import dayjs from 'dayjs'
 
 export default {
     name: 'KitPage',
-    mixins: [ pattern ],
-    components: { TextEditor, LinkBase, Tag, SimpleSlider, ConversationStarter, Rating },
+    mixins: [ allKits, pattern ],
+    components: { TextEditor, LinkBase, Tag, SimpleSlider, Rating },
     async fetch () {
         const search = await this.$store.dispatch('kits/get', {
             query: { slug: this.$route.params.slug, lang: this.$i18n.locale }

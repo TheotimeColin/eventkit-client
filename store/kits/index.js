@@ -35,29 +35,35 @@ export default {
     },
     actions: {
         async fetch ({ commit }, params = { query: {} }) {
-            const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
+            try {
+                const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
 
-            commit('refresh', response.kits)
+                commit('refresh', response.kits)
 
-            return response.kits
+                return response.kits
+            } catch (e) { console.warn(e) } 
         },
         async post ({ commit }, params) {
-            const response = await this.$axios.$post(`/kits`, params.data)
-            
-            commit('utils/addNotification', {
-                type: response.status ? 'success' : 'error'
-            }, { root: true })
+            try {
+                const response = await this.$axios.$post(`/kits`, params.data)
+                
+                commit('utils/addNotification', {
+                    type: response.status ? 'success' : 'error'
+                }, { root: true })
 
-            return response.kit
+                return response.kit
+            } catch (e) { console.warn(e) }
         },
         async get ({ state, commit }, params) {
-            const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
-            
-            let result = response.kits[0]
-            if (!result) return false
+            try {
+                const response = await this.$axios.$get(`/kits?${getQuery(params.query)}`)
+                
+                let result = response.kits[0]
+                if (!result) return false
 
-            commit('update', response.kits[0])
-            return response.kits[0]
+                commit('update', response.kits[0])
+                return response.kits[0]
+            } catch (e) { console.warn(e) }
         },
     }
 }

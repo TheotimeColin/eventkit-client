@@ -60,16 +60,16 @@
 <script>
 import KITS from '@/config/kits'
 import kitMixin from '@/utils/kit-mixin'
+import allKits from '@/utils/all-kits-mixin'
 import shortid from 'shortid'
 
-import ConversationStarter from '@/components/generators/ConversationStarter'
 import SimpleSlider from '@/components/interactive/SimpleSlider'
 import InputText from '@/components/form/InputText'
 
 export default {
     name: 'Kickstarter',
-    mixins: [ kitMixin ],
-    components: { ConversationStarter, SimpleSlider, InputText },
+    mixins: [ kitMixin, allKits ],
+    components: { SimpleSlider, InputText },
     async fetch () {
         try {    
             this.$data.templates = await this.$store.dispatch('kits/project/fetch', {

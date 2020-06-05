@@ -4,9 +4,6 @@
         :class="{
             'is-disabled': localData ? localData.disabled : false
         }"
-        :style="{
-            '--color-1': localData && localData.pack ? localData.pack.color1 : undefined
-        }"
     >
         <i class="fal fa-grip-lines handle DataRow_handle" v-if="!selectable"></i>
         
@@ -18,7 +15,7 @@
             <div class="DataRow_text">{{ value.content.main }}</div>
         </label>
 
-        <textarea
+        <!-- <textarea
             class="DataRow_input"
             rows="1"
             :value="localData.content ? localData.content.main : ''"
@@ -28,7 +25,18 @@
             @keydown.enter="(e) => { e.preventDefault(); $emit('submit') }"
             ref="input"
             v-if="!selectable"
-        ></textarea>
+        ></textarea> -->
+
+        <quick-edit
+            class="DataRow_input"
+            :value="localData.content.main"
+            :text-only="true"
+            @focus="select"
+            @input="onInput"
+            @blur="$emit('blur')"
+            @keydown.prevent.enter="$emit('submit')"
+            v-if="!selectable && localData && localData.content"
+        />
 
         <slot name="tags"></slot>
 
@@ -50,10 +58,11 @@
 
 <script>
 import ActionMenu from '@/components/interactive/ActionMenu'
+import QuickEdit from '@/components/utils/QuickEdit'
 
 export default {
     name: 'DataRow',
-    components: { ActionMenu },
+    components: { ActionMenu, QuickEdit },
     props: {
         value: { type: Object },
         editable: { type: Boolean, default: false },
@@ -77,7 +86,7 @@ export default {
             immediate: true,
             deep: true,
             handler (v) {
-                this.$data.localData = v
+                this.$data.localData = JSON.parse(JSON.stringify(v))
             }
         }
     },
@@ -91,12 +100,10 @@ export default {
             this.$refs.input.style.height = '0px'
             this.$refs.input.style.height = this.$refs.input.scrollHeight + 'px'
         },
-        onInput () {
+        onInput (v) {
             this.setHeight()
 
-            this.$data.localData.content = {
-                main: this.$refs.input.value
-            }
+            this.$data.localData.content.main = v
 
             this.update()
         },

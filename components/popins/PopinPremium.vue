@@ -3,13 +3,7 @@
         <div class="PopinPremium_container">
             <div class="PopinPremium_slider" :style="{ '--step': state.step, '--max-steps': 3 }">
                 <div class="PopinPremium_step">
-                    <div class="p-20 StyledBlock StyledBlock--no-border StyledBlock--blue text-center p-relative" v-if="sale">
-                        <p class="ft-xs"><b>{{ $t('premium.offers.earlyBird.title') }}</b></p>
-                        <p class="ft-s" v-html="$t('premium.offers.earlyBird.subtitle', { times: sale.times_redeemed })"></p>
-                        <p class="ft-l mt-10" v-html="$t('premium.offers.earlyBird.highlight')"></p> 
-
-                        <loading-bar :modifiers="['absolute', 'premium']" :max="100" :value="sale.times_redeemed" ref="loadingBar" />
-                    </div>
+                    <offer offer="earlyBird" :max="100" :redeemed="sale.times_redeemed" v-if="sale" :cta="false" />
 
                     <div class="row mt-20 ft-s">
                         <div class="col-3">
@@ -122,11 +116,11 @@
 import PopinGeneric from '@/components/popins/PopinGeneric'
 import PricingColumn from '@/components/generators/PricingColumn'
 import BaseForm from '@/components/form/BaseForm'
-import LoadingBar from '@/components/interactive/LoadingBar'
+import Offer from '@/components/utils/Offer'
 
 export default {
     name: 'PopinPremium',
-    components: { PopinGeneric, PricingColumn, BaseForm, LoadingBar },
+    components: { PopinGeneric, PricingColumn, BaseForm, Offer },
     async fetch () {
         await this.$store.dispatch('premium/getInfo')
     },
@@ -195,7 +189,7 @@ export default {
         },
         user: {
             handler (v) {
-                if (v) setTimeout(() => this.initStripe(), 1000)
+                if (v && this.$data.state.step == 1) setTimeout(() => this.initStripe(), 1000)
             }
         }
     },

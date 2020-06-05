@@ -5,18 +5,6 @@
                 <b>Publier mon projet</b>
             </div>
         </template>
-
-        <div class="PopinProject_editMode StyledBlock StyledBlock--no-border StyledBlock--cyan">
-            <div class="ft-xs pr-20">
-                Tu peux configurer ici ce que les visiteurs verront si tu souhaites partager ton projet. <b>Seules les personnes possédant ton lien personnalisé peuvent y accéder.</b>
-            </div>
-
-            <!-- <div class="fx-no-shrink ft-0">
-                <button-base class="mr-5" :modifiers="['s', 'blue']" @click="$store.dispatch('kits/project/save')">
-                    Sauvegarder
-                </button-base>
-            </div> -->
-        </div>
         
         <div class="p-20">
             <div class="row-s">
@@ -38,25 +26,10 @@
             </div>
         </div>
 
-        <div class="PopinProject_generator">
-            <share-template
-                v-for="template in templates"
-                :modifiers="[template]"
-                :theme="project.theme"
-                :items="project.ideas"
-                :key="template"
-                ref="template"
-            />
-        </div>
-
         <template slot="footer">
             <button-base :modifiers="['s', 'secondary', 'blue']" fa="share-alt" @click="$store.dispatch('kits/project/save')">
                 Partager
             </button-base>
-
-            <!-- <button-base :modifiers="['s', 'blue']" @click="">
-                Sauvegarder et publier
-            </button-base> -->
         </template>
     </popin-generic>
 </template>
