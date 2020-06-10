@@ -55,7 +55,8 @@ export default {
     },
     data: () => ({
         state: {
-            active: ''
+            active: '',
+            category: '_default'
         },
         localTheme: null
     }),

@@ -114,15 +114,11 @@
 .PopinGeneric--confirm {
 
     .PopinGeneric_container {
-        width: 300px;
+        width: 400px;
         text-align: center;
     }
 
     &.active {
         display: inline-flex;
-    }
-
-    .PopinGeneric_footer {
-        justify-content: space-around;
     }
 }

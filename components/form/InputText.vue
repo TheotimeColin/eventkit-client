@@ -19,6 +19,8 @@
 import FormHelpers from '@/components/form/FormHelpers'
 import InputMixin from '@/utils/input-mixin'
 import base from '@/utils/base'
+import { debounce } from 'throttle-debounce'
+
 export default {
     name: 'Input',
     mixins: [ InputMixin, base ],
@@ -32,9 +34,9 @@ export default {
         validations: { type: Object }
     },
     methods: {
-        onInput (value) {
+        onInput: debounce(100, function (value) {
             this.$emit('input', value)
-        }
+        })
     }
 }
 </script>

@@ -129,7 +129,7 @@
                                 :scale="0.5"
                                 :theme="project.theme"
                                 :background-color="theme.templates.backgroundColor"
-                                :items="project.ideas"
+                                :items="allIdeas"
                                 ref="template"
                             />
                         </div>
@@ -218,8 +218,17 @@ export default {
         templates: []
     }),
     computed: {
+        allIdeas () {
+            let result = []
+
+            this.$props.project.ideaCategories.forEach(category => {
+                result = [ ...category.ideas, ...result ]
+            })
+
+            return result
+        },
         activeItems () {
-            let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
+            let activeItems = this.allIdeas.filter(idea => !idea.disabled)
             return this.$data.state.test ? activeItems.slice(0, 1) : activeItems
         },
         styleConfig () {

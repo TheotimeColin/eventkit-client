@@ -54,8 +54,6 @@ export default {
         init () {
             this.$data.itemsCount = this.$el.querySelectorAll('.SimpleSlider_rail > *').length
 
-            console.log(this.$data.itemsCount)
-
             if (this.$data.itemsCount <= 0) return
             
             this.$data.elementWidth = this.$el.querySelector('.SimpleSlider_rail > *').offsetWidth + this.$props.gutter

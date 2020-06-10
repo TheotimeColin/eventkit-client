@@ -6,19 +6,33 @@ export default {
         project: null
     }),
     mutations: {
+        updateIdea (state, value) {
+            let project = JSON.parse(JSON.stringify(state.project))
+            project.ideaCategories = project.ideaCategories.map(category => {
+                if (category._id == value.category) {
+                    category.ideas = category.ideas.map(idea => ({
+                        ...(idea._id == value._id ? value : idea)
+                    }))
+                    
+                    if (!category.ideas.find(i => i._id == value._id)) category.ideas.push(value)
+                }
+                
+                return category
+            })
+
+            state.project = project
+        },
+        deleteIdea (state, value) {
+            let project = JSON.parse(JSON.stringify(state.project))
+            project.ideaCategories = project.ideaCategories.map(category => {
+                if (category._id == value.category) category.ideas = category.ideas.filter(idea => idea._id != value._id)
+                return category
+            })
+
+            state.project = project
+        },
         update (state, value) {
             state.project = value
-        },
-        addData (state, idea) {
-            let data = state.project.ideas.slice()
-            data.push(idea)
-            
-            state.project.ideas = data
-        },
-        removeData (state, idea) {
-            let data = state.project.ideas.slice().filter(v => v._id !== idea._id)
-            
-            state.project.ideas = data
         },
         updateProject (state, data) {
             state.project = {
@@ -31,9 +45,23 @@ export default {
         },
         updateData (state, data) {
             let project = JSON.parse(JSON.stringify(state.project))
-            project.ideas = data
-
+            project.ideaCategories = data
+            
             state.project = project
+        },
+        addData (state, idea) {
+            let ideas = state.project.ideas.slice()
+            ideas.push(idea)
+            
+            state.project = {
+                ...state.project,
+                ideas
+            }
+        },
+        removeData (state, idea) {
+            let data = state.project.ideas.slice().filter(v => v._id !== idea._id)
+            
+            state.project.ideas = data
         },
         destroyProject (state) {
             state.project = null
@@ -87,7 +115,7 @@ export default {
             formData.append('id', state.project.id)
             formData.append('title', state.project.title)
             formData.append('description', state.project.description)
-            formData.append('ideas', JSON.stringify(state.project.ideas))
+            formData.append('ideaCategories', JSON.stringify(state.project.ideaCategories))
             formData.append('theme', JSON.stringify(state.project.theme))
             formData.append('template', state.project.template)
             formData.append('templateTags', state.project.templateTags)
@@ -134,14 +162,8 @@ export default {
     },
     getters: {
         getProject (state) {
-            let position = 0
-
             return state.project ? {
-                ...state.project,
-                ideas: state.project.ideas.map(idea => {
-                    if (!idea.disabled) position++
-                    return { ...idea, position }
-                })
+                ...state.project
             } : null
         }
     }

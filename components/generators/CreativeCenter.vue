@@ -6,7 +6,7 @@
                 <div class="CreativeCenter_tagGroup">
                     <tag
                         v-for="tag in tags.filter(t => t.type == 'category')"
-                        :modifiers="['outline', 'selectable']"
+                        :modifiers="['s', 'outline', 'selectable']"
                         class="CreativeCenter_tag"
                         :key="tag._id"
                         :title="tag.label"
@@ -32,7 +32,9 @@
             </div>
         </div>
 
-        <div class="p-20">
+        <hr class="mv-20">
+
+        <div>
             <data-row
                 v-for="idea in filterIdeas(ideas)"
                 :value="idea"
@@ -97,6 +99,15 @@ export default {
         maxPage: 0
     }),
     computed: {
+        allIdeas () {
+            let result = []
+
+            this.$props.project.ideaCategories.forEach(category => {
+                result = [ ...category.ideas, ...result ]
+            })
+
+            return result
+        },
         ideas () {
             return this.$store.state.kits.ideas.collection.filter(v => v.content)
         },
@@ -117,7 +128,7 @@ export default {
             this.$emit('select', idea._id)
         },
         onDeselect (v) {
-            let toRemove = this.$props.project.ideas.filter(idea => idea.content && idea.content.main == v.content.main)
+            let toRemove = this.allIdeas.filter(idea => idea.content && idea.content.main == v.content.main)
 
             toRemove.forEach(remove => {
                 this.$store.commit('kits/project/removeData', remove)
@@ -125,7 +136,7 @@ export default {
         },
         isSelected (v) {
             if (!v.content) return false
-            return this.$props.project.ideas.filter(idea => JSON.stringify(idea.content) == JSON.stringify(v.content)).length > 0
+            return this.allIdeas.filter(idea => JSON.stringify(idea.content) == JSON.stringify(v.content)).length > 0
         },
         onFilter (query) {
             this.$data.page = 0

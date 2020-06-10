@@ -4,12 +4,9 @@
 
 .TextEditor_content {
     // background-color: var(--color-bg-light);
-
-    // & > div {
-    //     padding: 60px;
-    //     min-height: 500px;
-    //     outline: none;
-    // }
+    // padding: 60px;
+    // min-height: 500px;
+    outline: none;
 }
 
 .TextEditor_menu {
@@ -78,4 +75,8 @@
             min-height: 0;
         }
     }
+}
+
+.TextEditor--s {
+    
 }

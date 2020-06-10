@@ -46,7 +46,10 @@ export default {
         },
         components: {
             borderRadius: `Arrondi des bords`,
-            padding: `Marges intérieures`
+            padding: `Marges intérieures`,
+            headerText: `Texte du haut`,
+            footerText: `Text du bas`,
+            id: `Afficher le numéro`
         }
     },
     patternPicker: {
@@ -74,10 +77,19 @@ export default {
             ideas: `Tes idées`,
             creativeCenter: `Nos idées pour t'inspirer`
         },
+        category: {
+            title: `Nom de la catégorie`,
+            create: `+ Créer catégorie`,
+            new: `Nouvelle catégorie`,
+            default: `Catégorie par défaut`,
+            deleteAll: `Tu es sur le point de supprimer cette catégorie et toutes les idées qu'elle contient, es-tu sûr(e) ?`,
+            delete: `Supprimer catégorie`
+        },
+        deleteAll: `Tu es sur le point de supprimer toutes les catégories et toutes les idées, es-tu sûr(e) ?`,
         cta: {
             add: `Ajouter idée`,
             delete: `Supprimer`,
-            deleteAll: `Tout supprimer`
+            deleteAll: `Supprimer tout`
         }
     },
     dataRow: {
@@ -91,6 +103,11 @@ export default {
     creativeCenter: {
         categories: `Catégories`,
         tags: `Tags`
+    },
+    confirmPopin: {
+        title: `Confirme cette action`,
+        confirm: `Confirmer`,
+        cancel: `Annuler`
     },
     printer: {
         nav: {

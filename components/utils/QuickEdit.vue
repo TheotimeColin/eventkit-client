@@ -1,5 +1,5 @@
 <template>
-    <div class="QuickEdit TextEditor" :class="{ 'TextEditor--compact': compact }">
+    <div class="QuickEdit TextEditor">
         <editor-menu-bar class="TextEditor_menu" :editor="editor" v-slot="{ commands, isActive }" v-if="editable && !textOnly">
             <div>
                 <div class="TextEditor_first">
@@ -36,8 +36,11 @@ import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { Bold, History, Italic } from 'tiptap-extensions'
 import { debounce } from 'throttle-debounce'
 
+import base from '@/utils/base'
+
 export default {
     name: 'QuickEdit',
+    mixins: [ base ],
     components: { EditorContent, EditorMenuBar },
     props: {
         value: { type: String, default: '' },
@@ -95,7 +98,7 @@ export default {
             this.$data.state.editing = false
             this.$emit('blur')
         },
-        onUpdate: debounce(1000, function (e) {
+        onUpdate: debounce(500, function (e) {
             this.$data.localValue = this.$data.editor.getHTML()
             this.$emit('input', this.$data.localValue)
         })

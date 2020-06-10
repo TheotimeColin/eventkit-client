@@ -49,6 +49,7 @@
 
 .BasicSquare_name {
     font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
+    line-height: var(--line-height, 1.4);
     position: relative;
     z-index: 1;
     width: 100%;
@@ -61,6 +62,7 @@
 
 .BasicSquare_copyright {
     font-size: calc(calc(var(--footer-font-size, 16px) * var(--element-scale, 1)) * var(--scale));
+    line-height: var(--line-height, 1.4);
     width: 100%;
 }
 

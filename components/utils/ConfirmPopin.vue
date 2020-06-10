@@ -1,14 +1,19 @@
 <template>
     <div class="ConfirmPopin">
-        <popin-generic id="confirm" :modifiers="['confirm']" :is-active="data.active">
+        <popin-generic id="confirm" :modifiers="['confirm']" :is-active="data.active" @close="onCancel">
             <template slot="header">
-                <div class="p-20">
+                <div class="p-10">
                     <p class="ft-l"><b>{{ data.headerText }}</b></p>
                 </div>
             </template>
+            
+            <div class="p-20" v-if="data.description">
+                {{ data.description }}
+            </div>
+
             <template slot="footer">
-                <p @click="onCancel">{{ data.cancelText }}</p>
-                <button-base @click.native="onConfirm">{{ data.confirmText }}</button-base>
+                <p class="ml-10" @click="onCancel">{{ data.cancelText }}</p>
+                <button-base :modifiers="['s']" @click.native="onConfirm">{{ data.confirmText }}</button-base>
             </template>
         </popin-generic>
     </div>
@@ -25,9 +30,9 @@ export default {
     }),
     mounted () {
         this.$data.defaults = {
-            headerText: 'Confirmez cette action',
-            cancelText: 'Annuler',
-            confirmText: 'Confirmer'
+            headerText: this.$t('comp.confirmPopin.title'),
+            cancelText: this.$t('comp.confirmPopin.cancel'),
+            confirmText: this.$t('comp.confirmPopin.confirm')
         }
     },
     computed: {

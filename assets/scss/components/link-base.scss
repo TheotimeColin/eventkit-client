@@ -14,3 +14,19 @@
         }
     }
 }
+
+.LinkBase--simple {
+    text-decoration: underline;
+
+    &::after {
+        display: none;
+    }
+}
+
+.LinkBase--s {
+    font: var(--ft-xs);
+}
+
+.LinkBase--xs {
+    font: var(--ft-2xs);
+}

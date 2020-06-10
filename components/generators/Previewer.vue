@@ -64,6 +64,15 @@ export default {
         theme () {
             return this.$props.project.theme
         },
+        allIdeas () {
+            let result = []
+
+            this.$props.project.ideaCategories.forEach(category => {
+                result = [ ...category.ideas, ...result ]
+            })
+
+            return result
+        },
         styleConfig () {
             let style = {}
 
@@ -75,7 +84,7 @@ export default {
             return style
         },
         activeItems () {
-            let activeItems = this.$props.project.ideas.filter(idea => !idea.disabled)
+            let activeItems = this.allIdeas.filter(idea => !idea.disabled)
             return activeItems
         },
         activeItem () {
